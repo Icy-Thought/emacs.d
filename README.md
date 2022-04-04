@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/EmacsIcon.svg" alt="Emacs Logo" width="512"/>
+</p>
+
 # Emacs Dotfiles
 At the time of writing, I have not written my own emacs configuration but used doom-emacs for the sake of trying out emacs and getting the feel for what is achievable with this great piece of software!
 
