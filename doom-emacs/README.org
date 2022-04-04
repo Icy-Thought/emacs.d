@@ -1,4 +1,4 @@
-#+TITLE: [[../../assets/emacs.png]]
+#+TITLE: [[../assets/doom-emacs.png]]
 #+DATE: March 20, 2022
 #+STARTUP: inlineimages nofold
 
