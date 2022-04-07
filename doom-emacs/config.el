@@ -14,9 +14,8 @@
 (setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
       evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
       auto-save-default t                         ; Nobody likes to loose work, I certainly don't
-      truncate-string-ellipsis "…"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      truncate-string-ellipsis "↴"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
       password-cache-expiry nil                   ; I can trust my computers ... can't I?
-      ;; scroll-preserve-screen-position 'always     ; Don't have `point' jump around
       scroll-margin 2)                            ; It's nice to maintain a little margin
 
 (display-time-mode 1)                             ; Enable time in the mode-line
@@ -99,7 +98,7 @@
 ;; Font-face:2 ends here
 
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:1]]
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-horizon)
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
@@ -113,7 +112,7 @@
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:3]]
 (defun fix-emacsclient-theme ()
   (interactive)
-  (load-theme 'doom-city-lights t))
+  (load-theme 'doom-horizon t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -192,12 +191,11 @@
 (add-hook! 'kill-emacs-hook #'+literate-tangle-check-finished)
 ;; (Async) Conf-Tangle:1 ends here
 
-;; [[file:config.org::*PDF-tools][PDF-tools:2]]
-(use-package! pdf-view
-  :hook (pdf-tools-enabled . pdf-view-themed-minor-mode)
-  :config
-  (setq-default pdf-view-display-size 'fit-page))
-;; PDF-tools:2 ends here
+;; [[file:config.org::*PDF-tools][PDF-tools:1]]
+(after! pdf-tools
+  (setq-default pdf-view-display-size 'fit-width)
+  (add-hook! 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode))
+;; PDF-tools:1 ends here
 
 ;; [[file:config.org::*Which-key][Which-key:1]]
 (setq which-key-idle-delay 0.5) ;; I need the help, I really do
@@ -215,7 +213,7 @@
 
 ;; [[file:config.org::*EVIL][EVIL:1]]
 (after! evil
-  (setq evil-ex-substitute-global t))     ; I like my s/../.. to by global by default
+  (setq evil-ex-substitute-global t))     ;s/../.. -> s/../../g (default)
 ;; EVIL:1 ends here
 
 ;; [[file:config.org::*Consult][Consult:1]]
@@ -268,6 +266,10 @@
 ;; [[file:config.org::*YASnippet][YASnippet:1]]
 (setq yas-triggers-in-field t)
 ;; YASnippet:1 ends here
+
+;; [[file:config.org::*YASnippet][YASnippet:2]]
+(add-hook! org-mode (yas-activate-extra-mode 'latex-mode))
+;; YASnippet:2 ends here
 
 ;; [[file:config.org::*Smart Parentheses][Smart Parentheses:1]]
 (sp-local-pair
@@ -442,12 +444,14 @@
 
 (after! org
   (setq org-directory "~/.org"
-        org-use-property-inheritance t              ; properties -> inherited
-        org-log-done 'time                          ; task time duration
-        org-list-allow-alphabetical t               ; have a. A. a) A) list bullets
-        org-export-in-background t                  ; export processes -> ext. emacs process
-        org-catch-invisible-edits 'smart            ; prevent accidental editing in invisible regions
-        org-export-with-sub-superscripts '{})       ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
+        org-ellipsis " ▾ "
+        org-hide-leading-stars t
+        org-use-property-inheritance t
+        org-log-done 'time
+        org-list-allow-alphabetical t
+        org-export-in-background t
+        org-catch-invisible-edits 'smart
+        org-export-with-sub-superscripts '{})
   (setq org-babel-default-header-args
         '((:session . "none")
           (:results . "replace")
@@ -592,7 +596,6 @@
     :around #'org-fancy-priorities-mode
     :around #'org-superstar-mode
     (ignore-errors (apply orig-fn args)))
-  (add-hook 'org-mode-hook #'+org-pretty-mode)
   (custom-set-faces!
     '(outline-1 :weight extra-bold :height 1.25)
     '(outline-2 :weight bold :height 1.15)
@@ -696,20 +699,6 @@
   
   (add-hook 'org-font-lock-set-keywords-hook #'org-fontify-inline-src-blocks-enable)
   (setq doom-themes-org-fontify-special-tags nil)
-  (after! org-superstar
-    (setq org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-          org-superstar-prettify-item-bullets t ))
-  
-  (setq org-ellipsis " ▾ "
-        org-hide-leading-stars t
-        org-priority-highest ?A
-        org-priority-lowest ?E
-        org-priority-faces
-        '((?A . 'all-the-icons-red)
-          (?B . 'all-the-icons-orange)
-          (?C . 'all-the-icons-yellow)
-          (?D . 'all-the-icons-green)
-          (?E . 'all-the-icons-blue)))
   (setq org-highlight-latex-and-related '(native script entities))
   (require 'org-src)
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
@@ -1040,18 +1029,9 @@
           ("" "hyperref" nil)))
 )
 
-(use-package! org-pretty-table
-  :commands (org-pretty-table-mode global-org-pretty-table-mode))
-
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
+(use-package! org
   :config
-  (setq org-appear-autoemphasis t
-        org-appear-autosubmarkers t
-        org-appear-autolinks nil)
-  ;; for proper first-time setup, `org-appear--set-elements'
-  ;; needs to be run after other hooks have acted.
-  (run-at-time nil nil #'org-appear--set-elements))
+  (add-hook 'org-mode-hook #'org-modern-mode))
 
 (use-package! org-ol-tree
   :commands org-ol-tree)

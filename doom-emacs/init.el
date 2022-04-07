@@ -14,7 +14,7 @@
        doom-quit                               ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)                        ; 🙂
        hl-todo                                 ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       (ligatures +extra)                      ; ligatures and symbols to make your code pretty again
+       ligatures                               ; ligatures and symbols to make your code pretty again
        modeline                                ; snazzy, Atom-inspired modeline, plus API
        nav-flash                               ; blink the current line after jumping
        ophints                                 ; highlight the region an operation acts on
@@ -115,9 +115,8 @@
         +jupyter                               ; ipython/jupyter support for babel
         +noter                                 ; enhanced PDF notetaking
         +pandoc                                ; export-with-pandoc support
-        ;;+pomodoro                            ; be fruitful with the tomato technique
+        ;;+pomodoro                            ; time your tasks
         +present                               ; using org-mode for presentations
-        +pretty                                ; yessss my pretties! (nice unicode symbols)
         +roam2)                                ; wander around notes
        ;;perl                                  ; write code no one else can comprehend
        (python +lsp +pyright)                  ; beautiful is better than ugly

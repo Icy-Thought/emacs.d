@@ -91,9 +91,8 @@ Lexical binding -> run this file (slightly) faster.
 (setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
       evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
       auto-save-default t                         ; Nobody likes to loose work, I certainly don't
-      truncate-string-ellipsis "…"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      truncate-string-ellipsis "↴"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
       password-cache-expiry nil                   ; I can trust my computers ... can't I?
-      ;; scroll-preserve-screen-position 'always     ; Don't have `point' jump around
       scroll-margin 2)                            ; It's nice to maintain a little margin
 
 (display-time-mode 1)                             ; Enable time in the mode-line
@@ -245,7 +244,7 @@ doom-dashboard                          ; a nifty splash screen for Emacs
 doom-quit                               ; DOOM quit-message prompts when you quit Emacs
 (emoji +unicode)                        ; 🙂
 hl-todo                                 ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-(ligatures +extra)                      ; ligatures and symbols to make your code pretty again
+ligatures                               ; ligatures and symbols to make your code pretty again
 modeline                                ; snazzy, Atom-inspired modeline, plus API
 nav-flash                               ; blink the current line after jumping
 ophints                                 ; highlight the region an operation acts on
@@ -362,9 +361,8 @@ nix                                     ; I hereby declare "nix geht mehr!"
  +jupyter                               ; ipython/jupyter support for babel
  +noter                                 ; enhanced PDF notetaking
  +pandoc                                ; export-with-pandoc support
- ;;+pomodoro                            ; be fruitful with the tomato technique
+ ;;+pomodoro                            ; time your tasks
  +present                               ; using org-mode for presentations
- +pretty                                ; yessss my pretties! (nice unicode symbols)
  +roam2)                                ; wander around notes
 ;;perl                                  ; write code no one else can comprehend
 (python +lsp +pyright)                  ; beautiful is better than ugly
@@ -432,7 +430,7 @@ Allow /Victor Mono/ to render as expected through ~custom-set-faces!~:
 
 *** Theme & Modeline
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-horizon)
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
@@ -448,7 +446,7 @@ Emacsclient colors-stupid -> fix snippet:
 #+begin_src emacs-lisp
 (defun fix-emacsclient-theme ()
   (interactive)
-  (load-theme 'doom-city-lights t))
+  (load-theme 'doom-horizon t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -472,8 +470,6 @@ Default colors = too bright -> reverse solaire-mode (darken):
 
 *** Transparency
 *WARNING*: this does not work due to lack of Emacs implementation. 🤯
-
-Emacs frame trasparency + retaining object brightness:
 #+begin_src emacs-lisp :tangle no
 (set-frame-parameter (selected-frame) 'alpha 90)
 (add-to-list 'default-frame-alist '(alpha . 90))
@@ -604,18 +600,15 @@ Required for some packages whose default branch isn't /"master"/.
 
 ** Convenience
 *** PDF-tools
-Prefer Local Nix Package:
-#+begin_src emacs-lisp :tangle packages.el
-(package! pdf-tools
-  :built-in 'prefer)
-#+end_src
+#+begin_quote
+From the =:tools pdf= module.
+#+end_quote
 
 PDF-View -> use active theme foreground ++ background:
 #+begin_src emacs-lisp
-(use-package! pdf-view
-  :hook (pdf-tools-enabled . pdf-view-themed-minor-mode)
-  :config
-  (setq-default pdf-view-display-size 'fit-page))
+(after! pdf-tools
+  (setq-default pdf-view-display-size 'fit-width)
+  (add-hook! 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode))
 #+end_src
 
 *** Which-key
@@ -645,10 +638,9 @@ Remove repeating =evil= mention + other modifications:
 From the =:editor evil= module.
 #+end_quote
 
-Substitution -> global, due to editing habits + other modifications:
 #+begin_src emacs-lisp
 (after! evil
-  (setq evil-ex-substitute-global t))     ; I like my s/../.. to by global by default
+  (setq evil-ex-substitute-global t))     ;s/../.. -> s/../../g (default)
 #+end_src
 
 *** Consult
@@ -656,7 +648,6 @@ Substitution -> global, due to editing habits + other modifications:
 From the =:completion vertico= module.
 #+end_quote
 
-Because of [[Marginalia]], there is no need for a separation between buffers and files nor a need for a different face.
 #+begin_src emacs-lisp
 (after! consult
   (set-face-attribute 'consult-file nil :inherit 'consult-buffer)
@@ -668,7 +659,7 @@ Because of [[Marginalia]], there is no need for a separation between buffers and
 From the =:completion company= module.
 #+end_quote
 
-Faster completions -> less waiting. ;)
+Faster completion:
 #+begin_src emacs-lisp
 (after! company
   (setq company-idle-delay 0.5
@@ -708,7 +699,8 @@ Let's add ~company-dabbrev-code~!
 From the =:core packages= module.
 #+end_quote
 
-Not desirable to add package src dirs to projectile when viewing documentations through  =SPC h f= and =SPC h v=.
+Not desirable to add package src dirs to projectile when viewing documentations
+through =SPC h f= and =SPC h v=.
 #+begin_src emacs-lisp
 (setq projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/.local/straight/repos/"))
 (defun projectile-ignored-project-function (filepath)
@@ -727,8 +719,7 @@ Not desirable to add package src dirs to projectile when viewing documentations 
 #+attr_html: :class invertible :alt Example screenshot.el screenshot
 [[https://tecosaur.com/lfs/emacs-config/screenshots/screenshot.png]]
 
-Some light configuring is all we need, so we can make use of the [[https://github.com/Calinou/0x0][0x0]] wrapper
-file uploading script (which I've renamed to ~upload~).
+File uploading wrapper:
 #+begin_src emacs-lisp
 (use-package! screenshot
   :defer t
@@ -743,6 +734,11 @@ From the =:editor snippets= module.
 Enables nested snippets:
 #+begin_src emacs-lisp
 (setq yas-triggers-in-field t)
+#+end_src
+
+Get rid of the constant annoying insert complaint:
+#+begin_src emacs-lisp
+(add-hook! org-mode (yas-activate-extra-mode 'latex-mode))
 #+end_src
 
 *** Smart Parentheses
@@ -969,40 +965,25 @@ Wrap end-result in a src_elisp{(after! ...)} block:
 :END:
 
 **** Visuals
-***** Tables: Ascii -> Unicode
+***** Modernize Look
 #+begin_src emacs-lisp
-(package! org-pretty-table
-  :recipe (:host github :repo "Fuco1/org-pretty-table") :pin "7bd68b420d3402826fea16ee5099d04aa9879b78")
+(package! org-modern
+  :recipe (:host github :repo "minad/org-modern"
+           :files ("*.el"))
+  :pin "dc19304f409259d1b258c51cedd2d362e0ff9b98")
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(use-package! org-pretty-table
-  :commands (org-pretty-table-mode global-org-pretty-table-mode))
-#+end_src
-
-***** Improve Emphasis markers
-#+begin_src emacs-lisp
-(package! org-appear
-  :recipe (:host github :repo "awth13/org-appear")
-  :pin "303fcc8d5d85a4ebff2798dab50b2ccc0255ea5f")
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
+(use-package! org
   :config
-  (setq org-appear-autoemphasis t
-        org-appear-autosubmarkers t
-        org-appear-autolinks nil)
-  ;; for proper first-time setup, `org-appear--set-elements'
-  ;; needs to be run after other hooks have acted.
-  (run-at-time nil nil #'org-appear--set-elements))
+  (add-hook 'org-mode-hook #'org-modern-mode))
 #+end_src
 
 ***** Heading Structure (Minimap)
 #+begin_src emacs-lisp
 (package! org-ol-tree
-  :recipe (:host github :repo "Townk/org-ol-tree")
+  :recipe (:host github :repo "Townk/org-ol-tree"
+           :files ("*.el"))
   :pin "207c748aa5fea8626be619e8c55bdb1c16118c25")
 #+end_src
 
@@ -1019,7 +1000,8 @@ Wrap end-result in a src_elisp{(after! ...)} block:
 ***** Transclusion
 #+begin_src emacs-lisp
 (package! org-transclusion
-  :recipe (:host github :repo "nobiot/org-transclusion")
+  :recipe (:host github :repo "nobiot/org-transclusion"
+           :files ("*.el"))
   :pin "ccc0aaa72732ea633bf52bcc8a0345cd3ac178fd")
 #+end_src
 
@@ -1048,12 +1030,14 @@ Use pandoc to convert non-org files to viewable contents!
 **** Tweaking defaults
 #+begin_src emacs-lisp
 (setq org-directory "~/.org"
-      org-use-property-inheritance t              ; properties -> inherited
-      org-log-done 'time                          ; task time duration
-      org-list-allow-alphabetical t               ; have a. A. a) A) list bullets
-      org-export-in-background t                  ; export processes -> ext. emacs process
-      org-catch-invisible-edits 'smart            ; prevent accidental editing in invisible regions
-      org-export-with-sub-superscripts '{})       ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
+      org-ellipsis " ▾ "
+      org-hide-leading-stars t
+      org-use-property-inheritance t
+      org-log-done 'time
+      org-list-allow-alphabetical t
+      org-export-in-background t
+      org-catch-invisible-edits 'smart
+      org-export-with-sub-superscripts '{})
 #+end_src
 
 Add src_elisp{:comments} header-argument as default:
@@ -1317,11 +1301,6 @@ Less eventful failures when one of the src_elisp{org-mode-hook} functions fails:
 
 *** Visuals
 **** Styling Displayed Font
-Mixed pitch & ~+org-pretty-mode~ = great!
-#+begin_src emacs-lisp
-(add-hook 'org-mode-hook #'+org-pretty-mode)
-#+end_src
-
 Increase default headings size:
 #+begin_src emacs-lisp
 (custom-set-faces!
@@ -1452,24 +1431,6 @@ Must be run as part of `org-font-lock-set-keywords-hook'."
 Doom theme's extra fontification = more problematic than helpful.
 #+begin_src emacs-lisp
 (setq doom-themes-org-fontify-special-tags nil)
-#+end_src
-
-**** Bullet- & Collapsed Symbols
-#+begin_src emacs-lisp
-(after! org-superstar
-  (setq org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-        org-superstar-prettify-item-bullets t ))
-
-(setq org-ellipsis " ▾ "
-      org-hide-leading-stars t
-      org-priority-highest ?A
-      org-priority-lowest ?E
-      org-priority-faces
-      '((?A . 'all-the-icons-red)
-        (?B . 'all-the-icons-orange)
-        (?C . 'all-the-icons-yellow)
-        (?D . 'all-the-icons-green)
-        (?E . 'all-the-icons-blue)))
 #+end_src
 
 **** LaTeX Fragments
@@ -1604,7 +1565,6 @@ Tectonic inline rendering:
 /Solution: ????/
 
 ***** Preambles
-Various preamble setups to improve the overall look of several items:
 #+begin_src emacs-lisp
 (defvar org-latex-caption-preamble "
 \\usepackage{subcaption}
@@ -1643,7 +1603,7 @@ Various preamble setups to improve the overall look of several items:
 #+end_src
 
 ***** Conditional features
-Don't always need everything in LaTeX, so only add it what we need when we need it.
+Limits amount of LaTeX packages to be used:
 #+begin_src emacs-lisp
 (defvar org-latex-italic-quotes t
   "Make \"quote\" environments italic.")
@@ -1729,7 +1689,7 @@ following keys:
 Features that start with ! will be eagerly loaded, i.e. without being detected.")
 #+end_src
 
-First, we need to detect which features we actually need
+Detach which features are required:
 #+begin_src emacs-lisp
 (defun org-latex-detect-features (&optional buffer info)
   "List features from `org-latex-conditional-features' detected in BUFFER."
@@ -1752,7 +1712,7 @@ First, we need to detect which features we actually need
                org-latex-conditional-features)))))
 #+end_src
 
-Then we need to expand them and sort them according to the above definitions
+Expand -> sort, according to def.
 #+begin_src emacs-lisp
 (defun org-latex-expand-features (features)
   "For each feature in FEATURES process :requires, :when, and :prevents keywords and sort according to :order."
@@ -1787,7 +1747,7 @@ Then we need to expand them and sort them according to the above definitions
               t nil))))
 #+end_src
 
-Finally, we can create the preamble to be inserted
+Create preamble to be inserted:
 #+begin_src emacs-lisp
 (defun org-latex-generate-features-preamble (features)
   "Generate the LaTeX preamble content required to provide FEATURES.
@@ -1810,7 +1770,7 @@ This is done according to `org-latex-feature-implementations'"
      "% end features\n")))
 #+end_src
 
-Last step, some advice to hook in all of the above to work
+Advice to hook in previous work:
 #+begin_src emacs-lisp
 (defvar info--tmp nil)
 
