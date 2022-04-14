@@ -8,8 +8,18 @@
 ;; Screenshot:1 ends here
 
 ;; [[file:config.org::*Prettier Page Breaks][Prettier Page Breaks:1]]
-(package! page-break-lines :recipe (:host github :repo "purcell/page-break-lines"))
+(package! page-break-lines
+  :recipe (:host github :repo "purcell/page-break-lines"
+           :files ("*.el"))
+  :pin "28783cd6b86b3cd41e51e6b2486173e2485a76cc")
 ;; Prettier Page Breaks:1 ends here
+
+;; [[file:config.org::*LAAS][LAAS:1]]
+(package! laas
+  :recipe (:host github :repo "tecosaur/LaTeX-auto-activating-snippets"
+           :files ("*.el"))
+  :pin "b372f9a44bea03cce09b20cd2409e3ae3fa2d651")
+;; LAAS:1 ends here
 
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern"
@@ -41,5 +51,20 @@
 (package! websocket
   :pin "fda4455333309545c0787a79d73c19ddbeb57980")
 
+(package! math-preview
+  :recipe (:host gitlab :repo "matsievskiysv/math-preview"
+           :files ("*.el" "out"))
+  :pin "75dd44ad8dcfa12fe03f8e65babe0ea04e1a7d1a")
+
 (package! org-fragtog
   :pin "680606189d5d28039e6f9301b55ec80517a24005")
+
+(package! engrave-faces
+  :recipe (:host github :repo "tecosaur/engrave-faces"
+           :files ("*.el" "out"))
+  :pin "a6663d2dbacb3a68d0bb760ea55c1b1a64056e12")
+
+(package! ox-chameleon
+  :recipe (:host github :repo "tecosaur/ox-chameleon"
+           :files ("*.el" "out"))
+  :pin "8c7f6362c49a80b4bc96acc63f527a212ebd9428")

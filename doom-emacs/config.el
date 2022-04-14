@@ -71,7 +71,7 @@
 ;; (setq-default major-mode 'org-mode)
 ;; Buffer Defaults:1 ends here
 
-;; [[file:config.org::*Font-face][Font-face:1]]
+;; [[file:config.org::*Font-Face][Font-Face:1]]
 (setq doom-font
       (font-spec
        :family "VictorMono Nerd Font"
@@ -87,18 +87,18 @@
        :family "VictorMono Nerd Font"
        :size 12.0
        :weight 'semi-bold))
-;; Font-face:1 ends here
+;; Font-Face:1 ends here
 
-;; [[file:config.org::*Font-face][Font-face:2]]
+;; [[file:config.org::*Font-Face][Font-Face:2]]
 (custom-set-faces!
   '(font-lock-builtin-face :slant italic)
   '(font-lock-comment-face :slant italic)
   '(font-lock-function-name-face :weight bold :slane italic)
   '(font-lock-keyword-face :slant italic))
-;; Font-face:2 ends here
+;; Font-Face:2 ends here
 
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:1]]
-(setq doom-theme 'doom-horizon)
+(setq doom-theme 'doom-moonlight)
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
@@ -112,7 +112,7 @@
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:3]]
 (defun fix-emacsclient-theme ()
   (interactive)
-  (load-theme 'doom-horizon t))
+  (load-theme 'doom-moonlight t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -132,7 +132,7 @@
       all-the-icons-dired-monochrome nil)
 ;; Miscellaneous:1 ends here
 
-;; [[file:config.org::*(Async) Conf-Tangle][(Async) Conf-Tangle:1]]
+;; [[file:config.org::*(Async) conf-tangle][(Async) conf-tangle:1]]
 (defvar +literate-tangle--proc nil)
 (defvar +literate-tangle--proc-start-time nil)
 
@@ -189,7 +189,7 @@
     (switch-to-buffer " *tangle config*")
     (signal 'quit nil)))
 (add-hook! 'kill-emacs-hook #'+literate-tangle-check-finished)
-;; (Async) Conf-Tangle:1 ends here
+;; (Async) conf-tangle:1 ends here
 
 ;; [[file:config.org::*PDF-tools][PDF-tools:1]]
 (after! pdf-tools
@@ -441,6 +441,160 @@
 (set-file-template! "\\.org$" :trigger "__" :mode 'org-mode)
 (set-file-template! "/LICEN[CS]E$" :trigger '+file-templates/insert-license)
 ;; File Templates:1 ends here
+
+;; [[file:config.org::*File Preview Order][File Preview Order:1]]
+(setq +latex-viewers '(pdf-tools zathura))
+;; File Preview Order:1 ends here
+
+;; [[file:config.org::*Delimiters][Delimiters:1]]
+(after! tex
+  (defvar tec/tex-last-delim-char nil
+    "Last open delim expanded in a tex document")
+  (defvar tec/tex-delim-dot-second t
+    "When the `tec/tex-last-delim-char' is . a second character (this) is prompted for")
+  (defun tec/get-open-delim-char ()
+    "Exclusivly read next char to tec/tex-last-delim-char"
+    (setq tec/tex-delim-dot-second nil)
+    (setq tec/tex-last-delim-char (read-char-exclusive "Opening deliminator, recognises: 9 ( [ { < | ."))
+    (when (eql ?. tec/tex-last-delim-char)
+      (setq tec/tex-delim-dot-second (read-char-exclusive "Other deliminator, recognises: 0 9 (  ) [ ] { } < > |"))))
+  (defun tec/tex-open-delim-from-char (&optional open-char)
+    "Find the associated opening delim as string"
+    (unless open-char (setq open-char (if (eql ?. tec/tex-last-delim-char)
+                                          tec/tex-delim-dot-second
+                                        tec/tex-last-delim-char)))
+    (pcase open-char
+      (?\( "(")
+      (?9  "(")
+      (?\[ "[")
+      (?\{ "\\{")
+      (?<  "<")
+      (?|  (if tec/tex-delim-dot-second "." "|"))
+      (_   ".")))
+  (defun tec/tex-close-delim-from-char (&optional open-char)
+    "Find the associated closing delim as string"
+    (if tec/tex-delim-dot-second
+        (pcase tec/tex-delim-dot-second
+          (?\) ")")
+          (?0  ")")
+          (?\] "]")
+          (?\} "\\}")
+          (?\> ">")
+          (?|  "|")
+          (_   "."))
+      (pcase (or open-char tec/tex-last-delim-char)
+        (?\( ")")
+        (?9  ")")
+        (?\[ "]")
+        (?\{ "\\}")
+        (?<  ">")
+        (?\) ")")
+        (?0  ")")
+        (?\] "]")
+        (?\} "\\}")
+        (?\> ">")
+        (?|  "|")
+        (_   "."))))
+  (defun tec/tex-next-char-smart-close-delim (&optional open-char)
+    (and (bound-and-true-p smartparens-mode)
+         (eql (char-after) (pcase (or open-char tec/tex-last-delim-char)
+                             (?\( ?\))
+                             (?\[ ?\])
+                             (?{ ?})
+                             (?< ?>)))))
+  (defun tec/tex-delim-yas-expand (&optional open-char)
+    (yas-expand-snippet (yas-lookup-snippet "_deliminators" 'latex-mode) (point) (+ (point) (if (tec/tex-next-char-smart-close-delim open-char) 2 1)))))
+;; Delimiters:1 ends here
+
+;; [[file:config.org::*Local Keybindings][Local Keybindings:1]]
+(after! tex
+  (map!
+   :map LaTeX-mode-map
+   :ei [C-return] #'LaTeX-insert-item)
+  (setq TeX-electric-math '("\\(" . "")))
+;; Local Keybindings:1 ends here
+
+;; [[file:config.org::*De-emphasize Delimiters:][De-emphasize Delimiters::1]]
+;; Making \( \) less visible
+(defface unimportant-latex-face
+  '((t :inherit font-lock-comment-face :weight extra-light))
+  "Face used to make \\(\\), \\[\\] less visible."
+  :group 'LaTeX-math)
+
+(font-lock-add-keywords
+ 'latex-mode
+ `(("\\\\[]()[]" 0 'unimportant-latex-face prepend))
+ 'end)
+
+;; (font-lock-add-keywords
+;;  'latex-mode
+;;  '(("\\\\[[:word:]]+" 0 'font-lock-keyword-face prepend))
+;;  'end)
+;; De-emphasize Delimiters::1 ends here
+
+;; [[file:config.org::*Remap Prefix (~;~)][Remap Prefix (~;~):1]]
+(after! cdlatex
+  (setq cdlatex-env-alist
+        '(("bmatrix" "\\begin{bmatrix}\n?\n\\end{bmatrix}" nil)
+          ("equation*" "\\begin{equation*}\n?\n\\end{equation*}" nil)))
+  (setq ;; cdlatex-math-symbol-prefix ?\; ;; doesn't work at the moment :(
+   cdlatex-math-symbol-alist
+   '( ;; adding missing functions to 3rd level symbols
+     (?_    ("\\downarrow"  ""           "\\inf"))
+     (?2    ("^2"           "\\sqrt{?}"     ""     ))
+     (?3    ("^3"           "\\sqrt[3]{?}"  ""     ))
+     (?^    ("\\uparrow"    ""           "\\sup"))
+     (?k    ("\\kappa"      ""           "\\ker"))
+     (?m    ("\\mu"         ""           "\\lim"))
+     (?c    (""             "\\circ"     "\\cos"))
+     (?d    ("\\delta"      "\\partial"  "\\dim"))
+     (?D    ("\\Delta"      "\\nabla"    "\\deg"))
+     ;; no idea why \Phi isnt on 'F' in first place, \phi is on 'f'.
+     (?F    ("\\Phi"))
+     ;; now just convenience
+     (?.    ("\\cdot" "\\dots"))
+     (?:    ("\\vdots" "\\ddots"))
+     (?*    ("\\times" "\\star" "\\ast")))
+   cdlatex-math-modify-alist
+   '( ;; my own stuff
+     (?B    "\\mathbb"        nil          t    nil  nil)
+     (?a    "\\abs"           nil          t    nil  nil))))
+;; Remap Prefix (~;~):1 ends here
+
+;; [[file:config.org::*LAAS][LAAS:2]]
+(use-package! laas
+  :hook (LaTeX-mode . laas-mode)
+  :config
+  (defun laas-tex-fold-maybe ()
+    (unless (equal "/" aas-transient-snippet-key)
+      (+latex-fold-last-macro-a)))
+  (add-hook 'aas-post-snippet-expand-hook #'laas-tex-fold-maybe))
+;; LAAS:2 ends here
+
+;; [[file:config.org::*SyncTeX][SyncTeX:1]]
+(after! tex
+  (add-to-list 'TeX-view-program-list '("Zathura" "zathura %o"))
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura")))
+;; SyncTeX:1 ends here
+
+;; [[file:config.org::*Fixes][Fixes:1]]
+(when EMACS28+
+  (add-hook 'latex-mode-hook #'TeX-latex-mode))
+;; Fixes:1 ends here
+
+;; [[file:config.org::*Markdown][Markdown:1]]
+(add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
+;; Markdown:1 ends here
+
+;; [[file:config.org::*Markdown][Markdown:2]]
+(custom-set-faces!
+  '(markdown-header-face-1 :height 1.25 :weight extra-bold :inherit markdown-header-face)
+  '(markdown-header-face-2 :height 1.15 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-3 :height 1.08 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
+;; Markdown:2 ends here
 
 (after! org
   (setq org-directory "~/.org"
@@ -985,14 +1139,8 @@
   (after! ox-latex
     (add-to-list 'org-latex-classes
                  '("chameleon" "
-  % Using chameleon
-  \\documentclass{scrartcl}
-  [PACKAGES]
-  [DEFAULT-PACKAGES]
-  [EXTRA]
-  \\setmainfont[Ligatures=TeX]{Times Newer Roman}
-  % \\setmathfont{gfsartemisia-euler}
-  \\setmonofont[Ligatures=TeX]{VictorMono Nerd Font Mono}
+  % Using Org-Chameleon
+  \\documentclass[subscriptcorrection,upint,varvw,barcolor=Goldenrod3,mathalfa=cal=euler,balance,hyphenate,french,pdf-a]{asmejour}
   "
                    ("\\section{%s}" . "\\section*{%s}")
                    ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -1027,6 +1175,176 @@
           ("" "fontspec" t)
           ("" "xcolor" nil)
           ("" "hyperref" nil)))
+  (setq org-latex-listings 'engraved) ; NOTE non-standard value
+  (defadvice! org-latex-src-block-engraved (orig-fn src-block contents info)
+    "Like `org-latex-src-block', but supporting an engraved backend"
+    :around #'org-latex-src-block
+    (if (eq 'engraved (plist-get info :latex-listings))
+        (org-latex-scr-block--engraved src-block contents info)
+      (funcall orig-fn src-block contents info)))
+  
+  (defadvice! org-latex-inline-src-block-engraved (orig-fn inline-src-block contents info)
+    "Like `org-latex-inline-src-block', but supporting an engraved backend"
+    :around #'org-latex-inline-src-block
+    (if (eq 'engraved (plist-get info :latex-listings))
+        (org-latex-inline-scr-block--engraved inline-src-block contents info)
+      (funcall orig-fn src-block contents info)))
+  
+  (defvar-local org-export-has-code-p nil)
+  
+  (defadvice! org-export-expect-no-code (&rest _)
+    :before #'org-export-as
+    (setq org-export-has-code-p nil))
+  
+  (defadvice! org-export-register-code (&rest _)
+    :after #'org-latex-src-block-engraved
+    :after #'org-latex-inline-src-block-engraved
+    (setq org-export-has-code-p t))
+  
+  (setq org-latex-engraved-code-preamble "
+  \\usepackage{fvextra}
+  \\fvset{
+    commandchars=\\\\\\{\\},
+    highlightcolor=white!95!black!80!blue,
+    breaklines=true,
+    breaksymbol=\\color{white!60!black}\\tiny\\ensuremath{\\hookrightarrow}}
+  \\renewcommand\\theFancyVerbLine{\\footnotesize\\color{black!40!white}\\arabic{FancyVerbLine}}
+  
+  \\definecolor{codebackground}{HTML}{f7f7f7}
+  \\definecolor{codeborder}{HTML}{f0f0f0}
+  \\providecolor{EFD}{HTML}{28292e}
+  
+  % TODO have code boxes keep line vertical alignment
+  \\usepackage[breakable,xparse]{tcolorbox}
+  \\DeclareTColorBox[]{Code}{o}%
+  {colback=codebackground, colframe=codeborder,
+    fontupper=\\footnotesize,
+    colupper=EFD,
+    IfNoValueTF={#1}%
+    {boxsep=2pt, arc=2.5pt, outer arc=2.5pt,
+      boxrule=0.5pt, left=2pt}%
+    {boxsep=2.5pt, arc=0pt, outer arc=0pt,
+      boxrule=0pt, leftrule=1.5pt, left=0.5pt},
+    right=2pt, top=1pt, bottom=0.5pt,
+    breakable}
+  ")
+  
+  (add-to-list 'org-latex-conditional-features '((and org-export-has-code-p "^[ \t]*#\\+begin_src\\|^[ \t]*#\\+BEGIN_SRC\\|src_[A-Za-z]") . engraved-code) t)
+  (add-to-list 'org-latex-conditional-features '("^[ \t]*#\\+begin_example\\|^[ \t]*#\\+BEGIN_EXAMPLE" . engraved-code-setup) t)
+  (add-to-list 'org-latex-feature-implementations '(engraved-code :requires engraved-code-setup :snippet (engrave-faces-latex-gen-preamble) :order 99) t)
+  (add-to-list 'org-latex-feature-implementations '(engraved-code-setup :snippet org-latex-engraved-code-preamble :order 98) t)
+  
+  (defun org-latex-scr-block--engraved (src-block contents info)
+    (let* ((lang (org-element-property :language src-block))
+           (attributes (org-export-read-attribute :attr_latex src-block))
+           (float (plist-get attributes :float))
+           (num-start (org-export-get-loc src-block info))
+           (retain-labels (org-element-property :retain-labels src-block))
+           (caption (org-element-property :caption src-block))
+           (caption-above-p (org-latex--caption-above-p src-block info))
+           (caption-str (org-latex--caption/label-string src-block info))
+           (placement (or (org-unbracket-string "[" "]" (plist-get attributes :placement))
+                          (plist-get info :latex-default-figure-position)))
+           (float-env
+            (cond
+             ((string= "multicolumn" float)
+              (format "\\begin{listing*}[%s]\n%s%%s\n%s\\end{listing*}"
+                      placement
+                      (if caption-above-p caption-str "")
+                      (if caption-above-p "" caption-str)))
+             (caption
+              (format "\\begin{listing}[%s]\n%s%%s\n%s\\end{listing}"
+                      placement
+                      (if caption-above-p caption-str "")
+                      (if caption-above-p "" caption-str)))
+             ((string= "t" float)
+              (concat (format "\\begin{listing}[%s]\n"
+                              placement)
+                      "%s\n\\end{listing}"))
+             (t "%s")))
+           (options (plist-get info :latex-minted-options))
+           (content-buffer
+            (with-temp-buffer
+              (insert
+               (let* ((code-info (org-export-unravel-code src-block))
+                      (max-width
+                       (apply 'max
+                              (mapcar 'length
+                                      (org-split-string (car code-info)
+                                                        "\n")))))
+                 (org-export-format-code
+                  (car code-info)
+                  (lambda (loc _num ref)
+                    (concat
+                     loc
+                     (when ref
+                       ;; Ensure references are flushed to the right,
+                       ;; separated with 6 spaces from the widest line
+                       ;; of code.
+                       (concat (make-string (+ (- max-width (length loc)) 6)
+                                            ?\s)
+                               (format "(%s)" ref)))))
+                  nil (and retain-labels (cdr code-info)))))
+              (funcall (org-src-get-lang-mode lang))
+              (engrave-faces-latex-buffer)))
+           (content
+            (with-current-buffer content-buffer
+              (buffer-string)))
+           (body
+            (format
+             "\\begin{Code}\n\\begin{Verbatim}[%s]\n%s\\end{Verbatim}\n\\end{Code}"
+             ;; Options.
+             (concat
+              (org-latex--make-option-string
+               (if (or (not num-start) (assoc "linenos" options))
+                   options
+                 (append
+                  `(("linenos")
+                    ("firstnumber" ,(number-to-string (1+ num-start))))
+                  options)))
+              (let ((local-options (plist-get attributes :options)))
+                (and local-options (concat "," local-options))))
+             content)))
+      (kill-buffer content-buffer)
+      ;; Return value.
+      (format float-env body)))
+  
+  (defun org-latex-inline-scr-block--engraved (inline-src-block _contents info)
+    (let ((options (org-latex--make-option-string
+                    (plist-get info :latex-minted-options)))
+          code-buffer code)
+      (setq code-buffer
+            (with-temp-buffer
+              (insert (org-element-property :value inline-src-block))
+              (funcall (org-src-get-lang-mode
+                        (org-element-property :language inline-src-block)))
+              (engrave-faces-latex-buffer)))
+      (setq code (with-current-buffer code-buffer
+                   (buffer-string)))
+      (kill-buffer code-buffer)
+      (format "\\Verb%s{%s}"
+              (if (string= options "") ""
+                (format "[%s]" options))
+              code)))
+  (add-to-list 'org-latex-feature-implementations
+               '(.no-protrusion-in-code :snippet "\\let\\oldcode\\Code\\renewcommand{\\Code}{\\microtypesetup{protrusion=false}\\oldcode}"
+                                        :when (microtype engraved-code-setup)
+                                        :eager t
+                                        :order 98.5) t)
+  (defadvice! org-latex-example-block-engraved (orig-fn example-block contents info)
+    "Like `org-latex-example-block', but supporting an engraved backend"
+    :around #'org-latex-example-block
+    (let ((output-block (funcall orig-fn example-block contents info)))
+      (if (eq 'engraved (plist-get info :latex-listings))
+          (format "\\begin{Code}[alt]\n%s\n\\end{Code}" output-block)
+        output-block)))
+  (setq org-html-text-markup-alist
+        '((bold . "<b>%s</b>")
+          (code . "<code>%s</code>")
+          (italic . "<i>%s</i>")
+          (strike-through . "<del>%s</del>")
+          (underline . "<span class=\"underline\">%s</span>")
+          (verbatim . "<kbd>%s</kbd>")))
 )
 
 (use-package! org
@@ -1079,27 +1397,29 @@
     (unless org-roam-ui-mode (org-roam-ui-mode 1))
     (browse-url-xdg-open (format "http://localhost:%d" org-roam-ui-port))))
 
+(use-package math-preview
+  :config
+  ;; TODO:
+  ;; 1. Add \\ in eol of align blocks
+  ;; 2. Replace default rendering behaviour -> mathjax
+  ;; 3. fit Inline rendering with text \(\pi r^{2}\)..
+  )
+
 (use-package! org-fragtog
-  :hook (org-mode . org-fragtog-mode))
+  :hook (org-mode . org-fragtog-mode)
+  :config
+  (defalias #'org-latex-preview #'math-preview-at-point)
+  (defalias #'org-clear-latex-preview #'math-preview-clear-region))
 
-;; [[file:config.org::*Markdown][Markdown:1]]
-(add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
-;; Markdown:1 ends here
+(use-package! engrave-faces-latex
+  :after ox-latex)
 
-;; [[file:config.org::*Markdown][Markdown:2]]
-(custom-set-faces!
-  '(markdown-header-face-1 :height 1.25 :weight extra-bold :inherit markdown-header-face)
-  '(markdown-header-face-2 :height 1.15 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-3 :height 1.08 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
-;; Markdown:2 ends here
+(use-package! ox-chameleon
+  :after ox)
 
 ;; [[file:config.org::*Haskell][Haskell:1]]
 (after! haskell-mode
-  (set-formatter! 'stylish-haskell "stylish-haskell"
-    :modes '(haskell-mode)))
+  (set-formatter! 'stylish-haskell "stylish-haskell" :modes '(haskell-mode)))
 ;; Haskell:1 ends here
 
 ;; [[file:config.org::*Rust][Rust:1]]
