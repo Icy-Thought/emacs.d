@@ -1397,13 +1397,44 @@
     (unless org-roam-ui-mode (org-roam-ui-mode 1))
     (browse-url-xdg-open (format "http://localhost:%d" org-roam-ui-port))))
 
+(defun cosmic/custom-preview-marks (envs)
+  (mapcan (lambda (env) (list (cons (concat "\\begin{" env "}") (concat "\\end{" env "}"))
+                              (cons (concat "\\begin{" env "*}") (concat "\\end{" env "*}"))))
+          envs))
+
 (use-package math-preview
+  :custom
+  (math-preview-scale 1.5)
+  (math-preview-raise 0.5)
+  (math-preview-margin '(5 . 20))
+  (math-preview-marks (append (cosmic/custom-preview-marks '("equation" "gather" "align"))
+                              '(("\\[" . "\\]")
+                                ("\\(" . "\\)")
+                                ("$$" . "$$")
+                                ("$" . "$"))))
+  (math-preview-preprocess-functions '((lambda (s)
+                                         (replace-regexp-in-string "&" "" s))))
   :config
-  ;; TODO:
-  ;; 1. Add \\ in eol of align blocks
-  ;; 2. Replace default rendering behaviour -> mathjax
-  ;; 3. fit Inline rendering with text \(\pi r^{2}\)..
-  )
+  (defun cosmic/math-preview ()
+    "deals with auctex folding before activates math-preview-all"
+    (interactive)
+    (->> (math-preview--find-gaps (point-min) (point-max))
+      (--map (math-preview--search (car it) (cdr it)))
+      (-flatten)
+      (--map (progn
+               (message "test %s %s" (car it) (cdr it))
+               (TeX-fold-clearout-region (car it) (cdr it))
+               (math-preview--submit (car it) (cdr it)
+                                     (math-preview--strip-marks
+                                      (buffer-substring (car it) (cdr it)))))))))
+  (math-preview-all)
+
+
+(after! math-preview
+  (math-preview--overlays)
+  (LaTeX-mark-environment)
+  (TeX-fold-clearout-region)
+  (math-preview-all))
 
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode)
