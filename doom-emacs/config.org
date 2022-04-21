@@ -434,14 +434,20 @@ Allow /Victor Mono/ to render as expected through ~custom-set-faces!~:
 #+end_src
 
 *** Theme & Modeline
+Apply + fix emacsclient weird theming behaviour:
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-catppuccin)
-(remove-hook 'window-setup-hook #'doom-init-theme-h)
-(add-hook 'after-init-hook #'doom-init-theme-h 'append)
-(delq! t custom-theme-load-path)
+(defun icy/load-theme ()
+  (interactive)
+  (load-theme 'doom-catppuccin t))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame (icy/load-theme))))
+  (icy/load-theme))
 #+end_src
 
-By default ~red~ text is used in ~modeline~ -> swapped to ~orange~ to not confuse with errors.
+Doom Modeline (red) -> Orange to prevent confusion with err:
 #+begin_src emacs-lisp
 (custom-set-faces!
   '(doom-modeline-buffer-modified :foreground "orange"))

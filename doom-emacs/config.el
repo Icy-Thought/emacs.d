@@ -98,10 +98,15 @@
 ;; Font-Face:2 ends here
 
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:1]]
-(setq doom-theme 'doom-catppuccin)
-(remove-hook 'window-setup-hook #'doom-init-theme-h)
-(add-hook 'after-init-hook #'doom-init-theme-h 'append)
-(delq! t custom-theme-load-path)
+(defun icy/load-theme ()
+  (interactive)
+  (load-theme 'doom-catppuccin t))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame (icy/load-theme))))
+  (icy/load-theme))
 ;; Theme & Modeline:1 ends here
 
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:2]]
