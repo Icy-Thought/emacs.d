@@ -435,7 +435,7 @@ Allow /Victor Mono/ to render as expected through ~custom-set-faces!~:
 
 *** Theme & Modeline
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'doom-catppuccin)
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
@@ -447,21 +447,8 @@ By default ~red~ text is used in ~modeline~ -> swapped to ~orange~ to not confus
   '(doom-modeline-buffer-modified :foreground "orange"))
 #+end_src
 
-Emacsclient colors-stupid -> fix snippet:
-#+begin_src emacs-lisp
-(defun fix-emacsclient-theme ()
-  (interactive)
-  (load-theme 'doom-moonlight t))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame (fix-emacsclient-theme))))
-  (fix-emacsclient-theme))
-#+end_src
-
 Default colors = too bright -> reverse solaire-mode (darken):
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (with-eval-after-load 'solaire-mode
   (add-to-list 'solaire-mode-themes-to-face-swap "^doom-"))
 #+end_src
@@ -1662,13 +1649,6 @@ for now, until nixpkgs adds npm-package:
                                      (math-preview--strip-marks
                                       (buffer-substring (car it) (cdr it)))))))))
   (math-preview-all)
-
-
-(after! math-preview
-  (math-preview--overlays)
-  (LaTeX-mark-environment)
-  (TeX-fold-clearout-region)
-  (math-preview-all))
 #+end_src
 
 **** LaTeX Fragments

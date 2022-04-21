@@ -98,7 +98,7 @@
 ;; Font-Face:2 ends here
 
 ;; [[file:config.org::*Theme & Modeline][Theme & Modeline:1]]
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'doom-catppuccin)
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
@@ -108,23 +108,6 @@
 (custom-set-faces!
   '(doom-modeline-buffer-modified :foreground "orange"))
 ;; Theme & Modeline:2 ends here
-
-;; [[file:config.org::*Theme & Modeline][Theme & Modeline:3]]
-(defun fix-emacsclient-theme ()
-  (interactive)
-  (load-theme 'doom-moonlight t))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame (fix-emacsclient-theme))))
-  (fix-emacsclient-theme))
-;; Theme & Modeline:3 ends here
-
-;; [[file:config.org::*Theme & Modeline][Theme & Modeline:4]]
-(with-eval-after-load 'solaire-mode
-  (add-to-list 'solaire-mode-themes-to-face-swap "^doom-"))
-;; Theme & Modeline:4 ends here
 
 ;; [[file:config.org::*Miscellaneous][Miscellaneous:1]]
 (setq confirm-kill-emacs nil
@@ -1428,13 +1411,6 @@
                                      (math-preview--strip-marks
                                       (buffer-substring (car it) (cdr it)))))))))
   (math-preview-all)
-
-
-(after! math-preview
-  (math-preview--overlays)
-  (LaTeX-mark-environment)
-  (TeX-fold-clearout-region)
-  (math-preview-all))
 
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode)
