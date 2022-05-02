@@ -56,14 +56,6 @@
            :files ("*.el" "out"))
   :pin "75dd44ad8dcfa12fe03f8e65babe0ea04e1a7d1a")
 
-(package! org-fragtog
-  :pin "680606189d5d28039e6f9301b55ec80517a24005")
-
-(package! engrave-faces
-  :recipe (:host github :repo "tecosaur/engrave-faces"
-           :files ("*.el" "out"))
-  :pin "a6663d2dbacb3a68d0bb760ea55c1b1a64056e12")
-
 (package! ox-chameleon
   :recipe (:host github :repo "tecosaur/ox-chameleon"
            :files ("*.el" "out"))
