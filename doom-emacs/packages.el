@@ -18,7 +18,7 @@
 (package! laas
   :recipe (:host github :repo "tecosaur/LaTeX-auto-activating-snippets"
            :files ("*.el"))
-  :pin "b372f9a44bea03cce09b20cd2409e3ae3fa2d651")
+  :pin "44533de4968fee924d9cc81ce9a23c9d82847db3")
 ;; LAAS:1 ends here
 
 (package! org-modern

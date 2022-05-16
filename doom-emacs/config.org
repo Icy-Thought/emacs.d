@@ -67,7 +67,7 @@
     - [[#exports][Exports]]
   - [[#haskell][Haskell]]
   - [[#nix][Nix]]
-    - [[#replace-nixfmt-with-nixpkgs-fmt-disabled][Replace ~nixfmt~ with ~nixpkgs-fmt~ (disabled)]]
+    - [[#replace-nixfmt-with-alejandra][Replace ~nixfmt~ with ~alejandra~]]
   - [[#rust][Rust]]
 
 * Introduction
@@ -1080,7 +1080,7 @@ have a template assigned.
 (package! laas
   :recipe (:host github :repo "tecosaur/LaTeX-auto-activating-snippets"
            :files ("*.el"))
-  :pin "b372f9a44bea03cce09b20cd2409e3ae3fa2d651")
+  :pin "44533de4968fee924d9cc81ce9a23c9d82847db3")
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1795,11 +1795,11 @@ LaTeX compiler -> Tectonic, modern solution to LaTeX packaging.
 #+end_src
 
 ** Nix
-*** Replace ~nixfmt~ with ~nixpkgs-fmt~ (disabled)
-#+begin_src emacs-lisp :tangle no
+*** Replace ~nixfmt~ with ~alejandra~
+#+begin_src emacs-lisp
 (after! nix-mode
-  (setq nix-nixfmt-bin "nixpkgs-fmt")
-  (set-formatter! 'nixpkgs-fmt "nixpkgs-fmt" :modes '(nix-mode)))
+  ;; format on save = dead for now...
+  (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
 #+end_src
 
 ** Rust

@@ -1019,6 +1019,12 @@
   (set-formatter! 'stylish-haskell "stylish-haskell" :modes '(haskell-mode)))
 ;; Haskell:1 ends here
 
+;; [[file:config.org::*Replace ~nixfmt~ with ~alejandra~][Replace ~nixfmt~ with ~alejandra~:1]]
+(after! nix-mode
+  ;; format on save = dead for now...
+  (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
+;; Replace ~nixfmt~ with ~alejandra~:1 ends here
+
 ;; [[file:config.org::*Rust][Rust:1]]
 (after! rustic
   (setq rustic-lsp-server 'rust-analyzer))
