@@ -1029,3 +1029,8 @@
 (after! rustic
   (setq rustic-lsp-server 'rust-analyzer))
 ;; Rust:1 ends here
+
+;; [[file:config.org::*Lua][Lua:1]]
+(after! lua-mode
+  (set-formatter! 'stylua "stylua -" :modes '(lua-mode)))
+;; Lua:1 ends here

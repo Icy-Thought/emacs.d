@@ -69,6 +69,7 @@
   - [[#nix][Nix]]
     - [[#replace-nixfmt-with-alejandra][Replace ~nixfmt~ with ~alejandra~]]
   - [[#rust][Rust]]
+  - [[#lua][Lua]]
 
 * Introduction
 ~doom-config.org~ is a one org-file -> three ~el~ configurations files.
@@ -1806,4 +1807,10 @@ LaTeX compiler -> Tectonic, modern solution to LaTeX packaging.
 #+begin_src emacs-lisp
 (after! rustic
   (setq rustic-lsp-server 'rust-analyzer))
+#+end_src
+
+** Lua
+#+begin_src emacs-lisp
+(after! lua-mode
+  (set-formatter! 'stylua "stylua -" :modes '(lua-mode)))
 #+end_src
