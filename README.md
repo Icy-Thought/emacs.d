@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/EmacsIcon.svg" alt="Emacs Logo" width="312"/>
+  <img src="./.assets/EmacsIcon.svg" alt="Emacs Logo" width="275"/>
 </p>
 
 # Emacs Dotfiles
