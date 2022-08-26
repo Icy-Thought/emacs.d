@@ -11,15 +11,19 @@
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 (setq doom-theme 'doom-tokyo-night)
 
+;; Invert color swapping (solaire-mode)
+(with-eval-after-load 'solaire-mode
+  (add-to-list 'solaire-mode-themes-to-face-swap 'doom-tokyo-night))
+
 ;; Add a bit of spiciness to our Emacs frames:
-(set-frame-parameter nil 'alpha-background 75) ; Active frame opacity
-(add-to-list 'default-frame-alist '(alpha-background . 75)) ; For all new frames henceforth
+(set-frame-parameter nil 'alpha-background 85) ; Active frame opacity
+(add-to-list 'default-frame-alist '(alpha-background . 85)) ; For all new frames henceforth
 
 ;; Helps us disable frame transparency when required:
 (defun pt/toggle-window-transparency ()
   "Toggle frame transparency."
   (interactive)
-  (let ((alpha-transparency 75))
+  (let ((alpha-transparency 85))
     (pcase (frame-parameter nil 'alpha-background)
       (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
       (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))
