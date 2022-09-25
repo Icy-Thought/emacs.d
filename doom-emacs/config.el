@@ -158,10 +158,10 @@
 (after! haskell-mode
   (set-formatter! 'stylish-haskell "stylish-haskell" :modes '(haskell-mode)))
 
-;; I prefer ~alejandra~ over ~nixfmt~ :shrug:
+;; I prefer nixpkgs-fmt over ~nixfmt~ :shrug:
 (after! nix-mode
   ;; TODO: format on save
-  (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
+  (set-formatter! 'nixpkgs-fmt "nixpkgs-fmt" :modes '(nix-mode)))
 
 ;; How our lua code shall be formatted:
 (after! lua-mode
