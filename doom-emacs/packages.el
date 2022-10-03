@@ -49,5 +49,5 @@
 ;(unpin! t)
 
 ;; Prefer Nix-installed Plugins
-(package! all-the-icons :built-in 'prefer)
+(package! emojify :built-in 'prefer)
 (package! pdf-tools :built-in 'prefer)

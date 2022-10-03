@@ -16,17 +16,19 @@
   (add-to-list 'solaire-mode-themes-to-face-swap 'doom-tokyo-night))
 
 ;; Add a bit of spiciness to our Emacs frames:
-(set-frame-parameter nil 'alpha-background 85) ; Active frame opacity
-(add-to-list 'default-frame-alist '(alpha-background . 85)) ; For all new frames henceforth
+(when (featurep 'pgtk)
+  (if (version< emacs-version "29")
+      ;; Set the default frame-transparency level:
+      (set-frame-parameter nil 'alpha-background 85)
+    (add-to-list 'default-frame-alist '(alpha-background . 85))
 
-;; Helps us disable frame transparency when required:
-(defun pt/toggle-window-transparency ()
-  "Toggle frame transparency."
-  (interactive)
-  (let ((alpha-transparency 85))
-    (pcase (frame-parameter nil 'alpha-background)
-      (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
-      (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))
+    (defun toggle-window-transparency ()
+      "Disable window transparency on demand."
+      (interactive)
+      (let ((alpha-transparency 85))
+        (pcase (frame-parameter nil 'alpha-background)
+          (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
+          (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))))
 
 ;; Making our beloved font more aesthetically pleasing!
 (setq
