@@ -13,7 +13,7 @@
        ;;helm                                   ; The *other* search engine for love and life
        ;;ido                                    ; The other *other* search engine...
        ;;ivy                                    ; A search engine for love and life
-       vertico                                  ; The search engine of the future
+       (vertico +icons)                         ; The search engine of the future
 
        :ui
        ;;deft                                   ; Notational velocity for Emacs
