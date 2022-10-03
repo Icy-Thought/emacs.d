@@ -15,26 +15,21 @@
 (with-eval-after-load 'solaire-mode
   (add-to-list 'solaire-mode-themes-to-face-swap 'doom-tokyo-night))
 
-;; Add a bit of spiciness to our Emacs frames:
-(when (featurep 'pgtk)
-  (if (version< emacs-version "29")
-      ;; Set the default frame-transparency level:
-      (set-frame-parameter nil 'alpha-background 85)
-    (add-to-list 'default-frame-alist '(alpha-background . 85))
-
-    (defun toggle-window-transparency ()
-      "Disable window transparency on demand."
-      (interactive)
-      (let ((alpha-transparency 85))
-        (pcase (frame-parameter nil 'alpha-background)
-          (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
-          (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))))
+;; We don't always want the transparency active, do we?
+(defun toggle-window-transparency ()
+  "Disable window transparency on demand."
+  (interactive)
+  (let ((alpha-transparency 85))
+    (pcase (frame-parameter nil 'alpha-background)
+      (alpha-transparency (set-frame-parameter nil 'alpha-background 100))
+      (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))
 
 ;; Making our beloved font more aesthetically pleasing!
 (setq
  doom-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
  doom-big-font (font-spec :family "VictorMono Nerd Font" :size 15.0 :weight 'semi-bold)
- doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold))
+ doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
+ doom-unicode-font (font-spec :family "VictorMono Nerd Font" :size 12 :weight 'semi-bold))
 
 ;; Throwing in a hint of italic for our font:
 (custom-set-faces!
@@ -148,6 +143,10 @@
 ;; - `map!' for binding new keys
 ;;
 ;; More info about ^ -> hover -> ~Shift+k~!
+
+;; Auto-Download emojies:
+(after! emojify
+  (setq emojify-download-emojis-p t))
 
 ;; (PDF-Tools): default view mode + new theme:
 (after! pdf-tools

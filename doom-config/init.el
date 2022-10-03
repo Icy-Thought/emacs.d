@@ -192,3 +192,6 @@
        :config
        ;;literate
        (default +bindings +smartparens))
+
+;; Have doom-emacs become transparent! (ASAP)
+(add-to-list 'default-frame-alist '(alpha-background . 85))
