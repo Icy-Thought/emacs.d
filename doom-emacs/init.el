@@ -136,7 +136,8 @@
        (latex                                   ; Writing papers in Emacs has never been so fun
         ;; +latexmk                             ; What else would you use?
         +cdlatex                                ; Quick maths symbols
-        +fold)                                  ; Fold the clutter away nicities
+        +fold                                   ; Fold the clutter away nicities
+        +lsp)                                   ; TexLab (LSP) Completions
        ;;lean                                   ; For folks with too much to prove
        ;;ledger                                 ; Be audit you can be
        (lua +fennel)                            ; One-based indices? one-based indices
