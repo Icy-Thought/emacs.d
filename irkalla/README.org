@@ -1,0 +1,7 @@
+#+title:        Irkalla - Path of No Return
+#+date:         2023-01-09
+#+author:       Icy-Thought
+#+description:  a introduction to my very first Emacs config!
+
+* Irkalla
+  This directory was created in attempt to create my very first Emacs configuration without relaying on pre-existing Emacs frameworks!
