@@ -1,0 +1,59 @@
+#+title:    Irkalla - Todo list!
+#+author:   Icy-Thought
+#+date:     2023-01-11
+
+* TODO:
+  - [] Transparency
+  - [] Rounded corners in completion menu (corfu + rounded unicode borders?)
+  - [] [...] ?
+  - [] Customize Emacs-conf to surpass Nvim-conf
+
+* Plugins to check out!
+  - https://github.com/minad/corfu
+  - https://github.com/minad/org-modern
+  - https://github.com/ema2159/centaur-tabs
+  - https://github.com/emacs-evil/evil
+  - https://github.com/abo-abo/hydra
+  - https://github.com/radian-software/prescient.el
+  - https://github.com/seagle0128/doom-modeline
+  - https://github.com/DarthFennec/highlight-indent-guides
+  - https://github.com/domtronn/all-the-icons.el
+  - https://github.com/mkcms/interactive-align
+  - https://github.com/Fuco1/smartparens
+  - https://codeberg.org/ideasman42/emacs-undo-fu ?
+  - https://github.com/joaotavora/yasnippet
+  - https://github.com/abo-abo/auto-yasnippet
+  - https://github.com/cdominik/cdlatex
+  - https://github.com/redguardtoo/evil-nerd-commenter
+  - https://github.com/lassik/emacs-format-all-the-code
+  - https://github.com/joaotavora/eglot
+  - https://github.com/emacs-lsp/dap-mode
+  - https://github.com/gregsexton/origami.el
+  - https://github.com/flycheck/flycheck
+  - https://github.com/bbatsov/projectile
+  - https://www.emacswiki.org/emacs/DiredMode
+    - OR https://github.com/jaypei/emacs-neotree ?
+  - https://github.com/jorgenschaefer/elpy
+  - https://github.com/Wilfred/suggest.el ?
+  - https://github.com/rust-lang/rust-mode
+  - https://github.com/haskell/haskell-mode
+  - https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
+  - https://jblevins.org/projects/markdown-mode/
+  - https://gitlab.com/matsievskiysv/math-preview
+  - https://github.com/justbur/emacs-which-key
+  - https://github.com/magit/magit
+    - https://github.com/magit/transient
+  - https://github.com/org-roam/org-roam
+  - https://www.emacswiki.org/emacs/CategoryEshell
+    - OR https://github.com/akermu/emacs-libvterm
+  - https://github.com/vedang/pdf-tools
+  - https://github.com/Wilfred/deadgrep
+  - https://www.djcbsoftware.nl/code/mu/mu4e.html
+  - https://github.com/rougier/mu4e-dashboard
+  - https://github.com/rougier/nano-emacs
+  - https://github.com/rougier/svg-lib
+  - https://github.com/narendraj9/hledger-mode
+  - https://github.com/zerolfx/copilot.el
+  - https://github.com/joshcho/ChatGPT.el
+  - https://www.emacswiki.org/emacs/SmoothScrolling
+  - https://github.com/muffinmad/emacs-mini-frame
