@@ -25,11 +25,10 @@
       (t (set-frame-parameter nil 'alpha-background alpha-transparency)))))
 
 ;; Making our beloved font more aesthetically pleasing!
-(setq
- doom-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
- doom-big-font (font-spec :family "VictorMono Nerd Font" :size 15.0 :weight 'semi-bold)
- doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
- doom-unicode-font (font-spec :family "VictorMono Nerd Font" :size 12 :weight 'semi-bold))
+(setq doom-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
+      doom-big-font (font-spec :family "VictorMono Nerd Font" :size 15.0 :weight 'semi-bold)
+      doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
+      doom-unicode-font (font-spec :family "VictorMono Nerd Font" :size 12 :weight 'semi-bold))
 
 ;; Throwing in a hint of italic for our font:
 (custom-set-faces!
