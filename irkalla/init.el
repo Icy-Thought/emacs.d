@@ -35,12 +35,10 @@
 (load custom-file t)
 
 ;;; (no-littering) A cleaner Emacs directory
-(use-package no-littering)
-
-(setq no-littering-etc-directory "~/.local/share/emacs/etc"
-      no-littering-var-directory "~/.local/share/emacs/var")
-
-(use-package no-littering)
+(use-package no-littering
+    :init
+    (setq no-littering-etc-directory "~/.local/share/emacs/etc"
+          no-littering-var-directory "~/.local/share/emacs/var"))
 
 ;; Testing: lisp modules
 (require 'options)
