@@ -42,12 +42,12 @@
     (setq no-littering-etc-directory "~/.local/share/emacs/etc"
           no-littering-var-directory "~/.local/share/emacs/var"))
 
-;; Testing: lisp modules
+;; (Testing) lisp/module.el
 (require 'init-options)
 (require 'init-shortcuts)
 
-;; Testing: plugins modules
-(require 'init-evil)
-(require 'init-corfu)
-(require 'init-centaur-tabs)
-(require 'init-org-modern)
+;; (Testing) plugins/module.el
+(require 'init-completion)
+(require 'init-editor)
+(require 'init-toolset)
+(require 'init-ui)
