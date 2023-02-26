@@ -16,13 +16,15 @@
 (setq debug-on-error init-file-debug)
 
 ;;; Load `lisp` & `plugins` direcotries into path
-(let ((lisp-dir (expand-file-name "lisp" user-emacs-directory)) 
-      (plugins-dir (expand-file-name "plugins" user-emacs-directory)))
-  (dolist (dir (list lisp-dir plugins-dir))
-    (add-to-list 'load-path dir)))
+(add-to-list 'load-path "~/.config/emacs/lisp")
 
-;;; (bootstrap) straight.el
-(require 'init-straight)
+(add-to-list 'load-path "~/.config/emacs/plugins/completion")
+(add-to-list 'load-path "~/.config/emacs/plugins/editor")
+(add-to-list 'load-path "~/.config/emacs/plugins/toolset")
+(add-to-list 'load-path "~/.config/emacs/plugins/ui")
+
+;;; Use-Packages: ease of package management
+(require 'init-melpa)
 
 ;; data-related files belongs in `$XDG_DATA_HOME`...
 (setq user-emacs-directory "~/.local/share/emacs")
@@ -41,8 +43,11 @@
           no-littering-var-directory "~/.local/share/emacs/var"))
 
 ;; Testing: lisp modules
-(require 'options)
-(require 'shortcuts)
+(require 'init-options)
+(require 'init-shortcuts)
 
 ;; Testing: plugins modules
 (require 'init-evil)
+(require 'init-corfu)
+(require 'init-centaur-tabs)
+(require 'init-org-modern)
