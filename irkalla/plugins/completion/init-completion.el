@@ -1,7 +1,8 @@
 ;;; init-completion.el -*- lexical-binding: t -*-
 
-;; Require custom completion modules:
+;; Require custom completion modules
 (require 'init-corfu)
+(require 'init-tempel)
 
 ;; Orderless, alternative comp system
 (use-package orderless

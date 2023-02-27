@@ -43,6 +43,7 @@
           no-littering-var-directory "~/.local/share/emacs/var"))
 
 ;; (Testing) lisp/module.el
+(require 'init-decorations)
 (require 'init-options)
 (require 'init-shortcuts)
 

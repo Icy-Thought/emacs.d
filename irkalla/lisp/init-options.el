@@ -25,22 +25,16 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (save-place-mode 1)
 
-;; Change emacs default font-face
-(set-face-attribute
-  'default nil
-  ':family "VictorMono Nerd Font"
-  ':height 125
-  ':weight 'semi-bold)
-
-;; Adding a hint of of italics to our beloved font (FIXME!)
-;; (custom-set-faces!
-;;   '(font-lock-builtin-face :slant italic)
-;;   '(font-lock-comment-face :slant italic)
-;;   '(font-lock-function-name-face :weight bold :slane italic)
-;;   '(font-lock-keyword-face :slant italic))
-
 ;; Frame -> Transparent (FIXME!)
 (set-frame-parameter nil 'alpha-background 85)
 (add-to-list 'default-frame-alist '(alpha-background . 85))
+
+;; if AC == True -> display battery in modeline
+(unless (string-match-p "^Power N/A" (battery))
+  (display-battery-mode 1))
+
+;; PDF-Tools
+(setq-default pdf-view-display-size 'fit-width)
+(add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode)
 
 (provide 'init-options)

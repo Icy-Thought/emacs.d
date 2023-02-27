@@ -4,4 +4,9 @@
 (require 'init-evil)
 (require 'init-org-modern)
 
+;; Smarter lisp parents
+(use-package smartparens
+  :init
+  (smartparens-global-mode +1))
+
 (provide 'init-editor)

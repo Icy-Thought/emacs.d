@@ -4,6 +4,7 @@
 (require 'init-centaur-tabs)
 (require 'init-doom-modeline)
 (require 'init-doom-themes)
+(require 'init-indentation)
 
 ;; Decorating with icons
 (use-package all-the-icons

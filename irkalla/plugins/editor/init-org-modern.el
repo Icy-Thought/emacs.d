@@ -7,7 +7,7 @@
 
 (use-package org-modern
     :after org
-    :config
+    :init
     (global-org-modern-mode))
 
 (provide 'init-org-modern)
