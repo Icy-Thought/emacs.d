@@ -1,7 +1,16 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
-;;; Garbage Collector (Faster startup)
-(setq gc-cons-threshold (* 50 1000 1000))
+;; Init `use-package` at a later stage
+(setq package-enable-at-startup nil)
+
+;;; Garbage Collector (faster startup)
+(setq gc-cons-threshold most-positive-fixnum)
+
+(add-hook 'emacs-startup-hook
+	  (lambda () (setq gc-cons-threshold (* 2 1000 1000))))
+
+;; DON'T resize frame on cold start
+(setq frame-inhibit-implied-resize t)
 
 ;;; Prefer loading recently compiled .el files
 (customize-set-variable 'load-prefer-newer t)
@@ -21,15 +30,12 @@
 
 ;;; UI configuration
 ;; Remove bloated UI elements
-(setq inhibit-startup-message t)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
-(push '(mouse-color . "white") default-frame-alist)
 
 ;; Avoid flashing white-screen on start
 (load-theme 'modus-vivendi t)
 
 ;; Load initial buffer faster through fundamental-mode
 (customize-set-variable 'initial-major-mode 'fundamental-mode)
-

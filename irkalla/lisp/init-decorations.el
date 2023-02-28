@@ -8,12 +8,12 @@
 
 (set-face-attribute 'variable-pitch nil
                     :family "VictorMono Nerd Font"
-                    :height 1.0
+                    :height 105
                     :weight 'semi-bold)
 
 (set-face-attribute 'fixed-pitch nil
                     :family "VictorMono Nerd Font"
-                    :height 1.0
+                    :height 105
                     :width 'expanded
                     :weight 'semi-bold)
 
@@ -37,11 +37,11 @@
 ;; (Org-Mode): Different headline sizes!
 (custom-set-faces
   '(org-document-title ((t (:height 1.5))))
-  '(org-level-1 ((t (inherit outline-1 :height 1.25))))
-  '(org-level-2 ((t (inherit outline-2 :height 1.15))))
-  '(org-level-3 ((t (inherit outline-3 :height 1.12))))
-  '(org-level-4 ((t (inherit outline-4 :height 1.09))))
-  '(org-level-5 ((t (inherit outline-5 :height 1.06)))))
+  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
+  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
+  '(org-level-3 ((t (:inherit outline-3 :height 1.12))))
+  '(org-level-4 ((t (:inherit outline-4 :height 1.09))))
+  '(org-level-5 ((t (:inherit outline-5 :height 1.06)))))
 
 ;;(Markdown): Different headline sizes!
 (custom-set-faces
@@ -51,5 +51,24 @@
   '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
   '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
   '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold)))))
+
+;; Prettier Symbols
+(add-hook 'prog-mode-hook 'prettify-symbols-mode)
+
+(setq-default prettify-symbols-alist
+              '(("<-" . ?←)
+                ("->" . ?→)
+                ("->>" . ?↠)
+                ("=>" . ?⇒)
+                ("/=" . ?≠)
+                ("!=" . ?≠)
+                ("==" . ?≡)
+                ("<=" . ?≤)
+                (">=" . ?≥)
+                ("=<<" . (?= (Br . Bl) ?≪))
+                (">>=" . (?≫ (Br . Bl) ?=))
+                ("<=<" . ?↢)
+                (">=>" . ?↣)))
+(setq prettify-symbols-unprettify-at-point 'right-edge)
 
 (provide 'init-decorations)

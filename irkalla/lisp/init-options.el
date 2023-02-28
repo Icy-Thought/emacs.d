@@ -8,22 +8,30 @@
 (setq
  auto-save-default t                            ; We don't like to lose unsaved work, do wo?
  display-line-numbers-type 'relative            ; Relative number-line
- truncate-string-ellipsis "↴"                   ; End lines with unicode rather than "..."
- scroll-margin 2)                               ; Quicker scrolling!
+ truncate-string-ellipsis "↴")                  ; End lines with unicode rather than "..."
 
 ;; Grouped (setq-default) settings
 (setq-default
- history-length 1000                            ; More = history -> better retention!
- prescient-history-length 1000                  ; For how long we retain that info.
- delete-by-moving-to-trash t                    ; Delete files to trash
- window-combination-resize t                    ; take new window space from all other windows (not just current)
+ display-line-number-mode t
+ history-length 1000
+ prescient-history-length 1000
+ delete-by-moving-to-trash t
+ indent-tabs-mode nil
+ tab-always-indent t
+ tab-first-completion 'word-or-paren-or-punct
+ truncate-lines t
+ window-combination-resize t
  x-stretch-cursor t)                            ; Stretch cursor to the glyph width
 
-(set-language-environment 'UTF-8)
-(display-time-mode 1)
-(global-subword-mode 1)
+(global-display-line-numbers-mode)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-subword-mode 1)
 (save-place-mode 1)
+(set-language-environment 'UTF-8)
+
+;; Smooth sccrolling (Emacs >= 29)
+(when (boundp 'pixel-scroll-precision-mode)
+  (pixel-scroll-precision-mode 1))
 
 ;; Frame -> Transparent (FIXME!)
 (set-frame-parameter nil 'alpha-background 85)

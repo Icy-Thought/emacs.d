@@ -5,3 +5,6 @@
 
 * Irkalla
   This directory was created in attempt to create my very first Emacs configuration without relaying on pre-existing Emacs frameworks!
+
+* Credits
+  - [[Wallpaper][./logo.svg]] - Sergey_Kandakov

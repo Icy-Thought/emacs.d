@@ -2,7 +2,7 @@
 
 ;; Require custom editor modules:
 (require 'init-evil)
-(require 'init-org-modern)
+(require 'init-orgmode)
 (require 'init-indentation)
 
 ;; Smarter lisp parents
