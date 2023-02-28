@@ -8,9 +8,9 @@
 (use-package evil
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-split-window-below t
-        evil-vsplit-window-right t)
+	evil-want-keybinding nil
+	evil-split-window-below t
+	evil-vsplit-window-right t)
 
   :config
   (evil-set-undo-system 'undo-redo)

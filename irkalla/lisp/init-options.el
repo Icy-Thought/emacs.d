@@ -6,18 +6,18 @@
 
 ;; Grouped (setq) settings
 (setq
-    auto-save-default t                            ; We don't like to lose unsaved work, do wo?
-    display-line-numbers-type 'relative            ; Relative number-line
-    truncate-string-ellipsis "↴"                   ; End lines with unicode rather than "..."
-    scroll-margin 2)                               ; Quicker scrolling!
+ auto-save-default t                            ; We don't like to lose unsaved work, do wo?
+ display-line-numbers-type 'relative            ; Relative number-line
+ truncate-string-ellipsis "↴"                   ; End lines with unicode rather than "..."
+ scroll-margin 2)                               ; Quicker scrolling!
 
 ;; Grouped (setq-default) settings
 (setq-default
-    history-length 1000                            ; More = history -> better retention!
-    prescient-history-length 1000                  ; For how long we retain that info.
-    delete-by-moving-to-trash t                    ; Delete files to trash
-    window-combination-resize t                    ; take new window space from all other windows (not just current)
-    x-stretch-cursor t)                            ; Stretch cursor to the glyph width
+ history-length 1000                            ; More = history -> better retention!
+ prescient-history-length 1000                  ; For how long we retain that info.
+ delete-by-moving-to-trash t                    ; Delete files to trash
+ window-combination-resize t                    ; take new window space from all other windows (not just current)
+ x-stretch-cursor t)                            ; Stretch cursor to the glyph width
 
 (set-language-environment 'UTF-8)
 (display-time-mode 1)

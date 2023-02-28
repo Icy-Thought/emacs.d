@@ -6,8 +6,8 @@
   :group 'irkalla)
 
 (use-package org-modern
-    :after org
-    :init
-    (global-org-modern-mode))
+  :after org
+  :init
+  (global-org-modern-mode))
 
 (provide 'init-org-modern)

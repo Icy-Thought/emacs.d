@@ -17,15 +17,15 @@
   :init
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
+		  (replace-regexp-in-string
+		   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+		   crm-separator)
+		  (car args))
+	  (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
   (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
+	'(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (provide 'init-vertico)
