@@ -1,4 +1,4 @@
-;;; init-org-modern.el -*- lexical-binding: t -*-
+;;; editor/init-org-modern.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-org-modern '()
   "a modernized user interface for our beloved org-mode"

@@ -1,4 +1,4 @@
-;;; init-magit.el -*- lexical-binding: t -*-
+;;; toolset/init-magit.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-magit '()
   "Magical git client for Emacs."

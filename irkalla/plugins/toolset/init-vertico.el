@@ -1,4 +1,4 @@
-;;; init-vertico.el -*- lexical-binding: t -*-
+;;; toolset/init-vertico.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-vertico '()
   "a mini-buffer completion system"

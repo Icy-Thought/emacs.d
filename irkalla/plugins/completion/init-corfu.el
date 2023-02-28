@@ -1,4 +1,4 @@
-;;; init-corfu.el -*- lexical-binding: t -*-
+;;; completion/init-corfu.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-hydra '()
   "an emacs (at-point) completion pop-up window"

@@ -25,8 +25,4 @@
   (dashboard-modify-heading-icons '((recents . "file-text")
 				    (bookmarks . "book"))))
 
-;; TODO:
-;; 1. Title face font to be italic
-;; 2. Launch if buffer close -> no buffer to replace.
-
 (provide 'init-dashboard)

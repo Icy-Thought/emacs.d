@@ -1,4 +1,4 @@
-;;; init-indentation.el -*- lexical-binding: t -*-
+;;; editor/init-indentation.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-indentation '()
   "highlight our code indentations"

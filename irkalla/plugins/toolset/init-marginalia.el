@@ -1,4 +1,4 @@
-;;; init-marginalia.el -*- lexical-binding: t -*-
+;;; toolset/init-marginalia.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-marginalia '()
   "marks and annotations for our completions"

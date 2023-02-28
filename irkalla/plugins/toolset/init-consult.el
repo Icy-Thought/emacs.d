@@ -1,4 +1,4 @@
-;;; init-consult.el -*- lexical-binding: t -*-
+;;; toolset/init-consult.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-consult '()
   "Search & navigation commands."

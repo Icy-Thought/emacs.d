@@ -1,4 +1,4 @@
-;;; init-doom-themes.el -*- lexical-binding: t -*-
+;;; ui/init-doom-themes.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-doom-themes '()
   "a megapack of themes for GNU Emacs"

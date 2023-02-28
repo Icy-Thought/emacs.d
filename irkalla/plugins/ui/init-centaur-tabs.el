@@ -1,4 +1,4 @@
-;;; init-centaur-tabs.el -*- lexical-binding: t -*-
+;;; ui/init-centaur-tabs.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-centaur-tabs '()
   "a rather modern looking tabs plugin"

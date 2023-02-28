@@ -1,4 +1,4 @@
-;;; init-straight.el -*- lexical-binding: t -*-
+;;; lisp/init-straight.el -*- lexical-binding: t -*-
 
 (require 'package)
 

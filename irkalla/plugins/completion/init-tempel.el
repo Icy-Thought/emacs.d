@@ -1,4 +1,4 @@
-;;; init-tempel.el -*- lexical-binding: t -*-
+;;; completion/init-tempel.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-tempel '()
     "Simple templates for Emacs."

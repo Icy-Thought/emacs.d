@@ -1,4 +1,4 @@
-;;; init-options.el -*- lexical-binding: t -*-
+;;; lisp/init-options.el -*- lexical-binding: t -*-
 
 ;; Identification for GPG-signature and whatnot...
 (setq user-full-name "Icy-Thought"

@@ -1,4 +1,4 @@
-;;; init-hydra.el -*- lexical-binding: t -*-
+;;; toolset/init-hydra.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-hydra '()
   "adding a helpful menu for our custom bindings"

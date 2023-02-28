@@ -1,4 +1,4 @@
-;;; init-doom-modeline.el -*- lexical-binding: t -*-
+;;; ui/init-doom-modeline.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-doom-modeline '()
   "a fancy and quick mode-line"

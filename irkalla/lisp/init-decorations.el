@@ -1,10 +1,4 @@
-;;; init-decorations.el -*- lexical-binding: t -*-
-
-;; Making our beloved font more aesthetically pleasing!
-;; (setq doom-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
-;;       doom-big-font (font-spec :family "VictorMono Nerd Font" :size 15.0 :weight 'semi-bold)
-;;       doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font" :size 12.0 :weight 'semi-bold)
-;;       doom-unicode-font (font-spec :family "VictorMono Nerd Font" :size 12 :weight 'semi-bold))
+;;; lisp/init-decorations.el -*- lexical-binding: t -*-
 
 (defun set-face-attributes! (face attrs)
   "Sets the specified ATTRS on the given FACE."
@@ -15,12 +9,14 @@
   "Applies a list of FACE-SPECS in the form of (FACE . ATTRS) to set custom faces."
   (dolist (face-spec face-specs)
     (let ((face (car face-spec))
-	  (attrs (cdr face-spec)))
+          (attrs (cdr face-spec)))
       (set-face-attributes! face attrs))))
 
-;; Main emacs font
+;; Making our beloved font more aesthetically pleasing!
 (custom-set-faces!
- '((default :family "VictorMono Nerd Font" :height 125 :weight semi-bold)))
+ '((default :family "VictorMono Nerd Font" :height 125 :weight semi-bold)
+   (fixed-pitch :family "VictorMono Nerd Font" :height 75 :weight semi-bold)
+   (variable-pitch :family "VictorMono Nerd Font" :height 75 :weight semi-bold)))
 
 ;; Change of slant style
 (custom-set-faces!
