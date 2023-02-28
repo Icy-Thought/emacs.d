@@ -2,6 +2,7 @@
 
 ;; Require custom ui modules:
 (require 'init-centaur-tabs)
+(require 'init-dashboard)
 (require 'init-doom-modeline)
 (require 'init-doom-themes)
 (require 'init-indentation)

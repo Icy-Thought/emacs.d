@@ -29,10 +29,6 @@
 (set-frame-parameter nil 'alpha-background 85)
 (add-to-list 'default-frame-alist '(alpha-background . 85))
 
-;; if AC == True -> display battery in modeline
-(unless (string-match-p "^Power N/A" (battery))
-  (display-battery-mode 1))
-
 ;; PDF-Tools
 (setq-default pdf-view-display-size 'fit-width)
 (add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode)
