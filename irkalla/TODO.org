@@ -11,27 +11,15 @@
 * Plugins to check out!
   - https://github.com/abo-abo/hydra
   - https://github.com/mkcms/interactive-align
-  - https://codeberg.org/ideasman42/emacs-undo-fu ?
-  - https://github.com/redguardtoo/evil-nerd-commenter
   - https://github.com/lassik/emacs-format-all-the-code
   - https://github.com/joaotavora/eglot
   - https://github.com/emacs-lsp/dap-mode
-  - https://github.com/gregsexton/origami.el
   - https://github.com/flycheck/flycheck
   - https://github.com/bbatsov/projectile
-  - https://www.emacswiki.org/emacs/DiredMode
-    - OR https://github.com/jaypei/emacs-neotree ?
-  - https://github.com/jorgenschaefer/elpy
-  - https://github.com/rust-lang/rust-mode
-  - https://github.com/haskell/haskell-mode
-  - https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
-  - https://jblevins.org/projects/markdown-mode/
+  - (later) https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
   - https://gitlab.com/matsievskiysv/math-preview
-  - https://github.com/justbur/emacs-which-key
-  - https://github.com/org-roam/org-roam
   - https://www.emacswiki.org/emacs/CategoryEshell
     - OR https://github.com/akermu/emacs-libvterm
-  - https://github.com/Wilfred/deadgrep
 
 ** Extras...
   - https://www.djcbsoftware.nl/code/mu/mu4e.html

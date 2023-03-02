@@ -3,6 +3,9 @@
 #+author:       Icy-Thought
 #+description:  a introduction to my very first Emacs config!
 
+#+CAPTION: Irkalla Dashboard
+[[../.github/assets/png/irkalla.png]]
+
 * Irkalla
   This directory was created in attempt to create my very first Emacs configuration without relaying on pre-existing Emacs frameworks!
 

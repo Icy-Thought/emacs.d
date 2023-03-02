@@ -4,8 +4,9 @@
 (require 'init-consult)
 (require 'init-embark)
 (require 'init-hydra)
-(require 'init-marginalia)
 (require 'init-magit)
+(require 'init-marginalia)
+(require 'init-treemacs)
 (require 'init-vertico)
 
 (provide 'init-toolset)

@@ -11,6 +11,7 @@
 
 (add-to-list 'load-path "~/.config/emacs/plugins/completion")
 (add-to-list 'load-path "~/.config/emacs/plugins/editor")
+(add-to-list 'load-path "~/.config/emacs/plugins/langserv")
 (add-to-list 'load-path "~/.config/emacs/plugins/toolset")
 (add-to-list 'load-path "~/.config/emacs/plugins/ui")
 
@@ -40,6 +41,7 @@
 
 ;; (Testing) plugins/module.el
 (require 'init-completion)
+(require 'init-langserv)
 (require 'init-editor)
 (require 'init-toolset)
 (require 'init-ui)

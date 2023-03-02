@@ -6,14 +6,13 @@
   :group 'irkalla)
 
 (use-package evil
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-split-window-below t
-        evil-vsplit-window-right t)
-
+  :custom
+  (evil-want-fine-undo t)
+  (evil-want-integration t)
+  (evil-want-keybinding nil)
+  (evil-split-window-below t)
+  (evil-vsplit-window-right t)
   :config
-  (evil-set-undo-system 'undo-redo)
   (evil-mode 1)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
@@ -34,8 +33,22 @@
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 
+(use-package evil-nerd-commenter
+  :after evil)
+
 (use-package evil-smartparens
   :after evil
   :hook (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+
+(use-package undo-fu
+  :demand t
+  :after evil
+  :config
+  (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+  (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+  (setq undo-limit 67108864) ; 64mb.
+  (setq undo-strong-limit 100663296) ; 96mb.
+  (setq undo-outer-limit 1006632960) ; 960mb.
+  )
 
 (provide 'init-evil)

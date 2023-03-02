@@ -5,6 +5,7 @@
 (require 'init-dashboard)
 (require 'init-doom-modeline)
 (require 'init-doom-themes)
+;; (require 'init-solaire)
 
 ;; Decorating with icons
 (use-package all-the-icons

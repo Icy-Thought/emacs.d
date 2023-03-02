@@ -8,7 +8,8 @@
 (setq
  auto-save-default t                            ; We don't like to lose unsaved work, do wo?
  display-line-numbers-type 'relative            ; Relative number-line
- truncate-string-ellipsis "↴")                  ; End lines with unicode rather than "..."
+ truncate-string-ellipsis "↴"                   ; End lines with unicode rather than "..."
+ visual-bell nil)                    ; Disable modeline (red) flashes
 
 ;; Grouped (setq-default) settings
 (setq-default
