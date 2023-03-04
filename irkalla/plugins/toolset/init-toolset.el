@@ -8,5 +8,6 @@
 (require 'init-marginalia)
 (require 'init-treemacs)
 (require 'init-vertico)
+(require 'init-whichkey)
 
 (provide 'init-toolset)

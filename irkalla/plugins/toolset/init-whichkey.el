@@ -1,9 +1,11 @@
+;;; toolset/init-whichkey.el -*- lexical-binding: t -*-
+
 (use-package which-key
-  :init
+  :config
+  (setq which-key-separator " → "
+        which-key-show-early-on-C-h t
+        which-key-popup-type 'minibuffer
+        which-key-idle-delay 0.3))
   (which-key-mode)
-  :custom
-  (which-key-separator " → " )
-  (which-key-show-early-on-C-h t)
-  (which-key-setup-minibuffer)
-  (which-key-idle-delay 10000)
-  (which-key-idle-secondary-delay 0.05))
+
+(provide 'init-whichkey)
