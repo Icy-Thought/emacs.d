@@ -11,17 +11,21 @@
          ("C-c C-e" . markdown-do)))
 
 (use-package nix-mode
-  :mode "\\.nix\\'")
+  :mode "\\.nix\\'"
+  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
 
 (use-package elpy
   :mode "\\.py\\'"
-  :init
-  (elpy-enable))
+  :init (elpy-enable))
 
 (use-package rust-mode
   :mode "\\.rs\\'"
-  :hook (add-hook 'rust-mode-hook 'eglot-ensure)
   :custom
   (rust-format-on-save t))
+
+(use-package eglot
+  :hook
+  (nix-mode . eglot-ensure)
+  (rust-mode-hook . eglot-ensure))
 
 (provide 'init-langserv)
