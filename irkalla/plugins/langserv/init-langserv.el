@@ -1,5 +1,10 @@
 ;;; langserv/init-langserv.el -*- lexical-binding: t -*-
 
+(use-package eglot
+  :hook
+  (nix-mode . eglot-ensure)
+  (rust-mode-hook . eglot-ensure))
+
 ;; Language Modes
 (use-package haskell-mode
   :mode "\\.hs\\'")
@@ -22,10 +27,5 @@
   :mode "\\.rs\\'"
   :custom
   (rust-format-on-save t))
-
-(use-package eglot
-  :hook
-  (nix-mode . eglot-ensure)
-  (rust-mode-hook . eglot-ensure))
 
 (provide 'init-langserv)

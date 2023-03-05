@@ -8,8 +8,6 @@
 (use-package highlight-indent-guides
   :defer t
   :hook (prog-mode . highlight-indent-guides-mode)
-  :if (display-graphic-p)
-  :diminish
   :config
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top

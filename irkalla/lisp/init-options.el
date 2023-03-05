@@ -9,7 +9,11 @@
  auto-save-default t                            ; We don't like to lose unsaved work, do wo?
  display-line-numbers-type 'relative            ; Relative number-line
  truncate-string-ellipsis "↴"                   ; End lines with unicode rather than "..."
- visual-bell nil)                    ; Disable modeline (red) flashes
+ ring-bell-function #'ignore                    ; Annoying flashes, begone!!
+ visible-bell nil
+ next-error-message-highlight t                 ; Highlight error messages in next buffer
+ history-delete-duplicates t
+ )
 
 ;; Grouped (setq-default) settings
 (setq-default
@@ -37,9 +41,5 @@
 ;; Frame -> Transparent (FIXME!)
 (set-frame-parameter nil 'alpha-background 85)
 (add-to-list 'default-frame-alist '(alpha-background . 85))
-
-;; PDF-Tools
-(setq-default pdf-view-display-size 'fit-width)
-(add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode)
 
 (provide 'init-options)

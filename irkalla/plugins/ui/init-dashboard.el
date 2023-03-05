@@ -10,7 +10,7 @@
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   :config
-  (setq dashboard-banner-logo-title "Welcome to Emacs Dashboard"
+  (setq dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla"
         dashboard-startup-banner "~/.config/emacs/dasHead.svg"
         dashboard-center-content t
         dashboard-item-names '(("Recent Files:" . "Recently opened files:")

@@ -10,4 +10,10 @@
 (require 'init-vertico)
 (require 'init-whichkey)
 
+;; PDF-Tools: Darker + Width
+(use-package pdf-tools
+  :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
+  :config
+  (setq-default pdf-view-display-size 'fit-width))
+
 (provide 'init-toolset)
