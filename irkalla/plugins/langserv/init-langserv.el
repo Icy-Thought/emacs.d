@@ -1,10 +1,5 @@
 ;;; langserv/init-langserv.el -*- lexical-binding: t -*-
 
-(use-package eglot
-  :hook
-  (nix-mode . eglot-ensure)
-  (rust-mode-hook . eglot-ensure))
-
 ;; Make writing lisp simpler!
 (use-package parinfer-rust-mode
   :hook emacs-lisp-mode
@@ -13,7 +8,14 @@
 
 ;; Language Modes
 (use-package haskell-mode
-  :mode "\\.hs\\'")
+  :mode "\\.hs\\'"
+  :hook (haskell-mode . eglot-ensure)
+  :config
+  (setq-default eglot-workspace-configuration
+                '((haskell (plugin (stan (globalOn . :json-false))))))  ;; disable stan
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-confirm-server-initiated-edits nil))
 
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
@@ -23,14 +25,19 @@
 
 (use-package nix-mode
   :mode "\\.nix\\'"
+  :hook (nix-mode . eglot-ensure)
   :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
 
-(use-package elpy
+(use-package python-mode
   :mode "\\.py\\'"
-  :init (elpy-enable))
+  :hook (python-mode . eglot-ensure)
+  :config
+  (setq eglot-workspace-configuration
+        '((:pyright . ((useLibraryCodeForTypes . t))))))
 
 (use-package rust-mode
   :mode "\\.rs\\'"
+  :hook (rust-mode-hook . eglot-ensure)
   :custom
   (rust-format-on-save t))
 
