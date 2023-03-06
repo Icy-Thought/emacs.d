@@ -5,6 +5,12 @@
   (nix-mode . eglot-ensure)
   (rust-mode-hook . eglot-ensure))
 
+;; Make writing lisp simpler!
+(use-package parinfer-rust-mode
+  :hook emacs-lisp-mode
+  :init
+  (setq parinfer-rust-auto-download t))
+
 ;; Language Modes
 (use-package haskell-mode
   :mode "\\.hs\\'")
