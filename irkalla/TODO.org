@@ -6,7 +6,7 @@
   - [] Transparency
   - [] Rounded corners in completion menu (corfu + rounded unicode borders?)
   - [] [...] ?
-  - [] Customize Emacs-conf to surpass Nvim-conf
+  - [] Customize Emacs-conf to surpass nvim-conf
 
 * Plugins to check out!
   - https://github.com/abo-abo/hydra

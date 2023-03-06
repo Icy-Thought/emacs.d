@@ -1,5 +1,8 @@
 ;;; langserv/init-langserv.el -*- lexical-binding: t -*-
 
+;; Required before applying changes to eglot...
+(require 'eglot)
+
 ;; Make writing lisp simpler!
 (use-package parinfer-rust-mode
   :hook emacs-lisp-mode
@@ -21,7 +24,7 @@
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
   :bind (:map markdown-mode-map
-         ("C-c C-e" . markdown-do)))
+              ("C-c C-e" . markdown-do)))
 
 (use-package nix-mode
   :mode "\\.nix\\'"

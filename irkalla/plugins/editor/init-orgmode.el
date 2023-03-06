@@ -25,7 +25,7 @@
   (org-highlight-latex-and-related '(native))
   (org-insert-heading-respect-content t)
   (org-latex-tables-centered t)
-  (org-preview-latex-image-directory "~/.emacs.d/var/org/latex-preview/")
+  (org-preview-latex-image-directory "~/.config/emacs/var/org/latex-preview/")
   (org-pretty-entities t)
   (org-special-ctrl-a/e t)
   (org-src-tab-acts-natively nil)
@@ -39,7 +39,8 @@
   :after org
   :hook (org-mode . org-modern-mode)
   :config
-  (global-org-modern-mode))
+  (set-face-attribute 'org-modern-symbol nil
+                      :family "DejaVu Sans"))
 
 (use-package org-roam
   :after org
@@ -63,8 +64,6 @@
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture))
-  :config
-  (org-roam-db-autosync-mode))
+         ("C-c n c" . org-roam-capture)))
 
 (provide 'init-orgmode)
