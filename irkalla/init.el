@@ -18,8 +18,16 @@
 ;;; Use-Packages: ease of package management
 (require 'init-melpa)
 
-;; data-related files belongs in `$XDG_DATA_HOME`...
-(setq user-emacs-directory "~/.local/share/emacs")
+;; Data-related files belongs in `$XDG_DATA_HOME`...
+(setq user-emacs-directory "~/.local/share/emacs/")
+
+;; Directories: default -> designated ~/.config/emacs/directory..
+(setq backup-directory-alist
+      `(("." . ,(concat user-emacs-directory "backups/"))))
+(setq auto-save-file-name-transforms
+      `(("." . ,(concat user-emacs-directory "auto-save/session"))))
+(setq lock-file-name-transforms
+      `(("." . ,(concat user-emacs-directory "auto-save/lock"))))
 
 ;; Customization -> /tmp/emacs-custom-*.el
 (setq custom-file
@@ -31,8 +39,8 @@
 ;;; (no-littering) A cleaner Emacs directory
 (use-package no-littering
     :init
-    (setq no-littering-etc-directory "~/.local/share/emacs/etc"
-          no-littering-var-directory "~/.local/share/emacs/var"))
+    (setq no-littering-etc-directory ,(concat user-emacs-directory "etc")
+          no-littering-var-directory ,(concat user-emacs-directory "var")))
 
 ;; (Testing) lisp/module.el
 (require 'init-decorations)

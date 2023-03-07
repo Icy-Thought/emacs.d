@@ -3,7 +3,6 @@
 #+date:     2023-01-11
 
 * TODO:
-  - [] Transparency
   - [] Rounded corners in completion menu (corfu + rounded unicode borders?)
   - [] [...] ?
   - [] Customize Emacs-conf to surpass nvim-conf
@@ -12,15 +11,11 @@
   - https://github.com/abo-abo/hydra
     - https://github.com/Ladicle/hydra-posframe
   - https://github.com/mkcms/interactive-align
-  - https://github.com/lassik/emacs-format-all-the-code
   - https://github.com/joaotavora/eglot
   - https://github.com/emacs-lsp/dap-mode
-  - https://github.com/flycheck/flycheck
   - https://github.com/bbatsov/projectile
   - (later) https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
   - https://gitlab.com/matsievskiysv/math-preview
-  - https://www.emacswiki.org/emacs/CategoryEshell
-    - OR https://github.com/akermu/emacs-libvterm
 
 ** Extras...
   - https://www.djcbsoftware.nl/code/mu/mu4e.html

@@ -8,8 +8,7 @@
 ;; (require 'init-solaire)
 
 ;; Decorating with icons
-(use-package all-the-icons
-  :if (display-graphic-p))
+(use-package all-the-icons)
 
 ;; Colorful parantheses
 (use-package rainbow-delimiters

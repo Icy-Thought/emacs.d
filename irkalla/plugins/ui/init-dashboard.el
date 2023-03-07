@@ -6,9 +6,11 @@
   :group 'irkalla)
 
 (use-package dashboard
-  :init
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  :hook (dashboard-setup-startup-hook)
+  :init (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  :custom
+  (dashboard-modify-heading-icons '((recents . "file-text")
+                                    (bookmarks . "book")))
   :config
   (setq dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla"
         dashboard-startup-banner "~/.config/emacs/dasHead.svg"
@@ -21,8 +23,7 @@
         dashboard-set-navigator t
         dashboard-set-init-info t
         dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name
-        dashboard-week-agenda t)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book"))))
+        dashboard-week-agenda t))
+
 
 (provide 'init-dashboard)
