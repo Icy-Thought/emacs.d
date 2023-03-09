@@ -1,4 +1,4 @@
-;;; lisp/init-straight.el -*- lexical-binding: t -*-
+;;; lisp/init-melpa.el -*- lexical-binding: t -*-
 
 (require 'package)
 

@@ -6,8 +6,9 @@
   :group 'irkalla)
 
 (use-package dashboard
-  :hook (dashboard-setup-startup-hook)
-  :init (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  :init
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   :custom
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))

@@ -2,8 +2,9 @@
 
 ;; Require custom editor modules:
 (require 'init-evil)
-(require 'init-orgmode)
 (require 'init-indentation)
+(require 'init-orgmode)
+(require 'init-xenops)
 
 ;; Smarter lisp parents
 (use-package smartparens
