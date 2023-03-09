@@ -34,7 +34,8 @@
   (evil-goggles-use-diff-faces))
 
 (use-package evil-nerd-commenter
-  :after evil)
+  :after evil
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 (use-package evil-smartparens
   :after evil

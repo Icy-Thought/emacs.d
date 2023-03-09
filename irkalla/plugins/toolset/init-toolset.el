@@ -6,6 +6,7 @@
 (require 'init-hydra)
 (require 'init-magit)
 (require 'init-marginalia)
+(require 'init-openwith)
 (require 'init-treemacs)
 (require 'init-vertico)
 (require 'init-whichkey)

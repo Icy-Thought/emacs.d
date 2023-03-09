@@ -4,12 +4,14 @@
 (require 'init-evil)
 (require 'init-indentation)
 (require 'init-orgmode)
-(require 'init-xenops)
+
+;; Fold code like paper
+(use-package origami
+  :hook (nix-mode . origami-mode))
 
 ;; Smarter lisp parents
 (use-package smartparens
-  :init
-  (smartparens-global-mode +1))
+  :hook (prog-mode . smartparens-mode))
 
 ;; Auto-format code!
 (use-package format-all

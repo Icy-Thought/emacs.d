@@ -40,7 +40,8 @@
 
 (use-package rust-mode
   :mode "\\.rs\\'"
-  :hook (rust-mode-hook . eglot-ensure)
+  :hook ((rust-mode-hook . cargo-minor-mode)
+         (rust-mode-hook . eglot-ensure))
   :custom
   (rust-format-on-save t))
 

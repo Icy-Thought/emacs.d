@@ -18,44 +18,13 @@
 ;;; Use-Packages: ease of package management
 (require 'init-melpa)
 
-;; Directories: default -> designated =~/.local/share/emacs/directory=..
-(require 'xdg)
-
-;; Boilerplate
-(setq user-emacs-config-directory (concat (xdg-config-home) "/emacs")
-      user-emacs-data-directory (concat (xdg-data-home) "/emacs")
-      user-emacs-cache-directory (concat (xdg-cache-home) "/emacs"))
-
-(let ((backup-dir (concat user-emacs-cache-directory "/backup"))
-      (auto-save-dir (concat user-emacs-cache-directory "/auto-save")))
-  (unless (file-directory-p backup-dir)
-    (mkdir backup-dir t)
-    (mkdir auto-save-dir t))
-
-  (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-save-dir t))
-        create-lockfiles nil
-        backup-by-copying t))
-
-;; Customization -> /tmp/emacs-custom-*.el
-(setq custom-file
-      (if (boundp 'server-socket-dir)
-          (expand-file-name "custom.el" server-socket-dir)
-        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
-(load custom-file t)
-
-;;; (no-littering) A cleaner Emacs directory
-(use-package no-littering
-  :init
-  (setq no-littering-etc-directory (concat user-emacs-directory "etc")
-        no-littering-var-directory (concat user-emacs-directory "var")))
-
-;; (Testing) lisp/module.el
+;; Essentials: structured emacs mods
+(require 'init-management)
 (require 'init-decorations)
 (require 'init-options)
 (require 'init-shortcuts)
 
-;; (Testing) plugins/module.el
+;; Plugin: categorized modules
 (require 'init-completion)
 (require 'init-langserv)
 (require 'init-editor)

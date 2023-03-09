@@ -8,10 +8,12 @@
 (use-package dashboard
   :init
   (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  (setq initial-buffer-choice
+        (lambda () (get-buffer-create "*dashboard*")))
   :custom
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book")))
+  (dashboard-modify-heading-icons
+   '((recents . "file-text")
+     (bookmarks . "book")))
   :config
   (setq dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla"
         dashboard-startup-banner "~/.config/emacs/dasHead.svg"
@@ -24,7 +26,10 @@
         dashboard-set-navigator t
         dashboard-set-init-info t
         dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name
-        dashboard-week-agenda t))
+        dashboard-week-agenda t)
 
+  (set-face-attribute 'dashboard-banner-logo-title nil
+		      :weight 'bold
+		      :slant 'italic))
 
 (provide 'init-dashboard)

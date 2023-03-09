@@ -2,11 +2,9 @@
 
 (require 'package)
 
-(custom-set-variables
- '(package-archives
-   (quote
-    (("gnu" . "https://elpa.gnu.org/packages/")
-     ("melpa" . "https://melpa.org/packages/")))))
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -15,6 +13,7 @@
   (package-install 'use-package))
 
 (require 'use-package)
+
 (setq use-package-always-ensure 't)
 
 (provide 'init-melpa)

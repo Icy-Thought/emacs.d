@@ -10,9 +10,14 @@
 ;; Decorating with icons
 (use-package all-the-icons)
 
+;; Notifications
+(use-package alert
+  :custom
+  (alert-default-style 'libnotify))
+
 ;; Colorful parantheses
 (use-package rainbow-delimiters
-  :hook (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  :hook (prog-mode . rainbow-delimiters-mode)
   :config
   (setq show-paren-style 'parenthesis
         show-paren-when-point-in-periphery nil
