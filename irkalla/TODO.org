@@ -11,7 +11,6 @@
   - https://github.com/abo-abo/hydra
     - https://github.com/Ladicle/hydra-posframe
   - https://github.com/mkcms/interactive-align
-  - https://github.com/joaotavora/eglot
   - https://github.com/emacs-lsp/dap-mode
   - https://github.com/bbatsov/projectile
   - (later) https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode

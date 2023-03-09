@@ -7,12 +7,16 @@
 
 (use-package org
   :defer t
-  ;; :hook (org-mode . org-cdlatex-mode)
+  :hook
+  ;; (org-mode . org-cdlatex-mode)
+  (org-mode . org-display-inline-images)
+  (org-babel-after-execute . org-display-inline-images)
   :config
-  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-  (add-hook 'org-mode-hook 'org-display-inline-images)
+  (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
+    (unless (file-directory-p latex-dir)
+      (mkdir latex-dir t))
+    (setq org-preview-latex-image-directory latex-dir))
   :custom
-  (add-hook 'org-mode-hook 'org-display-inline-images)
   (org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
   (org-agenda-tags-column 80)
   (org-agenda-remove-tags t)
@@ -25,7 +29,6 @@
   (org-highlight-latex-and-related '(native))
   (org-insert-heading-respect-content t)
   (org-latex-tables-centered t)
-  (org-preview-latex-image-directory "~/.config/emacs/var/org/latex-preview/")
   (org-pretty-entities t)
   (org-special-ctrl-a/e t)
   (org-src-tab-acts-natively nil)
@@ -50,14 +53,14 @@
   (org-roam-capture-templates
    `(("d" "default" plain "%?"
       :if-new (file+head
-	       "%<%Y%m%d%H%M%S>-${slug}.org"
-	       ,(let ((options '("#+options: _:{}"
-				 "#+options: ^:{}"
-				 "#+startup: latexpreview"
-				 "#+startup: entitiespretty"
-				 "#+startup: inlineimages"
-				 "#+title: ${title}")))
-		  (mapconcat 'identity options "\n")))
+               "%<%Y%m%d%H%M%S>-${slug}.org"
+               ,(let ((options '("#+options: _:{}"
+                                 "#+options: ^:{}"
+                                 "#+startup: latexpreview"
+                                 "#+startup: entitiespretty"
+                                 "#+startup: inlineimages"
+                                 "#+title: ${title}")))
+                  (mapconcat 'identity options "\n")))
       :unnarrowed t)))
   (org-roam-node-display-template "${title}")
   :bind (("C-c n l" . org-roam-buffer-toggle)

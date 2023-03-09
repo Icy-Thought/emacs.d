@@ -31,7 +31,7 @@
 (use-package no-littering
   :init
   (setq-default
-   no-littering-etc-directory (concat user-emacs-data-directory "etc")
-   no-littering-var-directory (concat user-emacs-data-directory "var")))
+   no-littering-etc-directory (concat user-emacs-data-directory "/etc")
+   no-littering-var-directory (concat user-emacs-data-directory "/var")))
 
 (provide 'init-management)
