@@ -1,5 +1,10 @@
 ;;; toolset/init-openwith.el -*- lexical-binding: t -*-
 
+(defgroup irkalla-openwith '()
+  "An external application launcher."
+  :tag "Irkalla OpenWith"
+  :group 'irkalla)
+
 (use-package openwith
   :config
   (openwith-mode t)

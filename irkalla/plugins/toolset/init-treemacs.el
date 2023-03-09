@@ -1,5 +1,10 @@
 ;;; toolset/init-treemacs.el -*- lexical-binding: t -*-
 
+(defgroup irkalla-vertico '()
+  "A tree-based file and project explorer."
+  :tag "Irkalla Treemacs"
+  :group 'irkalla)
+
 (use-package treemacs
   :defer t
   :init

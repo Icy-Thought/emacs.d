@@ -1,6 +1,6 @@
 ;;; completion/init-corfu.el -*- lexical-binding: t -*-
 
-(defgroup irkalla-hydra '()
+(defgroup irkalla-corfu '()
   "an emacs (at-point) completion pop-up window"
   :tag "Irkalla Corfu"
   :group 'irkalla)
