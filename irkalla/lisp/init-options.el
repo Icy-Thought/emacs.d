@@ -77,17 +77,4 @@
 (when (boundp 'pixel-scroll-precision-mode)
   (pixel-scroll-precision-mode 1))
 
-;; (def) Toggle frame -> transparent
-(set-frame-parameter nil 'alpha-background 85)
-(add-to-list 'default-frame-alist '(alpha-background . 85))
-
-(defun irkalla/toggle-frame-transparency ()
-  "Toggle the frame transparency of on demand!"
-  (interactive)
-  (let ((alpha-value
-         (if (equal (frame-parameter nil 'alpha-background) 100) 85
-           100)))
-    (set-frame-parameter nil 'alpha-background alpha-value)
-    (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
-
 (provide 'init-options)

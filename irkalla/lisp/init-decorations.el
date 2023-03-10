@@ -1,5 +1,15 @@
 ;;; lisp/init-decorations.el -*- lexical-binding: t -*-
 
+;; (def) Toggle frame -> transparent
+(defun irkalla/toggle-frame-transparency ()
+  "Toggle the frame transparency of on demand!"
+  (interactive)
+  (let ((alpha-value
+         (if (equal (frame-parameter nil 'alpha-background) 100) 85
+           100)))
+    (set-frame-parameter nil 'alpha-background alpha-value)
+    (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
+
 ;; Making our beloved font more aesthetically pleasing!
 (set-face-attribute 'default nil
                     :family "VictorMono Nerd Font"
@@ -29,7 +39,6 @@
  '(font-lock-keyword-face ((t (:slant italic))))
  '(font-lock-preprocessor-face ((t (:weight bold))))
  '(font-lock-string-face ((t (:slant italic)))))
-
 
 ;; (Org-Mode): Quotes shall be italic!
 (setq-default org-fontify-quote-and-verse-blocks t)
