@@ -32,6 +32,8 @@
 (setq-default display-line-number-mode t
               display-line-numbers-type 'relative)
 
+(global-display-line-numbers-mode)
+
 ;; History: retention of undo's!
 (setq history-delete-duplicates t
       prescient-history-length 1000
@@ -56,8 +58,6 @@
       window-combination-resize t
       x-stretch-cursor t)
 
-(global-display-line-numbers-mode)
-
 ;; Indentation: 2 -> 4
 (setq indent-tabs-mode nil                   ; tabs -> spaces
       electric-indent-inhibit t
@@ -70,6 +70,7 @@
               echo-keystrokes 0.02)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-eldoc-mode -1)
 (global-subword-mode 1)
 (save-place-mode 1)
 

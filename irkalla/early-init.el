@@ -30,7 +30,8 @@
         (add-to-list 'native-comp-eln-load-path (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))
       (startup-redirect-eln-cache (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))))
 
-  (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" user-emacs-directory)))
+  (add-to-list 'native-comp-eln-load-path
+               (expand-file-name "eln-cache/" user-emacs-directory)))
 
 ;;; UI configuration
 ;; Remove bloated UI elements
@@ -38,23 +39,12 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 
-;; Add frame borders and window dividers
-(modify-all-frames-parameters
- '((right-divider-width . 25)
-   (internal-border-width . 25)))
-(dolist (face '(window-divider
-                window-divider-first-pixel
-                window-divider-last-pixel))
-  (face-spec-reset-face face)
-  (set-face-foreground face (face-attribute 'default :background)))
-(set-face-background 'fringe (face-attribute 'default :background))
-
 ;; Set transparency early
-(set-frame-parameter (selected-frame) 'alpha-background 85)
 (add-to-list 'default-frame-alist '(alpha-background . 85))
+(set-frame-parameter (selected-frame) 'alpha-background 85)
+
+;; Add frame borders and window dividers (TODO: apply alpha)
+;; (add-to-list 'default-frame-alist '(internal-border-width . 25))
 
 ;; Avoid flashing white-screen on start
 (load-theme 'modus-vivendi t)
-
-;; Load initial buffer faster through fundamental-mode
-(customize-set-variable 'initial-major-mode 'fundamental-mode)

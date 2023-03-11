@@ -38,11 +38,10 @@
   (setq eglot-workspace-configuration
         '((:pyright . ((useLibraryCodeForTypes . t))))))
 
-(use-package rust-mode
-  :mode "\\.rs\\'"
-  :hook ((rust-mode-hook . cargo-minor-mode)
-         (rust-mode-hook . eglot-ensure))
-  :custom
-  (rust-format-on-save t))
+(use-package rustic
+  :mode ("\\.rust\\'" "\\.rs\\'")
+  :hook (rustic-mode . eglot-ensure)
+  :custom (rustic-lsp-client 'eglot))
+
 
 (provide 'init-langserv)

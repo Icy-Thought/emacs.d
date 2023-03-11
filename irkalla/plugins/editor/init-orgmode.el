@@ -16,6 +16,16 @@
     (unless (file-directory-p latex-dir)
       (mkdir latex-dir t))
     (setq org-preview-latex-image-directory latex-dir))
+
+  (custom-set-variables
+   '(org-format-latex-options
+     '(:foreground default
+                   :background default
+                   :scale 2.0
+                   :html-foreground "Black"
+                   :html-background "Transparent"
+                   :html-scale 2.0
+                   :matchers ("begin" "$1" "$" "$$" "\\(" "\\["))))
   :custom
   (org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
   (org-agenda-tags-column 80)
