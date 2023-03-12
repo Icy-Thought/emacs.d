@@ -2,6 +2,7 @@
 
 ;; Require custom toolset modules:
 (require 'init-consult)
+(require 'init-elfeed)
 (require 'init-embark)
 (require 'init-hydra)
 (require 'init-magit)

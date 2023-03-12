@@ -7,6 +7,15 @@
   - [] [...] ?
   - [] Customize Emacs-conf to surpass nvim-conf
 
+* Actions
+1. Fix Nix-Mode + Rust-Mode
+2. Navigation inside emacs-dashboard to limit itself to items only!
+3. Reduce startup time!
+4. Fix background of emacs dashboard logo + latex preview images!
+5. Keymaps to match doom emacs?
+6. Better modeline?
+7. Corfu, tab to insert 4 spaces if no word is found before.
+
 * Plugins to check out!
   - https://github.com/abo-abo/hydra
     - https://github.com/Ladicle/hydra-posframe
