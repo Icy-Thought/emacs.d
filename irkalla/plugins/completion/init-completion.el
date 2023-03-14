@@ -4,12 +4,6 @@
 (require 'init-corfu)
 (require 'init-tempel)
 
-(use-package emacs
-  :init
-  (setq completion-cycle-threshold 3)
-  (setq-default tab-always-indent 'complete
-		tab-first-completion 'word-or-paren-or-punct))
-
 ;; Orderless: alternative comp system
 (use-package orderless
   :init

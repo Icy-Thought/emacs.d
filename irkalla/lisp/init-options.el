@@ -49,7 +49,7 @@
 ;; Completion: minor settings
 (setq completions-detailed t
       completion-ignore-case t
-      tab-always-indent t
+      tab-always-indent 'completion
       tab-first-completion 'word-or-paren-or-punct)
 
 ;; Decoration: minor settings
