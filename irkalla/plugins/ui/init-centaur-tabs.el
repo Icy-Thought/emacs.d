@@ -29,7 +29,7 @@
 
   ;; Vim-like tab changing bindings
   (:map evil-normal-state-map
-	("g t" . centaur-tabs-forward)
-	("g T" . centaur-tabs-backward)))
+        ("g t" . centaur-tabs-forward)
+        ("g T" . centaur-tabs-backward)))
 
 (provide 'init-centaur-tabs)

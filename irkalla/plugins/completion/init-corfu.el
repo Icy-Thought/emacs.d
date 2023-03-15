@@ -8,10 +8,12 @@
 (use-package corfu
   :bind
   (:map corfu-map
+        ("M-SPC" . corfu-insert-separator)
         ("TAB" . corfu-next)
         ([tab] . corfu-next)
         ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous))
+        ([backtab] . corfu-previous)
+        ("S-<return>" . corfu-insert))
   :init (global-corfu-mode)
   :custom
   (corfu-auto t)
@@ -31,6 +33,9 @@
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.2 . t)))
 
+(use-package corfu-terminal
+  :if (not (display-graphic-p))
+  :config (corfu-terminal-mode))
 
 (use-package kind-icon
   :after corfu

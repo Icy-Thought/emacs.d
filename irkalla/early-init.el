@@ -69,5 +69,5 @@
 (add-to-list 'default-frame-alist '(alpha-background . 85))
 (set-frame-parameter (selected-frame) 'alpha-background 85)
 
-;; Avoid flashing white-screen on start
-(load-theme 'modus-vivendi t)
+;; Get rid of white theme on cold-start
+(load-theme 'modus-vivendi)

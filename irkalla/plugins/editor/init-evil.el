@@ -6,22 +6,50 @@
   :group 'irkalla)
 
 (use-package evil
+  :init
+  (setq evil-want-integration t
+        evil-want-keybinding nil)
   :custom
   (evil-want-fine-undo t)
-  (evil-want-integration t)
-  (evil-want-keybinding nil)
+  (evil-undo-system 'undo-redo)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
   :config
-  (evil-mode 1)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'emacs)
+  (evil-mode 1))
 
-;; Bindings
+(use-package evil-org
+  :after org
+  :delight (evil-org-mode)
+  :hook (org-mode-hook . evil-org-mode))
+
 (use-package evil-collection
   :after evil
-  :config
-  (evil-collection-init))
+  :commands (evil-collection-init)
+  :hook
+  (evil-mode-hook . evil-collection-init)
+  (evil-mode-hook . (lambda ()
+                      ;; delight this mode in :delight doesn't work because the file is not in the load path
+                      (delight 'evil-collection-unimpaired-mode nil "evil-collection-unimpaired"))))
+
+(use-package evil-escape
+  :after evil
+  :delight (evil-escape-mode)
+  :hook (evil-mode-hook . evil-escape-mode)
+  :custom
+  (evil-escape-key-sequence "jk")
+  (evil-escape-delay 0.1)
+  (evil-escape-unodered-key-sequence nil))
+
+(use-package evil-easymotion
+  :after evil
+  :demand t
+  :functions (evilem-default-keybindings)
+  :hook (evil-mode-hook . (lambda ()
+			    (when (and (bound-and-true-p evil-mode)
+                                       (fboundp 'evilem-default-keybindings))
+                              (evilem-default-keybindings "SPC")))))
 
 ;; Highlight
 (use-package evil-goggles
@@ -40,16 +68,5 @@
 (use-package evil-smartparens
   :after evil
   :hook (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
-
-(use-package undo-fu
-  :demand t
-  :after evil
-  :config
-  (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
-  (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
-  (setq undo-limit 67108864) ; 64mb.
-  (setq undo-strong-limit 100663296) ; 96mb.
-  (setq undo-outer-limit 1006632960) ; 960mb.
-  )
 
 (provide 'init-evil)

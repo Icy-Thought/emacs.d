@@ -39,9 +39,7 @@
         '((:pyright . ((useLibraryCodeForTypes . t))))))
 
 (use-package rustic
-  :mode ("\\.rust\\'" "\\.rs\\'")
-  :hook (rustic-mode . eglot-ensure)
+  :mode ("\\.rs$" . rustic-mode)
   :custom (rustic-lsp-client 'eglot))
-
 
 (provide 'init-langserv)

@@ -34,11 +34,6 @@
 
 (global-display-line-numbers-mode)
 
-;; History: retention of undo's!
-(setq history-delete-duplicates t
-      prescient-history-length 1000
-      history-length 1000)
-
 ;; Backups: retention and age..
 (setq backup-by-copying t
       delete-by-moving-to-trash t
@@ -69,8 +64,9 @@
               default-buffer-file-coding-system 'utf-8-unix
               echo-keystrokes 0.02)
 
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-auto-revert-mode)
 (global-eldoc-mode -1)
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-subword-mode 1)
 (save-place-mode 1)
 

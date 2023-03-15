@@ -4,6 +4,7 @@
 
 * TODO:
   - [] Rounded corners in completion menu (corfu + rounded unicode borders?)
+  - [] Theme corfu with current used theme?? (+ opacity)
   - [] [...] ?
   - [] Customize Emacs-conf to surpass nvim-conf
 
@@ -12,6 +13,7 @@
 2. Navigation inside emacs-dashboard to limit itself to items only!
 3. Reduce startup time!
 4. Fix background of emacs dashboard logo + latex preview images!
+   1. Emacs -> issue in client.. nothing to be fixed.
 5. Keymaps to match doom emacs?
 6. Better modeline?
 7. Corfu, tab to insert 4 spaces if no word is found before.

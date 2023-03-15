@@ -19,10 +19,6 @@
               ("M-DEL" . vertico-directory-delete-word))
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
-(use-package savehist
-  :init
-  (savehist-mode))
-
 (use-package emacs
   :init
   (defun crm-indicator (args)
