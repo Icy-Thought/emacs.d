@@ -5,6 +5,24 @@
 (require 'init-indentation)
 (require 'init-orgmode)
 
+;; Built-in configurations
+(use-package savehist
+  :ensure nil
+  :init (savehist-mode t)
+  :custom
+  (history-length 1000)
+  (history-delete-duplicates t)
+  (savehist-autosave-interval 60)
+  (savehist-save-minibuffer-history t)
+  (savehist-file (expand-file-name "savehist" user-emacs-cache-directory)))
+
+(use-package saveplace
+  :ensure nil
+  :init (save-place-mode t)
+  :custom
+  (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
+  (save-place-forget-unreadable-files t))
+
 ;; Fold code like paper
 (use-package origami
   :hook (nix-mode . origami-mode))

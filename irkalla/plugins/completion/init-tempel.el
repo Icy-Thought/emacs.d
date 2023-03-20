@@ -1,29 +1,26 @@
 ;;; completion/init-tempel.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-tempel '()
-    "Simple templates for Emacs."
-    :tag "Irkalla Tempel"
-    :group 'irkalla)
+  "Simple templates for Emacs."
+  :tag "Irkalla Tempel"
+  :group 'irkalla)
 
 (use-package tempel
+  :bind (("M-+" . tempel-expand)
+	 ("M-*" . tempel-insert))
+  :hook ((prog-mode text-mode) . tempel-setup-capf)
+
   :init
+  (setq-default tempel-path (concat user-emacs-directory "templates/*.eld"))
+
+  ;; Completion at Point!
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
-
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
-  :bind (("M-+" . tempel-complete)
-	 ("M-*" . tempel-insert)))
-
-;; Adding existing tempel collection of snippets
-(use-package tempel-collection
-  :after tempel)
+		(cons #'tempel-expand completion-at-point-functions))))
 
 ;; FIXME: migrate cdlatex -> tempel
-(use-package cdlatex
-  :init
-  (add-hook 'latex-mode-hook #'turn-on-cdlatex))
+;; (use-package cdlatex
+;;   :init
+;;   (add-hook 'latex-mode-hook #'turn-on-cdlatex))
 
 (provide 'init-tempel)

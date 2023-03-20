@@ -40,6 +40,15 @@
 
 (use-package rustic
   :mode ("\\.rs$" . rustic-mode)
-  :custom (rustic-lsp-client 'eglot))
+  :custom (rustic-lsp-client 'eglot)
+  :config
+  (defun irkalla/locate-cargo-toml (dir)
+    "Locate the missing rust project Cargo."
+    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
+        (list 'vc 'Git root)))
+
+  (add-hook 'rust-mode-hook
+            (lambda ()
+              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
 
 (provide 'init-langserv)

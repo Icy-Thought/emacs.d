@@ -16,7 +16,7 @@
   (evil-vsplit-window-right t)
   :config
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'emacs)
+  (evil-set-initial-state 'dashboard-mode 'normal)
   (evil-mode 1))
 
 (use-package evil-org

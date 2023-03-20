@@ -3,20 +3,34 @@
 #+date:     2023-01-11
 
 * TODO:
-  - [] Rounded corners in completion menu (corfu + rounded unicode borders?)
-  - [] Theme corfu with current used theme?? (+ opacity)
+  - [-] Rounded corners in completion menu (corfu + rounded unicode borders?)
+  - [-] Theme corfu with current used theme?? (+ opacity)
+  - [] Fix folding in org-mode. (most likely a corfu isssue)
+  - [] Get rid of white theme on cold-start without setting =load-theme=
+  - [] Auto-complete lists properly
+  - [] (ORG-MODE) =<Enter>= -> evaluate source blocks
+  - [-] (ORG-MODE) =<Enter>= -> evaluate latex block
+  - [] (ORG-MODE) Completion and auto-fill blocks + template (tempepl?)
+  - [] Less glitchy evil-mode undo?
+  - [] Read upon undo-tree + how to retain undo after session restart!
+  - [] (ORG-MODE) Inline completion corfu..
+  - [] ability to cycle backwards in mini-buffer.
+  - [] (PDF) better dark mode + opacity if possible + disable number line -> doom modeline
+  - [] Have markdown look similar to org-modern?
+  - [-] Snippets..
+    - [] Expand with tab <- corfu to mix with completions + tempel
   - [] [...] ?
   - [] Customize Emacs-conf to surpass nvim-conf
 
 * Actions
-1. Fix Nix-Mode + Rust-Mode
-2. Navigation inside emacs-dashboard to limit itself to items only!
-3. Reduce startup time!
-4. Fix background of emacs dashboard logo + latex preview images!
-   1. Emacs -> issue in client.. nothing to be fixed.
-5. Keymaps to match doom emacs?
-6. Better modeline?
-7. Corfu, tab to insert 4 spaces if no word is found before.
+- [-] Fix Nix-Mode + Rust-Mode
+- [] Navigation inside emacs-dashboard to limit itself to items only!
+- [-] Reduce startup time! (a continues process)
+- [] Fix background of emacs dashboard logo + latex preview images!
+  - [] Emacs problem -> nothing to be fixed...
+- [] Keymaps to match doom emacs?
+- [-] Better modeline?
+- [] Corfu, tab to insert 4 spaces if no word is found before.
 
 * Plugins to check out!
   - https://github.com/abo-abo/hydra

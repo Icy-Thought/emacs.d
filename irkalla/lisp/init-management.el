@@ -1,5 +1,10 @@
 ;;; lisp/init-management.el -*- lexical-binding: t -*-
 
+;; Asynchronous package compilation
+(use-package async
+  :defer t
+  :custom (async-bytecomp-package-mode t))
+
 ;; Defining our emacs folders:
 (require 'xdg)
 

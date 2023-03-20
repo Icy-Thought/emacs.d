@@ -19,23 +19,10 @@
 ;;; Prefer loading recently compiled .el files
 (customize-set-variable 'load-prefer-newer t)
 
-;;; Native-Comp
-(when (featurep 'native-compile)
-  (setq native-comp-deferred-compilation t)
-  (setq native-comp-async-report-warnings-errors nil)
-
-  ;; Set correct dir for native compilation cache storage
-  (when (fboundp 'startup-redirect-eln-cache)
-    (if (version< emacs-version "29")
-        (add-to-list 'native-comp-eln-load-path (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))
-      (startup-redirect-eln-cache (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))))
-
-  (add-to-list 'native-comp-eln-load-path
-               (expand-file-name "eln-cache/" user-emacs-directory)))
-
 ;; Reduce noise on cold-start.
-(setq inhibit-startup-screen t
-      inhibit-startup-echo-area-message user-login-name)
+(setq inhibit-startup-message t
+      inhibit-startup-screen t
+      inhibit-startup-echo-area-message t)
 
 ;; Get rid of "For information about GNU Emacs..." message on startup.
 (advice-add #'display-startup-echo-area-message :override #'ignore)
@@ -69,5 +56,5 @@
 (add-to-list 'default-frame-alist '(alpha-background . 85))
 (set-frame-parameter (selected-frame) 'alpha-background 85)
 
-;; Get rid of white theme on cold-start
-(load-theme 'modus-vivendi)
+;; Add padding to the displayed text
+(fringe-mode 17)

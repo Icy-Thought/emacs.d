@@ -6,25 +6,22 @@
   :group 'irkalla)
 
 (use-package corfu
-  :bind
-  (:map corfu-map
-        ("M-SPC" . corfu-insert-separator)
-        ("TAB" . corfu-next)
-        ([tab] . corfu-next)
-        ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous)
-        ("S-<return>" . corfu-insert))
+  :bind (:map corfu-map
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous))
   :init (global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-auto-delay 0)
-  (corfu-auto-prefix 0)
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 1)
+  (corfu-commit-predicate nil)
   (corfu-cycle t)
+  (corfu-echo-documentation t)
   (corfu-on-exact-match 'insert)
-  (corfu-preselect 'prompt)
-  (corfu-quit-at-boundary 'separator)
+  (corfu-quit-at-boundary t)
   (corfu-quit-no-match t)
-  (corfu-scroll-margin 5)
   (corfu-separator ?\s))
 
 (use-package corfu-popupinfo
@@ -32,10 +29,6 @@
   :after corfu
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.2 . t)))
-
-(use-package corfu-terminal
-  :if (not (display-graphic-p))
-  :config (corfu-terminal-mode))
 
 (use-package kind-icon
   :after corfu

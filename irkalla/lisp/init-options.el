@@ -29,10 +29,10 @@
       version-control t)
 
 ;; Grouped (setq-default) settings
-(setq-default display-line-number-mode t
-              display-line-numbers-type 'relative)
-
-(global-display-line-numbers-mode)
+(use-package display-line-numbers
+  :ensure nil
+  :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
+  :config (setq-default display-line-numbers-type 'relative))
 
 ;; Backups: retention and age..
 (setq backup-by-copying t
@@ -53,22 +53,22 @@
       window-combination-resize t
       x-stretch-cursor t)
 
-;; Indentation: 2 -> 4
-(setq indent-tabs-mode nil                   ; tabs -> spaces
+;; Indentation: 2 -> 4 + tabs -> spaces
+(setq indent-tabs-mode nil
       electric-indent-inhibit t
       standard-indent 4
       tab-width 4)
 
 ;; Logical changes.. (🫠)
-(setq-default buffer-file-coding-system 'utf-8-unix
-              default-buffer-file-coding-system 'utf-8-unix
-              echo-keystrokes 0.02)
+(prefer-coding-system 'utf-8)
+(setq-default echo-keystrokes 0.02)
 
-(global-auto-revert-mode)
-(global-eldoc-mode -1)
+(delete-trailing-whitespace)
+(global-auto-revert-mode t)
+(global-hl-line-mode t)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-subword-mode 1)
-(save-place-mode 1)
+(global-subword-mode t)
+(save-place-mode t)
 
 ;; Smooth scrolling (Emacs >= 29)
 (when (boundp 'pixel-scroll-precision-mode)

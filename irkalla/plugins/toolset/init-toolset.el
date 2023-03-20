@@ -4,10 +4,9 @@
 (require 'init-consult)
 (require 'init-elfeed)
 (require 'init-embark)
-(require 'init-hydra)
+;; (require 'init-hydra)
 (require 'init-magit)
 (require 'init-marginalia)
-(require 'init-openwith)
 (require 'init-treemacs)
 (require 'init-vertico)
 (require 'init-whichkey)
@@ -15,7 +14,19 @@
 ;; PDF-Tools: Darker + Width
 (use-package pdf-tools
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
+  :custom
+  (pdf-view-display-size 'fit-width))
+;; (pdf-view-midnight-colors '("#ffffff" . "#000000")))
+
+
+;; OpenWith: better alternative to Emacs
+(use-package openwith
+  :init (openwith-mode t)
   :config
-  (setq-default pdf-view-display-size 'fit-width))
+  (setq openwith-associations
+        (list (list (openwith-make-extension-regexp
+                     '("mpg" "mpeg" "mp3" "mp4" "avi" "wmv" "wav"
+                       "mov" "flv" "ogm" "ogg" "mkv"))
+                    "mpv" '(file)))))
 
 (provide 'init-toolset)
