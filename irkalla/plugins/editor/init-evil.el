@@ -14,6 +14,7 @@
   (evil-undo-system 'undo-redo)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
+  (evil-want-C-i-jump nil)		; restore org-mode tab folding
   :config
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal)
