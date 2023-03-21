@@ -19,17 +19,13 @@
 	centaur-tabs-show-count nil
 	x-underline-at-descent-line t
 	centaur-tabs-left-edge-margin nil)
+
   (centaur-tabs-change-fonts (face-attribute 'default :font) 110)
   (centaur-tabs-headline-match)
   ;; (setq centaur-tabs-adjust-buffer-order t)
   (centaur-tabs-mode t)
   :bind
   ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward)
-
-  ;; Vim-like tab changing bindings
-  (:map evil-normal-state-map
-        ("g t" . centaur-tabs-forward)
-        ("g T" . centaur-tabs-backward)))
+  ("C-<next>" . centaur-tabs-forward))
 
 (provide 'init-centaur-tabs)

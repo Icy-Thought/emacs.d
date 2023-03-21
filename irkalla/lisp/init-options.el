@@ -24,6 +24,7 @@
       search-whitespace-regexp nil
       sentence-end-double-space nil
       use-short-answers t
+      use-dialog-box nil
       vc-follow-symlinks t
       vc-make-backup-files t
       version-control t)

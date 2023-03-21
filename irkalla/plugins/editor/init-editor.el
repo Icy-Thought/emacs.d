@@ -1,7 +1,8 @@
 ;;; editor/init-editor.el -*- lexical-binding: t -*-
 
 ;; Require custom editor modules:
-(require 'init-evil)
+;; (require 'init-evil) <- testing out meow atm..
+(require 'init-meow)
 (require 'init-indentation)
 (require 'init-orgmode)
 
@@ -29,7 +30,7 @@
 
 ;; Smarter lisp parents
 (use-package smartparens
-  :hook (prog-mode . smartparens-mode))
+  :hook ((prog-mode text-mode) . smartparens-mode))
 
 ;; Auto-format code!
 (use-package format-all

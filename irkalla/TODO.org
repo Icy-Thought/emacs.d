@@ -5,9 +5,9 @@
 * TODO:
   - [-] Rounded corners in completion menu (corfu + rounded unicode borders?)
   - [-] Theme corfu with current used theme?? (+ opacity)
-  - [] Fix folding in org-mode. (most likely a corfu isssue)
+  - [-] Fix folding in org-mode. (most likely a corfu isssue)
   - [] Get rid of white theme on cold-start without setting =load-theme=
-  - [] Auto-complete lists properly
+  - [] Corfu menu -> do not remain displayed after movement!
   - [] (ORG-MODE) =<Enter>= -> evaluate source blocks
   - [-] (ORG-MODE) =<Enter>= -> evaluate latex block
   - [] (ORG-MODE) Completion and auto-fill blocks + template (tempepl?)
