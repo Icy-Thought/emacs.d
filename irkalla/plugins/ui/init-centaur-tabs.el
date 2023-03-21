@@ -11,14 +11,14 @@
   (setq centaur-tabs-enable-key-bindings t)
   :config
   (setq centaur-tabs-height 32
-	centaur-tabs-set-icons t
-	centaur-tabs-show-new-tab-button t
-	centaur-tabs-set-modified-marker t
-	centaur-tabs-show-navigation-buttons t
-	centaur-tabs-set-bar 'under
-	centaur-tabs-show-count nil
-	x-underline-at-descent-line t
-	centaur-tabs-left-edge-margin nil)
+        centaur-tabs-set-icons t
+        centaur-tabs-show-new-tab-button t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-set-bar 'under
+        centaur-tabs-show-count nil
+        x-underline-at-descent-line t
+        centaur-tabs-left-edge-margin nil)
 
   (centaur-tabs-change-fonts (face-attribute 'default :font) 110)
   (centaur-tabs-headline-match)
@@ -26,6 +26,12 @@
   (centaur-tabs-mode t)
   :bind
   ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward))
+  ("C-<next>" . centaur-tabs-forward)
+
+  ;; Vim-like tab changing bindings
+  (:map evil-normal-state-map
+        ("g t" . centaur-tabs-forward)
+        ("g T" . centaur-tabs-backward)))
+
 
 (provide 'init-centaur-tabs)

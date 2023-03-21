@@ -11,7 +11,7 @@
    ("C-;" . embark-dwim)
    ("C-h B" . embark-bindings))
   :init
-  ;; (setq prefix-help-command #'embark-prefix-help-command)
+  (setq prefix-help-command #'embark-prefix-help-command)
   (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   :config
   ;; Hide the mode line of the Embark live/completions buffers

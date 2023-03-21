@@ -8,7 +8,7 @@
 ;; Built-in configurations
 (use-package savehist
   :ensure nil
-  :init (savehist-mode t)
+  :init (savehist-mode 1)
   :custom
   (history-length 1000)
   (history-delete-duplicates t)
@@ -22,6 +22,13 @@
   :custom
   (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
   (save-place-forget-unreadable-files t))
+
+;; Tree-based undo system
+(use-package undo-tree
+  :init (global-undo-tree-mode)
+  :custom
+  (undo-tree-visualizer-diff t)
+  (undo-tree-visualizer-timestamps t))
 
 ;; Fold code like paper
 (use-package origami

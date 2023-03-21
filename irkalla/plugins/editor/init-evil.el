@@ -10,11 +10,10 @@
   (setq evil-want-integration t
         evil-want-keybinding nil)
   :custom
-  (evil-want-fine-undo t)
-  (evil-undo-system 'undo-redo)
+  (evil-undo-system 'undo-tree)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
-  (evil-want-C-i-jump nil)		; restore org-mode tab folding
+  (evil-want-C-i-jump nil)    		; restore org-mode tab folding
   :config
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal)

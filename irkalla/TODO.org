@@ -9,14 +9,20 @@
   - [] Get rid of white theme on cold-start without setting =load-theme=
   - [] Corfu menu -> do not remain displayed after movement!
   - [] (ORG-MODE) =<Enter>= -> evaluate source blocks
+    - [] Haskell <- broken
+    - [] Add missing Rust babel (all languages if possible? or auto setup on buffer enter like lsp-install?)
   - [-] (ORG-MODE) =<Enter>= -> evaluate latex block
-  - [] (ORG-MODE) Completion and auto-fill blocks + template (tempepl?)
-  - [] Less glitchy evil-mode undo?
-  - [] Read upon undo-tree + how to retain undo after session restart!
+  - [-] (ORG-MODE) Completion and auto-fill blocks + template (tempepl?)
+    - [] combine with tab complete in corfu
+  - [-] Less glitchy evil-mode undo?
+  - [-] Read upon undo-tree + how to retain undo after session restart!
   - [] (ORG-MODE) Inline completion corfu..
-  - [] ability to cycle backwards in mini-buffer.
-  - [] (PDF) better dark mode + opacity if possible + disable number line -> doom modeline
-  - [] Have markdown look similar to org-modern?
+  - [-] ability to cycle backwards in mini-buffer.
+  - [] PDF-Tools: things to fix
+    - [] Better dark mode
+    - [] Opacity if possible
+    - [-] Disable number line -> doom modeline
+  - [-] +Have markdown look similar to org-modern?+
   - [-] Snippets..
     - [] Expand with tab <- corfu to mix with completions + tempel
   - [] [...] ?

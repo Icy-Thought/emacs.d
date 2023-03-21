@@ -8,7 +8,8 @@
 (use-package vertico
   :init
   (vertico-mode)
-  (vertico-mouse-mode 1))
+  (vertico-mouse-mode 1)
+  :custom (vertico-cycle t))
 
 (use-package vertico-directory
   :ensure nil
