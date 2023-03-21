@@ -1,8 +1,7 @@
 ;;; editor/init-editor.el -*- lexical-binding: t -*-
 
 ;; Require custom editor modules:
-;; (require 'init-evil) <- testing out meow atm..
-(require 'init-meow)
+(require 'init-evil)
 (require 'init-indentation)
 (require 'init-orgmode)
 
