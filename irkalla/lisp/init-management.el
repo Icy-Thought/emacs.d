@@ -5,6 +5,16 @@
   :defer t
   :custom (async-bytecomp-package-mode t))
 
+;; Backups: age + time of retention
+(use-package emacs
+  :ensure nil
+  :custom
+  (backup-by-copying t)
+  (delete-by-moving-to-trash t)
+  (delete-old-versions t)
+  (kept-new-versions 10)
+  (kept-old-versions 3))
+
 ;; Defining our emacs folders:
 (require 'xdg)
 
@@ -34,9 +44,8 @@
 
 ;;; (no-littering) A cleaner Emacs directory
 (use-package no-littering
-  :init
-  (setq-default
-   no-littering-etc-directory (concat user-emacs-data-directory "/etc")
-   no-littering-var-directory (concat user-emacs-data-directory "/var")))
+  :custom
+  (no-littering-etc-directory (expand-file-name "config/" user-emacs-data-directory))
+  (no-littering-var-directory (expand-file-name "data/" user-emacs-data-directory)))
 
 (provide 'init-management)

@@ -13,9 +13,10 @@
 
 ;; PDF-Tools: Darker + Width
 (use-package pdf-tools
-  :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
-  :custom
-  (pdf-view-display-size 'fit-width))
+  :mode "\\.pdf\\'"
+  :hook (pdf-view-mode . pdf-view-themed-minor-mode)
+  :config (pdf-loader-install)
+  :custom (pdf-view-display-size 'fit-width))
 ;; (pdf-view-midnight-colors '("#ffffff" . "#000000")))
 
 

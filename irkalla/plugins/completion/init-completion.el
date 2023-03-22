@@ -4,6 +4,16 @@
 (require 'init-corfu)
 (require 'init-tempel)
 
+;; Emacs-related
+(use-package emacs
+  :ensure nil
+  :init
+  (setq completions-detailed t
+        completion-ignore-case t
+        completion-category-overrides '((eglot (styles orderless)))
+        tab-always-indent 'completion
+        tab-first-completion 'word-or-paren-or-punct))
+
 ;; Orderless: alternative comp system
 (use-package orderless
   :init

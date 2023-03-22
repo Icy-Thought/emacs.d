@@ -8,6 +8,15 @@
 ;; (require 'init-ef-themes)
 ;; (require 'init-solaire)
 
+;; Decoration: minor settings
+(use-package emacs
+  :ensure nil
+  :custom
+  (truncate-lines t)
+  (truncate-string-ellipsis "↴")
+  (window-combination-resize t)
+  (x-stretch-cursor t))
+
 ;; Decorating with icons
 (use-package all-the-icons)
 

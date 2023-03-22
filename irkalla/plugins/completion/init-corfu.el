@@ -21,7 +21,7 @@
   (corfu-echo-documentation t)
   (corfu-on-exact-match 'insert)
   (corfu-quit-at-boundary t)
-  (corfu-quit-no-match t)
+  (corfu-quit-no-match 'separator)
   (corfu-separator ?\s))
 
 (use-package corfu-popupinfo

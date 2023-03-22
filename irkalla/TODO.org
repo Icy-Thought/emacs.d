@@ -7,7 +7,7 @@
   - [-] Theme corfu with current used theme?? (+ opacity)
   - [-] Fix folding in org-mode. (most likely a corfu isssue)
   - [] Get rid of white theme on cold-start without setting =load-theme=
-  - [] Corfu menu -> do not remain displayed after movement!
+  - [-] Corfu menu -> do not remain displayed after movement!
   - [] (ORG-MODE) =<Enter>= -> evaluate source blocks
     - [] Haskell <- broken
     - [] Add missing Rust babel (all languages if possible? or auto setup on buffer enter like lsp-install?)
@@ -18,9 +18,9 @@
   - [-] Read upon undo-tree + how to retain undo after session restart!
   - [] (ORG-MODE) Inline completion corfu..
   - [-] ability to cycle backwards in mini-buffer.
-  - [] PDF-Tools: things to fix
-    - [] Better dark mode
-    - [] Opacity if possible
+  - [-] PDF-Tools: things to fix
+    - [-] Better dark mode
+    - [-] +Opacity if possible+
     - [-] Disable number line -> doom modeline
   - [-] +Have markdown look similar to org-modern?+
   - [-] Snippets..
@@ -35,7 +35,7 @@
 - [] Fix background of emacs dashboard logo + latex preview images!
   - [] Emacs problem -> nothing to be fixed...
 - [] Keymaps to match doom emacs?
-- [-] Better modeline?
+- [] Better modeline? <- ...
 - [] Corfu, tab to insert 4 spaces if no word is found before.
 
 * Plugins to check out!

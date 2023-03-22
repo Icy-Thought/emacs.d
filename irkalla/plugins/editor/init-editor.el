@@ -5,6 +5,19 @@
 (require 'init-indentation)
 (require 'init-orgmode)
 
+;; Indentation: 2 -> 4 + tabs -> spaces
+(use-package emacs
+  :ensure nil
+  :init
+  ;; WARN: Smooth scrolling (Emacs >= 29)
+  (when (boundp 'pixel-scroll-precision-mode)
+    (pixel-scroll-precision-mode 1))
+  :custom
+  (indent-tabs-mode nil)
+  (electric-indent-inhibit t)
+  (standard-indent 4)
+  (tab-width 4))
+
 ;; Built-in configurations
 (use-package savehist
   :ensure nil
