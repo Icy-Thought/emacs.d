@@ -6,6 +6,7 @@
   :group 'irkalla)
 
 (use-package evil
+  :demand t
   :init
   (setq evil-want-integration t
         evil-want-keybinding nil)
@@ -47,7 +48,7 @@
   :demand t
   :functions (evilem-default-keybindings)
   :hook (evil-mode-hook . (lambda ()
-			    (when (and (bound-and-true-p evil-mode)
+			                (when (and (bound-and-true-p evil-mode)
                                        (fboundp 'evilem-default-keybindings))
                               (evilem-default-keybindings "SPC")))))
 
@@ -56,8 +57,8 @@
   :after evil
   :config
   (setq evil-goggles-enable-delete nil
-	evil-goggles-duration 0.100
-	evil-goggles-async-duration 0.900)
+	    evil-goggles-duration 0.100
+	    evil-goggles-async-duration 0.900)
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 

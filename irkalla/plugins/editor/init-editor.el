@@ -70,7 +70,6 @@
 
 ;; Spelling
 (use-package flyspell
-  :defer 1
   :hook
   ((markdown-mode org-mode text-mode) . flyspell-mode)
   (prog-mode . flyspell-prog-mode)

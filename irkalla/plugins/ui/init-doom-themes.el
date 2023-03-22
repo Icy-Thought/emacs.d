@@ -6,6 +6,7 @@
   :group 'irkalla)
 
 (use-package doom-themes
+  :demand t
   :config
   (doom-themes-neotree-config)
   (doom-themes-treemacs-config)

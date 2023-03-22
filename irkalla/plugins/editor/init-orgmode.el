@@ -6,7 +6,6 @@
   :group 'irkalla)
 
 (use-package org
-  :defer t
   :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
   :config
   (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
@@ -15,10 +14,10 @@
     (setq-default org-preview-latex-image-directory latex-dir))
 
   (setq-default org-latex-preview-options
-    (progn
-      (plist-put org-format-latex-options :background "Transparent")
-      (plist-put org-format-latex-options :scale 2.5)
-      (plist-put org-format-latex-options :zoom 1.15)))
+                (progn
+                  (plist-put org-format-latex-options :background "Transparent")
+                  (plist-put org-format-latex-options :scale 2.5)
+                  (plist-put org-format-latex-options :zoom 1.15)))
   :custom
   (org-catch-invisible-edits 'show-and-error)
   (org-cycle-separator-lines 2)

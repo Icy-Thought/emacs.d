@@ -2,7 +2,6 @@
 
 ;; Asynchronous package compilation
 (use-package async
-  :defer t
   :custom (async-bytecomp-package-mode t))
 
 ;; Backups: age + time of retention
