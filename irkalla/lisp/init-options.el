@@ -7,7 +7,6 @@
 (use-package emacs
   :ensure nil
   :hook (before-save . 'whitespace-cleanup)
-
   :init
   (prefer-coding-system 'utf-8)
   (delete-trailing-whitespace)
@@ -16,7 +15,6 @@
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-subword-mode t)
   (save-place-mode t)
-
   :custom
   (Man-notify-method 'pushy)
   (auto-save-interval 50)

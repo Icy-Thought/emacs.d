@@ -7,16 +7,15 @@
 
 (use-package tempel
   :bind (("M-+" . tempel-expand)
-	 ("M-*" . tempel-insert))
+	     ("M-*" . tempel-insert))
   :hook ((prog-mode text-mode) . tempel-setup-capf)
-
   :init
   (setq-default tempel-path (concat user-emacs-directory "templates/*.eld"))
 
-  ;; Completion at Point!
+  ;; Insert completion at cursor point!
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
-		(cons #'tempel-expand completion-at-point-functions))))
+		        (cons #'tempel-expand completion-at-point-functions))))
 
 ;; FIXME: migrate cdlatex -> tempel
 ;; (use-package cdlatex

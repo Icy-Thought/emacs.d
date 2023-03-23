@@ -2,7 +2,7 @@
 #+author:   Icy-Thought
 #+date:     2023-01-11
 
-* TODO:
+* TODO: Things I ought to do!
   - [-] Rounded corners in completion menu (corfu + rounded unicode borders?)
   - [-] Theme corfu with current used theme?? (+ opacity)
   - [-] Fix folding in org-mode. (most likely a corfu isssue)
@@ -28,7 +28,7 @@
   - [] [...] ?
   - [] Customize Emacs-conf to surpass nvim-conf
 
-* Actions
+* FIXME: Actions
 - [-] Fix Nix-Mode + Rust-Mode
 - [] Navigation inside emacs-dashboard to limit itself to items only!
 - [-] Reduce startup time! (a continues process)

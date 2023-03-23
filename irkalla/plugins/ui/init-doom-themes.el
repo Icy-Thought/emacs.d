@@ -8,12 +8,11 @@
 (use-package doom-themes
   :demand t
   :config
-  (doom-themes-neotree-config)
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config)
+  (setq doom-themes-treemacs-theme "doom-colors")
 
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (load-theme 'doom-tokyo-night t))
+  (with-eval-after-load 'doom-themes
+    (doom-themes-treemacs-config))
+
+  (load-theme (intern "doom-tokyo-night") t))
 
 (provide 'init-doom-themes)

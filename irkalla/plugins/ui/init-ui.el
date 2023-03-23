@@ -7,6 +7,7 @@
 (require 'init-doom-themes)
 ;; (require 'init-ef-themes)
 ;; (require 'init-solaire)
+(require 'init-svg-tag)
 
 ;; Decoration: minor settings
 (use-package emacs
@@ -16,6 +17,10 @@
   (truncate-string-ellipsis "↴")
   (window-combination-resize t)
   (x-stretch-cursor t))
+
+(defadvice load-theme (before clear-previous-themes activate)
+  "Clear the way for our upcoming theme!"
+  (mapc #'disable-theme custom-enabled-themes))
 
 ;; Decorating with icons
 (use-package all-the-icons)

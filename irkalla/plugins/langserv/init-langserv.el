@@ -1,7 +1,23 @@
 ;;; langserv/init-langserv.el -*- lexical-binding: t -*-
 
 ;; Required before applying changes to eglot...
-(require 'eglot)
+(use-package eglot
+  :bind (:map eglot-mode-map
+              ("C-c ." . eglot-code-actions)
+              ("C-c e r" . eglot-rename)
+              ("C-c e f" . eglot-format)
+              ("M-?" . xref-find-references)
+              ("M-." . xref-find-definitions)
+              ("C-c x a" . xref-find-apropos)
+              ("C-c f n" . flymake-goto-next-error)
+              ("C-c f p" . flymake-goto-prev-error)
+              ("C-c f d" . flymake-show-project-diagnostics))
+  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-menu-string "LSP")
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-confirm-server-initiated-edits nil))
 
 ;; Make writing lisp simpler!
 (use-package parinfer-rust-mode
@@ -14,10 +30,7 @@
   :hook (haskell-mode . eglot-ensure)
   :config
   (setq-default eglot-workspace-configuration
-                '((haskell (plugin (stan (globalOn . :json-false))))))  ;; disable stan
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-confirm-server-initiated-edits nil))
+                '((haskell (plugin (stan (globalOn . :json-false)))))))  ;; disable stan
 
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
@@ -27,8 +40,7 @@
 
 (use-package nix-mode
   :mode "\\.nix\\'"
-  :hook (nix-mode . eglot-ensure)
-  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
+  :hook (nix-mode . eglot-ensure))
 
 (use-package python-mode
   :mode "\\.py\\'"
