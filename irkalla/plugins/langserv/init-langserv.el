@@ -1,5 +1,8 @@
 ;;; langserv/init-langserv.el -*- lexical-binding: t -*-
 
+;; Require org-babel modules
+(require 'init-babel)
+
 ;; Required before applying changes to eglot...
 (use-package eglot
   :bind (:map eglot-mode-map

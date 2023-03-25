@@ -42,15 +42,7 @@
   (org-edit-src-content-indentation 0)
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
-  (org-src-tab-acts-natively t)
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((emacs-lisp . t)
-                               (gnuplot . t)
-                               (haskell . t)
-                               (latex . t)
-                               (python . t)
-                               (shell . t))))
+  (org-src-tab-acts-natively t))
 
 (use-package org-modern
   :after org
@@ -80,6 +72,15 @@
                   (mapconcat 'identity options "\n")))
       :unnarrowed t)))
   (org-roam-node-display-template "${title}"))
+
+(use-package org-roam-ui
+  :after org-roam
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start nil))
+
 
 (use-package org-fragtog
   :after org
