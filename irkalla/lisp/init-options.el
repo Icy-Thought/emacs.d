@@ -47,5 +47,4 @@
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
   :config (setq-default display-line-numbers-type 'relative))
 
-;; Logical changes.. (🫠)
 (provide 'init-options)

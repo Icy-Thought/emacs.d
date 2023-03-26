@@ -8,16 +8,20 @@
 (use-package evil
   :demand t
   :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil)
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
   :custom
   (evil-undo-system 'undo-tree)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
-  (evil-want-C-i-jump nil)    		; restore org-mode tab folding
+  (evil-want-C-i-jump nil)              ; restore org-mode tab folding
   :config
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal)
+  (evil-set-initial-state 'debugger-mode 'motion)
+  (evil-set-initial-state 'pdf-view-mode 'motion)
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+
+  ;; Finally, call-forward our Evil doings!
   (evil-mode 1))
 
 (use-package evil-org
@@ -27,12 +31,10 @@
 
 (use-package evil-collection
   :after evil
-  :commands (evil-collection-init)
-  :hook
-  (evil-mode-hook . evil-collection-init)
-  (evil-mode-hook . (lambda ()
-                      ;; delight this mode in :delight doesn't work because the file is not in the load path
-                      (delight 'evil-collection-unimpaired-mode nil "evil-collection-unimpaired"))))
+  :hook (evil-mode-hook . evil-collection-init)
+  :custom
+  (evil-collection-magit-want-horizontal-movement t)
+  (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-escape
   :after evil
@@ -43,22 +45,14 @@
   (evil-escape-delay 0.1)
   (evil-escape-unodered-key-sequence nil))
 
-(use-package evil-easymotion
-  :after evil
-  :demand t
-  :functions (evilem-default-keybindings)
-  :hook (evil-mode-hook . (lambda ()
-			                (when (and (bound-and-true-p evil-mode)
-                                       (fboundp 'evilem-default-keybindings))
-                              (evilem-default-keybindings "SPC")))))
-
 ;; Highlight
 (use-package evil-goggles
   :after evil
   :config
   (setq evil-goggles-enable-delete nil
-	    evil-goggles-duration 0.100
-	    evil-goggles-async-duration 0.900)
+        evil-goggles-duration 0.100
+        evil-goggles-async-duration 0.900)
+
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 

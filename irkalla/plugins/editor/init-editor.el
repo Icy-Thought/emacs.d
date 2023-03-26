@@ -78,4 +78,10 @@
   (flyspell-issue-welcome-flag nil)
   (flyspell-default-dictionary "en_US"))
 
+;; Perspective.el <-
+(use-package perspective
+  :bind ("C-x C-b" . persp-list-buffers)
+  :custom (persp-mode-prefix-key (kbd "C-c M-p"))
+  :init (persp-mode))
+
 (provide 'init-editor)

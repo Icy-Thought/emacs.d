@@ -20,13 +20,13 @@
 (require 'xdg)
 
 (setq-default
- user-emacs-config-directory (concat (xdg-config-home) "/emacs")
- user-emacs-data-directory (concat (xdg-data-home) "/emacs")
- user-emacs-cache-directory (concat (xdg-cache-home) "/emacs"))
+ user-emacs-config-directory (expand-file-name "emacs" (xdg-config-home))
+ user-emacs-data-directory (expand-file-name "emacs" (xdg-data-home))
+ user-emacs-cache-directory (expand-file-name "emacs" (xdg-cache-home)))
 
 ;; Specifying our cache & backup dir
-(let ((backup-dir (concat user-emacs-cache-directory "/backup"))
-      (auto-save-dir (concat user-emacs-cache-directory "/auto-save")))
+(let ((backup-dir (expand-file-name "backup" user-emacs-cache-directory))
+      (auto-save-dir (expand-file-name "auto-save" user-emacs-cache-directory)))
   (unless (file-directory-p backup-dir)
     (mkdir backup-dir t)
     (mkdir auto-save-dir t))
@@ -45,8 +45,9 @@
 
 ;;; (no-littering) A cleaner Emacs directory
 (use-package no-littering
+  :demand t
   :custom
-  (no-littering-etc-directory (expand-file-name "config/" user-emacs-data-directory))
-  (no-littering-var-directory (expand-file-name "data/" user-emacs-data-directory)))
+  (no-littering-etc-directory (expand-file-name "config" user-emacs-data-directory))
+  (no-littering-var-directory (expand-file-name "data" user-emacs-data-directory)))
 
 (provide 'init-management)

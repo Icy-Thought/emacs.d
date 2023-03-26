@@ -54,8 +54,9 @@
 
 (use-package rustic
   :mode ("\\.rs$" . rustic-mode)
-  :custom (rustic-lsp-client 'eglot)
   :config
+  (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
+
   (defun irkalla/locate-cargo-toml (dir)
     "Locate the missing rust project Cargo."
     (if-let ((root (locate-dominating-file dir "Cargo.toml")))
@@ -63,6 +64,11 @@
 
   (add-hook 'rust-mode-hook
             (lambda ()
-              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
+  :custom
+  (rustic-enable-detached-file-support t)
+  (rustic-lsp-client 'eglot)
+  (rustic-babel-auto-wrap-main t))
+
 
 (provide 'init-langserv)

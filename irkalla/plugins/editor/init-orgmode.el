@@ -47,7 +47,11 @@
 (use-package org-modern
   :after org
   :hook (org-mode . org-modern-mode)
-  :config (set-face-attribute 'org-modern-symbol nil :family "DejaVu Sans"))
+  :config (set-face-attribute 'org-modern-symbol nil :family "DejaVu Sans")
+  :custom
+  ;; Settings replaced by ~svg-tag-mode
+  (org-modern-tag nil)
+  (org-modern-todo nil))
 
 (use-package org-roam
   :after org
