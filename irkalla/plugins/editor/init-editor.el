@@ -36,20 +36,7 @@
   (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
   (save-place-forget-unreadable-files t))
 
-;; Tree-based undo system
-(use-package undo-tree
-  :init (global-undo-tree-mode)
-  :custom
-  (undo-tree-visualizer-diff t)
-  (undo-tree-visualizer-timestamps t))
-
-;; Fold code like paper
-(use-package origami
-  :hook (nix-mode . origami-mode))
-
-;; Smarter lisp parents
-(use-package smartparens
-  :hook ((prog-mode text-mode) . smartparens-mode))
+;;; External Packages
 
 ;; Auto-format code!
 (use-package format-all
@@ -78,10 +65,25 @@
   (flyspell-issue-welcome-flag nil)
   (flyspell-default-dictionary "en_US"))
 
+;; Fold code like paper
+(use-package origami
+  :hook (nix-mode . origami-mode))
+
+;; Smarter lisp parents
+(use-package smartparens
+  :hook ((prog-mode text-mode) . smartparens-mode))
+
 ;; Perspective.el <-
 (use-package perspective
   :bind ("C-x C-b" . persp-list-buffers)
   :custom (persp-mode-prefix-key (kbd "C-c M-p"))
   :init (persp-mode))
+
+;; Tree-based undo system
+(use-package undo-tree
+  :init (global-undo-tree-mode)
+  :custom
+  (undo-tree-visualizer-diff t)
+  (undo-tree-visualizer-timestamps t))
 
 (provide 'init-editor)

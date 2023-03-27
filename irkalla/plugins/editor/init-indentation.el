@@ -9,8 +9,7 @@
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'top
-        highlight-indent-guides-delay 0))
+        highlight-indent-guides-responsive 'top))
 
 ;; TODO: colors -> indentation level + color change based on level of indentation
 
