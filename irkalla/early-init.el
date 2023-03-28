@@ -14,15 +14,18 @@
 (setq inhibit-compacting-font-caches t)
 
 ;; DON'T resize frame on cold start
-(setq frame-inhibit-implied-resize t)
+(setq frame-inhibit-implied-resize t
+      frame-resize-pixelwise t)
 
 ;;; Prefer loading recently compiled .el files
 (customize-set-variable 'load-prefer-newer t)
 
 ;; Reduce noise on cold-start.
-(setq inhibit-startup-message t
+(setq inhibit-startup-buffer-menu t
+      inhibit-startup-message t
       inhibit-startup-screen t
-      inhibit-startup-echo-area-message t)
+      inhibit-startup-echo-area-message t
+      initial-scratch-message nil)
 
 ;; Get rid of "For information about GNU Emacs..." message on startup.
 (advice-add #'display-startup-echo-area-message :override #'ignore)

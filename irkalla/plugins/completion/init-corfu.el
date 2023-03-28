@@ -14,31 +14,43 @@
   :init (global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-auto-delay 0.1)
+  (corfu-auto-delay 0.05)
   (corfu-auto-prefix 1)
-  (corfu-commit-predicate nil)
   (corfu-cycle t)
-  (corfu-echo-documentation t)
+  (corfu-max-width 120)
+  (corfu-preselect t)
   (corfu-on-exact-match 'insert)
-  (corfu-quit-at-boundary t)
+  (corfu-preview-current 'insert)
   (corfu-quit-no-match 'separator)
-  (corfu-separator ?\s))
+  (corfu-separator ?\s)
+  :config
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+                (bound-and-true-p vertico--input)
+                (eq (current-local-map) read-passwd-map))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
 
 (use-package corfu-popupinfo
   :ensure nil
   :after corfu
   :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom (corfu-popupinfo-delay '(0.2 . t)))
+  :custom (corfu-popupinfo-delay '(0.1 . t)))
 
 (use-package kind-icon
   :after corfu
-  :custom (kind-icon-default-face 'corfu-default)
-  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  :init (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  :custom (kind-icon-default-face 'corfu-default))
 
 (use-package cape
   :after corfu
   :init
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev))
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-tex)
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
 
 (provide 'init-corfu)

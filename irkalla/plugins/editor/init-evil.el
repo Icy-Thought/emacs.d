@@ -16,7 +16,7 @@
   (evil-vsplit-window-right t)
   (evil-want-C-i-jump nil)              ; restore org-mode tab folding
   :config
-  (evil-set-initial-state 'dashboard-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'motion)
   (evil-set-initial-state 'debugger-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion)
   (evil-set-initial-state 'messages-buffer-mode 'normal)

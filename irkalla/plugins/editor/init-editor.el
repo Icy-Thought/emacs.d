@@ -2,7 +2,7 @@
 
 ;; Require custom editor modules:
 (require 'init-evil)
-(require 'init-indentation)
+;; (require 'init-indentation) ;; FIXME: broken..
 (require 'init-orgmode)
 
 ;; Indentation: 2 -> 4 + tabs -> spaces

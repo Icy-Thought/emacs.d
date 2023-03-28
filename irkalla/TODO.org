@@ -8,6 +8,7 @@
 - [-] Theme corfu with current used theme?? (+ opacity)
 - [-] Fix folding in org-mode. (most likely a corfu isssue)
 - [-] Corfu menu -> do not remain displayed after movement!
+- [-] Corfu -> broken completions, won't close... (required ~corfu-preselect 'prompt~)
 - [-] (ORG-MODE) =<Enter>= -> evaluate source blocks
   - [-] Haskell <- breaks emacs before evaluation == complete (remove `prompt-cont "|>"`)
   - [-] Add missing Rust babel (all languages if possible? or auto setup on buffer enter like lsp-install?)
@@ -29,6 +30,9 @@
 
 * TODO: Actions
 - [] (ORG-MODE) Rust babel
+- [] Get svg-tag-mode to show in other filetypes besides org -> comments only!
+- [] Corfu -> quit on escape
+- [] Corfu -> show which completion suggestion candidate is selected after 4 tabs (atm -> vanish)
 - [] (ORG-MODE) Inline completion eglot..
      (FIXME: issue with current eglot implementation!)
 - [] Get rid of white theme on cold-start without setting =load-theme=

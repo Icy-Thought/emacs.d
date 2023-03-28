@@ -23,7 +23,6 @@
   (enable-local-variables t)
   (enable-recursive-minibuffers t)
   (find-file-suppress-same-file-warnings t)
-  (frame-resize-pixelwise t)
   (help-window-select t)
   (inhibit-startup-echo-area-message t)
   (kill-whole-line t)
