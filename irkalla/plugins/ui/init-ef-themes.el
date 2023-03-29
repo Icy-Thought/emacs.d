@@ -6,13 +6,13 @@
   :group 'irkalla)
 
 (use-package ef-themes
+  :demand t
+  :init (load-theme (intern "ef-winter") t)
   :custom
-  ;; (ef-themes-select 'ef-dark)
-  (ef-themes-load-random 'dark)
-  (ef-themes-to-toggle '(ef-summer ef-dark))
-  ;; (ef-themes-mixed-fonts t)
-  ;; (ef-themes-variable-pitch-ui t))
-  :config
-  (mapc #'disable-theme custom-enabled-themes))
+  (ef-themes-select 'ef-winter)
+  (ef-themes-to-toggle '(ef-summer ef-winter))
+  (ef-themes-mixed-fonts t)
+  (ef-themes-variable-pitch-ui t)
+  (ef-themes-region '(intense no-extend neutral)))
 
 (provide 'init-ef-themes)
