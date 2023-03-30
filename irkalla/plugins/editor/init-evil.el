@@ -6,7 +6,6 @@
   :group 'irkalla)
 
 (use-package evil
-  :demand t
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)

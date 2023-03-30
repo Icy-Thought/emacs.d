@@ -6,7 +6,6 @@
   :group 'irkalla)
 
 (use-package doom-themes
-  :demand t
   :config
   (setq doom-themes-treemacs-theme "doom-colors")
 

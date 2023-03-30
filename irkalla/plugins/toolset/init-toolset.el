@@ -4,7 +4,7 @@
 (require 'init-consult)
 (require 'init-elfeed)
 (require 'init-embark)
-;; (require 'init-hydra)
+(require 'init-hydra)
 (require 'init-magit)
 (require 'init-marginalia)
 (require 'init-treemacs)
@@ -18,7 +18,6 @@
   :config (pdf-loader-install)
   :custom (pdf-view-display-size 'fit-width))
 ;; (pdf-view-midnight-colors '("#ffffff" . "#000000")))
-
 
 ;; OpenWith: better alternative to Emacs
 (use-package openwith

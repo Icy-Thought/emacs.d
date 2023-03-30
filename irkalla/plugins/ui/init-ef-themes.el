@@ -6,7 +6,6 @@
   :group 'irkalla)
 
 (use-package ef-themes
-  :demand t
   :init (load-theme (intern "ef-winter") t)
   :custom
   (ef-themes-select 'ef-winter)

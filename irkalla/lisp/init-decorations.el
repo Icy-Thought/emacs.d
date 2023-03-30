@@ -80,4 +80,9 @@
                 (">=>" . ?↣)))
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
+;; Posframe
+(use-package posframe
+  :defer t
+  :custom (setq posframe-mouse-banish '(0 . 5000)))
+
 (provide 'init-decorations)

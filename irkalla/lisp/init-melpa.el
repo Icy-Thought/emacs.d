@@ -14,7 +14,10 @@
 
 (require 'use-package)
 
-(setq use-package-always-ensure t
-      use-package-always-defer t)
+(setq use-package-always-ensure t)
+;; (setq use-package-always-defer t)
+
+;; Adding ~use-package~ hydra support
+(use-package use-package-hydra)
 
 (provide 'init-melpa)

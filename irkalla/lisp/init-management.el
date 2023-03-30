@@ -45,7 +45,6 @@
 
 ;;; (no-littering) A cleaner Emacs directory
 (use-package no-littering
-  :demand t
   :custom
   (no-littering-etc-directory (expand-file-name "config" user-emacs-data-directory))
   (no-littering-var-directory (expand-file-name "data" user-emacs-data-directory)))
