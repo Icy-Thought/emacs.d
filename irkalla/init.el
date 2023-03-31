@@ -7,13 +7,15 @@
 (setq debug-on-error init-file-debug)
 
 ;;; Load `lisp` & `plugins` direcotries into path
-(add-to-list 'load-path "~/.config/emacs/lisp")
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-(add-to-list 'load-path "~/.config/emacs/plugins/completion")
-(add-to-list 'load-path "~/.config/emacs/plugins/editor")
-(add-to-list 'load-path "~/.config/emacs/plugins/langserv")
-(add-to-list 'load-path "~/.config/emacs/plugins/toolset")
-(add-to-list 'load-path "~/.config/emacs/plugins/ui")
+(add-to-list 'load-path (expand-file-name "plugins/completion" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "plugins/editor" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "plugins/langserv" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "plugins/toolset" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "plugins/ui" user-emacs-directory))
+
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
 ;;; Use-Packages: ease of package management
 (require 'init-melpa)

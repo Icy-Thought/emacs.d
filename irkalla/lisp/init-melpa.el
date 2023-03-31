@@ -2,9 +2,8 @@
 
 (require 'package)
 
-(setq package-archives
-      '(("gnu"     . "https://elpa.gnu.org/packages/")
-        ("melpa"   . "https://melpa.org/packages/")))
+(setq package-archives '(("gnu"     . "https://elpa.gnu.org/packages/")
+                         ("melpa"   . "https://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -12,10 +11,24 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'use-package)
+;; Setting defaults for our use-package
+(use-package use-package
+  :ensure nil
+  :custom
+  (use-package-verbose t)
+  (use-package-expand-minimally t)
+  (use-package-always-ensure t)
+  ;; (use-package-always-defer t)
+  (use-package-compute-statistics t)
+  (use-package-minimum-reported-time 0.1)
+  (debug-on-error nil))
 
-(setq use-package-always-ensure t)
-;; (setq use-package-always-defer t)
+;; Auto-update packages (weekly)
+(use-package auto-package-update
+  :custom
+  (auto-package-update-interval 7)
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-hide-results nil))
 
 ;; Adding ~use-package~ hydra support
 (use-package use-package-hydra)

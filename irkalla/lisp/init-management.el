@@ -4,8 +4,6 @@
 (use-package async
   :custom (async-bytecomp-package-mode t))
 
-(setq native-comp-async-report-warnings-errors nil)
-
 ;; Backups: age + time of retention
 (use-package emacs
   :ensure nil

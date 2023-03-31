@@ -8,7 +8,6 @@
   :ensure nil
   :hook (before-save . 'whitespace-cleanup)
   :init
-  (prefer-coding-system 'utf-8)
   (delete-trailing-whitespace)
   (global-auto-revert-mode t)
   (global-hl-line-mode t)
@@ -16,7 +15,6 @@
   (global-subword-mode t)
   (save-place-mode t)
   :custom
-  (Man-notify-method 'pushy)
   (auto-save-interval 50)
   (confirm-nonexistent-file-or-buffer nil)
   (echo-keystrokes 0.02)
@@ -26,6 +24,7 @@
   (help-window-select t)
   (inhibit-startup-echo-area-message t)
   (kill-whole-line t)
+  (load-prefer-newer t)
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (recenter-positions '(top middle bottom))

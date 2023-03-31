@@ -13,10 +13,14 @@
   (when (boundp 'pixel-scroll-precision-mode)
     (pixel-scroll-precision-mode 1))
   :custom
-  (indent-tabs-mode nil)
   (electric-indent-inhibit t)
+  (indent-tabs-mode nil)
   (standard-indent 4)
-  (tab-width 4))
+  (tab-width 4)
+  (undo-limit 6710886400) ;; 64mb
+  (undo-strong-limit 100663296) ;; x 1.5 (96mb)
+  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
+  (word-wrap nil))
 
 ;; Built-in configurations
 (use-package savehist

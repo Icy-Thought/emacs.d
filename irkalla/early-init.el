@@ -49,6 +49,21 @@
   (dolist (buf (buffer-list))
     (with-current-buffer buf (setq mode-line-format nil))))
 
+;; Increasing maximum processing ability
+(when (boundp 'read-process-output-max)
+  (setq read-process-output-max (* 24 1024 1024)))
+
+;; Native-Comp warnings..
+(customize-set-variable 'native-comp-async-report-warnings-errors nil)
+(customize-set-variable 'native-comp-speed 2)
+(customize-set-variable 'native-comp-deferred-compilation t)
+
+;; Settings default encoding early
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
 ;;; UI configuration
 ;; Remove bloated UI elements
 (push '(tool-bar-lines . 0) default-frame-alist)
@@ -61,3 +76,5 @@
 
 ;; Add padding to the displayed text
 (fringe-mode 17)
+
+(provide 'early-init)
