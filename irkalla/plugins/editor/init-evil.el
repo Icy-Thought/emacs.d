@@ -6,10 +6,10 @@
   :group 'irkalla)
 
 (use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
+  :hook (after-init . evil-mode)
   :custom
+  (evil-want-integration t)
+  (evil-want-keybinding nil)
   (evil-undo-system 'undo-tree)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
@@ -18,27 +18,21 @@
   (evil-set-initial-state 'dashboard-mode 'motion)
   (evil-set-initial-state 'debugger-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion)
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-
-  ;; Finally, call-forward our Evil doings!
-  (evil-mode 1))
+  (evil-set-initial-state 'messages-buffer-mode 'normal))
 
 (use-package evil-org
-  :after org
-  :delight (evil-org-mode)
-  :hook (org-mode-hook . evil-org-mode))
+  :hook (org-mode-hook . evil-org-mode)
+  :delight (evil-org-mode))
 
 (use-package evil-collection
-  :after evil
   :hook (evil-mode-hook . evil-collection-init)
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-escape
-  :after evil
-  :delight (evil-escape-mode)
   :hook (evil-mode-hook . evil-escape-mode)
+  :delight (evil-escape-mode)
   :custom
   (evil-escape-key-sequence "jk")
   (evil-escape-delay 0.1)
@@ -46,13 +40,11 @@
 
 ;; Highlight
 (use-package evil-goggles
-  :after evil
+  :hook (evil-mode-hook . evil-goggles-mode)
   :config
   (setq evil-goggles-enable-delete nil
         evil-goggles-duration 0.100
         evil-goggles-async-duration 0.900)
-
-  (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 
 (use-package evil-nerd-commenter
