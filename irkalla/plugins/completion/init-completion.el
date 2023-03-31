@@ -10,43 +10,52 @@
   :init
   (setq completions-detailed t
         completion-ignore-case t
-        completion-category-overrides '((eglot (styles orderless)))
         tab-always-indent 'completion
         tab-first-completion 'word-or-paren-or-punct))
 
 ;; Orderless: alternative comp system
 (use-package orderless
+  :after vertico
   :init
-  (setq completion-styles '(substring orderless basic)
-	    completion-category-defaults nil
-	    completion-category-overrides '((file (styles . (partial-completion))))))
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles  . (orderless flex)))
+                                        (eglot (styles . (orderless flex))))))
 
 ;; Eglot
 (use-package eglot
   :after hydra
-  :custom (eglot-extend-to-xref t)
+  :custom
+  (eglot-stay-out-of '(corfu company))
+  (eglot-extend-to-xref t)
+  (eglot-ignored-server-capabilities '(:hoverProvider))
   :hydra (hydra-eglot (:exit t :foreign-keys warn :hint nil)
-"
+                      "
+                               ╭─────────────────────┐
+                              <   Hydra Head: Eglot   >
+                               └─────────────────────╯
 ╭────────────────────────┐╭─────────────────┐╭───────────────┐╭─────────────────────┐
 │ Find                   ││ Edit            ││ Format        ││ Manage              │
 │────────────────────────││─────────────────││───────────────││─────────────────────│
-│ [_d_]: Declaration     ││ [_r_]: Rename   ││ [_=_]: Buffer ││ [_X_]: Shutdown     │
-│ [_i_]: Implementation  ││ [_a_]: Actions  ││ [_R_]: Region ││ [_C_]: Reconnect    │
-│ [_D_]: Type definition ││                 ││               ││ [_E_]: Event Buffer │
+│ [_d_]: Declaration       ││ [_r_]: Rename     ││ [_=_]: Buffer   ││ [_X_]: Shutdown       │
+│ [_i_]: Implementation    ││ [_a_]: Actions    ││ [_]_]: Region   ││ [_R_]: Reconnect      │
+│ [_D_]: Type definition   ││                 ││               ││ [_E_]: Event Buffer   │
 └────────────────────────╯└─────────────────╯└───────────────╯└─────────────────────╯
-      ╭──────────────────┐╭───────────────────┐╭──────────────────────────────┐
-      │ [_X_]: Shutdown  ││ [_C_]: Re-connect ││ [_E_]: Display Events Buffer │
-      └──────────────────╯└───────────────────╯└──────────────────────────────╯
+                                                               ╭───────────────────┐
+                                                               │ [_q_]: Exit Hydra!  │
+                                                               └───────────────────╯
+
 "
-              ("d" eglot-find-declaration)
-              ("i" eglot-find-implementation)
-              ("D" eglot-find-typeDefinition)
-              ("r" eglot-rename)
-              ("a" eglot-code-actions)
-              ("=" eglot-format-buffer)
-              ("R" eglot-format)
-              ("X" eglot-shutdown)
-              ("C" eglot-reconnect)
-              ("E" eglot-events-buffer)))
+                      ("a" eglot-code-actions)
+                      ("R" eglot-reconnect)
+                      ("d" eglot-find-declaration)
+                      ("D" eglot-find-typeDefinition)
+                      ("E" eglot-events-buffer)
+                      ("i" eglot-find-implementation)
+                      ("r" eglot-rename)
+                      ("X" eglot-shutdown)
+                      ("q" nil)
+                      ("]" eglot-format)
+                      ("=" eglot-format-buffer)))
 
 (provide 'init-completion)
