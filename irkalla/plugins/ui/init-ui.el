@@ -24,6 +24,9 @@
 ;; Decorating with icons
 (use-package all-the-icons)
 
+;; Theming library
+(use-package autothemer)
+
 ;; Notifications
 (use-package alert
   :custom
