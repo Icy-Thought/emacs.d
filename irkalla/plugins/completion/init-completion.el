@@ -24,9 +24,7 @@
 
 ;; Eglot
 (use-package eglot
-  :after hydra
   :custom
-  (eglot-stay-out-of '(corfu company))
   (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities '(:hoverProvider))
   :hydra (hydra-eglot (:exit t :foreign-keys warn :hint nil)

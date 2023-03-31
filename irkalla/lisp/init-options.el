@@ -8,7 +8,6 @@
   :ensure nil
   :hook (before-save . 'whitespace-cleanup)
   :init
-  (delete-trailing-whitespace)
   (global-auto-revert-mode t)
   (global-hl-line-mode t)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)

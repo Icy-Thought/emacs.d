@@ -23,10 +23,10 @@
   (use-package-minimum-reported-time 0.1)
   (debug-on-error nil))
 
-;; Auto-update packages (weekly)
+;; Auto-update packages (every week-end!)
 (use-package auto-package-update
   :custom
-  (auto-package-update-interval 7)
+  (auto-package-update-interval 5)
   (auto-package-update-prompt-before-update t)
   (auto-package-update-hide-results nil))
 
