@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package svg-tag-mode
-  :hook (org-mode . svg-tag-mode)
+  :hook ((prog-mode org-mode markdown-mode) . svg-tag-mode)
   :config
   (setq svg-tag-tags
         '(;; Replaces any occurence of :XXX: with a dynamic SVG tag displaying XXX
