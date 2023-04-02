@@ -16,9 +16,8 @@
            :right-fringe 15
            :poshandler posframe-poshandler-window-center))
   :config
-  :hydra
-  (hydra-master (:exit t :foreign-keys warn :hint nil)
-                "
+  (defhydra hydra-master (:exit t :foreign-keys warn :hint nil)
+    "
                                 ╭─────────────────────┐
                                <    Master of Hydra    >
                                 └─────────────────────╯
@@ -38,33 +37,33 @@
         └─────────────────────────╯└───────────────────╯└──────────────────────╯
 
 "
-                ("<SPC>" alternate-buffers)
-                ("<ESC>" nil)
-                ("\\"    (insert "\\"))
-                ("a"     hydra-bookmarks/body)
-                ("b"     hydra-buffers/body)
-                ("e"     hydra-eglot/body)
-                ("d"     hydra-development/body)
-                ("E"     hydra-emacs/body)
-                ("f"     hydra-file/body)
-                ("g"     hydra-git/body)
-                ("i"     hydra-internet/body)
-                ("j"     hydra-jump/body)
-                ("k"     hydra-spell/body)
-                ("l"     hydra-lisp/body)
-                ("m"     hydra-media/body)
-                ("n"     hydra-narrow/body)
-                ("o"     hydra-organization/body)
-                ("p"     hydra-project/body)
-                ("q"     hydra-exit/body)
-                ("r"     hydra-register/body)
-                ("s"     hydra-search/body)
-                ("t"     hydra-text/body)
-                ("w"     ace-window)
-                ("x"     hydra-system/body))
+    ("<SPC>" alternate-buffers)
+    ("<ESC>" nil)
+    ("\\"    (insert "\\"))
+    ("a"     hydra-bookmarks/body)
+    ("b"     hydra-buffers/body)
+    ("e"     hydra-eglot/body)
+    ("d"     hydra-development/body)
+    ("E"     hydra-emacs/body)
+    ("f"     hydra-file/body)
+    ("g"     hydra-git/body)
+    ("i"     hydra-internet/body)
+    ("j"     hydra-jump/body)
+    ("k"     hydra-spell/body)
+    ("l"     hydra-lisp/body)
+    ("m"     hydra-media/body)
+    ("n"     hydra-narrow/body)
+    ("o"     hydra-organization/body)
+    ("p"     hydra-project/body)
+    ("q"     hydra-exit/body)
+    ("r"     hydra-register/body)
+    ("s"     hydra-search/body)
+    ("t"     hydra-text/body)
+    ("w"     ace-window)
+    ("x"     hydra-system/body))
 
-  (hydra-project (:exit t :foreign-keys warn :hint nil)
-                 "
+  (defhydra hydra-project (:exit t :foreign-keys warn :hint nil)
+    "
                                         ╭───────────────────────┐
                                        <    Master of Projects   >
                                         └───────────────────────╯
@@ -80,22 +79,22 @@
                                                                                    └───────────────────╯
 
 "
-                 ("f" project-find-file)
-                 ("F" project-or-external-find-file)
-                 ("r" project-recentf)
-                 ("b" project-switch-to-buffer)
-                 ("K" project-kill-buffers)
-                 ("R" project-query-replace-regexp)
-                 ("m" project-compile)
-                 ("c" project-async-shell-command)
-                 ("C" project-shell-command)
-                 ("g" project-vc-dir)
-                 ("h" project-dired)
-                 ("t" projectile-run-vterm)
-                 ("\/" project-find-regexp)
-                 ("A" project-or-external-find-regexp)
-                 ("s" project-multi-occur)
-                 ("p" projectile-switch-project)
-                 ("q" nil)))
+    ("f" project-find-file)
+    ("F" project-or-external-find-file)
+    ("r" project-recentf)
+    ("b" project-switch-to-buffer)
+    ("K" project-kill-buffers)
+    ("R" project-query-replace-regexp)
+    ("m" project-compile)
+    ("c" project-async-shell-command)
+    ("C" project-shell-command)
+    ("g" project-vc-dir)
+    ("h" project-dired)
+    ("t" projectile-run-vterm)
+    ("\/" project-find-regexp)
+    ("A" project-or-external-find-regexp)
+    ("s" project-multi-occur)
+    ("p" projectile-switch-project)
+    ("q" nil)))
 
 (provide 'init-hydra)

@@ -6,29 +6,61 @@
 ;; Initialize --debug-init on error
 (setq debug-on-error init-file-debug)
 
-;;; Load `lisp` & `plugins` direcotries into path
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+;; Defining our emacs folders:
+(require 'xdg)
 
-(add-to-list 'load-path (expand-file-name "plugins/completion" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "plugins/editor" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "plugins/langserv" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "plugins/toolset" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "plugins/ui" user-emacs-directory))
+(setq-default
+ user-emacs-config-directory (expand-file-name "emacs" (xdg-config-home))
+ user-emacs-data-directory (expand-file-name "emacs" (xdg-data-home))
+ user-emacs-cache-directory (expand-file-name "emacs" (xdg-cache-home)))
 
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+;; Specifying our cache & backup dir
+(let ((backup-dir (expand-file-name "backup" user-emacs-cache-directory))
+      (auto-save-dir (expand-file-name "auto-save" user-emacs-cache-directory)))
+  (unless (file-directory-p backup-dir)
+    (mkdir backup-dir t)
+    (mkdir auto-save-dir t))
 
-;;; Use-Packages: ease of package management
-(require 'init-melpa)
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-save-dir t))
+        create-lockfiles nil
+        backup-by-copying t))
 
-;; Essentials: structured emacs mods
+;; Customization -> /tmp/emacs-custom-*.el
+(setq custom-file
+      (if (boundp 'server-socket-dir)
+          (expand-file-name "custom.el" server-socket-dir)
+        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
+
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;;; Load our Irkalla config directory
+(defconst irkalla-directory "~/git/icy-thought/emacs.d/irkalla")
+
+;; Add =irkalla-directory= + dirs to path!
+(add-to-list 'load-path irkalla-directory)
+(add-to-list 'load-path (expand-file-name "lisp" irkalla-directory))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" irkalla-directory))
+
+;; Essentials: structured Emacs modules
+(require 'init-packages)
 (require 'init-management)
 (require 'init-decorations)
 (require 'init-options)
 (require 'init-shortcuts)
 
-;; Plugin: categorized modules
+;; Add all directories inside "plugins/" to path
+(let ((plugins-dir (expand-file-name "plugins" irkalla-directory)))
+  (dolist (dir (directory-files plugins-dir t "^[^.].*" 'nosort))
+    (when (file-directory-p dir)
+      (add-to-list 'load-path dir))))
+
+;; Additional: category-based modules
 (require 'init-completion)
 (require 'init-langserv)
 (require 'init-editor)
 (require 'init-toolset)
 (require 'init-ui)
+
+(provide 'init)

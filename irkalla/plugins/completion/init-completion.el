@@ -24,11 +24,12 @@
 
 ;; Eglot
 (use-package eglot
+  :ensure nil
   :custom
   (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities '(:hoverProvider))
-  :hydra (hydra-eglot (:exit t :foreign-keys warn :hint nil)
-                      "
+  :config (defhydra hydra-eglot (:exit t :foreign-keys warn :hint nil)
+            "
                                ╭─────────────────────┐
                               <   Hydra Head: Eglot   >
                                └─────────────────────╯
@@ -44,16 +45,16 @@
                                                                └───────────────────╯
 
 "
-                      ("a" eglot-code-actions)
-                      ("R" eglot-reconnect)
-                      ("d" eglot-find-declaration)
-                      ("D" eglot-find-typeDefinition)
-                      ("E" eglot-events-buffer)
-                      ("i" eglot-find-implementation)
-                      ("r" eglot-rename)
-                      ("X" eglot-shutdown)
-                      ("q" nil)
-                      ("]" eglot-format)
-                      ("=" eglot-format-buffer)))
+            ("a" eglot-code-actions)
+            ("R" eglot-reconnect)
+            ("d" eglot-find-declaration)
+            ("D" eglot-find-typeDefinition)
+            ("E" eglot-events-buffer)
+            ("i" eglot-find-implementation)
+            ("r" eglot-rename)
+            ("X" eglot-shutdown)
+            ("q" nil)
+            ("]" eglot-format)
+            ("=" eglot-format-buffer)))
 
 (provide 'init-completion)

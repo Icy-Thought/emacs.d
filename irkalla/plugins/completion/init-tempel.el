@@ -9,7 +9,7 @@
   ;; :bind (("M-*" . tempel-insert))
   :hook ((prog-mode text-mode) . tempel-setup-capf)
   :init
-  (setq-default tempel-path (concat user-emacs-directory "templates/*.eld"))
+  (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory))
 
   ;; Insert completion at cursor point!
   (defun tempel-setup-capf ()
