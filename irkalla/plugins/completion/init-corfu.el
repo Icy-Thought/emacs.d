@@ -14,15 +14,16 @@
   :init (global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-auto-delay 0.05)
-  (corfu-auto-prefix 1)
   (corfu-cycle t)
-  (corfu-max-width 120)
   (corfu-preselect t)
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.05)
+  (corfu-count 16)
+  (corfu-scroll-margin 5)
+  (corfu-separator ?\s)
   (corfu-on-exact-match 'insert)
   (corfu-preview-current 'insert)
   (corfu-quit-no-match 'separator)
-  (corfu-separator ?\s)
   :config
   (defun corfu-enable-always-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -37,7 +38,7 @@
 (use-package corfu-popupinfo
   :ensure nil
   :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom (corfu-popupinfo-delay 0.4))
+  :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 
 (use-package kind-icon
   :init (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)

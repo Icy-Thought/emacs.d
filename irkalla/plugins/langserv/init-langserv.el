@@ -66,8 +66,8 @@
             (lambda ()
               (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
   :custom
-  (rustic-enable-detached-file-support t)
   (rustic-lsp-client 'eglot)
+  (rustic-enable-detached-file-support t)
   (rustic-babel-auto-wrap-main t))
 
 

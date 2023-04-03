@@ -10,20 +10,21 @@
   :init
   ;; Launch dashboard on start!
   (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  (setq initial-buffer-choice (lambda ()
+                                (get-buffer-create "*dashboard*")))
   :config
   ;; Disable italics for items => cleaner!
   (set-face-italic 'dashboard-items-face nil)
 
   ;; Setting our logo title to italic for cursive writing :P
   (set-face-attribute 'dashboard-banner-logo-title nil
-		      :weight 'bold
-		      :slant 'italic)
+                      :weight 'bold
+                      :slant 'italic)
   :custom
   (dashboard-modify-heading-icons '((recents . "file-text")
-				    (bookmarks . "book")))
+                                    (bookmarks . "book")))
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
-  (dashboard-startup-banner "~/.config/emacs/dasHead.svg")
+  (dashboard-startup-banner (expand-file-name "dasHead.svg" user-emacs-config-directory))
   (dashboard-center-content t)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
@@ -52,13 +53,13 @@
 
   ;; Controlling the state of our displayed items
   (dashboard-items '((recents   . 5)
-		     (bookmarks . 5)
-		     (projects  . 5)
-		     (agenda    . 5)
-		     (registers . 5)))
+                     (bookmarks . 5)
+                     (projects  . 5)
+                     (agenda    . 5)
+                     (registers . 5)))
 
   (dashboard-item-names '(("Recent Files:" . "Recently opened files:")
-			  ("Agenda for today:" . "Today's agenda:")
-			  ("Agenda for the coming week:" . "Agenda:"))))
+                          ("Agenda for today:" . "Today's agenda:")
+                          ("Agenda for the coming week:" . "Agenda:"))))
 
 (provide 'init-dashboard)

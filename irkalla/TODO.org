@@ -2,7 +2,7 @@
 #+author:   Icy-Thought
 #+date:     2023-01-11
 
-* DONE: Things I ought to do!
+* :DONE: Things I ought to do!
 - [-] Rounded corners in completion menu (corfu + rounded unicode borders?)
 - [-] Fix Nix-Mode + Rust-Mode
 - [-] Theme corfu with current used theme?? (+ opacity)
@@ -28,11 +28,12 @@
 - [] [...] ?
 - [] Customize Emacs-conf to surpass nvim-conf
 
-* TODO: Actions
+* :TODO: Actions
+- LaTeX Setup (CDLaTeX + texlab-like compiling from nvim (tectonic???))
 - [] (ORG-MODE) Rust babel
 - [-] Get svg-tag-mode to show in other filetypes besides org -> comments only! (FIXME:)
 - [-] Corfu -> quit on escape
-- [] Corfu -> show which completion suggestion candidate if selected, otherwise 4 tabs
+- [] Completion + Tab behaviour.. (inser tab when no word prior to completion = desired)
 - [] (ORG-MODE) Inline completion eglot.. (FIXME: issue with current eglot implementation!)
 - [-] Get rid of white theme on cold-start without setting =load-theme=
 - [] +Navigation inside emacs-dashboard to limit itself to items only!+ (not important..)
