@@ -1,6 +1,6 @@
-#+title:    Irkalla - Todo list!
-#+author:   Icy-Thought
-#+date:     2023-01-11
+#+TITLE:    Irkalla - Todo list!
+#+AUTHOR:   Icy-Thought
+#+DATE:     2023-01-11
 
 * :DONE: Things I ought to do!
 - [-] Rounded corners in completion menu (corfu + rounded unicode borders?)

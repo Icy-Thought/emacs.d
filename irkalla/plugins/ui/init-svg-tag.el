@@ -8,8 +8,7 @@
 (use-package svg-lib
   :config
   (plist-put svg-lib-style-default :font-family "VictorMono Nerd Font")
-  (plist-put svg-lib-style-default :font-size 13)
-  (plist-put svg-lib-style-default :font-weight 'semi-bold))
+  (plist-put svg-lib-style-default :font-size 13))
 
 (use-package svg-tag-mode
   :after svg-lib
@@ -40,8 +39,8 @@
   (setq svg-tag-tags
         `(
           ;; Org tags :THIS:
-          ;; ("\\(:[A-Za-z0-9]+:\\)" . ((lambda (tag)
-          ;;                              (svg-tag-make tag :beg 1 :end -1 :inverse t))))
+          ("\\(:[A-Za-z0-9]+:\\)" . ((lambda (tag)
+                                       (svg-tag-make tag :beg 1 :end -1 :inverse t))))
 
           ;; Task priority [#a]
           ("\\[#[a-zA-Z]\\]" . ( (lambda (tag)
@@ -73,7 +72,6 @@
           ("\\([:]\\{1,3\\}\\W?[HACK|Hack|PERF|FIXME|Fixme|FIX|Fix|MARK]*:\\)" . ((lambda (tag)
                                                                                     (svg-tag-make tag :face 'org-code :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-
           ;; Org TAGS
           (":TODO:" . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-headline-todo))))
           (":WIP:" . ((lambda (tag) (svg-tag-make "WIP" :inverse t :face 'org-cite))))
@@ -100,7 +98,7 @@
           ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)" . ((lambda (tag)
                                                      (svg-tag-make tag :end -1 :crop-left t))))
 
-          ;;; Works for stuff like :XXX|YYY:
+           ;;; Works for stuff like :XXX|YYY:
           ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
                                                 (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
 
@@ -116,7 +114,5 @@
 
           (,(format "<%s \\(%s>\\)" date-re day-time-re) . ((lambda (tag)
                                                               (svg-tag-make tag :end -1 :inverse nil :crop-left t :margin 0 :face 'org-agenda-date)))))))
-
-
 
 (provide 'init-svg-tag)

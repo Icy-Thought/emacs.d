@@ -81,7 +81,7 @@
 "
     ("f" project-find-file)
     ("F" project-or-external-find-file)
-    ("r" project-recentf)
+    ("r" projectile-recentf)
     ("b" project-switch-to-buffer)
     ("K" project-kill-buffers)
     ("R" project-query-replace-regexp)

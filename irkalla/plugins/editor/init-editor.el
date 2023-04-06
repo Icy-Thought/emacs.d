@@ -83,6 +83,10 @@
   :custom (persp-mode-prefix-key (kbd "C-c M-p"))
   :init (persp-mode))
 
+;; Colorize hex color names in buffer
+(use-package rainbow-mode
+  :hook (prog-mode . rainbow-mode))
+
 ;; Tree-based undo system
 (use-package undo-tree
   :init (global-undo-tree-mode)

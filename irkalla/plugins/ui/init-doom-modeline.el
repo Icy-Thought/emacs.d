@@ -6,14 +6,13 @@
   :group 'irkalla)
 
 (use-package doom-modeline
-  :init
-  (doom-modeline-mode 1)
+  :init (doom-modeline-mode 1)
   :custom
-  (doom-modeline-height 25)
   (doom-modeline-bar-width 4)
-  (if (display-graphic-p) (doom-modeline-hud t))
   (doom-modeline-buffer-file-name 'relative-to-project)
   (doom-modeline-github t)
-  (doom-modeline-github-interval (* 30 60)))
+  (doom-modeline-github-interval (* 30 60))
+  (doom-modeline-height 25)
+  (if (display-graphic-p) (doom-modeline-hud t)))
 
 (provide 'init-doom-modeline)
