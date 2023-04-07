@@ -6,14 +6,11 @@
   :group 'irkalla)
 
 (use-package vertico
-  :init
-  (vertico-mode)
-  (vertico-mouse-mode 1)
+  :init (vertico-mode)
   :custom (vertico-cycle t))
 
 (use-package vertico-directory
-  :ensure nil
-  :after vertico
+  :straight nil
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
@@ -21,7 +18,7 @@
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package emacs
-  :ensure nil
+  :straight (:type built-in)
   :init
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"

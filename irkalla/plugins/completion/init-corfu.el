@@ -36,20 +36,18 @@
   (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
 
 (use-package corfu-popupinfo
-  :ensure nil
+  :straight nil
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 
 (use-package kind-icon
+  :after corfu
   :init (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   :custom (kind-icon-default-face 'corfu-default))
 
 (use-package cape
-  :after corfu
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-tex)
-  (add-to-list 'completion-at-point-functions #'cape-keyword))
+  :config
+  (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
+    (add-to-list 'completion-at-point-functions fn)))
 
 (provide 'init-corfu)

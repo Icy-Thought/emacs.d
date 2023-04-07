@@ -10,7 +10,7 @@
 
 ;; Decoration: minor settings
 (use-package emacs
-  :ensure nil
+  :straight (:type built-in)
   :custom
   (truncate-lines t)
   (truncate-string-ellipsis "↴")

@@ -1,15 +1,17 @@
-;;; toolset/init-toolset.el -*- lexical-binding: t -*-
+;;; toolset/init-apparatus.el -*- lexical-binding: t -*-
 
-;; Require custom toolset modules:
+;; Important modules first!
+(require 'init-hydra)
+(require 'init-whichkey)
+
+;; Remaining toolset modules!
 (require 'init-consult)
 (require 'init-elfeed)
 (require 'init-embark)
-(require 'init-hydra)
 (require 'init-magit)
 (require 'init-marginalia)
 (require 'init-treemacs)
 (require 'init-vertico)
-(require 'init-whichkey)
 
 ;; PDF-Tools: Darker + Width
 (use-package pdf-tools
@@ -29,4 +31,4 @@
                        "mov" "flv" "ogm" "ogg" "mkv"))
                     "mpv" '(file)))))
 
-(provide 'init-toolset)
+(provide 'init-apparatus)

@@ -1,7 +1,8 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
 ;; Init `use-package` at a later stage
-(setq package-enable-at-startup nil)
+(setq package-quickstart nil
+      package-enable-at-startup nil)
 
 ;;; Garbage Collector (faster startup)
 (setq gc-cons-threshold most-positive-fixnum)

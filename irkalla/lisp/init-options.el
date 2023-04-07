@@ -5,7 +5,7 @@
       user-mail-address "icy-thought@pm.me")
 
 (use-package emacs
-  :ensure nil
+  :straight (:type built-in)
   :hook (before-save . 'whitespace-cleanup)
   :init
   (global-auto-revert-mode t)
@@ -40,7 +40,7 @@
 
 ;; Relative number line
 (use-package display-line-numbers
-  :ensure nil
+  :straight (:type built-in)
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
   :config (setq-default display-line-numbers-type 'relative))
 

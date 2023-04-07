@@ -6,7 +6,7 @@
 
 ;; Backups: age + time of retention
 (use-package emacs
-  :ensure nil
+  :straight (:type built-in)
   :custom
   (backup-by-copying t)
   (delete-by-moving-to-trash t)

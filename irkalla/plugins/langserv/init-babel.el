@@ -9,7 +9,7 @@
 ;;   :after org)
 
 (use-package rustic-babel
-  :ensure rustic
+  :straight rustic
   :after org)
 
 ;; Calling org-babel language on demand
