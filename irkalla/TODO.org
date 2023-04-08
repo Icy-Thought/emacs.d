@@ -34,10 +34,10 @@
 - [-] Get svg-tag-mode to show in other filetypes besides org -> comments only! (FIXME:)
 - [-] Corfu -> quit on escape
 - [] Completion + Tab behaviour.. (inser tab when no word prior to completion = desired)
-- [] (ORG-MODE) Inline completion eglot.. (FIXME: issue with current eglot implementation!)
+- [] (ORG-MODE) Inline completion eglot.. (:FIXME: issue with current eglot implementation!)
 - [-] Get rid of white theme on cold-start without setting =load-theme=
 - [] +Navigation inside emacs-dashboard to limit itself to items only!+ (not important..)
-- [] Fix background of emacs dashboard logo + latex preview images! (FIXME: Emacs problem -> nothing to be fixed...)
+- [] Fix background of emacs dashboard logo + latex preview images! (:FIXME: Emacs problem -> nothing to be fixed...)
 - [-] Keymaps to match Doom Emacs?
 - [] Better modeline design? <- ...
 - [] Tell remaining applications to replace tabs -> 4 spaces!

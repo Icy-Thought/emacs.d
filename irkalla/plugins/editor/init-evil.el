@@ -16,17 +16,17 @@
   (evil-want-C-i-jump nil))              ; restore org-mode tab folding
 
 (use-package evil-org
-  :hook (org-mode-hook . evil-org-mode)
+  :hook (org-mode . evil-org-mode)
   :delight (evil-org-mode))
 
 (use-package evil-collection
-  :hook (evil-mode-hook . evil-collection-init)
+  :hook (evil-mode . evil-collection-init)
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-escape
-  :hook (evil-mode-hook . evil-escape-mode)
+  :hook (evil-mode . evil-escape-mode)
   :delight (evil-escape-mode)
   :custom
   (evil-escape-key-sequence "jk")
@@ -35,7 +35,7 @@
 
 ;; Highlight
 (use-package evil-goggles
-  :hook (evil-mode-hook . evil-goggles-mode)
+  :hook (evil-mode . evil-goggles-mode)
   :config
   (setq evil-goggles-enable-delete nil
         evil-goggles-duration 0.100
