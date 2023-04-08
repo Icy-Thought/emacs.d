@@ -71,7 +71,8 @@
 
 ;; Fold code like paper
 (use-package ts-fold
-  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold"))
+  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
+  :init (global-ts-fold-mode))
 
 ;; Smarter lisp parents
 (use-package smartparens

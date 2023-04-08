@@ -6,6 +6,7 @@
   :group 'irkalla)
 
 (use-package corfu
+  :straight (corfu :files (:defaults "extensions/*"))
   :bind (:map corfu-map
               ("TAB" . corfu-next)
               ([tab] . corfu-next)
@@ -40,12 +41,18 @@
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 
+(use-package corfu-terminal
+  :unless window-system
+  :after corfu
+  :hook (corfu-mode . corfu-terminal-mode))
+
 (use-package kind-icon
   :after corfu
   :init (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   :custom (kind-icon-default-face 'corfu-default))
 
 (use-package cape
+  :after corfu
   :config
   (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
     (add-to-list 'completion-at-point-functions fn)))

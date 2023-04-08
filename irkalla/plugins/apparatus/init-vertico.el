@@ -6,8 +6,13 @@
   :group 'irkalla)
 
 (use-package vertico
-  :init (vertico-mode)
+  :straight (vertico :files (:defaults "extensions/*"))
+  :hook (after-init . vertico-mode)
   :custom (vertico-cycle t))
+
+(use-package vertico-mouse
+  :straight nil
+  :hook (vertico-mode . vertico-mouse-mode))
 
 (use-package vertico-directory
   :straight nil
