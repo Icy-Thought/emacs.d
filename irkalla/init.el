@@ -1,8 +1,5 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-;; GC pauses -> faster (decrease threshold)
-(setq gc-cons-threshold (* 2 1000 1000))
-
 ;; Initialize --debug-init on error
 (setq debug-on-error init-file-debug)
 

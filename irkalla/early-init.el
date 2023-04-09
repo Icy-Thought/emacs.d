@@ -4,13 +4,6 @@
 (setq package-quickstart nil
       package-enable-at-startup nil)
 
-;;; Garbage Collector (faster startup)
-(setq gc-cons-threshold most-positive-fixnum)
-
-(add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold (* 250 1000 1000)
-                      gc-cons-percentage 0.0001)))
-
 ;; Don’t compact font caches during GC
 (setq inhibit-compacting-font-caches t)
 

@@ -4,6 +4,10 @@
 (use-package async
   :custom (async-bytecomp-package-mode t))
 
+;; Appropriate garbage collection
+(use-package gcmh
+  :init (gcmh-mode 1))
+
 ;; Backups: age + time of retention
 (use-package emacs
   :straight (:type built-in)
