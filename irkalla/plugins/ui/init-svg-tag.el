@@ -39,8 +39,8 @@
   (setq svg-tag-tags
         `(
           ;; Org tags :THIS:
-          ("\\(:[A-Za-z0-9]+:\\)" . ((lambda (tag)
-                                       (svg-tag-make tag :beg 1 :end -1 :inverse t))))
+          ;; ("\\(:[A-Za-z0-9]+:\\)" . ((lambda (tag)
+          ;;                             (svg-tag-make tag :beg 1 :end -1 :inverse t)
 
           ;; Task priority [#a]
           ("\\[#[a-zA-Z]\\]" . ( (lambda (tag)
@@ -55,22 +55,28 @@
                                             (svg-progress-count (substring tag 1 -1)))))
 
           ;; Specific tags -> allow spaces
-          ;; :FIX: There is more regexp
-          ;; :FIXME: This needs to be fixed
-          ;; :HACK:Insert text here
-          ;; :HACK:Fix this regexp
+          ;; :FIX| There is more regexp
+          ;; :FIXME| This needs to be fixed
+          ;; :HACK|Insert text here
+          ;; :HACK|Fix this regexp
 
-          ("\\([:]\\{1,3\\}\\W?[FIX|Fix]*:.*\\)" . ((lambda (tag)
-                                                      (svg-tag-make tag :face 'org-code :inverse t :crop-left t :beg 5))))
+          ("\\([:]\\{1\\}\\W?\\(?:FIXME\\|Fixme\\)|.*\\)" . ((lambda (tag)
+                                                               (svg-tag-make tag :face 'org-code :inverse t :crop-left t :beg 7))))
 
-          ("\\([:]\\{1,3\\}\\W?[FIXME|Fixme]*:.*\\)" . ((lambda (tag)
-                                                          (svg-tag-make tag :face 'org-code :inverse t :crop-left t :beg 7))))
+          ("\\([:]\\{1\\}\\W?\\(?:FIX\\|Fix\\)|.*\\)" . ((lambda (tag)
+                                                           (svg-tag-make tag :face 'org-code :inverse t :crop-left t :beg 5))))
 
-          ("\\([:]\\{1,3\\}\\W?[HACK|PERF|MARK|Hack]*:.*\\)" . ((lambda (tag)
-                                                                  (svg-tag-make tag :face 'org-code :inverse t :crop-left t :beg 6))))
+          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|PERF\\|MARK\\|Hack\\)*|.*\\)" . ((lambda (tag)
+                                                                            (svg-tag-make tag :face 'org-code :inverse t :crop-left t :beg 6))))
 
-          ("\\([:]\\{1,3\\}\\W?[HACK|Hack|PERF|FIXME|Fixme|FIX|Fix|MARK]*:\\)" . ((lambda (tag)
-                                                                                    (svg-tag-make tag :face 'org-code :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|Hack\\|PERF\\|FIXME\\|Fixme\\|FIX\\|Fix\\|MARK\\)*|\\)" . ((lambda (tag)
+                                                                                                      (svg-tag-make tag :face 'org-code :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+
+          ("\\([:]\\{1\\}\\W?\\(?:NOTE\\|Note\\)*|.*\\)" . ((lambda (tag) (svg-tag-make tag
+                                                                                   (svg-tag-make tag :face 'org-code :inverse t :crop-right t :beg 6)))))
+
+          ("\\([:]\\{1\\}\\W?\\(?:Note\\|NOTE\\)*|\\)" . ((lambda (tag) (svg-tag-make tag
+                                                                                 (svg-tag-make tag :face 'org-code :inverse nil :margin 0 :crop-right t :beg 1 :end -1)))))
 
           ;; Org TAGS
           (":TODO:" . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-headline-todo))))
@@ -83,6 +89,9 @@
           ("+BEGIN_SRC" . ((lambda (tag) (svg-tag-make "BEGIN" :inverse t :face 'org-code))))
           ("+END_SRC" . ((lambda (tag) (svg-tag-make "END" :face 'org-code))))
           ("+RESULTS:" . ((lambda (tag) (svg-tag-make "RESULTS" :face 'org-cite-key :underline nil))))
+          ("+author:" . ((lambda (tag) (svg-tag-make "AUTHOR" :inverse t :face 'org-document-title))))
+          ("+date:" . ((lambda (tag) (svg-tag-make "DATE" :inverse t :face 'org-level-8))))
+          ("+OPTIONS:" . ((lambda (tag) (svg-tag-make "OPTIONS" :face 'org-level-8))))
           ("+title" . ((lambda (tag) (svg-tag-make "TITLE" :face 'org-clock-overlay))))
           ("+STARTUP" . ((lambda (tag) (svg-tag-make "STARTUP" :inverse t :face 'org-verbatism))))
           ("+BEGIN:" . ((lambda (tag) (svg-tag-make "BEGIN" :inverse t :face 'org-tag))))
@@ -98,7 +107,7 @@
           ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)" . ((lambda (tag)
                                                      (svg-tag-make tag :end -1 :crop-left t))))
 
-           ;;; Works for stuff like :XXX|YYY:
+            ;;; Works for stuff like :XXX|YYY:
           ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
                                                 (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
 
