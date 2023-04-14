@@ -11,18 +11,18 @@
   ("C-<next>" . centaur-tabs-forward)
   :hook (after-init . centaur-tabs-mode)
   :init (setq centaur-tabs-enable-key-bindings t)
-  :config
-  (setq centaur-tabs-height 32
-        centaur-tabs-set-icons t
-        centaur-tabs-show-new-tab-button t
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-show-navigation-buttons t
-        centaur-tabs-set-bar 'under
-        centaur-tabs-show-count nil
-        x-underline-at-descent-line t
-        centaur-tabs-left-edge-margin nil)
+  :custom
+  (centaur-tabs-height 32)
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-show-new-tab-button t)
+  (centaur-tabs-set-modified-marker t)
+  (centaur-tabs-show-navigation-buttons t)
+  (centaur-tabs-set-bar 'right)
+  (centaur-tabs-show-count nil)
+  (centaur-tabs-left-edge-margin nil)
   (centaur-tabs-change-fonts (face-attribute 'default :font) 110)
-  (centaur-tabs-headline-match))
+  (centaur-tabs-headline-match)
+  :config (setq x-underline-at-descent-line t))
 
 
 (provide 'init-centaur-tabs)
