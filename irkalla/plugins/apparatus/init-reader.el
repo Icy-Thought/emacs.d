@@ -34,6 +34,13 @@
   (nov-text-width t)
   (nov-text-width 120))
 
+(use-package nov-xwidget
+  :straight (:host github :repo "chenyanming/nov-xwidget")
+  :after nov
+  :bind (:map nov-mode-map
+              ("o" . nov-xwidget-view))
+  :hook (nov-mode . nov-xwidget-inject-all-files))
+
 ;; RSS Feeder for the hungry :P
 (use-package elfeed
   :config
