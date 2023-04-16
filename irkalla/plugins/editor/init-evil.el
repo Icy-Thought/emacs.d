@@ -7,13 +7,17 @@
 
 (use-package evil
   :hook (after-init . evil-mode)
+  ;; :bind (:map evil-normal-state-map
+  ;;             ("M-j" . pixel-scroll-up)
+  ;;             ("M-k" . pixel-scroll-down))
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
   (evil-undo-system 'undo-tree)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
-  (evil-want-C-i-jump nil))              ; restore org-mode tab folding
+  (evil-want-C-i-jump nil)              ; restore org-mode tab folding
+  (evil-set-initial-state 'dashboard-mode 'emacs))
 
 (use-package evil-org
   :hook (org-mode . evil-org-mode)
@@ -45,9 +49,5 @@
 (use-package evil-nerd-commenter
   :after evil
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
-
-(use-package evil-smartparens
-  :after evil
-  :hook (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
 
 (provide 'init-evil)

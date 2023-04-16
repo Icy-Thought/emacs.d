@@ -19,6 +19,17 @@
                   (plist-put org-format-latex-options :background "Transparent")
                   (plist-put org-format-latex-options :scale 2.5)
                   (plist-put org-format-latex-options :zoom 1.15)))
+
+  (defun irkalla/org-electric-dollar nil
+    "Once -> insert \\( inser-here \\) || Twice -> replace previously inserted \\( \\) with $."
+    (interactive)
+    (if (and (looking-at "\\\\)") (looking-back "\\\\("))
+        (progn (delete-char 2)
+               (delete-char -2)
+               (insert "$"))
+      (insert "\\(\\)")
+      (backward-char 2)))
+  (define-key org-mode-map (kbd "$") 'irkalla/org-electric-dollar)
   :custom
   (org-catch-invisible-edits 'show-and-error)
   (org-cycle-separator-lines 2)

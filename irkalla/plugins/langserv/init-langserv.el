@@ -24,29 +24,29 @@
 
 ;; Make writing lisp simpler!
 (use-package parinfer-rust-mode
-  :hook emacs-lisp-mode
-  :init (setq parinfer-rust-auto-download t))
+  :hook (emacs-lisp-mode . parinfer-rust-mode)
+  :custom (parinfer-rust-auto-download t))
 
 ;; Language Modes
 (use-package haskell-mode
-  :mode "\\.hs\\'"
+  :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
   :config
   (setq-default eglot-workspace-configuration
                 '((haskell (plugin (stan (globalOn . :json-false)))))))  ;; disable stan
 
 (use-package markdown-mode
-  :mode ("README\\.md\\'" . gfm-mode)
+  :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
   :bind (:map markdown-mode-map
               ("C-c C-e" . markdown-do)))
 
 (use-package nix-mode
-  :mode "\\.nix\\'"
+  :mode ("\\.nix\\'" . nix-mode)
   :hook (nix-mode . eglot-ensure))
 
 (use-package python-mode
-  :mode "\\.py\\'"
+  :mode ("\\.py\\'" . python-mode)
   :hook (python-mode . eglot-ensure)
   :config
   (setq eglot-workspace-configuration
@@ -64,7 +64,12 @@
 
   (add-hook 'rust-mode-hook
             (lambda ()
-              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
+              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+
+(use-package typst-mode
+  :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el")
+  :mode ("\\.typ\\'" . typst-mode)
+
   :custom
   (rustic-lsp-client 'eglot)
   (rustic-enable-detached-file-support t)

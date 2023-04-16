@@ -74,10 +74,6 @@
   :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
   :init (global-ts-fold-mode))
 
-;; Smarter lisp parents
-(use-package smartparens
-  :hook ((prog-mode text-mode) . smartparens-mode))
-
 ;; Perspective.el <-
 (use-package perspective
   :bind ("C-x C-b" . persp-list-buffers)

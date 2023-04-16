@@ -6,7 +6,6 @@
 
 (use-package emacs
   :straight (:type built-in)
-  :hook (before-save . 'whitespace-cleanup)
   :init
   (global-auto-revert-mode t)
   (global-hl-line-mode t)
@@ -38,10 +37,34 @@
   (vc-make-backup-files t)
   (version-control t))
 
+;; Whitespace + Cleanup
+(use-package whitespace
+  :straight (:type built-in)
+  ;; :hook (prog-mode . whitespace-mode)
+  :custom
+  (whitespace-action '(cleanup auto-cleanup))
+  (whitespace-style
+   '(face spaces tabs newline trailing space-mark tab-mark newline-mark))
+  (whitespace-display-mappings
+   '(;; space -> · else .
+     (space-mark 32 [183] [46])
+     ;; new line -> ¬ else $
+     (newline-mark ?\n [172 ?\n] [36 ?\n])
+     ;; carriage return (Windows) -> ¶ else #
+     (newline-mark ?\r [182] [35])
+     ;; tabs -> » else >
+     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
+
 ;; Relative number line
 (use-package display-line-numbers
   :straight (:type built-in)
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
-  :config (setq-default display-line-numbers-type 'relative))
+  :custom (display-line-numbers-type 'relative))
+
+;; Inserts matching pair (built-in surround!!)
+(use-package elec-pair
+  :straight (:type built-in)
+  :hook (after-init . electric-pair-mode)
+  :config (add-hook 'emacs-lisp-mode-hook (electric-pair-mode 0)))
 
 (provide 'init-options)
