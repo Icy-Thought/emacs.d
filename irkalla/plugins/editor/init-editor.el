@@ -2,7 +2,7 @@
 
 ;; Require custom editor modules:
 (require 'init-evil)
-;; (require 'init-indentation) ;; FIXME: broken..
+;; (require 'init-indentation) ;; :FIXME| broken..
 (require 'init-orgmode)
 
 ;; Indentation: 2 -> 4 + tabs -> spaces
@@ -55,19 +55,14 @@
 
 ;; Code linting
 (use-package flycheck
-  :hook (after-init . global-flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  :hook (prog-mode . global-flycheck-mode)
+  :custom (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 ;; Spelling
-(use-package flyspell
-  :hook
-  ((markdown-mode org-mode text-mode) . flyspell-mode)
-  (prog-mode . flyspell-prog-mode)
-  :custom
-  (flyspell-issue-message-flag nil)
-  (flyspell-issue-welcome-flag nil)
-  (flyspell-default-dictionary "en_US"))
+(use-package jinx
+  :straight (:type built-in)
+  :hook (emacs-startup . global-jinx-mode)
+  :bind ([remap ispell-word] . jinx-correct))
 
 ;; Fold code like paper
 (use-package ts-fold
