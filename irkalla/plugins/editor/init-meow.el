@@ -1,7 +1,7 @@
 ;;; editor/init-meow.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-meow '()
-  "A lightweight modular editing system."
+  "A lightweight modular editing system. (similar to helix)"
   :tag "Irkalla Meow"
   :group 'irkalla)
 
@@ -108,19 +108,11 @@
    '("'" . repeat)
    '("<escape>" . ignore)))
 
-
 (use-package meow
   :demand t
   :init (meow-global-mode 1)
   :custom (meow-esc-delay 0.001)
   :config
-  (setq meow-mode-state-list
-        '((fundamental-mode . normal)
-          (text-mode . normal)
-          (prog-mode . normal)
-          (conf-mode . normal)
-          (eaf-mode . insert)))
-
   (meow-setup-qwerty)
   (meow-setup-indicator)
   (meow-setup-line-number)
