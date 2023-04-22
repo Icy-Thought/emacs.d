@@ -1,7 +1,7 @@
 ;;; toolset/init-vertico.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-vertico '()
-  "a mini-buffer completion system"
+  "A mini-buffer completion and annotation system."
   :tag "Irkalla Vertico"
   :group 'irkalla)
 
@@ -35,5 +35,15 @@
   (setq minibuffer-prompt-properties
 	    '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
+;; :NOTE| Marks and annotates minibuffer (vertico) completions
+(use-package marginalia
+  :hook (after-init . marginalia-mode)
+  :bind (("M-A" . marginalia-cycle)
+	 :map minibuffer-local-map
+	 ("M-A" . marginalia-cycle))
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right))
 
 (provide 'init-vertico)
