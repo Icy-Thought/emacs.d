@@ -22,15 +22,25 @@
   (mapc #'disable-theme custom-enabled-themes))
 
 ;; Decorating with icons
-(use-package all-the-icons)
+(use-package nerd-icons
+  :custom (nerd-icons-font-family "VictorMono Nerd Font"))
+
+(use-package nerd-icons-dired
+  :straight (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
+  :hook (dired-mode . nerd-icons-dired-mode))
+
+(use-package nerd-icons-completion
+  :straight (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
+  :after (marginalia nerd-icons)
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+  :init (nerd-icons-completion-mode))
 
 ;; Theming library
 (use-package autothemer)
 
 ;; Notifications
 (use-package alert
-  :custom
-  (alert-default-style 'libnotify))
+  :custom (alert-default-style 'libnotify))
 
 ;; Colorful parantheses
 (use-package rainbow-delimiters

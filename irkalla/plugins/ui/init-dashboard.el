@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package dashboard
-  :after all-the-icons
+  :after nerd-icons
   :init
   ;; Launch dashboard on start!
   (dashboard-setup-startup-hook)
@@ -36,17 +36,17 @@
   (dashboard-set-navigator t)
   (dashboard-navigator-buttons
    `(
-     ((,(all-the-icons-octicon "mark-github" :height 1.2 :v-adjust 0.0)
-       "Homepage"
+     ((,(nerd-icons-octicon "nf-oct-mark_github" :height 1.2 :v-adjust 0.0)
+       " Homepage"
        "Browse my personal GitHub profile home."
        (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
 
-      (,(all-the-icons-material "system_update_alt" :height 1.2 :v-adjust 0.0)
+      (,(nerd-icons-mdicon "nf-md-download" :height 1.2 :v-adjust 0.0)
        "Update Emacs!"
        "Update all of Irkalla's installed packages."
        (lambda (&rest _) (package-list-packages)))
 
-      (,(all-the-icons-material "refresh" :height 1.2 :v-adjust 0.0)
+      (,(nerd-icons-mdicon "nf-md-refresh" :height 1.2 :v-adjust 0.0)
        "Restart Emacs.."
        "Restart Irkalla Emacs instance."
        (lambda (&rest _) (restart-emacs))))))
