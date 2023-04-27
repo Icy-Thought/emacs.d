@@ -2,6 +2,7 @@
 
 ;; Require custom editor modules:
 (require 'init-evil)
+;; (require 'init-meow)
 ;; (require 'init-indentation) ;; :FIXME| broken..
 (require 'init-orgmode)
 

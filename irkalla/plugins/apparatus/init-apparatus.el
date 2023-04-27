@@ -8,6 +8,7 @@
 (require 'init-consult)
 (require 'init-embark)
 (require 'init-magit)
+(require 'init-matrix)
 (require 'init-reader)
 (require 'init-treemacs)
 (require 'init-vertico)

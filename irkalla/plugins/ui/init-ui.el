@@ -2,7 +2,7 @@
 
 ;; Require custom ui modules:
 (require 'init-centaur-tabs)
-(require 'init-dashboard)
+;; (require 'init-dashboard)
 (require 'init-doom-modeline)
 (require 'init-doom-themes)
 ;; (require 'init-ef-themes)
@@ -28,6 +28,9 @@
 (use-package nerd-icons-dired
   :straight (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
   :hook (dired-mode . nerd-icons-dired-mode))
+
+(use-package nerd-icons-ibuffer
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
 (use-package nerd-icons-completion
   :straight (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
