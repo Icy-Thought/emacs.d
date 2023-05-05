@@ -75,5 +75,6 @@
   (rustic-enable-detached-file-support t)
   (rustic-babel-auto-wrap-main t))
 
+(use-package yuck-mode) ;; For our EWW :P
 
 (provide 'init-langserv)

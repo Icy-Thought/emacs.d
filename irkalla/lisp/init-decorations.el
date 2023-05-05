@@ -12,17 +12,17 @@
 
 ;; Making our beloved font more aesthetically pleasing!
 (set-face-attribute 'default nil
-                    :family "VictorMono Nerd Font"
+                    :family "JetBrainsMono Nerd Font"
                     :height 125
                     :weight 'semi-bold)
 
 (set-face-attribute 'variable-pitch nil
-                    :family "VictorMono Nerd Font"
+                    :family "JetBrainsMono Nerd Font"
                     :height 105
                     :weight 'semi-bold)
 
 (set-face-attribute 'fixed-pitch nil
-                    :family "VictorMono Nerd Font"
+                    :family "JetBrainsMono Nerd Font"
                     :height 105
                     :width 'expanded
                     :weight 'semi-bold)
@@ -83,6 +83,6 @@
 ;; Posframe
 (use-package posframe
   :defer t
-  :custom (setq posframe-mouse-banish '(0 . 5000)))
+  :custom (posframe-mouse-banish '(0 . 5000)))
 
 (provide 'init-decorations)

@@ -1,11 +1,12 @@
-;;; init-ui.el -*- lexical-binding: t -*-
+;;; init-aesthetics.el -*- lexical-binding: t -*-
 
-;; Require custom ui modules:
+;; Require custom UI modules:
 (require 'init-centaur-tabs)
-;; (require 'init-dashboard)
+(require 'init-dashboard)
 (require 'init-doom-modeline)
 (require 'init-doom-themes)
 ;; (require 'init-ef-themes)
+(require 'init-nerd-icons)
 (require 'init-svg-tag)
 
 ;; Decoration: minor settings
@@ -20,23 +21,6 @@
 (defadvice load-theme (before clear-previous-themes activate)
   "Clear the way for our upcoming theme!"
   (mapc #'disable-theme custom-enabled-themes))
-
-;; Decorating with icons
-(use-package nerd-icons
-  :custom (nerd-icons-font-family "VictorMono Nerd Font"))
-
-(use-package nerd-icons-dired
-  :straight (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
-  :hook (dired-mode . nerd-icons-dired-mode))
-
-(use-package nerd-icons-ibuffer
-  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
-
-(use-package nerd-icons-completion
-  :straight (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
-  :after (marginalia nerd-icons)
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
-  :init (nerd-icons-completion-mode))
 
 ;; Theming library
 (use-package autothemer)
@@ -60,4 +44,4 @@
 ;;   :config (add-to-list 'solaire-mode-themes-to-face-swap "^doom-")
 ;;   :custom (solaire-global-mode +1))
 
-(provide 'init-ui)
+(provide 'init-aesthetics)

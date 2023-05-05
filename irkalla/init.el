@@ -53,11 +53,11 @@
     (when (file-directory-p dir)
       (add-to-list 'load-path dir))))
 
-;; Additional: category-based modules
+;; Additional: categorized modules
+(require 'init-aesthetics)
 (require 'init-apparatus)
 (require 'init-completion)
 (require 'init-editor)
 (require 'init-langserv)
-(require 'init-ui)
 
 (provide 'init)

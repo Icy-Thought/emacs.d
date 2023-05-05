@@ -1,8 +1,8 @@
-;;; editor/init-indentation.el -*- lexical-binding: t -*-
+;;; editor/init-indent.el -*- lexical-binding: t -*-
 
-(defgroup irkalla-indentation '()
+(defgroup irkalla-indent'()
   "highlight our code indentations"
-  :tag "Irkalla Indentation"
+  :tag "Irkalla Indent"
   :group 'irkalla)
 
 (use-package highlight-indent-guides
@@ -13,4 +13,4 @@
 
 ;; TODO: colors -> indentation level + color change based on level of indentation
 
-(provide 'init-indentation)
+(provide 'init-indent)

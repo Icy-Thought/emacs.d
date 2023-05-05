@@ -21,6 +21,11 @@
                       :weight 'bold
                       :slant 'italic)
   :custom
+  ;; UI Customizations:
+  (dashboard-display-icons-p t)
+  (dashboard-icon-type 'nerd-icons)
+
+  ;; Customizing setup:
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")

@@ -3,7 +3,7 @@
 ;; Require custom editor modules:
 (require 'init-evil)
 ;; (require 'init-meow)
-;; (require 'init-indentation) ;; :FIXME| broken..
+;; (require 'init-indent) ;; :FIXME| broken..
 (require 'init-orgmode)
 
 ;; Indentation: 2 -> 4 + tabs -> spaces
