@@ -8,7 +8,7 @@
 ;; Decorating with icons
 (use-package nerd-icons
   :custom
-  (nerd-icons-font-family "JetBrainsMono Nerd Font")
+  (nerd-icons-font-family irkalla/default-font)
   (nerd-icons-scale-factors 1.25))
 
 (use-package nerd-icons-dired

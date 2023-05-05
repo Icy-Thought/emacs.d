@@ -7,7 +7,7 @@
 
 (use-package svg-lib
   :config
-  (plist-put svg-lib-style-default :font-family "VictorMono Nerd Font")
+  (plist-put svg-lib-style-default :font-family irkalla/default-font)
   (plist-put svg-lib-style-default :font-size 13))
 
 (use-package svg-tag-mode

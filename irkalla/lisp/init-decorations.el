@@ -10,19 +10,22 @@
     (set-frame-parameter nil 'alpha-background alpha-value)
     (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
 
+;; Constant values for later re-use:
+(defconst irkalla/default-font "JetBrainsMono Nerd Font")
+
 ;; Making our beloved font more aesthetically pleasing!
 (set-face-attribute 'default nil
-                    :family "JetBrainsMono Nerd Font"
+                    :family irkalla/default-font
                     :height 125
                     :weight 'semi-bold)
 
 (set-face-attribute 'variable-pitch nil
-                    :family "JetBrainsMono Nerd Font"
+                    :family irkalla/default-font
                     :height 105
                     :weight 'semi-bold)
 
 (set-face-attribute 'fixed-pitch nil
-                    :family "JetBrainsMono Nerd Font"
+                    :family irkalla/default-font
                     :height 105
                     :width 'expanded
                     :weight 'semi-bold)
