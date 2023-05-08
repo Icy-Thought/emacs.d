@@ -11,7 +11,6 @@
 
   (with-eval-after-load 'doom-themes
     (doom-themes-treemacs-config))
-
   (load-theme (intern "doom-tokyo-night") t))
 
 (provide 'init-doom-themes)

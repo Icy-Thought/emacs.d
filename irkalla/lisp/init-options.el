@@ -65,6 +65,6 @@
 (use-package elec-pair
   :straight (:type built-in)
   :hook (after-init . electric-pair-mode)
-  :config (add-hook 'emacs-lisp-mode-hook (electric-pair-mode 0)))
+  :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
 
 (provide 'init-options)
