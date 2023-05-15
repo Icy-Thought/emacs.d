@@ -15,12 +15,20 @@
   :custom
   (ement-room-images t)
   ;; (ement-room-list-side-window) ;; :TODO| launch side-view + limited margin to names category when in a buffer otherwise do not launch...
+  (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
+                                          ement-notify--event-mentions-room-p))
   :config
   (defun irkalla/ement-auto-connect ()
     (interactive)
     (ement-connect
+     :uri-prefix "http://localhost:8009"
      :user-id "@gilganix:matrix.org"
-     :password (read-secret-file "ement")
-     :uri-prefix "http://localhost:8008")))
+     :password (read-secret-file "ement")))
+
+  ;; Make sure that Evil does not interfere with built-in bindings:
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'ement-room-list-mode 'emacs)
+    (evil-set-initial-state 'ement-room-mode 'emacs)
+    (evil-set-initial-state 'ement-taxy-mode 'emacs)))
 
 (provide 'init-matrix)
