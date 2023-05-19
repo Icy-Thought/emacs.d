@@ -11,7 +11,7 @@
 
 ;; Decoration: minor settings
 (use-package emacs
-  :straight (:type built-in)
+  :elpaca nil
   :custom
   (truncate-lines t)
   (truncate-string-ellipsis "↴")

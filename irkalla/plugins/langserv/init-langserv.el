@@ -67,9 +67,8 @@
               (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
 
 (use-package typst-mode
-  :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el")
+  :elpaca (:host github :repo "Ziqi-Yang/typst-mode.el")
   :mode ("\\.typ\\'" . typst-mode)
-
   :custom
   (rustic-lsp-client 'eglot)
   (rustic-enable-detached-file-support t)

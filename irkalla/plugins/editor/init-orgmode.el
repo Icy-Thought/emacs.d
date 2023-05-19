@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package org
-  :straight (:type built-in)
+  :elpaca nil
   :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
   :config
   (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))

@@ -8,7 +8,7 @@
 
 ;; Indentation: 2 -> 4 + tabs -> spaces
 (use-package emacs
-  :straight (:type built-in)
+  :elpaca nil
   :init
   ;; WARN: Smooth scrolling (Emacs >= 29)
   (when (boundp 'pixel-scroll-precision-mode)
@@ -25,7 +25,7 @@
 
 ;; Built-in configurations
 (use-package savehist
-  :straight (:type built-in)
+  :elpaca nil
   :init (savehist-mode 1)
   :custom
   (history-length 1000)
@@ -35,7 +35,7 @@
   (savehist-file (expand-file-name "savehist" user-emacs-cache-directory)))
 
 (use-package saveplace
-  :straight (:type built-in)
+  :elpaca nil
   :init (save-place-mode t)
   :custom
   (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
@@ -61,13 +61,13 @@
 
 ;; Spelling
 (use-package jinx
-  :straight (:type built-in)
+  :elpaca nil
   :hook (emacs-startup . global-jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 
 ;; Fold code like paper
 (use-package ts-fold
-  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
+  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
   :init (global-ts-fold-mode))
 
 ;; Perspective.el <-

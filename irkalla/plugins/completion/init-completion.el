@@ -6,7 +6,7 @@
 
 ;; Emacs-related
 (use-package emacs
-  :straight (:type built-in)
+  :elpaca nil
   :init
   (setq completions-detailed t
         completion-ignore-case t
@@ -24,7 +24,7 @@
 
 ;; Eglot
 (use-package eglot
-  :straight (:type built-in)
+  :elpaca nil
   :custom
   (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities '(:hoverProvider))

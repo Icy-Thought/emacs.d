@@ -41,7 +41,7 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" irkalla-directory))
 
 ;; Essentials: structured Emacs modules
-(require 'init-straight)
+(require 'init-elpaca)
 (require 'init-management)
 (require 'init-decorations)
 (require 'init-options)

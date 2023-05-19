@@ -5,7 +5,7 @@
       user-mail-address "icy-thought@pm.me")
 
 (use-package emacs
-  :straight (:type built-in)
+  :elpaca nil
   :init
   (global-auto-revert-mode t)
   (global-hl-line-mode t)
@@ -39,7 +39,7 @@
 
 ;; Whitespace + Cleanup
 (use-package whitespace
-  :straight (:type built-in)
+  :elpaca nil
   ;; :hook (prog-mode . whitespace-mode)
   :custom
   (whitespace-action '(cleanup auto-cleanup))
@@ -57,13 +57,13 @@
 
 ;; Relative number line
 (use-package display-line-numbers
-  :straight (:type built-in)
+  :elpaca nil
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
   :custom (display-line-numbers-type 'relative))
 
 ;; Inserts matching pair (built-in surround!!)
 (use-package elec-pair
-  :straight (:type built-in)
+  :elpaca nil
   :hook (after-init . electric-pair-mode)
   :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
 

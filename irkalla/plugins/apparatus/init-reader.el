@@ -7,7 +7,7 @@
 
 ;; PDF-Tools: Darker + Width
 (use-package pdf-tools
-  :straight (:type built-in)
+  :elpaca nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-themed-minor-mode)
   :custom
@@ -35,7 +35,7 @@
   (nov-text-width 120))
 
 (use-package nov-xwidget
-  :straight (:host github :repo "chenyanming/nov-xwidget")
+  :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :after nov
   :bind (:map nov-mode-map
               ("o" . nov-xwidget-view))

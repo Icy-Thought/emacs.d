@@ -22,10 +22,11 @@
   (use-package-minimum-reported-time 0.1)
   (debug-on-error nil))
 
-(use-package auto-package-update
-  :custom
-  (auto-package-update-interval 3)
-  (auto-package-update-prompt-before-update t)
-  (auto-package-update-hide-results nil))
+;; Autoload Nix installed packages (built-in) properly!
+(dolist (path load-path)
+  (when (string-match-p "/nix/store/[a-z0-9]\\{32\\}-emacs-packages-deps.*" path)
+    (dolist (autoload-file (directory-files path t "-autoloads.el"))
+      (with-demoted-errors "init.el error: %s"
+        (load autoload-file nil t)))))
 
 (provide 'init-packages)

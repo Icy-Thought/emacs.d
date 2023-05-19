@@ -47,9 +47,9 @@
        (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
 
       (,(nerd-icons-mdicon "nf-md-download" :height 1.2 :v-adjust 0.0)
-       "Update Emacs!"
-       "Update all of Irkalla's installed packages."
-       (lambda (&rest _) (package-list-packages)))
+       "Elpaca Manager!"
+       "Manage Irkalla Emacs packages."
+       (lambda (&rest _) (elpaca-manager)))
 
       (,(nerd-icons-mdicon "nf-md-refresh" :height 1.2 :v-adjust 0.0)
        "Restart Emacs.."

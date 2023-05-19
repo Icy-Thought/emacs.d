@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package corfu
-  :straight (corfu :files (:defaults "extensions/*"))
+  :elpaca (:files (:defaults "extensions/*.el"))
   :bind (:map corfu-map
               ("TAB" . corfu-next)
               ([tab] . corfu-next)
@@ -37,7 +37,7 @@
   (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
 
 (use-package corfu-popupinfo
-  :straight nil
+  :elpaca nil
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 
