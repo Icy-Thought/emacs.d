@@ -50,7 +50,7 @@
          (prog-mode . format-all-ensure-formatter))
   :config
   (setq-default format-all-formatters
-                '(("Nix" nixfmt)
+                '(("Nix" alejandra)
                   ("Haskell" stylish-haskell)
                   ("Rust" rustfmt))))
 
