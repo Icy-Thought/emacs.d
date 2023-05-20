@@ -62,7 +62,7 @@
 ;; Spelling
 (use-package jinx
   :elpaca nil
-  :hook (emacs-startup . global-jinx-mode)
+  :hook (elpaca-after-init . global-jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 
 ;; Fold code like paper

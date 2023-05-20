@@ -7,7 +7,7 @@
 
 (use-package vertico
   :elpaca (:files (:defaults "extensions/*"))
-  :hook (after-init . vertico-mode)
+  :hook (elpaca-after-init . vertico-mode)
   :custom (vertico-cycle t))
 
 (use-package vertico-mouse
@@ -38,7 +38,7 @@
 
 ;; :NOTE| Marks and annotates minibuffer (vertico) completions
 (use-package marginalia
-  :hook (after-init . marginalia-mode)
+  :hook (elpaca-after-init . marginalia-mode)
   :bind (("M-A" . marginalia-cycle)
 	 :map minibuffer-local-map
 	 ("M-A" . marginalia-cycle))

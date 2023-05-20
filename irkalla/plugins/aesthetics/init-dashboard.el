@@ -47,7 +47,7 @@
        (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
 
       (,(nerd-icons-mdicon "nf-md-download" :height 1.2 :v-adjust 0.0)
-       "Elpaca Manager!"
+       "Elpaca Manager"
        "Manage Irkalla Emacs packages."
        (lambda (&rest _) (elpaca-manager)))
 

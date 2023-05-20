@@ -9,7 +9,7 @@
   :bind
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward)
-  :hook (after-init . centaur-tabs-mode)
+  :hook (elpaca-after-init . centaur-tabs-mode)
   :init (setq centaur-tabs-enable-key-bindings t)
   :custom
   (centaur-tabs-height 32)

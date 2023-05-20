@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package evil
-  :hook (after-init . evil-mode)
+  :hook (elpaca-after-init . evil-mode)
   ;; :bind (:map evil-normal-state-map
   ;;             ("M-j" . pixel-scroll-up)
   ;;             ("M-k" . pixel-scroll-down))

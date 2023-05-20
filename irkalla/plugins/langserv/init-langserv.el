@@ -68,11 +68,7 @@
 
 (use-package typst-mode
   :elpaca (:host github :repo "Ziqi-Yang/typst-mode.el")
-  :mode ("\\.typ\\'" . typst-mode)
-  :custom
-  (rustic-lsp-client 'eglot)
-  (rustic-enable-detached-file-support t)
-  (rustic-babel-auto-wrap-main t))
+  :mode ("\\.typ\\'" . typst-mode))
 
 (use-package yuck-mode) ;; For our EWW :P
 

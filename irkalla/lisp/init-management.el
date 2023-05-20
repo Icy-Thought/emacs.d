@@ -2,13 +2,17 @@
 
 ;; (no-littering) A cleaner Emacs directory
 (use-package no-littering
-  :custom
-  (no-littering-etc-directory (expand-file-name "config" user-emacs-data-directory))
-  (no-littering-var-directory (expand-file-name "data" user-emacs-data-directory)))
+  :init
+  (setq no-littering-etc-directory (expand-file-name "config" user-emacs-data-directory))
+  (setq no-littering-var-directory (expand-file-name "data" user-emacs-data-directory)))
 
-;; Asynchronous package compilation
-(use-package async
-  :custom (async-bytecomp-package-mode t))
+;; Replace ~recentf~ default dirs
+(use-package recentf
+  :elpaca nil
+  :after no-littering
+  :config
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  (add-to-list 'recentf-exclude no-littering-var-directory))
 
 ;; Appropriate garbage collection
 (use-package gcmh

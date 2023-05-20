@@ -64,7 +64,7 @@
 ;; Inserts matching pair (built-in surround!!)
 (use-package elec-pair
   :elpaca nil
-  :hook (after-init . electric-pair-mode)
+  :hook (elpaca-after-init . electric-pair-mode)
   :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
 
 (provide 'init-options)

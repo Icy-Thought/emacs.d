@@ -6,11 +6,11 @@
   :group 'irkalla)
 
 (use-package which-key
-  :config
-  (setq which-key-separator " → "
-        which-key-show-early-on-C-h t
-        which-key-popup-type 'minibuffer
-        which-key-idle-delay 0.3))
-  (which-key-mode)
+  :hook (emacs-init . which-key-mode)
+  :custom
+  (which-key-separator " → ")
+  (which-key-show-early-on-C-h t)
+  (which-key-popup-type 'minibuffer)
+  (which-key-idle-delay 0.3))
 
 (provide 'init-whichkey)

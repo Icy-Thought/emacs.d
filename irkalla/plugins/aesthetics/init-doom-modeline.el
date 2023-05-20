@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
+  :hook (elpaca-after-init . doom-modeline-mode)
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)

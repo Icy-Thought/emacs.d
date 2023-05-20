@@ -43,15 +43,13 @@
 
 ;; RSS Feeder for the hungry :P
 (use-package elfeed
-  :config
-  (setq elfeed-feeds
-        '("https://sachachua.com/blog/feed/"
-          "https://www.reddit.com/r/emacs/.rss"
-          ;; Mathematics
-          "https://terrytao.wordpress.com/feed/"
-          "https://writings.stephenwolfram.com/feed/"
-          ;; Physics
-          "https://phys.org/rss-feed/physics-news/"
-          "https://phys.org/rss-feed/breaking/physics-news/")))
+  :custom
+  (elfeed-feeds
+   '(("https://sachachua.com/blog/feed/" emacs)
+     ("https://www.reddit.com/r/emacs/.rss" emacs)
+     ("https://terrytao.wordpress.com/feed/" mathematics)
+     ("https://writings.stephenwolfram.com/feed/" mathematics)
+     ("https://phys.org/rss-feed/physics-news/" physics)
+     ("https://phys.org/rss-feed/breaking/physics-news/" physics))))
 
 (provide 'init-reader)
