@@ -80,6 +80,12 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
+;; Center content + display minimap for current buffer
+(use-package olivetti
+  :hook (elpaca-after-init . olivetti-mode)
+  :bind ("<f7>" . olivetti-mode)
+  :custom (olivetti-body-width 115))
+
 ;; Tree-based undo system
 (use-package undo-tree
   :init (global-undo-tree-mode)

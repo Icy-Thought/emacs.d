@@ -68,7 +68,4 @@
 (add-to-list 'default-frame-alist '(alpha-background . 85))
 (set-frame-parameter (selected-frame) 'alpha-background 85)
 
-;; Add padding to the displayed text
-(fringe-mode 17)
-
 (provide 'early-init)
