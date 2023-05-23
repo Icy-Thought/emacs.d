@@ -82,9 +82,12 @@
 
 ;; Center content + display minimap for current buffer
 (use-package olivetti
-  :hook (elpaca-after-init . olivetti-mode)
   :bind ("<f7>" . olivetti-mode)
-  :custom (olivetti-body-width 115))
+  :hook (elpaca-after-init . olivetti-mode)
+  :custom
+  (olivetti-body-width 0.8)
+  (olivetti-minimum-body-width 115)
+  (olivetti-recall-visual-line-mode-entry-state t))
 
 ;; Tree-based undo system
 (use-package undo-tree

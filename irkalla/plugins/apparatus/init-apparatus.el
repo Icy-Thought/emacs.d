@@ -1,8 +1,9 @@
 ;;; toolset/init-apparatus.el -*- lexical-binding: t -*-
 
 ;; Important modules first!
-(require 'init-hydra)
+(require 'init-general)
 (require 'init-whichkey)
+;; (require 'init-hydra)
 
 ;; Remaining toolset modules!
 (require 'init-consult)

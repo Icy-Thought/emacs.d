@@ -91,11 +91,11 @@
 
           ("\\([:]\\{1\\}\\W?\\(?:NOTE\\|Note\\)*|.*\\)"
            . ((lambda (tag)
-                (svg-tag-make tag :face 'org-code :inverse t :crop-right t :beg 6))))
+                (svg-tag-make tag :face 'org-cite :inverse t :crop-right t :beg 6))))
 
           ("\\([:]\\{1\\}\\W?\\(?:NOTE\\|Note\\)*|\\)"
            . ((lambda (tag)
-                (svg-tag-make tag :face 'org-code :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+                (svg-tag-make tag :face 'org-cite :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
           ;; Org TAGS
           (":TODO:" . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-headline-todo))))

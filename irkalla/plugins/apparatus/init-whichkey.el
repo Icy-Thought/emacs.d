@@ -6,7 +6,7 @@
   :group 'irkalla)
 
 (use-package which-key
-  :hook (emacs-init . which-key-mode)
+  :hook (elpaca-after-init . which-key-mode)
   :custom
   (which-key-separator " → ")
   (which-key-show-early-on-C-h t)
