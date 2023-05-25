@@ -33,15 +33,18 @@
   :elpaca nil
   :general
   (irkalla/space-lead-keydef
-   ;; Expression evaluation
-   "e e" '(eval-expression  :which-key "Eval expression")
-   "e b" '(eval-buffer      :which-key "Eval current Buffer")
+    ;; Buffer-related
+    "b d" '(kill-this-buffer :which-key "Kill this active buffer")
 
-   ;; Window-related
-   "w l" '(evil-window-left :which-key "Select left window"))
+    ;; Expression evaluation
+    "e e" '(eval-expression  :which-key "Eval expression")
+    "e b" '(eval-buffer      :which-key "Eval current Buffer")
+
+    ;; Window-related
+    "w l" '(evil-window-left :which-key "Select left window"))
 
   (irkalla/space-lead-keydef
-   :keymaps '(visual)
-   "e r" '(eval-region :which-key "Eval highlighted region")))
+    :keymaps '(visual)
+    "e r" '(eval-region :which-key "Eval highlighted region")))
 
 (provide 'init-general)

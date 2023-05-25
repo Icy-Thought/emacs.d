@@ -7,10 +7,10 @@
 
 (use-package embark
   :general
-  (general-nmap
-    ("C-."   '(embark-act      :which-key "Prompt user for action -> perform"))
-    ("C-;"   '(embark-dwim     :which-key "Run default action on buffer"))
-    ("C-h B" '(embark-bindings :which-key "Explore all available Emacs bindings")))
+  (irkalla/comma-lead-keydef
+    "e ." '(embark-act      :which-key "Prompt user for action -> perform")
+    "e ;" '(embark-dwim     :which-key "Run default action on buffer")
+    "e b" '(embark-bindings :which-key "Explore all available Emacs bindings"))
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
   (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)

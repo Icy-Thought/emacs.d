@@ -85,7 +85,7 @@
   :hook (elpaca-after-init . olivetti-mode)
   :general (irkalla/comma-lead-keydef "q" '(olivetti-mode :which-key "Distraction free writing!"))
   :custom
-  (olivetti-body-width 0.8)
+  (olivetti-body-width 0.7)
   (olivetti-minimum-body-width 115)
   (olivetti-recall-visual-line-mode-entry-state t))
 

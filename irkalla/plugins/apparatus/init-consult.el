@@ -27,32 +27,33 @@
 
   :general
   (irkalla/space-lead-keydef
-   "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
-   "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
-   "p b"        '(consult-project-buffer :which-key "Switch (+visualize) to project buffer")
-   "p /"        '(consult-git-grep       :which-key "Grep current .git repostiory")
-   "f f"        '(consult-find           :which-key "Find file based on its given name")
+    "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
+    "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
+    "p b"        '(consult-project-buffer :which-key "Switch (+visualize) to project buffer")
+    "p /"        '(consult-git-grep       :which-key "Grep current .git repostiory")
+    "f f"        '(consult-find           :which-key "Find file based on its given name")
+    "f r"        '(consult-recent-file    :which-key "Open file based on last time it was edited")
 
-   ;; LSP-related
-   "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
-   "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
-   "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
-   "l ["        '(consult-flymake        :which-key "Jump to flymake diagnostics")
-   "l ]"        '(consult-compile-error  :which-key "Jump to compile-error in buffer"))
+    ;; LSP-related
+    "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
+    "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
+    "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
+    "l ["        '(consult-flymake        :which-key "Jump to flymake diagnostics")
+    "l ]"        '(consult-compile-error  :which-key "Jump to compile-error in buffer"))
 
   (irkalla/comma-lead-keydef
-   "c b"          '(consult-bookmark            :which-key "Open/Create named bookmark")
-   "c h"          '(consult-history             :which-key "Insert string from history of buffer")
-   "c k"          '(consult-kmacro              :which-key "Run a choosen KBD macro")
-   "c ?"          '(consult-man                 :which-key "String search for MAN-page")
-   "c /"          '(consult-info                :which-key "Full-text search through MANUALS")
-   "c p"          '(consult-yank-pop            :which-key "Paste past yanks at cursor")
-   "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
-   "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
-   "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame")
+    "c b"          '(consult-bookmark            :which-key "Open/Create named bookmark")
+    "c h"          '(consult-history             :which-key "Insert string from history of buffer")
+    "c k"          '(consult-kmacro              :which-key "Run a choosen KBD macro")
+    "c ?"          '(consult-man                 :which-key "String search for MAN-page")
+    "c /"          '(consult-info                :which-key "Full-text search through MANUALS")
+    "c p"          '(consult-yank-pop            :which-key "Paste past yanks at cursor")
+    "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
+    "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
+    "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame")
 
-   ;; Navigation
-   "g l"          '(consult-line                :which-key "Navigate to matching line")
-   "g m"          '(consult-line-multi          :which-key "Navigate to matching code-block")))
+    ;; Navigation
+    "g l"          '(consult-line                :which-key "Navigate to matching line")
+    "g m"          '(consult-line-multi          :which-key "Navigate to matching code-block")))
 
 (provide 'init-consult)

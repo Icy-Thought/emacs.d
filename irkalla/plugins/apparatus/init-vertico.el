@@ -17,11 +17,10 @@
 (use-package vertico-directory
   :elpaca nil
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  :general (general-nmap
-             :keymaps 'vertico-map
-             "RET"   'vertico-directory-enter
-             "DEL"   'vertico-directory-delete-char
-             "M-DEL" 'vertico-directory-delete-word))
+  :general (:keymaps 'vertico-map
+                     "RET"   'vertico-directory-enter
+                     "DEL"   'vertico-directory-delete-char
+                     "M-DEL" 'vertico-directory-delete-word))
 
 (use-package emacs
   :elpaca nil

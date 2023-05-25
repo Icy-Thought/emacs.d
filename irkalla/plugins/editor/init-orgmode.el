@@ -5,9 +5,22 @@
   :tag "Irkalla OrgMode"
   :group 'irkalla)
 
+(defun irkalla/org-electric-dollar nil
+  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+  (interactive)
+  (if (and (looking-at "\\\\)")
+           (looking-back "\\\\("))
+      (progn (delete-char 2)
+             (delete-char -2)
+             (insert "\\[\\]"))
+    (insert "\\(\\)")
+    (backward-char 2)))
+
 (use-package org
   :elpaca nil
   :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
+  :general (:keymaps 'org-mode-map
+                     "$" #'irkalla/org-electric-dollar)
   :config
   (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
     (unless (file-directory-p latex-dir)
@@ -15,21 +28,9 @@
     (setq-default org-preview-latex-image-directory latex-dir))
 
   (setq-default org-latex-preview-options
-                (progn
-                  (plist-put org-format-latex-options :background "Transparent")
-                  (plist-put org-format-latex-options :scale 2.5)
-                  (plist-put org-format-latex-options :zoom 1.15)))
-
-  (defun irkalla/org-electric-dollar nil
-    "Once -> insert \\( inser-here \\) || Twice -> replace previously inserted \\( \\) with $."
-    (interactive)
-    (if (and (looking-at "\\\\)") (looking-back "\\\\("))
-        (progn (delete-char 2)
-               (delete-char -2)
-               (insert "$"))
-      (insert "\\(\\)")
-      (backward-char 2)))
-  (define-key org-mode-map (kbd "$") 'irkalla/org-electric-dollar)
+                (progn (plist-put org-format-latex-options :background "Transparent")
+                       (plist-put org-format-latex-options :scale 2.5)
+                       (plist-put org-format-latex-options :zoom 1.15)))
   :custom
   (org-catch-invisible-edits 'show-and-error)
   (org-cycle-separator-lines 2)
@@ -69,12 +70,12 @@
   :after org
   :general
   (irkalla/comma-lead-keydef
-   :keymaps 'org-mode-map
-   "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam on buffer")
-   "o r n" '(org-roam-node-find      :which-key "Toggle Org-Roam on buffer")
-   "o r g" '(org-roam-graph          :which-key "Toggle Org-Roam on buffer")
-   "o r i" '(org-roam-node-insert    :which-key "Toggle Org-Roam on buffer")
-   "o r c" '(org-roam-capture        :which-key "Toggle Org-Roam on buffer"))
+    :keymaps 'org-mode-map
+    "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam on buffer")
+    "o r n" '(org-roam-node-find      :which-key "Toggle Org-Roam on buffer")
+    "o r g" '(org-roam-graph          :which-key "Toggle Org-Roam on buffer")
+    "o r i" '(org-roam-node-insert    :which-key "Toggle Org-Roam on buffer")
+    "o r c" '(org-roam-capture        :which-key "Toggle Org-Roam on buffer"))
   :custom
   (org-roam-directory (file-truename "~/org/org-roam"))
   (org-roam-completion-everywhere t)

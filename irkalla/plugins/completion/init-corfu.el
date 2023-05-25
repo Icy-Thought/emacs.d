@@ -7,10 +7,11 @@
 
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
-  :general (general-imap
-             :keymaps 'corfu-map
-             "TAB"   'corfu-next
-             "S-TAB" 'corfu-previous)
+  :general (:keymaps 'corfu-map
+                     "TAB"   #'corfu-next
+                     [tab]   #'corfu-next
+                     "S-TAB" #'corfu-previous
+                     [backtab] #'corfu-previous)
   :init (global-corfu-mode)
   :custom
   (corfu-auto t)

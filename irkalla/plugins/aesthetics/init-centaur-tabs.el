@@ -7,10 +7,9 @@
 
 (use-package centaur-tabs
   :hook (elpaca-after-init . centaur-tabs-mode)
-  :general (general-nmap
-             :keymaps 'centaur-tabs-mode-map
-             "C-<prior>" #'centaur-tabs-backward
-             "C-<next>"  #'centaur-tabs-forward)
+  :general (:keymaps 'centaur-tabs-mode-map
+                     "C-<prior>" #'centaur-tabs-backward
+                     "C-<next>"  #'centaur-tabs-forward)
   :init (setq centaur-tabs-enable-key-bindings t)
   :custom
   (centaur-tabs-height 32)
