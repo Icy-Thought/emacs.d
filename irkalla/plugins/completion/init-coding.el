@@ -1,7 +1,9 @@
-;;; langserv/init-langserv.el -*- lexical-binding: t -*-
+;;; completion/init-coding.el -*- lexical-binding: t -*-
 
-;; Require org-babel modules
-(require 'init-babel)
+(defgroup irkalla-coding '()
+  "General programming language conf for Emacs"
+  :tag "Irkalla Coding"
+  :group 'irkalla)
 
 ;; Required before applying changes to eglot...
 (use-package eglot
@@ -71,4 +73,4 @@
 
 (use-package yuck-mode) ;; For our EWW :P
 
-(provide 'init-langserv)
+(provide 'init-coding)

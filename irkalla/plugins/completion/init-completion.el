@@ -3,6 +3,8 @@
 ;; Require custom completion modules
 (require 'init-corfu)
 (require 'init-tempel)
+(require 'init-coding)
+(require 'init-babel)
 
 ;; Emacs-related
 (use-package emacs

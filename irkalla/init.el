@@ -59,6 +59,5 @@
 (require 'init-apparatus)
 (require 'init-completion)
 (require 'init-editor)
-(require 'init-langserv)
 
 (provide 'init)

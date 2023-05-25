@@ -1,4 +1,4 @@
-;;; langserv/init-babel.el -*- lexical-binding: t -*-
+;;; completion/init-babel.el -*- lexical-binding: t -*-
 
 ;; Asynchronous Org-Babel evaluation!
 (use-package ob-async

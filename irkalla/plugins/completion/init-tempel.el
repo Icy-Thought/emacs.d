@@ -13,8 +13,8 @@
   ;; Insert completion at cursor point!
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
-	            (cons #'tempel-complete
-		              completion-at-point-functions))))
+                    (cons #'tempel-complete
+                              completion-at-point-functions))))
 
 ;; FIXME: migrate cdlatex -> tempel
 ;; (use-package cdlatex
