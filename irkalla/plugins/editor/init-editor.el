@@ -63,7 +63,7 @@
 (use-package jinx
   :elpaca nil
   :hook (elpaca-after-init . global-jinx-mode)
-  :bind ([remap ispell-word] . jinx-correct))
+  :general (general-nmap "z =" '(jinx-correct :which-key "Correct the damned misspellings...")))
 
 ;; Fold code like paper
 (use-package ts-fold
@@ -72,9 +72,9 @@
 
 ;; Perspective.el <-
 (use-package perspective
-  :bind ("C-x C-b" . persp-list-buffers)
-  :custom (persp-mode-prefix-key (kbd "C-c M-p"))
-  :init (persp-mode))
+  :init (persp-mode)
+  :general (general-nmap "C-x C-b" '(persp-list-buffers :which-key "C-x C-b, but with perspective-buf filter"))
+  :custom (persp-mode-prefix-key (kbd "C-c M-p")))
 
 ;; Colorize hex color names in buffer
 (use-package rainbow-mode
@@ -82,8 +82,8 @@
 
 ;; Center content + display minimap for current buffer
 (use-package olivetti
-  :bind ("<f7>" . olivetti-mode)
   :hook (elpaca-after-init . olivetti-mode)
+  :general (irkalla/comma-lead-keydef "q" '(olivetti-mode :which-key "Distraction free writing!"))
   :custom
   (olivetti-body-width 0.8)
   (olivetti-minimum-body-width 115)

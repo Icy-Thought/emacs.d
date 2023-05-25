@@ -6,7 +6,6 @@
   :group 'irkalla)
 
 (use-package tempel
-  ;; :bind (("M-*" . tempel-insert))
   :hook ((prog-mode text-mode) . tempel-setup-capf)
   :init
   (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory))

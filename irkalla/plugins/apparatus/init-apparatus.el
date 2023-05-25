@@ -1,9 +1,4 @@
-;;; toolset/init-apparatus.el -*- lexical-binding: t -*-
-
-;; Important modules first!
-(require 'init-general)
-(require 'init-whichkey)
-;; (require 'init-hydra)
+;;; apparatus/init-apparatus.el -*- lexical-binding: t -*-
 
 ;; Remaining toolset modules!
 (require 'init-consult)
@@ -12,6 +7,7 @@
 (require 'init-matrix)
 (require 'init-reader)
 (require 'init-treemacs)
+(require 'init-terminal)
 (require 'init-vertico)
 
 ;; OpenWith: better alternative to Emacs

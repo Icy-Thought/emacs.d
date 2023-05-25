@@ -1,4 +1,4 @@
-;;; toolset/init-magit.el -*- lexical-binding: t -*-
+;;; apparatus/init-magit.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-magit '()
   "Magical git client for Emacs."
@@ -8,7 +8,8 @@
 ;; TODO: expand this later... + add open in new buffer instead of mini-buf.
 (use-package magit
   :if (executable-find "git")
-  :bind (("C-x g" . magit))
+  :general (irkalla/space-lead-keydef
+            "g g" '(magit :which-key "Launch our beloved Magit!"))
   :custom
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))

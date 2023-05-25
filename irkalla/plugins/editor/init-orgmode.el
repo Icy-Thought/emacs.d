@@ -67,11 +67,14 @@
 
 (use-package org-roam
   :after org
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture))
+  :general
+  (irkalla/comma-lead-keydef
+   :keymaps 'org-mode-map
+   "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam on buffer")
+   "o r n" '(org-roam-node-find      :which-key "Toggle Org-Roam on buffer")
+   "o r g" '(org-roam-graph          :which-key "Toggle Org-Roam on buffer")
+   "o r i" '(org-roam-node-insert    :which-key "Toggle Org-Roam on buffer")
+   "o r c" '(org-roam-capture        :which-key "Toggle Org-Roam on buffer"))
   :custom
   (org-roam-directory (file-truename "~/org/org-roam"))
   (org-roam-completion-everywhere t)

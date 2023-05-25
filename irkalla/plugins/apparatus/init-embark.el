@@ -1,4 +1,4 @@
-;;; toolset/init-embark.el -*- lexical-binding: t -*-
+;;; apparatus/init-embark.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-embark '()
   "A unified interface for performing actions on various kinds of objects."
@@ -6,10 +6,11 @@
   :group 'irkalla)
 
 (use-package embark
-  :bind
-  (("C-." . embark-act)
-   ("C-;" . embark-dwim)
-   ("C-h B" . embark-bindings))
+  :general
+  (general-nmap
+    ("C-."   '(embark-act      :which-key "Prompt user for action -> perform"))
+    ("C-;"   '(embark-dwim     :which-key "Run default action on buffer"))
+    ("C-h B" '(embark-bindings :which-key "Explore all available Emacs bindings")))
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
   (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)

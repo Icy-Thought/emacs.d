@@ -5,16 +5,14 @@
 
 ;; Required before applying changes to eglot...
 (use-package eglot
-  :bind (:map eglot-mode-map
-              ("C-c ." . eglot-code-actions)
-              ("C-c e r" . eglot-rename)
-              ("C-c e f" . eglot-format)
-              ("M-?" . xref-find-references)
-              ("M-." . xref-find-definitions)
-              ("C-c x a" . xref-find-apropos)
-              ("C-c f n" . flymake-goto-next-error)
-              ("C-c f p" . flymake-goto-prev-error)
-              ("C-c f d" . flymake-show-project-diagnostics))
+  :general (irkalla/space-lead-keydef
+            :keymaps 'eglot-mode-map
+            "l a"       '(eglot-code-actions    :which-key "Perform code-actions on buffer")
+            "l r"       '(eglot-rename          :which-key "Rename $SYMBOL to a newer name")
+            "l <space>" '(eglot-format          :which-key "Format active buffer")
+            "l ?"       '(xref-find-references  :which-key "Find references of identifier at cursor")
+            "l d"       '(xref-find-definitions :which-key "Find definition of identifier at cursor")
+            "l /"       '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
   :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   :custom
   (eglot-autoshutdown t)
@@ -38,8 +36,9 @@
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
-  :bind (:map markdown-mode-map
-              ("C-c C-e" . markdown-do)))
+  :general (general-imap
+             :keymaps 'markdown-mode-map
+             "m d" '(markdown-do :which-key "Perform a senile action based on context")))
 
 (use-package nix-mode
   :mode ("\\.nix\\'" . nix-mode)

@@ -7,9 +7,10 @@
 
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
-  ;; :bind (:map evil-normal-state-map
-  ;;             ("M-j" . pixel-scroll-up)
-  ;;             ("M-k" . pixel-scroll-down))
+  :general (general-nmap
+             :keymaps 'evil-normal-state-map
+             "M-j" #'pixel-scroll-up
+             "M-k" #'pixel-scroll-down)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
@@ -40,14 +41,17 @@
 ;; Highlight
 (use-package evil-goggles
   :hook (evil-mode . evil-goggles-mode)
-  :config
-  (setq evil-goggles-enable-delete nil
-        evil-goggles-duration 0.100
-        evil-goggles-async-duration 0.900)
+  :custom
+  (evil-goggles-enable-delete nil)
+  (evil-goggles-duration 0.100)
+  (evil-goggles-async-duration 0.900)
   (evil-goggles-use-diff-faces))
 
 (use-package evil-nerd-commenter
   :after evil
-  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+  :general
+  (irkalla/space-lead-key-def
+   ";"   '(evilnc-comment-operator           :which-key "Comment code-block at cursor")
+   "M-;" '(evilnc-comment-or-uncomment-lines :which-key "Comment/uncomment selected line")))
 
 (provide 'init-evil)

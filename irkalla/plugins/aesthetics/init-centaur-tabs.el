@@ -6,10 +6,11 @@
   :group 'irkalla)
 
 (use-package centaur-tabs
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward)
   :hook (elpaca-after-init . centaur-tabs-mode)
+  :general (general-nmap
+             :keymaps 'centaur-tabs-mode-map
+             "C-<prior>" #'centaur-tabs-backward
+             "C-<next>"  #'centaur-tabs-forward)
   :init (setq centaur-tabs-enable-key-bindings t)
   :custom
   (centaur-tabs-height 32)
@@ -23,6 +24,5 @@
   (centaur-tabs-change-fonts (face-attribute 'default :font) 110)
   (centaur-tabs-headline-match)
   :config (setq x-underline-at-descent-line t))
-
 
 (provide 'init-centaur-tabs)

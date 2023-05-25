@@ -1,4 +1,4 @@
-;;; toolset/init-vertico.el -*- lexical-binding: t -*-
+;;; apparatus/init-vertico.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-vertico '()
   "A mini-buffer completion and annotation system."
@@ -16,11 +16,12 @@
 
 (use-package vertico-directory
   :elpaca nil
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :general (general-nmap
+             :keymaps 'vertico-map
+             "RET"   'vertico-directory-enter
+             "DEL"   'vertico-directory-delete-char
+             "M-DEL" 'vertico-directory-delete-word))
 
 (use-package emacs
   :elpaca nil
@@ -39,9 +40,9 @@
 ;; :NOTE| Marks and annotates minibuffer (vertico) completions
 (use-package marginalia
   :hook (elpaca-after-init . marginalia-mode)
-  :bind (("M-A" . marginalia-cycle)
-	 :map minibuffer-local-map
-	 ("M-A" . marginalia-cycle))
+  :general (general-nmap
+             :keymaps 'minibuffer-local-map
+             "M-A"  '(marginalia-cycle :which-key "Cycle between Marginalia annotators"))
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))

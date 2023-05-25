@@ -54,6 +54,7 @@
       (add-to-list 'load-path dir))))
 
 ;; Additional: categorized modules
+(require 'init-essentials)
 (require 'init-aesthetics)
 (require 'init-apparatus)
 (require 'init-completion)

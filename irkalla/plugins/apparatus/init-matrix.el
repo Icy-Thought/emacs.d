@@ -1,4 +1,4 @@
-;;; toolset/init-matrix.el -*- lexical-binding: t -*-
+;;; apparatus/init-matrix.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-ement '()
   "A wonderful matrix client for Emacs!"

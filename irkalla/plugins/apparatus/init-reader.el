@@ -1,4 +1,4 @@
-;;; toolset/init-reader.el -*- lexical-binding: t -*-
+;;; apparatus/init-reader.el -*- lexical-binding: t -*-
 
 (defgroup irkalla-reader '()
   "A combined Emacs module for our very lovely readers!"
@@ -37,9 +37,10 @@
 (use-package nov-xwidget
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :after nov
-  :bind (:map nov-mode-map
-              ("o" . nov-xwidget-view))
-  :hook (nov-mode . nov-xwidget-inject-all-files))
+  :hook (nov-mode . nov-xwidget-inject-all-files)
+  :general (general-nmap
+             :keymaps 'nov-mode-map
+             "o" '(nov-xwidget-view :which-key "View EPUB file in Nov-Mode")))
 
 ;; RSS Feeder for the hungry :P
 (use-package elfeed
