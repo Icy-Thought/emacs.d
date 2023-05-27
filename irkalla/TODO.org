@@ -62,7 +62,6 @@ Example rust block:
 let x = 32;
 let y = 12;
 
-
 println!("{} and {} results in {}", x , y , x*y);
 #+end_src
 

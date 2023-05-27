@@ -19,8 +19,11 @@
 (use-package org
   :elpaca nil
   :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
-  :general (:keymaps 'org-mode-map
-                     "$" #'irkalla/org-electric-dollar)
+  :general (org-mode-map
+            :states '(emacs insert normal)
+            "$" #'irkalla/org-electric-dollar
+            "C-<return>" #'org-ctrl-c-ret
+            "M-<return>" #'org-edit-special)
   :config
   (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
     (unless (file-directory-p latex-dir)

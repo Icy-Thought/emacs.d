@@ -7,9 +7,9 @@
 
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
-  :general (:keymaps 'evil-normal-state-map
-                     "M-j" #'pixel-scroll-up
-                     "M-k" #'pixel-scroll-down)
+  :general (evil-normal-state-map
+            "M-j" #'pixel-scroll-up
+            "M-k" #'pixel-scroll-down)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)

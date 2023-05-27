@@ -1,8 +1,8 @@
 ;;; apparatus/init-matrix.el -*- lexical-binding: t -*-
 
-(defgroup irkalla-ement '()
-  "A wonderful matrix client for Emacs!"
-  :tag "Irkalla Ement"
+(defgroup irkalla-socials '()
+  "Several chat-clients to socialize with our Emacs folks!"
+  :tag "Irkalla Socials"
   :group 'irkalla)
 
 (defun read-secret-file (filename)
@@ -31,4 +31,4 @@
     (evil-set-initial-state 'ement-room-mode 'emacs)
     (evil-set-initial-state 'ement-taxy-mode 'emacs)))
 
-(provide 'init-matrix)
+(provide 'init-socials)

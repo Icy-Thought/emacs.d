@@ -14,14 +14,14 @@
 
   ;; :NOTE| defining several ease-of-use bindings
   (general-create-definer irkalla/space-lead-keydef
-    :states '(normal visual motion emacs insert)
     :keymaps 'override
+    :states '(emacs insert motion normal visual)
     :prefix "SPC"
     :global-prefix "M-SPC")
 
   (general-create-definer irkalla/comma-lead-keydef
-    :states '(normal visual motion emacs insert)
     :keymaps 'override
+    :states '(emacs insert motion normal visual)
     :prefix ","
     :non-normal-prefix "M-,"))
 
@@ -34,17 +34,20 @@
   :general
   (irkalla/space-lead-keydef
     ;; Buffer-related
-    "b d" '(kill-this-buffer :which-key "Kill this active buffer")
+    "b"   '(:ignore t        :which-key "Buffer Management")
+    "b d" '(kill-this-buffer :which-key "Kill active buffer")
 
     ;; Expression evaluation
-    "e e" '(eval-expression  :which-key "Eval expression")
-    "e b" '(eval-buffer      :which-key "Eval current Buffer")
+    "e"   '(:ignore t        :which-key "Evaluation")
+    "e e" '(eval-expression  :which-key "Evaluate input expression")
+    "e b" '(eval-buffer      :which-key "Evaluate buffer")
 
     ;; Window-related
+    "w"   '(:ignore t        :which-key "Window Management")
     "w l" '(evil-window-left :which-key "Select left window"))
 
   (irkalla/space-lead-keydef
-    :keymaps '(visual)
+    :states '(visual)
     "e r" '(eval-region :which-key "Eval highlighted region")))
 
 (provide 'init-general)
