@@ -55,17 +55,16 @@
 
 (use-package rustic
   :mode ("\\.rs$" . rustic-mode)
+  :custom (rustic-lsp-client 'eglot)
   :config
-  (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
+  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
 
   (defun irkalla/locate-cargo-toml (dir)
     "Locate the missing rust project Cargo."
     (if-let ((root (locate-dominating-file dir "Cargo.toml")))
         (list 'vc 'Git root)))
-
-  (add-hook 'rust-mode-hook
-            (lambda ()
-              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+  (add-hook 'rust-mode-hook (lambda ()
+                              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
 
 (use-package typst-mode
   :elpaca (:host github :repo "Ziqi-Yang/typst-mode.el")
