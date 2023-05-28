@@ -13,10 +13,8 @@
   (setq initial-buffer-choice (lambda ()
                                 (get-buffer-create "*dashboard*")))
   :config
-  ;; Disable italics for items => cleaner!
   (set-face-italic 'dashboard-items-face nil)
 
-  ;; Setting our logo title to italic for cursive writing :P
   (set-face-attribute 'dashboard-banner-logo-title nil
                       :weight 'bold
                       :slant 'italic)

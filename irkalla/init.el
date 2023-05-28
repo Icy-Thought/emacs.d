@@ -8,8 +8,8 @@
 
 (setq-default
  user-emacs-config-directory (expand-file-name "emacs" (xdg-config-home))
- user-emacs-data-directory (expand-file-name "emacs" (xdg-data-home))
- user-emacs-cache-directory (expand-file-name "emacs" (xdg-cache-home)))
+ user-emacs-data-directory   (expand-file-name "emacs" (xdg-data-home))
+ user-emacs-cache-directory  (expand-file-name "emacs" (xdg-cache-home)))
 
 ;; Specifying our cache & backup dir
 (let ((backup-dir (expand-file-name "backup" user-emacs-cache-directory))

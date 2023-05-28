@@ -4,10 +4,20 @@
 (require 'init-centaur-tabs)
 (require 'init-dashboard)
 (require 'init-doom-modeline)
-(require 'init-doom-themes)
-;; (require 'init-ef-themes)
 (require 'init-nerd-icons)
 (require 'init-svg-tag)
+
+;; :NOTE| Themes waiting to be used...
+;; (require 'init-doom-themes)
+;; (require 'init-ef-themes)
+
+(defadvice load-theme (before clear-previous-themes activate)
+  "Clear the way for our upcoming theme!"
+  (mapc #'disable-theme custom-enabled-themes))
+
+;; :NOTE| a well-made theming library for the ricer!
+(use-package autothemer
+  :config (load-theme 'rose-pine t))
 
 ;; Decoration: minor settings
 (use-package emacs
@@ -18,18 +28,11 @@
   (window-combination-resize t)
   (x-stretch-cursor t))
 
-(defadvice load-theme (before clear-previous-themes activate)
-  "Clear the way for our upcoming theme!"
-  (mapc #'disable-theme custom-enabled-themes))
-
-;; Theming library
-(use-package autothemer)
-
 ;; Notifications
 (use-package alert
   :custom (alert-default-style 'libnotify))
 
-;; Colorful parantheses
+;; Colorful parentheses
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode)
   :config

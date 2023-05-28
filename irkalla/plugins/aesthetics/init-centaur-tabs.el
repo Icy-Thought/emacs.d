@@ -20,8 +20,13 @@
   (centaur-tabs-set-bar 'right)
   (centaur-tabs-show-count nil)
   (centaur-tabs-left-edge-margin nil)
-  (centaur-tabs-change-fonts (face-attribute 'default :font) 110)
   (centaur-tabs-headline-match)
-  :config (setq x-underline-at-descent-line t))
+  :config
+  (dolist (centaur-face '(centaur-tabs-selected
+                          centaur-tabs-selected-modified
+                          centaur-tabs-unselected
+                          centaur-tabs-unselected-modified))
+    (set-face-attribute centaur-face nil :family irkalla/default-font :height 110))
+  (setq x-underline-at-descent-line t))
 
 (provide 'init-centaur-tabs)
