@@ -6,125 +6,67 @@
   :group 'irkalla)
 
 (use-package hydra
-  :bind (("\\" . 'hydra-master/body))
-  :init
-  (setq hydra-hint-display-type 'posframe)
-  (setq hydra-posframe-show-params
-        `( :internal-border-width 2
-           :internal-border-color "grey"
-           :left-fringe 15
-           :right-fringe 15
-           :poshandler posframe-poshandler-window-center))
-  :config
-  (defhydra hydra-master (:exit t :foreign-keys warn :hint nil)
-    "
-                                /─────────────────────\
-                               <    Master of Hydra    >
-                                \─────────────────────/
-╭────────────────────┐╭────────────────────┐╭────────────────────┐╭────────────────────┐
-│ Category #1        ││ Category #2        ││ Category #3        ││ Category #4        │
-│────────────────────││────────────────────││────────────────────││────────────────────│
-│ [_a_] Bookmarks      ││ [^h^]                ││ [_o_] Organization   ││ [^v^]                │
-│ [_b_] Buffers        ││ [_i_] Internet       ││ [_p_] Project        ││ [_w_] Window         │
-│ [_d_] Development    ││ [_j_] Jump           ││ [_q_] Exit           ││ [_x_] Shell          │
-│ [_e_] Eglot (LSP)    ││ [_k_] Spell          ││ [_r_] Register       ││ [^y^]                │
-│ [_E_] Emacs          ││ [_l_] Lisp           ││ [_s_] Search         ││ [^z^]                │
-│ [_f_] File           ││ [_m_] Media          ││ [_t_] Text           ││                    │
-│ [_g_] Git            ││ [_n_] Narrow         ││ [^u^]                ││                    │
-└────────────────────╯└────────────────────╯└────────────────────╯└────────────────────╯
-        ╭─────────────────────────┐╭───────────────────┐╭──────────────────────┐
-        │ [_<SPC>_]: Alt. Buffers   ││ [_\\_]: Insert '\\'   ││ [_<ESC>_]: Exit Hydra! │
-        └─────────────────────────╯└───────────────────╯└──────────────────────╯
+  :hook (emacs-lisp-mode . hydra-add-imenu))
 
-"
-    ("<SPC>" alternate-buffers)
-    ("<ESC>" nil)
-    ("\\"    (insert "\\"))
-    ("a"     hydra-bookmarks/body)
-    ("b"     hydra-buffers/body)
-    ("e"     hydra-eglot/body)
-    ("d"     hydra-development/body)
-    ("E"     hydra-emacs/body)
-    ("f"     hydra-file/body)
-    ("g"     hydra-git/body)
-    ("i"     hydra-internet/body)
-    ("j"     hydra-jump/body)
-    ("k"     hydra-spell/body)
-    ("l"     hydra-lisp/body)
-    ("m"     hydra-media/body)
-    ("n"     hydra-narrow/body)
-    ("o"     hydra-organization/body)
-    ("p"     hydra-project/body)
-    ("q"     hydra-exit/body)
-    ("r"     hydra-register/body)
-    ("s"     hydra-search/body)
-    ("t"     hydra-text/body)
-    ("w"     ace-window)
-    ("x"     hydra-system/body))
+(use-package hydra-posframe
+  :after hydra
+  :hook (after-init . hydra-posframe-enable)
+  :custom
+  (hydra-hint-display-type 'posframe)
+  (hydra-posframe-show-params '((internal-border-width . 2)
+                                (left-fringe . 15)
+                                (right-fringe . 15)
+                                (poshandler . posframe-poshandler-window-center))))
 
-  (defhydra hydra-project (:exit t :foreign-keys warn :hint nil)
-    "
-                                        /───────────────────────\
-                                       <    Master of Projects   >
-                                        \───────────────────────/
-┌────────────────────┐┌─────────────┐┌────────────────────┐┌──────────────────────┐┌────────────────────┐
-│ Find               ││ Buffers     ││ Actions            ││ Modes                ││ Search             │
-│────────────────────││─────────────││────────────────────││──────────────────────││────────────────────│
-│ [_f_]: File          ││ [_b_]: Buffer ││ [_R_]: Replace       ││ [_g_]: Version Control ││ [_\/_]: Find Regexp   │
-│ [_F_]: File (or Ext) ││ [_K_]: Kill   ││ [_m_]: Compile       ││ [_h_]: Dired           ││ [_s_]: Multi-Occur   │
-│ [_r_]: Recent File   ││             ││                    ││ [_t_]: Term            ││ [_p_]: Switch Proj   │
-└────────────────────┘└─────────────┘└────────────────────┘└──────────────────────┘└────────────────────┘
-                                                                                   ╭───────────────────┐
-                                                                                   │ [_q_]: Exit Hydra!  │
-                                                                                   └───────────────────╯
+(use-package major-mode-hydra
+  :after hydra
+  :bind ("M-RET" . major-mode-hydra))
 
-"
-    ("f" project-find-file)
-    ("F" project-or-external-find-file)
-    ("r" projectile-recentf)
-    ("b" project-switch-to-buffer)
-    ("K" project-kill-buffers)
-    ("R" project-query-replace-regexp)
-    ("m" project-compile)
-    ("c" project-async-shell-command)
-    ("C" project-shell-command)
-    ("g" project-vc-dir)
-    ("h" project-dired)
-    ("t" projectile-run-vterm)
-    ("\/" project-find-regexp)
-    ("A" project-or-external-find-regexp)
-    ("s" project-multi-occur)
-    ("p" projectile-switch-project)
-    ("q" nil)))
+(use-package project
+  :elpaca nil
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Project Management" 'mdicon "nf-seti-project")
+           :color teal :quit-key ("q" "c-g")))
+  ("Finder"
+   (("f" project-find-file "navigate file in project" :exit t)
+    ("f" project-or-external-find-file "navigate file in project or external root" :exit t)
+    ("r" projectile-recent "Navigate to recent file in project" :exit t))
+   "Buffers"
+   (("b" project-switch-to-buffer "Switch to buffer in project" :exit t)
+    ("K" project-kill-buffers "Kill opened buffers in project" :exit t))
+   "Actions"
+   (("R" project-query-replace-regexp "Query-replace REGEXP for all files in project" :exit t)
+    ("m" project-compile "Compile project" :exit t))
+   "Modes"
+   (("g" project-vc-dir "Run VC-DIR in project" :exit t)
+    ("h" project-dired "Start Dired in project" :exit t)
+    ("t" projectile-run-vterm "Run VTerm in project" :exit t))
+   "Search"
+   (("/" project-find-regexp "Find all matches for REGEXP in project" :exit t)
+    ("s" project-or-external-find-regexp "Find all matches for REGEXP in project OR outside" :exit t)
+    ("p" projectile-switch-project "Switch to known project" :exit t)))
+  :bind ("M-RET p" . project-hydra/body))
 
-(with-eval-after-load 'eglot
-  (defhydra hydra-eglot (:exit t :foreign-keys warn :hint nil)
-    "
-                               /─────────────────────\
-                              <   Hydra Head: Eglot   >
-                               \─────────────────────/
-╭────────────────────────┐╭─────────────────┐╭───────────────┐╭─────────────────────┐
-│ Find                   ││ Edit            ││ Format        ││ Manage              │
-│────────────────────────││─────────────────││───────────────││─────────────────────│
-│ [_d_]: Declaration       ││ [_r_]: Rename     ││ [_=_]: Buffer   ││ [_X_]: Shutdown       │
-│ [_i_]: Implementation    ││ [_a_]: Actions    ││ [_]_]: Region   ││ [_R_]: Reconnect      │
-│ [_D_]: Type definition   ││                 ││               ││ [_E_]: Event Buffer   │
-└────────────────────────╯└─────────────────╯└───────────────╯└─────────────────────╯
-                                                               ╭───────────────────┐
-                                                               │ [_q_]: Exit Hydra!  │
-                                                               └───────────────────╯
 
-    "
-    ("a" eglot-code-actions)
-    ("R" eglot-reconnect)
-    ("d" eglot-find-declaration)
-    ("D" eglot-find-typeDefinition)
-    ("E" eglot-events-buffer)
-    ("i" eglot-find-implementation)
-    ("r" eglot-rename)
-    ("X" eglot-shutdown)
-    ("q" nil)
-    ("]" eglot-format)
-    ("=" eglot-format-buffer)))
+(use-package eglot
+  :elpaca nil
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Eglot (LSP)" 'mdicon "nf-md-code_braces_box")
+           :color teal :quit-key ("q" "c-g")))
+  ("Find"
+   (("d"  eglot-find-declaration "Find declaration for SYM" :exit t)
+    ("i"  eglot-find-implementation "Find implementation for SYM" :exit t)
+    ("D"  eglot-find-typeDefinition "Find type-def for SYM" :exit t))
+   "Edit"
+   (("r" eglot-rename "Rename symbol -> NEWNAME" :exit t)
+    ("a" eglot-code-actions "Display code actions of region" :exit t))
+   "Format"
+   (("=" eglot-format-buffer "Format active buffer" :exit t)
+    ("]" eglot-format "Format highlighted region" :exit t))
+   "Management"
+   (("X" eglot-shutdown "Shutdown Eglot server" :exit t)
+    ("R" eglot-reconnect "Re-connect Eglot server" :exit t)
+    ("E" eglot-events-buffer "Display server events buffer" :exit t)))
+  :bind ("M-RET l" . eglot-hydra/body))
 
 (provide 'init-hydra)
