@@ -31,15 +31,15 @@
 (use-package haskell-mode
   :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
-  :init (setq eglot-workspace-configuration
-              '((haskell (formattingProvider "stylish-haskell")))))
+  :init (setq-local eglot-workspace-configuration
+                    '((haskell (formattingProvider "stylish-haskell")))))
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown")
   :general (irkalla/comma-lead-keydef
              :keymaps 'markdown-mode-map
-             "m d" '(markdown-do :which-key "Perform a senile action based on context")))
+             "m d" '(markdown-do :which-key "Perform a senile action based on context"))
+  :init (setq markdown-command "multimarkdown"))
 
 (use-package nix-mode
   :mode ("\\.nix\\'" . nix-mode)
