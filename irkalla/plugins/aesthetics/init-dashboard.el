@@ -7,17 +7,13 @@
 
 (use-package dashboard
   :after nerd-icons
+  :hook (dashboard-mode
+         . (lambda () (setq-local frame-title-format nil))) ;; remove default title
   :init
   ;; Launch dashboard on start!
   (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda ()
-                                (get-buffer-create "*dashboard*")))
-  :config
-  (set-face-italic 'dashboard-items-face nil)
-
-  (set-face-attribute 'dashboard-banner-logo-title nil
-                      :weight 'bold
-                      :slant 'italic)
+  (setq initial-buffer-choice
+        (lambda () (get-buffer-create "*dashboard*")))
   :custom
   ;; UI Customizations:
   (dashboard-display-icons-p t)

@@ -16,11 +16,11 @@
 
 (use-package vertico-directory
   :elpaca nil
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :general (vertico-map
             "RET"   'vertico-directory-enter
             "DEL"   'vertico-directory-delete-char
-            "M-DEL" 'vertico-directory-delete-word))
+            "M-DEL" 'vertico-directory-delete-word)
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package emacs
   :elpaca nil
@@ -38,10 +38,10 @@
 
 ;; :NOTE| Marks and annotates minibuffer (vertico) completions
 (use-package marginalia
-  :hook (elpaca-after-init . marginalia-mode)
   :general (general-nmap
              :keymaps 'minibuffer-local-map
              "M-A"  '(marginalia-cycle :which-key "Cycle between Marginalia annotators"))
+  :hook (elpaca-after-init . marginalia-mode)
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))

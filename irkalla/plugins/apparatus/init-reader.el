@@ -37,9 +37,9 @@
 (use-package nov-xwidget
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :after nov
-  :hook (nov-mode . nov-xwidget-inject-all-files)
   :general (nov-mode-map
-            "o" '(nov-xwidget-view :which-key "View EPUB file in Nov-Mode")))
+            "o" '(nov-xwidget-view :which-key "View EPUB file in Nov-Mode"))
+  :hook (nov-mode . nov-xwidget-inject-all-files))
 
 ;; RSS Feeder for the hungry :P
 (use-package elfeed
