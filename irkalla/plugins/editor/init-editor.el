@@ -5,6 +5,7 @@
 ;; (require 'init-meow)
 ;; (require 'init-indent) ;; :FIXME| broken..
 (require 'init-orgmode)
+(require 'init-bib)
 
 ;; Indentation: 2 -> 4 + tabs -> spaces
 (use-package emacs

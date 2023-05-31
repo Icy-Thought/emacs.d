@@ -104,11 +104,12 @@
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start nil))
 
-
+;; :NOTE| Automatically render our LaTeX previews
 (use-package org-fragtog
   :after org
   :hook (org-mode . org-fragtog-mode))
 
+;; :NOTE| Auto-generate TOC (=:TOC:=) for our buffers
 (use-package toc-org
   :after org
   :hook (org-mode . toc-org-enable)

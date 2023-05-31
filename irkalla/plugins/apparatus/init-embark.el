@@ -31,7 +31,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :demand :after (embark consult)
+  :after (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 (provide 'init-embark)
