@@ -83,7 +83,7 @@
                 (">=>" . ?↣)))
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
-;; Posframe
+;; :NOTE| Mini-buffer display -> completion-menu
 (use-package posframe
   :defer t
   :custom (posframe-mouse-banish '(0 . 5000)))

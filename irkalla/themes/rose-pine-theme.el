@@ -303,13 +303,13 @@
 
   ;; :NOTE| Helpful mini-buffer completion
   (vertico-multiline                                 (:background base))
-  (vertico-group-title                               (:foreground subtle :weight 'semi-bold :height 180))
+  (vertico-group-title                               (:foreground subtle :weight 'medium :height 140))
   (vertico-group-separator                           (:foreground muted :strike-through t))
   (vertico-current                                   (:background overlay :distant-foreground text :bold t :foreground surface))
-
   (vertico-posframe-border                           (:background muted))
   (vertico-posframe                                  (:background base :foreground muted))
 
+  ;; :NOTE| Corfu, da completion-menu!
   (corfu-annotations                                 (:foreground muted))
   (corfu-current                                     (:inherit 'vertico-current))
   (corfu-border                                      (:background overlay))
@@ -317,7 +317,7 @@
   (corfu-default                                     (:background base :foreground text))
   (corfu-popupinfo                                   (:background overlay :foreground text :weight 'light :italic t))
 
-  ;; Postframe-related
+  ;; Posframe-related
   (ivy-posframe                                      (:background muted))
   (ivy-posframe-border                               (:inherit 'ivy-posframe))
 

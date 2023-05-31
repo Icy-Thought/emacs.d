@@ -6,10 +6,10 @@
   :group 'irkalla)
 
 (use-package evil
-  :hook (elpaca-after-init . evil-mode)
   :general (evil-normal-state-map
             "M-j" #'pixel-scroll-up
             "M-k" #'pixel-scroll-down)
+  :hook (elpaca-after-init . evil-mode)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)

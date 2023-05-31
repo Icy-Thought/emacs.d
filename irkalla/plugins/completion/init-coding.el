@@ -11,7 +11,7 @@
              :keymaps 'eglot-mode-map
              "l a"       '(eglot-code-actions    :which-key "Perform code-actions on buffer")
              "l r"       '(eglot-rename          :which-key "Rename $SYMBOL to a newer name")
-             "l <space>" '(eglot-format          :which-key "Format active buffer")
+             "l f"       '(eglot-format          :which-key "Format active buffer")
              "l ?"       '(xref-find-references  :which-key "Find references of identifier at cursor")
              "l d"       '(xref-find-definitions :which-key "Find definition of identifier at cursor")
              "l /"       '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
@@ -31,9 +31,8 @@
 (use-package haskell-mode
   :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
-  :config
-  (setq-default eglot-workspace-configuration
-                '((haskell (plugin (stan (globalOn . :json-false)))))))  ;; disable stan
+  :init (setq eglot-workspace-configuration
+              '((haskell (formattingProvider "stylish-haskell")))))
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
@@ -57,8 +56,6 @@
   :mode ("\\.rs$" . rustic-mode)
   :custom (rustic-lsp-client 'eglot)
   :config
-  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
-
   (defun irkalla/locate-cargo-toml (dir)
     "Locate the missing rust project Cargo."
     (if-let ((root (locate-dominating-file dir "Cargo.toml")))
