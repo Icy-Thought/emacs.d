@@ -67,6 +67,7 @@
   :elpaca (:host github :repo "Ziqi-Yang/typst-mode.el")
   :mode ("\\.typ\\'" . typst-mode))
 
-(use-package yuck-mode) ;; For our EWW :P
+;; To customize our Elkowar Widgets
+(use-package yuck-mode)
 
 (provide 'init-coding)

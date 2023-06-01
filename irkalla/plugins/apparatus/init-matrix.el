@@ -12,33 +12,10 @@
     (string-trim-right (buffer-string))))
 
 (use-package ement
-  :general
-  ;; Make sure that Evil does not interfere with built-in bindings:
-  (:keymaps 'ement-room-mode-map
-            :states '(normal motion)
-            "C-s" 'ement-room-occur
-            "gr" 'ement-room-sync
-            "gu" 'ement-room-goto-fully-read-marker
-            "<tab>" 'ement-room-goto-next
-            "<backtab>" 'ement-room-goto-prev
-            "q" 'quit-window
-            "?" 'ement-room-transient)
-  (:keymaps 'ement-room-mode-map
-            :states '(normal)
-            "u" (general-key "u" :state 'emacs)
-            "s" (general-key "s" :state 'emacs)
-            "r" (general-key "r" :state 'emacs)
-            "R" (general-key "R" :state 'emacs)
-            "d" 'ement-room-delete-message)
-  (:keymaps 'ement-room-image-keymap
-            :states '(normal motion)
-            "<mouse-3>" 'ement-room-image-show)
-  (:keymaps '(ement-room-list-mode-map ement-room-mode-map ement-directory-mode-map)
-            :states '(normal motion)
-            "RET" (general-key "RET" :state 'emacs))
   :custom
   (ement-room-images t)
-  ;; (ement-room-list-side-window) ;; :TODO| launch side-view + limited margin to names category when in a buffer otherwise do not launch...
+  ;; :TODO| launch side-view + limited margin to names category when in a buffer otherwise do not launch...
+  ;; (ement-room-list-side-window)
   (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
                                           ement-notify--event-mentions-room-p))
   :config

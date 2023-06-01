@@ -3,17 +3,24 @@
 ;; Require custom editor modules:
 (require 'init-evil)
 ;; (require 'init-meow)
-;; (require 'init-indent) ;; :FIXME| broken..
+;; (require 'init-indent) ;; :FIX| broken..
 (require 'init-orgmode)
 (require 'init-bib)
 
-;; Indentation: 2 -> 4 + tabs -> spaces
+;; :NOTE| Built-in configurations
 (use-package emacs
   :elpaca nil
-  :init
-  ;; WARN: Smooth scrolling (Emacs >= 29)
+  :config
+  ;; :WARN| Smooth scrolling (Emacs >= 29)
   (when (boundp 'pixel-scroll-precision-mode)
     (pixel-scroll-precision-mode 1))
+
+  ;; :TODO| Auto-break longer lines
+  (dolist (mode '(org-mode markdown-mode text-mode))
+    (add-hook (intern (concat (symbol-name mode) "-hook"))
+              (lambda ()
+                (visual-line-mode 1)
+                (auto-fill-mode 1))))
   :custom
   (electric-indent-inhibit t)
   (indent-tabs-mode nil)
@@ -24,7 +31,7 @@
   (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
   (word-wrap nil))
 
-;; Built-in configurations
+;; Manage our Emacs history properly
 (use-package savehist
   :elpaca nil
   :init (savehist-mode 1)
@@ -35,6 +42,7 @@
   (savehist-save-minibuffer-history t)
   (savehist-file (expand-file-name "savehist" user-emacs-cache-directory)))
 
+;; Navigate to last known location of buffer
 (use-package saveplace
   :elpaca nil
   :init (save-place-mode t)
@@ -42,7 +50,7 @@
   (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
   (save-place-forget-unreadable-files t))
 
-;;; External Packages
+;;; :NOTE| External Packages
 
 ;; Auto-format code!
 (use-package format-all

@@ -8,18 +8,17 @@
 ;; PDF-Tools: Darker + Width
 (use-package pdf-tools
   :elpaca nil
-  :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
+  :magic ("%PDF" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-themed-minor-mode)
   :custom
-  (pdf-loader-install)
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
   (pdf-view-display-size 'fit-width)
   :config
-  ;; :HACK: a temporary fix for blinking PDF caused by Evil-Mode!
+  (pdf-loader-install)
+  ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
   (add-hook 'pdf-view-mode-hook
-            (lambda ()
-              (setq-local evil-normal-state-cursor (list nil)))))
+            (lambda () (setq-local evil-normal-state-cursor (list nil)))))
 
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode)

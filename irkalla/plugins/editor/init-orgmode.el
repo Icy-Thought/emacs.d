@@ -19,17 +19,22 @@
 (use-package org
   :elpaca nil
   :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
-  :general (org-mode-map
+  :general
+  (:keymaps 'org-mode-map
             :states '(emacs insert normal)
-            "$" #'irkalla/org-electric-dollar
             "C-<return>" #'org-ctrl-c-ret
             "M-<return>" #'org-edit-special)
+  (:keymaps 'org-mode-map
+            :state 'insert
+            "$" #'irkalla/org-electric-dollar)
   :config
+  ;; :NOTE| Move our LaTeX previews to cache dir
   (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
     (unless (file-directory-p latex-dir)
       (mkdir latex-dir t))
     (setq-default org-preview-latex-image-directory latex-dir))
 
+  ;; :NOTE| Change the aesthetics of our LaTeX previews
   (setq-default org-latex-preview-options
                 (progn (plist-put org-format-latex-options :background "Transparent")
                        (plist-put org-format-latex-options :scale 2.5)

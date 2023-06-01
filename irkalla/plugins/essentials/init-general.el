@@ -40,11 +40,7 @@
     ;; Expression evaluation
     "e"   '(:ignore t        :which-key "Evaluation")
     "e e" '(eval-expression  :which-key "Evaluate input expression")
-    "e b" '(eval-buffer      :which-key "Evaluate buffer")
-
-    ;; Window-related
-    "w"   '(:ignore t        :which-key "Window Management")
-    "w l" '(evil-window-left :which-key "Select left window"))
+    "e b" '(eval-buffer      :which-key "Evaluate buffer"))
 
   (irkalla/space-lead-keydef
     :states '(visual)

@@ -15,6 +15,7 @@
   :custom
   (auto-save-interval 50)
   (confirm-nonexistent-file-or-buffer nil)
+  (fill-column 120)
   (echo-keystrokes 0.02)
   (enable-local-variables t)
   (enable-recursive-minibuffers t)

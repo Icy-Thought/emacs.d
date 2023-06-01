@@ -41,7 +41,7 @@
           ;; Org tags :THIS:
           ;; ("\\(:[A-Za-z0-9]+:\\)"
           ;;  . ((lambda (tag)
-          ;;      (svg-tag-make tag :beg 1 :end -1 :inverse t))))
+          ;;       (svg-tag-make tag :beg 1 :end -1 :inverse t))))
 
           ;; Task priority [#a]
           ("\\[#[a-zA-Z]\\]"
@@ -61,9 +61,8 @@
           ;; Specific tags -> allow spaces
           ;; :TODO| Reduce to a more general solution
           ;; :FIX| There is more regexp
-          ;; :FIXME| This needs to be fixed
-          ;; :HACK|Insert text here
-          ;; :HACK|Fix this regexp
+          ;; :HACK| Fix this regexp
+          ;; :WARN| This needs to be fixed
 
           ("\\([:]\\{1\\}\\W?\\(?:TODO\\|Todo\\)|.*\\)"
            . ((lambda (tag)
@@ -73,7 +72,7 @@
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-code :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-          ("\\([:]\\{1\\}\\W?\\(?:FIXME\\|Fixme\\)|.*\\)"
+          ("\\([:]\\{1\\}\\W?\\(?:WARN\\|Warn\\)|.*\\)"
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 7))))
 
@@ -85,7 +84,7 @@
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
 
-          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|Hack\\|PERF\\|FIXME\\|Fixme\\|FIX\\|Fix\\|MARK\\)*|\\)"
+          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|Hack\\|PERF\\|WARN\\|Warn\\|FIX\\|Fix\\|MARK\\)*|\\)"
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
@@ -112,8 +111,7 @@
 
           ;; Citation of the form [cite:@Knuth:1984]
           ("\\(\\[cite:@[A-Za-z]+:\\)"
-           . ((lambda (tag)
-                (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
+           . ((lambda (tag) (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
 
           ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)"
            . ((lambda (tag)
