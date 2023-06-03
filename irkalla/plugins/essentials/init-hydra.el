@@ -22,6 +22,8 @@
   :after hydra
   :bind ("M-RET" . major-mode-hydra))
 
+(elpaca-wait)
+
 (use-package project
   :elpaca nil
   :pretty-hydra

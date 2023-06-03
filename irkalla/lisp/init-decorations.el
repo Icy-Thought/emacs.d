@@ -5,8 +5,8 @@
   "Toggle the frame transparency of on demand!"
   (interactive)
   (let ((alpha-value
-         (if (equal (frame-parameter nil 'alpha-background) 100) 85
-           100)))
+         (if (equal (frame-parameter nil 'alpha-background) 100)
+             85 100)))
     (set-frame-parameter nil 'alpha-background alpha-value)
     (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
 
