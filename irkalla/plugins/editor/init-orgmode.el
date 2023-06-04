@@ -79,11 +79,12 @@
   :general
   (irkalla/comma-lead-keydef
     :keymaps 'org-mode-map
-    "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam on buffer")
-    "o r n" '(org-roam-node-find      :which-key "Toggle Org-Roam on buffer")
-    "o r g" '(org-roam-graph          :which-key "Toggle Org-Roam on buffer")
-    "o r i" '(org-roam-node-insert    :which-key "Toggle Org-Roam on buffer")
-    "o r c" '(org-roam-capture        :which-key "Toggle Org-Roam on buffer"))
+    "o"     '(:ignore t               :which-key "Org-Roam")
+    "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam in active buffer")
+    "o r n" '(org-roam-node-find      :which-key "Find & open node by title or alias")
+    "o r g" '(org-roam-graph          :which-key "Build & display node of graph")
+    "o r i" '(org-roam-node-insert    :which-key "Find node -> insert `:id` org-link")
+    "o r c" '(org-roam-capture        :which-key "Launch org-capture for existing node"))
   :custom
   (org-roam-directory (file-truename "~/org/org-roam"))
   (org-roam-completion-everywhere t)

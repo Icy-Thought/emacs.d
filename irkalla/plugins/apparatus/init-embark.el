@@ -13,6 +13,7 @@
 (use-package embark
   :general
   (irkalla/comma-lead-keydef
+    "e"   '(:ignore t       :which-key "Embark")
     "e a" '(embark-act      :which-key "Prompt user for action -> perform")
     "e d" '(embark-dwim     :which-key "Run default action on buffer")
     "e h" '(embark-bindings :which-key "Explore all available Emacs bindings"))

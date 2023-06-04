@@ -7,14 +7,15 @@
 
 (use-package treemacs
   :general (irkalla/comma-lead-keydef
-            :keymaps 'global-map
-            "y <return>" '(treemacs                      :which-key "(toggle) Tree-based file-viewer")
-            "y <tab>"    '(treemacs-select-window        :which-key "Switch focus to Treemacs if existent")
-            "y b"        '(treemacs-bookmark             :which-key "Bookmark file at cursor")
-            "y d"        '(treemacs-delete-other-windows :which-key "Delete other Treemacs window")
-            "y f"        '(treemacs-find-file            :which-key "Navigate to file in Treemacs")
-            "y t"        '(treemacs-find-tag             :which-key "Navigate to tag in Treemacs")
-            "y s"        '(treemacs-select-directory     :which-key "Select directory at cursor"))
+             :keymaps 'global-map
+             "f"          '(:ignore t                     :which-key "Treemacs")
+             "f b"        '(treemacs-bookmark             :which-key "Bookmark file at cursor")
+             "f d"        '(treemacs-delete-other-windows :which-key "Delete other Treemacs window")
+             "f f"        '(treemacs-find-file            :which-key "Navigate to file in Treemacs")
+             "f t"        '(treemacs-find-tag             :which-key "Navigate to tag in Treemacs")
+             "f s"        '(treemacs-select-directory     :which-key "Select directory at cursor")
+             "f <return>" '(treemacs                      :which-key "(toggle) Tree-based navigation")
+             "f <tab>"    '(treemacs-select-window        :which-key "Switch focus to Treemacs if existent"))
   :init (with-eval-after-load 'winum
           (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
 

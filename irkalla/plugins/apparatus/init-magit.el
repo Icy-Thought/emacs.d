@@ -9,7 +9,8 @@
 (use-package magit
   :if (executable-find "git")
   :general (irkalla/space-lead-keydef
-            "g g" '(magit :which-key "Launch our beloved Magit!"))
+             "g"   '(:ignore t :which-key "Magit")
+             "g g" '(magit :which-key "Launch our beloved Magit!"))
   :custom
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))

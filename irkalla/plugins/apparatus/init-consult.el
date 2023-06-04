@@ -20,7 +20,7 @@
     "f r"        '(consult-recent-file    :which-key "Open file based on last time it was edited")
 
     ;; LSP-related
-    "f"          '(:ignore t              :which-key "LSP")
+    "l"          '(:ignore t              :which-key "LSP & Editing")
     "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
     "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
     "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
@@ -37,11 +37,8 @@
     "c p"          '(consult-yank-pop            :which-key "Paste past yanks at cursor")
     "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
     "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
-    "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame")
+    "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame"))
 
-    ;; Navigation
-    "g l"          '(consult-line                :which-key "Navigate to matching line")
-    "g m"          '(consult-line-multi          :which-key "Navigate to matching code-block"))
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :init
   (setq register-preview-delay 0.5

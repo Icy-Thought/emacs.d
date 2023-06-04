@@ -42,7 +42,6 @@
 
 ;; Essentials: structured Emacs modules
 (require 'init-elpaca)
-(require 'init-nixpkgs)
 (require 'init-management)
 (require 'init-decorations)
 (require 'init-options)

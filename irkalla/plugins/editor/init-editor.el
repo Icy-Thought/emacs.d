@@ -92,7 +92,8 @@
 ;; Center content + display minimap for current buffer
 (use-package olivetti
   :hook (elpaca-after-init . olivetti-mode)
-  :general (irkalla/comma-lead-keydef "q" '(olivetti-mode :which-key "Distraction free writing!"))
+  :general (irkalla/comma-lead-keydef
+             "q" '(olivetti-mode :which-key "Distraction free writing!"))
   :custom
   (olivetti-body-width 0.7)
   (olivetti-minimum-body-width 115)
