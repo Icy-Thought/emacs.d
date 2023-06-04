@@ -7,18 +7,24 @@
 
 ;; PDF-Tools: Darker + Width
 (use-package pdf-tools
-  :elpaca nil
-  :magic ("%PDF" . pdf-view-mode)
-  :hook (pdf-view-mode . pdf-view-themed-minor-mode)
+  :elpaca nil ; :WARN| package <- fetch from Nixpkgs
   :custom
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
   (pdf-view-display-size 'fit-width)
   :config
-  (pdf-loader-install)
   ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
   (add-hook 'pdf-view-mode-hook
             (lambda () (setq-local evil-normal-state-cursor (list nil)))))
+
+(use-package pdf-loader
+  :elpaca nil
+  :custom (pdf-loader-install t))
+
+(use-package pdf-view
+  :elpaca nil
+  :magic ("%PDF" . pdf-view-mode)
+  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
 
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode)
@@ -42,6 +48,7 @@
 
 ;; RSS Feeder for the hungry :P
 (use-package elfeed
+  :disabled t
   :custom
   (elfeed-feeds
    '(("https://sachachua.com/blog/feed/" emacs)

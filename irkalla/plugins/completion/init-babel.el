@@ -1,16 +1,16 @@
 ;;; completion/init-babel.el -*- lexical-binding: t -*-
 
+(defgroup irkalla-babel '()
+  "Configurations for our org-babel servers"
+  :tag "Irkalla Babel"
+  :group 'irkalla)
+
 ;; Asynchronous Org-Babel evaluation!
 (use-package ob-async
   :after org)
 
-;; External Org-Babel packages
 ;; (use-package ob-mermaid
 ;;   :after org)
-
-(use-package rustic-babel
-  :elpaca nil
-  :after (rustic org))
 
 ;; Calling org-babel language on demand
 (defadvice org-babel-execute-src-block (around load-language nil activate)
