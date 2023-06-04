@@ -60,6 +60,7 @@
 
           ;; Specific tags -> allow spaces
           ;; :TODO| Reduce to a more general solution
+          ;; :NOTE| Reduce to a more general solution
           ;; :FIX| There is more regexp
           ;; :HACK| Fix this regexp
           ;; :WARN| This needs to be fixed
