@@ -52,6 +52,10 @@
 
 ;;; :NOTE| External Packages
 
+(use-package editorconfig
+  :defer 1
+  :custom (editorconfig-mode 1))
+
 ;; Auto-format code!
 (use-package format-all
   :config
@@ -65,6 +69,7 @@
 
 ;; Code linting
 (use-package flycheck
+  :defer t
   :hook (prog-mode . global-flycheck-mode)
   :custom (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
@@ -73,6 +78,16 @@
   :elpaca nil
   :hook (elpaca-after-init . global-jinx-mode)
   :general (general-nmap "z =" '(jinx-correct :which-key "Correct the damned misspellings...")))
+
+;; Center content + display minimap for current buffer
+(use-package olivetti
+  :hook (elpaca-after-init . olivetti-mode)
+  :general (irkalla/comma-lead-keydef
+             "q" '(olivetti-mode :which-key "Distraction free writing!"))
+  :custom
+  (olivetti-body-width 0.7)
+  (olivetti-minimum-body-width 115)
+  (olivetti-recall-visual-line-mode-entry-state t))
 
 ;; Fold code like paper
 (use-package ts-fold
@@ -87,17 +102,8 @@
 
 ;; Colorize hex color names in buffer
 (use-package rainbow-mode
+  :defer 1
   :hook (prog-mode . rainbow-mode))
-
-;; Center content + display minimap for current buffer
-(use-package olivetti
-  :hook (elpaca-after-init . olivetti-mode)
-  :general (irkalla/comma-lead-keydef
-             "q" '(olivetti-mode :which-key "Distraction free writing!"))
-  :custom
-  (olivetti-body-width 0.7)
-  (olivetti-minimum-body-width 115)
-  (olivetti-recall-visual-line-mode-entry-state t))
 
 ;; Tree-based undo system
 (use-package undo-tree

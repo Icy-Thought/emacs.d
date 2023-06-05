@@ -35,27 +35,24 @@
   
 * :TODO: Actions
 - [ ] LaTeX Setup (CDLaTeX + texlab-like compiling from nvim (tectonic???))
-- [ ] (ORG-MODE) Rust babel
+- [ ] (ORG-MODE) Rust babel <- :FIX| issue with main package...
 - [ ] Completion + Tab behaviour.. (inser tab when no word prior to completion = desired)
-- [ ] (ORG-MODE) Inline completion eglot.. (:FIXME| issue with current eglot implementation!)
-- [ ] +Navigation inside emacs-dashboard to limit itself to items only!+ (not important..)
-- [ ] Fix background of emacs dashboard logo + latex preview images! (:FIXME| Emacs problem -> nothing to be fixed...)
+- [ ] (ORG-MODE) Inline completion eglot.. :FIX| issue with current eglot implementation!)
+- [ ] Fix background of Emacs dashboard logo + latex preview images! (:FIX| Emacs problem -> nothing to be fixed...)
 - [ ] Better modeline design? <- ...
 - [ ] Tell remaining applications to replace tabs -> 4 spaces!
+  - [ ] Perhaps even untabify on entry or something?
 
 * Plugins to check out!
-  - https://github.com/abo-abo/hydra
-    - https://github.com/Ladicle/hydra-posframe
-  - https://github.com/mkcms/interactive-align
-  - https://github.com/emacs-lsp/dap-mode
-  - (later) https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
-  - https://gitlab.com/matsievskiysv/math-preview
+    - https://github.com/mkcms/interactive-align
+    - https://github.com/emacs-lsp/dap-mode
+    - (later) https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
+    - https://gitlab.com/matsievskiysv/math-preview
 
 ** Extras...
   - https://github.com/narendraj9/hledger-mode
   - https://github.com/zerolfx/copilot.el
   - https://github.com/joshcho/ChatGPT.el
-  - https://www.emacswiki.org/emacs/SmoothScrolling
 
 Example rust block:
 #+begin_src rustic :async

@@ -3,7 +3,7 @@
 ;; Require custom UI modules:
 (require 'init-centaur-tabs)
 (require 'init-dashboard)
-(require 'init-doom-modeline)
+(require 'init-telephone-line)
 (require 'init-nerd-icons)
 (require 'init-svg-tag)
 

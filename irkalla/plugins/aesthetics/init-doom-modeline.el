@@ -2,7 +2,7 @@
 
 (defgroup irkalla-doom-modeline '()
   "a fancy and quick mode-line"
-  :tag "Irkalla doom-modeline"
+  :tag "Irkalla Doom-Modeline"
   :group 'irkalla)
 
 (use-package doom-modeline

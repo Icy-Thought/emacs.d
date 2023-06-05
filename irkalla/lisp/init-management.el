@@ -16,7 +16,8 @@
 
 ;; Appropriate garbage collection
 (use-package gcmh
-  :init (gcmh-mode 1))
+  :demand t
+  :custom (gcmh-mode 1))
 
 ;; Backups: age + time of retention
 (use-package emacs

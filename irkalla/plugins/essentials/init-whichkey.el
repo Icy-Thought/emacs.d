@@ -6,11 +6,16 @@
   :group 'irkalla)
 
 (use-package which-key
-  :hook (elpaca-after-init . which-key-mode)
+  :defer 0
+  :diminish which-key-mode
   :custom
+  (which-key-allow-evil-operators t)
+  (which-key-idle-delay 0.3)
+  (which-key-show-remaining-keys t)
   (which-key-separator " → ")
-  (which-key-show-early-on-C-h t)
-  (which-key-popup-type 'minibuffer)
-  (which-key-idle-delay 0.3))
+  (which-key-sort-order 'which-key-prefix-then-key-order)
+  :config
+  (which-key-mode)
+  (which-key-setup-minibuffer))
 
 (provide 'init-whichkey)

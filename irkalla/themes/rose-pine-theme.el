@@ -182,7 +182,7 @@
   (org-ellipsis                                      (:foreground muted :bold t))
   (org-footnote                                      (:foreground pine))
   (org-headline-done                                 (:foreground muted :strike-through t))
-  (org-headline-todo                                 (:foreground surface))
+  (org-headline-todo                                 (:foreground gold))
   (org-hide                                          (:foreground surface))
   (org-indent                                        (:foreground surface))
   (org-meta-line                                     (:background overlay :foreground foam))
