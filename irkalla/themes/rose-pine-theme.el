@@ -548,11 +548,11 @@
   (swift-mode:builtin-enum-case-face                 (:foreground foam))
   (swift-mode:builtin-method-trailing-closure-face   (:foreground foam))
   (swift-mode:builtin-function-trailing-closure-face (:foreground foam))
-  (swift-mode:function-call-face                     (:foreground love))))
+  (swift-mode:function-call-face                     (:foreground love)))
 
-;; (localizeable-variable-face (:inherit font-lock-string-face))
-;; (localizeable-value-face (:inherit font-lock-keyword-face))
-
+ ;; :NOTE| Rustic Err color-correction
+ (customize-set-variable 'rustic-ansi-faces
+                         (vconcat (list base love foam gold pine rose iris text))))
 
 ;;;###autoload
 (and load-file-name
