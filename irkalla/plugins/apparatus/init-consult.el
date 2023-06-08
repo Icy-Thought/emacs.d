@@ -58,4 +58,10 @@
    consult--source-recent-file consult--source-project-recent-file
    :preview-key '(:debounce 0.4 any)))
 
+(use-package consult-projectile
+  :after projectile
+  :general (irkalla/space-lead-keydef
+             "p"   '(:ignore t          :which-key "Projects")
+             "p p" '(consult-projectile :which-key "Switch Project")))
+
 (provide 'init-consult)

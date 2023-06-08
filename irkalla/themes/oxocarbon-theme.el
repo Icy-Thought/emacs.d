@@ -12,7 +12,6 @@
 (unless (>= emacs-major-version 24)
   (error "Requires Emacs 24 or later"))
 
-
 (autothemer-deftheme
  oxocarbon "A theme based on oxocarbon amazing color scheme"
 

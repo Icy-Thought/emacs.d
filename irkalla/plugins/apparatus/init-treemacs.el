@@ -17,7 +17,8 @@
              "f <return>" '(treemacs                      :which-key "(toggle) Tree-based navigation")
              "f <tab>"    '(treemacs-select-window        :which-key "Switch focus to Treemacs if existent"))
   :init (with-eval-after-load 'winum
-          (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+          (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :custom (treemacs-width 28))
 
 (use-package treemacs-evil
   :after (treemacs evil))

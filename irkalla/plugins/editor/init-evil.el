@@ -49,7 +49,9 @@
 (use-package evil-nerd-commenter
   :after evil
   :general
-  (irkalla/comma-lead-keydef ";" '(evilnc-comment-or-uncomment-lines :which-key "Comment/uncomment selected line"))
-  (irkalla/space-lead-keydef ";" '(evilnc-comment-operator           :which-key "Comment code-block at cursor")))
+  (irkalla/comma-lead-keydef
+    ";" '(evilnc-comment-or-uncomment-lines :which-key "Comment/uncomment selected line"))
+  (irkalla/space-lead-keydef
+    ";" '(evilnc-comment-operator           :which-key "Comment code-block at cursor")))
 
 (provide 'init-evil)

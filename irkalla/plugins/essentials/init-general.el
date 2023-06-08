@@ -40,7 +40,12 @@
     ;; Expression evaluation
     "e"   '(:ignore t        :which-key "Evaluation")
     "e e" '(eval-expression  :which-key "Evaluate input expression")
-    "e b" '(eval-buffer      :which-key "Evaluate buffer"))
+    "e b" '(eval-buffer      :which-key "Evaluate buffer")
+
+    ;; Manage Emacs session
+    "q"   '(:ignore t        :which-key "Manage active Emacs session")
+    "q r" '(restart-emacs    :which-key "Restart Emacs session")
+    "q q" '(kill-emacs       :which-key "Quit Emacs..."))
 
   (irkalla/space-lead-keydef
     :states '(visual)

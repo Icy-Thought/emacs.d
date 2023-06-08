@@ -5,12 +5,6 @@
   :tag "Irkalla Socials"
   :group 'irkalla)
 
-(defun read-secret-file (filename)
-  "Read the contents of a file in /run/secrets and return the output as a string."
-  (with-temp-buffer
-    (insert-file-contents (concat "/run/agenix/" filename))
-    (string-trim-right (buffer-string))))
-
 (use-package ement
   :custom
   (ement-room-images t)
@@ -24,6 +18,6 @@
     (ement-connect
      :uri-prefix "http://localhost:8009"
      :user-id "@gilganix:matrix.org"
-     :password (read-secret-file "ement"))))
+     :password (irkalla/read-secret-file "ement"))))
 
 (provide 'init-socials)

@@ -55,6 +55,14 @@
 (use-package rustic
   :mode ("\\.rs$" . rustic-mode)
   :custom (rustic-lsp-client 'eglot)
+  :init (setq-default eglot-workspace-configuration
+                      '((:rust-analyzer
+                         ;; https://rust-analyzer.github.io/manual.html
+                         :completion  (;; Completion-related
+                                       :callable (:snippets "fill_arguments"))
+                         :checkOnSave (;; Actions to check upon saving
+                                       :command "clippy"
+                                       :allTargets :json-false))))
   :config
   (defun irkalla/locate-cargo-toml (dir)
     "Locate the missing rust project Cargo."

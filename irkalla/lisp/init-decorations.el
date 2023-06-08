@@ -2,7 +2,7 @@
 
 ;; (def) Toggle frame -> transparent
 (defun irkalla/toggle-frame-transparency ()
-  "Toggle the frame transparency of on demand!"
+  "Toggle (on/off) Emacs frame transparency on demand!"
   (interactive)
   (let ((alpha-value
          (if (equal (frame-parameter nil 'alpha-background) 100)

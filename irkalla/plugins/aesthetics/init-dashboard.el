@@ -28,7 +28,7 @@
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-set-init-info t)
-  (dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name)
+  ;; (dashboard-projects-switch-function 'irkalla/switch-project-by-name) ;; :TODO| setup a projectile consult switcher
   (dashboard-week-agenda t)
 
   ;; Quick-Navigation buttons for our dashboard
