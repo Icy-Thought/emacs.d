@@ -11,7 +11,7 @@
     "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
     "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
 
-    "p"          '(:ignore t              :which-key "Project")
+    "p"          '(:ignore t              :which-key "Projects")
     "p b"        '(consult-project-buffer :which-key "Switch (+visualize) to project buffer")
     "p /"        '(consult-git-grep       :which-key "Grep current .git repostiory")
 
@@ -61,7 +61,6 @@
 (use-package consult-projectile
   :after projectile
   :general (irkalla/space-lead-keydef
-             "p"   '(:ignore t          :which-key "Projects")
-             "p p" '(consult-projectile :which-key "Switch Project")))
+             "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 
 (provide 'init-consult)
