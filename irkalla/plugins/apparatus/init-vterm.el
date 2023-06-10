@@ -1,8 +1,8 @@
-;;; apparatus/init-terminal.el -*- lexical-binding: t -*-
+;;; apparatus/init-vterm.el -*- lexical-binding: t -*-
 
-(defgroup irkalla-terminal '()
-  "A terminal emulator for our Emacs environment."
-  :tag "Irkalla Terminal"
+(defgroup irkalla-vterm '()
+  "A native-compiled terminal emulator for Emacs."
+  :tag "Irkalla VTerm"
   :group 'irkalla)
 
 (use-package vterm
@@ -12,8 +12,10 @@
     :keymaps 'vterm-mode-map
     "<S-prior>" #'scroll-down-command
     "<S-next>" #'scroll-up-command)
-  (irkalla/space-lead-keydef "t t" '(vterm-toggle    :which-key "Launch Terminal Emulator (VTerm)"))
-  (irkalla/comma-lead-keydef "t c" '(vterm-copy-mode :which-key "Read-only terminal -> copy, search etc."))
+  (irkalla/space-lead-keydef
+    "t t" '(vterm-toggle    :which-key "Launch Terminal Emulator (VTerm)"))
+  (irkalla/comma-lead-keydef
+    "t c" '(vterm-copy-mode :which-key "Read-only terminal -> copy, search etc."))
   :custom
   (vterm-timer-delay 0.01)
   (vterm-max-scrollback 10000)
@@ -25,4 +27,4 @@
   (vterm-toggle-fullscreen-p nil)
   (vterm-toggle-use-dedicated-buffer t))
 
-(provide 'init-terminal)
+(provide 'init-vterm)

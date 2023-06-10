@@ -5,6 +5,7 @@
 (require 'init-tempel)
 (require 'init-coding)
 (require 'init-babel)
+(require 'init-chatgpt)
 
 ;; Emacs-related
 (use-package emacs
