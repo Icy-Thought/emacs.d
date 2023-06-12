@@ -45,7 +45,6 @@
 (require 'init-management)
 (require 'init-decorations)
 (require 'init-options)
-(require 'init-shortcuts)
 
 ;; Add all directories inside "plugins/" to path
 (let ((plugins-dir (expand-file-name "plugins" irkalla-directory)))

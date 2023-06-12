@@ -38,6 +38,13 @@
   (vc-make-backup-files t)
   (version-control t))
 
+;; Set time-stamp to 24-hour format
+(use-package time
+  :elpaca nil
+  :custom
+  (display-time-24hr-format t)
+  (display-time-day-and-date t))
+
 ;; Whitespace + Cleanup
 (use-package whitespace
   :elpaca nil

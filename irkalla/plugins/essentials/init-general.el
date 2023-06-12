@@ -34,21 +34,32 @@
   :general
   (irkalla/space-lead-keydef
     ;; Buffer-related
-    "b"   '(:ignore t        :which-key "Buffer Management")
-    "b d" '(kill-this-buffer :which-key "Kill active buffer")
+    "b"     '(:ignore t        :which-key "Buffer Management")
+    "b d"   '(kill-this-buffer :which-key "Kill active buffer")
+    "b n"   '(next-buffer      :which-key "Switch to next buffer")
+    "b p"   '(previous-buffer  :which-key "Switch to previous buffer")
+    "b s"   '(scratch-buffer   :which-key "Switch to current perspective scratch-buf")
+
+    ;; File-related
+    "f"     '(:ignore t        :which-key "Files")
+    "f RET" '(find-file        :which-key "Find files in current directory")
 
     ;; Expression evaluation
-    "e"   '(:ignore t        :which-key "Evaluation")
-    "e e" '(eval-expression  :which-key "Evaluate input expression")
-    "e b" '(eval-buffer      :which-key "Evaluate buffer")
+    "e"     '(:ignore t        :which-key "Evaluation")
+    "e e"   '(eval-expression  :which-key "Evaluate input expression")
+    "e b"   '(eval-buffer      :which-key "Evaluate buffer")
+
+    ;; Project Management
+    "p"          '(:ignore t              :which-key "Projects")
+    "p r"        '(projectile-replace     :which-key "Search & replace string in project")
 
     ;; Manage Emacs session
-    "q"   '(:ignore t        :which-key "Manage active Emacs session")
-    "q r" '(restart-emacs    :which-key "Restart Emacs session")
-    "q q" '(kill-emacs       :which-key "Quit Emacs..."))
+    "q"     '(:ignore t        :which-key "Manage active Emacs session")
+    "q r"   '(restart-emacs    :which-key "Restart Emacs session")
+    "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
 
   (irkalla/space-lead-keydef
     :states '(visual)
-    "e r" '(eval-region :which-key "Eval highlighted region")))
+    "e r"   '(eval-region      :which-key "Eval highlighted region")))
 
 (provide 'init-general)

@@ -110,13 +110,13 @@
 
 (use-package meow
   :demand t
-  :init (meow-global-mode 1)
-  :custom (meow-esc-delay 0.001)
+  :hook (elpaca-after-init . meow-global-mode)
   :config
+  (setq meow-esc-delay 0.001)
   (meow-setup-qwerty)
   (meow-setup-indicator)
   (meow-setup-line-number)
   (add-hook 'meow-normal-mode-hook #'corfu-quit)
-  (add-to-list 'meow-update-cursor-functions-alist (cons 'meow--cursor-null-p (lambda ())))) ; Treemacs
+  (add-to-list 'meow-update-cursor-functions-alist (cons 'meow--cursor-null-p (lambda ()))))
 
 (provide 'init-meow)

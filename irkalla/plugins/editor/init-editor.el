@@ -3,7 +3,7 @@
 ;; Require custom editor modules:
 (require 'init-evil)
 ;; (require 'init-meow)
-;; (require 'init-indent) ;; :FIX| broken..
+;; (require 'init-indent) ;; :FIXME| broken..
 (require 'init-orgmode)
 (require 'init-bib)
 
@@ -107,8 +107,9 @@
 
 ;; Tree-based undo system
 (use-package undo-tree
-  :init (global-undo-tree-mode)
+  :hook (elpaca-after-init . global-undo-tree-mode)
   :custom
+  (undo-tree-history-directory-alist `(("." . ,no-littering-etc-directory)))
   (undo-tree-visualizer-diff t)
   (undo-tree-visualizer-timestamps t))
 

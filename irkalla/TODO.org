@@ -6,7 +6,7 @@
 - [-] Rounded corners in completion menu (corfu + rounded unicode borders?)
 - [-] Reduce startup time! (a continues process)
 - [-] Fix Nix-Mode + Rust-Mode
-- [-] Get svg-tag-mode to show in other filetypes besides org -> comments only! (FIXME|)
+- [-] Get svg-tag-mode to show in other filetypes besides org -> comments only! (:FIXME|)
 - [-] Corfu -> quit on escape
 - [-] Theme corfu with current used theme?? (+ opacity)
 - [-] Fix folding in org-mode. (most likely a corfu isssue)
@@ -35,10 +35,10 @@
   
 * :TODO: Actions
 - [ ] LaTeX Setup (CDLaTeX + texlab-like compiling from nvim (tectonic???))
-- [ ] (ORG-MODE) Rust babel <- :FIX| issue with main package...
-- [ ] Completion + Tab behaviour.. (inser tab when no word prior to completion = desired)
-- [ ] (ORG-MODE) Inline completion eglot.. :FIX| issue with current eglot implementation!)
-- [ ] Fix background of Emacs dashboard logo + latex preview images! (:FIX| Emacs problem -> nothing to be fixed...)
+- [ ] (ORG-MODE) Rust babel <- :FIXME| issue with main package...
+- [ ] Completion + Tab behavior.. (insert tab when no word prior to completion = desired)
+- [ ] (ORG-MODE) Inline completion Eglot.. :FIXME| issue with current eglot implementation!)
+- [ ] Fix background of Emacs dashboard logo + latex preview images! (:FIXME| Emacs problem -> nothing to be fixed...)
 - [ ] Better modeline design? <- ...
 - [ ] Tell remaining applications to replace tabs -> 4 spaces!
   - [ ] Perhaps even untabify on entry or something?

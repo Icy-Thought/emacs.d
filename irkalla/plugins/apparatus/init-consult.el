@@ -11,11 +11,9 @@
     "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
     "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
 
-    "p"          '(:ignore t              :which-key "Projects")
     "p b"        '(consult-project-buffer :which-key "Switch (+visualize) to project buffer")
     "p /"        '(consult-git-grep       :which-key "Grep current .git repostiory")
 
-    "f"          '(:ignore t              :which-key "Files")
     "f f"        '(consult-find           :which-key "Find file based on its given name")
     "f r"        '(consult-recent-file    :which-key "Open file based on last time it was edited")
 
@@ -47,8 +45,8 @@
   ;; Consult -> select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-  :config
-  (setq consult-narrow-key "<") ;; "C-+"
+  :custom
+  (consult-narrow-key "<") ;; "C-+"
 
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)

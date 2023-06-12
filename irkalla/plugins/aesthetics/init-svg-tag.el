@@ -61,7 +61,7 @@
           ;; Specific tags -> allow spaces
           ;; :TODO| Reduce to a more general solution
           ;; :NOTE| Reduce to a more general solution
-          ;; :FIX| There is more regexp
+          ;; :FIXME| There is more regexp
           ;; :HACK| Fix this regexp
           ;; :WARN| This needs to be fixed
 
@@ -77,19 +77,19 @@
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 7))))
 
-          ("\\([:]\\{1\\}\\W?\\(?:FIX\\|Fix\\)|.*\\)"
+          ("\\([:]\\{1\\}\\W?\\(?:FIXME\\|Fixme\\)|.*\\)"
            . ((lambda (tag)
-                (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 5))))
+                (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 7))))
 
-          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|PERF\\|MARK\\|Hack\\)*|.*\\)"
+          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|PERF\\|MARK\\|Hack\\)|.*\\)"
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
 
-          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|Hack\\|PERF\\|WARN\\|Warn\\|FIX\\|Fix\\|MARK\\)*|\\)"
+          ("\\([:]\\{1\\}\\W?\\(?:HACK\\|Hack\\|PERF\\|WARN\\|Warn\\|FIXME\\|Fixme\\|MARK\\)*|\\)"
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-          ("\\([:]\\{1\\}\\W?\\(?:NOTE\\|Note\\)*|.*\\)"
+          ("\\([:]\\{1\\}\\W?\\(?:NOTE\\|Note\\)|.*\\)"
            . ((lambda (tag)
                 (svg-tag-make tag :face 'org-cite :inverse t :crop-right t :beg 6))))
 

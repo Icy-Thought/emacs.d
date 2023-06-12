@@ -3,8 +3,8 @@
 ;; (no-littering) A cleaner Emacs directory
 (use-package no-littering
   :init
-  (setq no-littering-etc-directory (expand-file-name "config" user-emacs-data-directory))
-  (setq no-littering-var-directory (expand-file-name "data" user-emacs-data-directory)))
+  (setq no-littering-etc-directory (expand-file-name "no-littering-etc/" user-emacs-cache-directory)
+        no-littering-var-directory (expand-file-name "no-littering-var/" user-emacs-cache-directory)))
 
 ;; Replace ~recentf~ default dirs
 (use-package recentf
@@ -35,5 +35,12 @@
   (with-temp-buffer
     (insert-file-contents (concat "/run/agenix/" filename))
     (string-trim-right (buffer-string))))
+
+;; :NOTE| Prevent killing certain buffers
+(with-current-buffer "*scratch*"
+  (emacs-lock-mode 'kill))
+
+(with-current-buffer "*Messages*"
+  (emacs-lock-mode 'kill))
 
 (provide 'init-management)
