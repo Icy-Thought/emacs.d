@@ -64,25 +64,6 @@
  '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
  '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold)))))
 
-;; Prettier Symbols
-(add-hook 'prog-mode-hook 'prettify-symbols-mode)
-
-(setq-default prettify-symbols-alist
-              '(("<-" . ?←)
-                ("->" . ?→)
-                ("->>" . ?↠)
-                ("=>" . ?⇒)
-                ("/=" . ?≠)
-                ("!=" . ?≠)
-                ("==" . ?≡)
-                ("<=" . ?≤)
-                (">=" . ?≥)
-                ("=<<" . (?= (Br . Bl) ?≪))
-                (">>=" . (?≫ (Br . Bl) ?=))
-                ("<=<" . ?↢)
-                (">=>" . ?↣)))
-(setq prettify-symbols-unprettify-at-point 'right-edge)
-
 ;; :NOTE| Mini-buffer display -> completion-menu
 (use-package posframe
   :defer t
