@@ -15,7 +15,6 @@
              "l ?"       '(xref-find-references  :which-key "Find references of identifier at cursor")
              "l d"       '(xref-find-definitions :which-key "Find definition of identifier at cursor")
              "l /"       '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
-  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   :custom
   (eglot-autoshutdown t)
   (eglot-menu-string "LSP")
@@ -43,7 +42,8 @@
 
 (use-package nix-mode
   :mode ("\\.nix\\'" . nix-mode)
-  :hook (nix-mode . eglot-ensure))
+  :hook (nix-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
 
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
