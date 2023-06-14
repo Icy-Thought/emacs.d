@@ -40,7 +40,7 @@
   (base             "#191724" "#ffffff")
   (ex               "#16141f" "#F00000"))
 
- (;; Basic Emacs faces
+ (;; Built-in Emacs faces
   (default                                           (:background surface :foreground text))
   (border                                            (:foreground muted))
   (bookmark-face                                     (:foreground love))
@@ -77,49 +77,54 @@
   (warning                                           (:foreground gold))
   (window-divider                                    (:foreground surface :distant-foreground base))
 
+  ;; https://www.emacswiki.org/emacs/WhiteSpace
   (whitespace-newline                                (:foreground muted))
   (whitespace-space                                  (:foreground muted))
   (whitespace-trailing                               (:foreground base :background love))
 
-  ;; Font lock
-  (font-lock-keyword-face                            (:foreground iris :weight 'semi-bold))
-  (font-lock-type-face                               (:foreground love :weight 'semi-bold))
+  ;; https://www.emacswiki.org/emacs/FontLockMode
   (font-lock-builtin-face                            (:foreground iris))
-  (font-lock-function-name-face                      (:foreground pine))
-  (font-lock-variable-name-face                      (:foreground text))
-  (font-lock-comment-face                            (:foreground muted :italic t))
-  (font-lock-doc-face                                (:foreground muted))
-  (font-lock-string-face                             (:foreground gold :italic t))
-  (font-lock-warning-face                            (:foreground gold))
-  (font-lock-constant-face                           (:foreground rose))
-  (font-lock-regexp-grouping-backslash               (:foreground foam :weight 'semi-bold))
-
-  (font-lock-reference-face                          (:foreground foam))
-  (font-lock-negation-char-face                      (:foreground love))
   (font-lock-comment-delimiter-face                  (:foreground muted :italic t))
+  (font-lock-comment-face                            (:foreground muted :italic t))
+  (font-lock-constant-face                           (:foreground rose))
+  (font-lock-doc-face                                (:foreground muted))
   (font-lock-doc-markup-face                         (:foreground muted))
+  (font-lock-function-name-face                      (:foreground pine))
+  (font-lock-keyword-face                            (:foreground iris :weight 'semi-bold))
+  (font-lock-negation-char-face                      (:foreground love))
   (font-lock-preprocessor-face                       (:foreground muted))
+  (font-lock-reference-face                          (:foreground foam))
+  (font-lock-regexp-grouping-backslash               (:foreground foam :weight 'semi-bold))
+  (font-lock-string-face                             (:foreground gold :italic t))
+  (font-lock-type-face                               (:foreground love :weight 'semi-bold))
+  (font-lock-variable-name-face                      (:foreground text))
+  (font-lock-warning-face                            (:foreground gold))
 
   (elisp-shorthand-font-lock-face                    (:foreground gold))
 
+  ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-05/msg00013.html
   (highlight-operators-face                          (:foreground love))
   (highlight-quoted-symbol                           (:foreground rose))
   (highlight-numbers-face                            (:foreground love))
   (highlight-symbol-face                             (:background highlight-med :foreground subtle))
   (info-xref                                         (:foreground gold))
 
+  ;; https://www.emacswiki.org/emacs/MiniBuffer#minibuffer
   (minibuffer-prompt-end                             (:foreground love))
   (minibuffer-prompt                                 (:foreground love))
   (epa-mark                                          (:foreground love))
+
+  ;; https://www.emacswiki.org/emacs/DiredMode
   (dired-mark                                        (:foreground love))
   (dired-ignored                                     (:background gold))
 
+  ;; https://www.emacswiki.org/emacs/Iedit
   (iedit-occurrence                                  (:background foam :foreground base))
   (iedit-read-only-occurrence                        (:background pine :foreground base))
 
   (trailing-rosewaterspace                           (:background overlay))
 
-  ;; ;; Doom-modeline battery colours
+  ;; https://github.com/seagle0128/doom-modeline
   (doom-modeline-battery-critical                    (:inherit 'error))
   (doom-modeline-battery-warning                     (:inherit 'warning))
   (doom-modeline-battery-charging                    (:foreground muted))
@@ -127,7 +132,6 @@
   (doom-modeline-battery-normal                      (:foreground muted))
   (doom-modeline-battery-full                        (:foreground muted))
 
-  ;; Doom-modeline (visual state)
   (doom-modeline-evil-motion-state                   (:foreground foam))
   (doom-modeline-evil-emacs-state                    (:foreground foam))
   (doom-modeline-evil-insert-state                   (:foreground rose))
@@ -151,6 +155,7 @@
   (doom-modeline                                     (:foreground muted))
   (doom-themes-visual-bell                           (:background love))
 
+  ;; https://github.com/dbordak/telephone-line
   (telephone-line-accent-active                      (:background overlay :foreground subtle))
   (telephone-line-accent-inactive                    (:background overlay :foreground muted))
   (telephone-line-evil-normal                        (:background muted :foreground base :bold t))
@@ -158,11 +163,11 @@
   (telephone-line-evil-motion                        (:background foam :foreground base :bold t))
   (telephone-line-evil-insert                        (:background pine :foreground base :bold t))
 
-  ;;Elfeed
+  ;;https://github.com/skeeto/elfeed
   (elfeed-search-feed-face                           (:foreground iris))
   (elfeed-search-tag-face                            (:foreground foam))
 
-  ;; Colour our messages
+  ;; https://www.emacswiki.org/emacs/MessageMode
   (message-header-name                               (:foreground muted))
   (message-header-other                              (:foreground gold))
   (message-header-subject                            (:foreground gold))
@@ -171,7 +176,7 @@
   (message-header-xheader                            (:foreground rose))
   (custom-link                                       (:foreground foam :underline t))
 
-  ;; :NOTE| Our beloved Org-Mode
+  ;; https://orgmode.org/org.html
   (org-block                                         (:background base))
   (org-block-begin-line                              (:background base :foreground muted))
   (org-block-end-line                                (:background base :foreground muted))
@@ -192,7 +197,6 @@
   (org-upcoming-deadline                             (:foreground love))
   (org-verse                                         (:italic t))
 
-  ;; Specifying different org-level colors
   (org-level-1                                       (:foreground love :height 1.3 :bold t))
   (org-level-2                                       (:foreground iris :height 1.15 :bold t))
   (org-level-3                                       (:foreground rose :height 1.05))
@@ -202,7 +206,7 @@
   (org-level-7                                       (:foreground gold))
   (org-level-8                                       (:foreground rose))
 
-  ;; which-key
+  ;; https://github.com/justbur/emacs-which-key
   (which-key-key-face                                (:inherit 'font-lock-variable-name-face))
   (which-func                                        (:inherit 'font-lock-function-name-face :bold t))
   (which-key-group-description-face                  (:foreground love))
@@ -211,7 +215,7 @@
   (which-key-posframe                                (:background base))
   (which-key-posframe-border                         (:background base))
 
-  ;; swiper
+  ;; https://github.com/abo-abo/swiper
   (swiper-line-face                                  (:foreground gold))
   (swiper-background-match-face-1                    (:background gold :foreground base))
   (swiper-background-match-face-2                    (:background foam :foreground base))
@@ -222,16 +226,16 @@
   (swiper-match-face-3                               (:inherit 'swiper-background-match-face-3))
   (swiper-match-face-4                               (:inherit 'swiper-background-match-face-4))
 
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Xref.html
   (counsel-outline-default                           (:foreground gold))
   (info-header-xref                                  (:foreground gold))
   (xref-file-header                                  (:foreground gold))
   (xref-match                                        (:foreground gold))
 
-  ;; :NOTE| Rainbow delimiter
+  ;; https://github.com/Fanael/rainbow-delimiters
   (rainbow-delimiters-mismatched-face                (:foreground base :background love))
   (rainbow-delimiters-unmatched-face                 (:foreground base :background love))
   (rainbow-delimiters-base-error-face                (:foreground base :background love))
-
   (rainbow-delimiters-base-face                      (:foreground muted))
 
   (rainbow-delimiters-depth-1-face                   (:foreground pine))
@@ -244,11 +248,12 @@
   (rainbow-delimiters-depth-8-face                   (:foreground gold))
   (rainbow-delimiters-depth-9-face                   (:foreground iris))
 
-  ;; show-paren
+  ;; https://www.emacswiki.org/emacs/ShowParenMode
   (show-paren-match                                  (:background rose :foreground base :bold t))
   (show-paren-match-expression                       (:background rose :foreground base :bold t))
   (show-paren-mismatch                               (:background love))
 
+  ;; https://company-mode.github.io/manual
   (company-tooltip                                   (:background overlay :foreground text))
   (company-tooltip-common                            (:foreground gold :distant-foreground base :bold t))
   (company-tooltip-search                            (:foreground gold))
@@ -266,9 +271,10 @@
   (company-preview-search                            (:inherit 'company-tooltip-search))
   (company-template-field                            (:inherit 'match))
 
+  ;; https://jblevins.org/projects/markdown-mode/
   (markdown-hr-face                                  (:foreground overlay))
 
-  ;; :NOTE| on-the-fly syntax checking!
+  ;; https://www.flycheck.org/en/latest
   (flycheck-posframe-background-face                 (:background base))
   (flycheck-posframe-face                            (:background base))
   (flycheck-posframe-info-face                       (:foreground foam :background "#1B2431" :height 160))
@@ -284,7 +290,7 @@
   (flycheck-inline-info                              (:background foam :foreground foam :height 128))
   (flycheck-inline-warning                           (:background gold :foreground gold :height 128))
 
-  ;; :NOTE| Indentation guides
+  ;; https://github.com/DarthFennec/highlight-indent-guides
   (highlight-indent-guides-character-face            (:foreground love :background love))
   (highlight-indent-guides-stack-character-face      (:foreground love :background love))
   (highlight-indent-guides-top-character-face        (:foreground love :background love))
@@ -295,7 +301,7 @@
   (highlight-indent-guides-top-odd-face              (:foreground love :background love))
   (highlight-indent-guides-top-even-face             (:foreground love :background love))
 
-  ;; ivy
+  ;; https://oremacs.com/swiper
   (ivy-current-match                                 (:background foam :foreground base :bold t))
   (ivy-action                                        (:background base :foreground iris))
   (ivy-grep-line-number                              (:background base :foreground gold))
@@ -306,15 +312,15 @@
   (ivy-grep-line-number                              (:foreground iris))
   (ivy-confirm-face                                  (:foreground pine))
 
-  ;; :NOTE| Helpful mini-buffer completion
-  (vertico-multiline                                 (:background base))
+  ;; https://github.com/minad/vertico
+  (vertico-multiline                                 (:background base :foreground text :distant-foreground text))
   (vertico-group-title                               (:foreground subtle :weight 'medium :height 140))
   (vertico-group-separator                           (:foreground muted :strike-through t))
-  (vertico-current                                   (:background overlay :distant-foreground text :bold t :foreground surface))
+  (vertico-current                                   (:background overlay :foreground surface :distant-foreground text :bold t))
   (vertico-posframe-border                           (:background muted))
   (vertico-posframe                                  (:background base :foreground muted))
 
-  ;; :NOTE| Corfu, da completion-menu!
+  ;; https://github.com/minad/corfu
   (corfu-annotations                                 (:foreground muted))
   (corfu-current                                     (:inherit 'vertico-current))
   (corfu-border                                      (:background overlay))
@@ -322,10 +328,11 @@
   (corfu-default                                     (:background base :foreground text))
   (corfu-popupinfo                                   (:background overlay :foreground text :weight 'light :italic t))
 
-  ;; Posframe-related
+  ;; https://github.com/tumashu/ivy-posframe
   (ivy-posframe                                      (:background muted))
   (ivy-posframe-border                               (:inherit 'ivy-posframe))
 
+  ;; https://github.com/oantolin/orderless
   (orderless-match-face-0                            (:foreground love :background "#211A1F" :weight 'semi-bold))
   (orderless-match-face-1                            (:foreground foam :background "#222d3e" :weight 'semi-bold))
   (orderless-match-face-2                            (:foreground gold :background "#221F18" :weight 'semi-bold))
@@ -333,16 +340,18 @@
 
   (comint-highlight-prompt                           (:background gold :foreground base))
 
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion-Variables.html
   (completions-annotations                           (:foreground muted :italic t))
   (completions-highlight                             (:foreground foam :italic t))
   (completions-common-part                           (:foreground gold :distant-foreground base :distant-background pine :bold t :italic t))
   (completions-first-difference                      (:foreground love :strike-through t))
   (consult-file                                      (:foreground muted :distant-foreground base))
 
+  ;; https://www.emacswiki.org/emacs/EdiffMode
   (diff-added                                        (:background pine :foreground text))
   (diff-changed                                      (:background gold :foreground base))
 
-  ;; :NOTE| Tree-view of our files/dirs
+  ;; https://github.com/Alexander-Miller/treemacs
   (treemacs-directory-collapsed-face                 (:foreground muted))
   (treemacs-directory-face                           (:foreground subtle))
   (treemacs-file-face                                (:foreground subtle))
@@ -355,10 +364,10 @@
   (treemacs-git-renamed-face                         (:foreground text))
   (treemacs-git-modified-face                        (:foreground rose))
 
-  ;; :NOTE| Invert colors through Solaire-Mode
+  ;; https://github.com/hlissner/emacs-solaire-mode
   (solaire-default-face                              (:background base))
 
-  ;; :NOTE| Language Server Protocol
+  ;; https://emacs-lsp.github.io/lsp-mode/page/settings/headerline/
   (lsp-headerline-breadcrumb-path-error-face         (:underline (:color rose :style 'wave)
                                                                  :foreground muted :background base))
   (lsp-headerline-breadcrumb-path-face               (:background muted))
@@ -369,6 +378,7 @@
   (lsp-headerline-breadcrumb-project-prefix-face     (:background gold))
   (lsp-headerline-breadcrumb-symbols-error-face      (:foreground love))
 
+  ;; https://github.com/emacs-lsp/lsp-ui
   (lsp-ui-doc-background                             (:background base :foreground love))
   (lsp-ui-doc-header                                 (:background base :foreground love))
   (lsp-ui-peek-filename                              (:foreground foam))
@@ -376,7 +386,7 @@
   (lsp-ui-sideline-current-symbol                    (:foreground foam))
   (lsp-ui-sideline-symbol                            (:foreground muted))
 
-  ;; :NOTE| Emacs-Dashboard
+  ;; https://github.com/emacs-dashboard/emacs-dashboard
   (dashboard-banner-logo-title                       (:foreground muted :weight 'thin :height 200 :italic t))
   (dashboard-navigator                               (:foreground iris  :weight 'semi-bold :italic nil))
   (dashboard-items-face                              (:weight 'semi-bold))
@@ -384,13 +394,17 @@
   (dashboard-footer                                  (:foreground muted  :weight 'thin :height 135 :italic t))
   (dashboard-no-items-face                           (:foreground muted))
 
-  ;; :NOTE| Vim-bindings in Emacs.. (Evil! 😈)
+  ;; (related) https://github.com/emacs-evil/evil
   (evil-ex-lazy-highlight                            (:foreground base :background gold :bold t))
   (evil-ex-substitute-matches                        (:foreground love :strike-through t))
   (evil-ex-substitute-replacement                    (:foreground foam :bold t))
   (evil-search-highlight-persist-highlight-face      (:background gold))
+
+  ;; https://github.com/blorbx/evil-quickscope
   (evil-quickscope-first-face                        (:foreground gold :underline t))
   (evil-quickscope-second-face                       (:foreground gold :underline t))
+
+  ;; https://github.com/edkolev/evil-goggles
   (evil-goggles-default-face                         (:background gold))
   (evil-goggles-join-face                            (:foreground foam))
   (evil-goggles-delete-face                          (:background love))
@@ -399,9 +413,10 @@
   (evil-goggles-set-marker-face                      (:foreground love :background love))
   (evil-goggles-yank-face                            (:foreground foam :background foam))
 
+  ;; https://www.emacswiki.org/emacs/AnsiColor
   (ansi-color-crust                                  (:background base))
 
-  ;; :NOTE| Cannot live without a terminal, can we?
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Term-Mode.html
   (term                                              (:background base :foreground text))
   (term-color-blue                                   (:background foam :foreground foam))
   (term-color-bright-blue                            (:inherit 'term-color-blue))
@@ -422,6 +437,7 @@
   (term-color-bright-magenta                         (:background iris :foreground iris))
   (term-underline                                    (:background iris :foreground foam))
 
+  ;; https://github.com/akermu/emacs-libvterm
   (vterm-color-crust                                 (:background base :foreground base))
   (vterm-color-blue                                  (:background foam :foreground foam))
   (vterm-color-cyan                                  (:background foam :foreground foam))
@@ -431,10 +447,12 @@
   (vterm-color-red                                   (:background love :foreground love))
   (vterm-color-rosewater                             (:background text :foreground text))
 
+  ;; https://github.com/auto-complete/popup-el
   (popup-face                                        (:inherit 'tooltip))
   (popup-selection-face                              (:inherit 'tooltip))
   (popup-tip-face                                    (:inherit 'tooltip))
 
+  ;; https://github.com/emacsorphanage/anzu
   (anzu-match-1                                      (:foreground pine :background base))
   (anzu-match-2                                      (:foreground gold :background base))
   (anzu-match-3                                      (:foreground foam :background base))
@@ -443,24 +461,26 @@
   (anzu-mode-no-match                                (:foreground text :background love))
   (anzu-replace-to                                   (:foreground gold :background muted))
 
+  ;; https://github.com/winterTTr/ace-jump-mode
   (ace-jump-face-background                          (:foreground muted))
   (ace-jump-face-foreground                          (:foreground love :background base :bold t))
 
+  ;; https://github.com/abo-abo/hydra
   (hydra-face-amaranth                               (:foreground iris))
   (hydra-face-blue                                   (:foreground foam))
   (hydra-face-pink                                   (:foreground love))
   (hydra-face-red                                    (:foreground love))
   (hydra-face-teal                                   (:foreground foam))
 
-  ;; Bookmarks
+  ;; https://github.com/joodland/bm
   (bm-fringe-face                                    (:background love :foreground base))
   (bm-fringe-persistent-face                         (:background love :foreground base))
 
-  ;; :NOTE| Prevents white-coloring in Centaur-Tabs
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
   (tab-line                                          (:background base :foreground text))
   (tab-bar-tab-inactive                              (:background base :foreground text))
 
-  ;; :NOTE| A wonderful tab-bar!
+  ;; https://github.com/ema2159/centaur-tabs
   (centaur-tabs-active-bar-face                      (:background base :foreground text))
   (centaur-tabs-selected                             (:background base :foreground text :bold t))
   (centaur-tabs-selected-modified                    (:background base :foreground text))
@@ -476,15 +496,17 @@
   (centaur-tabs-default                              (:background base))
   (centaur-tabs-name-mouse-face                      (:foreground foam :bold t))
 
+  ;; https://github.com/emacsorphanage/git-gutter
   (git-gutter:added                                  (:foreground pine))
   (git-gutter:deleted                                (:foreground love))
   (git-gutter:modified                               (:foreground foam))
 
+  ;; https://github.com/minad/goggles
   (goggles-added                                     (:background pine))
   (goggles-changed                                   (:background foam))
   (goggles-removed                                   (:background love))
 
-  ;; :NOTE| Tree-sitter highlights
+  ;; https://tree-sitter.github.io/tree-sitter
   (tree-sitter-hl-face:function                      (:inherit 'font-lock-function-name-face))
   (tree-sitter-hl-face:function.call                 (:inherit 'tree-sitter-hl-face:function))
   (tree-sitter-hl-face:function.builtin              (:foreground love))
@@ -532,7 +554,7 @@
   (tree-sitter-hl-face:case-pattern                  (:foreground gold))
   (tree-sitter-hl-face:keyword.compiler              (:foreground muted :bold t :italic t))
 
-  ;; ;; Custom for pinkus tree-sitter-swift
+  ;; Custom for pinkus tree-sitter-swift
   (tree-sitter-hl-face:include                       (:foreground muted :italic t :bold t))
   (tree-sitter-hl-face:parameter                     (:foreground iris :italic t))
   (tree-sitter-hl-face:repeat                        (:foreground foam))
@@ -550,7 +572,7 @@
   (swift-mode:builtin-function-trailing-closure-face (:foreground foam))
   (swift-mode:function-call-face                     (:foreground love)))
 
- ;; :NOTE| Rustic Err color-correction
+ ;; https://github.com/brotzeit/rustic
  (customize-set-variable 'rustic-ansi-faces
                          (vconcat (list base love foam gold pine rose iris text))))
 

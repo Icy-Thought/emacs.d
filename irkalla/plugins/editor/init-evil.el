@@ -40,8 +40,8 @@
 ;; Highlight
 (use-package evil-goggles
   :hook (evil-mode . evil-goggles-mode)
-  :init (setq evil-goggles-enable-delete nil)
   :custom
+  (evil-goggles-enable-delete nil)
   (evil-goggles-duration 0.100)
   (evil-goggles-async-duration 0.900)
   (evil-goggles-use-diff-faces))
