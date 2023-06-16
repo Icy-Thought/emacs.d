@@ -64,6 +64,11 @@
  '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
  '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold)))))
 
+(use-package prettify-symbols
+  :elpaca nil
+  :hook (prog-mode . prettify-symbols-mode)
+  :custom (prettify-symbols-unprettify-at-point 'right-edge))
+
 ;; :NOTE| Mini-buffer display -> completion-menu
 (use-package posframe
   :defer t

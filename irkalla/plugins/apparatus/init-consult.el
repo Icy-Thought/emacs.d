@@ -33,6 +33,7 @@
     "c ?"          '(consult-man                 :which-key "String search for MAN-page")
     "c /"          '(consult-info                :which-key "Full-text search through MANUALS")
     "c p"          '(consult-yank-pop            :which-key "Paste past yanks at cursor")
+    "c t"          '(consult-theme               :which-key "Select/test (+preview) available themes")
     "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
     "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
     "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame"))

@@ -10,11 +10,10 @@
   :init
   (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory))
 
-  ;; Insert completion at cursor point!
+  ;; :NOTE| insert completion at cursor position!
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
-                    (cons #'tempel-complete
-                              completion-at-point-functions))))
+                (cons #'tempel-complete completion-at-point-functions))))
 
 ;; FIXME: migrate cdlatex -> tempel
 ;; (use-package cdlatex

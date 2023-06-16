@@ -1,4 +1,5 @@
 ;;; rose-pine.el --- All natural pine, faux fur and a bit of soho vibes
+
 ;;; Commentary
 
 ;;; [1]: https://rosepinetheme.com/
@@ -86,19 +87,20 @@
   (font-lock-builtin-face                            (:foreground iris))
   (font-lock-comment-delimiter-face                  (:foreground muted :italic t))
   (font-lock-comment-face                            (:foreground muted :italic t))
-  (font-lock-constant-face                           (:foreground rose))
+  (font-lock-constant-face                           (:foreground iris))
   (font-lock-doc-face                                (:foreground muted))
   (font-lock-doc-markup-face                         (:foreground muted))
-  (font-lock-function-name-face                      (:foreground pine))
-  (font-lock-keyword-face                            (:foreground iris :weight 'semi-bold))
+  (font-lock-function-name-face                      (:foreground rose))
+  (font-lock-keyword-face                            (:foreground pine :weight 'semi-bold))
   (font-lock-negation-char-face                      (:foreground love))
+  (font-lock-number-face                             (:foreground gold))
   (font-lock-preprocessor-face                       (:foreground muted))
   (font-lock-reference-face                          (:foreground foam))
   (font-lock-regexp-grouping-backslash               (:foreground foam :weight 'semi-bold))
   (font-lock-string-face                             (:foreground gold :italic t))
-  (font-lock-type-face                               (:foreground love :weight 'semi-bold))
+  (font-lock-type-face                               (:foreground foam :weight 'semi-bold))
   (font-lock-variable-name-face                      (:foreground text))
-  (font-lock-warning-face                            (:foreground gold))
+  (font-lock-warning-face                            (:foreground love))
 
   (elisp-shorthand-font-lock-face                    (:foreground gold))
 
@@ -158,7 +160,7 @@
   ;; https://github.com/dbordak/telephone-line
   (telephone-line-accent-active                      (:background overlay :foreground subtle))
   (telephone-line-accent-inactive                    (:background overlay :foreground muted))
-  (telephone-line-evil-normal                        (:background muted :foreground base :bold t))
+  (telephone-line-evil-normal                        (:background rose :foreground base :bold t))
   (telephone-line-evil-visual                        (:background gold :foreground base :bold t))
   (telephone-line-evil-motion                        (:background foam :foreground base :bold t))
   (telephone-line-evil-insert                        (:background pine :foreground base :bold t))

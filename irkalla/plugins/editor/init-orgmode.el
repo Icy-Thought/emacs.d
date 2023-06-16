@@ -5,6 +5,7 @@
   :tag "Irkalla OrgMode"
   :group 'irkalla)
 
+;;;###autoload
 (defun irkalla/org-electric-dollar nil
   "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
   (interactive)

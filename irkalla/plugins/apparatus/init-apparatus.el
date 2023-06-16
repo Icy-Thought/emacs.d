@@ -5,7 +5,7 @@
 (require 'init-embark)
 (require 'init-magit)
 (require 'init-reader)
-;; (require 'init-socials)
+(require 'init-social)
 (require 'init-treemacs)
 (require 'init-vterm)
 (require 'init-vertico)
