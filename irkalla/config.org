@@ -2,8 +2,12 @@
 #+author: Icy-Thought
 #+language: en
 
+#+NAME: irkalla-emacs.png
+#+CAPTION: Showcasing my very first standalone Emacs configuration.
+[[../.github/assets/png/irkalla.png]]
+
 * Table of Contents :TOC:
-- [[#early-initialization][Early Initialization]]
+- [[#early-initialization-of-irkalla-emacs][Early Initialization of Irkalla Emacs]]
   - [[#performance-configurations][Performance Configurations]]
     - [[#initialize-use-package-at-a-later-stage][Initialize ~use-package~ at a Later Stage]]
     - [[#quicker-launches-in-fundamental-mode][Quicker Launches in Fundamental-mode]]
@@ -20,20 +24,25 @@
     - [[#prevent-frame-resize-on-launch][Prevent Frame Resize on Launch]]
     - [[#remove-bloated-ui-elements][Remove Bloated UI-elements]]
     - [[#set-frame-transparency-early][Set Frame Transparency Early]]
-- [[#finally-initialize-emacs][Finally, Initialize Emacs!]]
-  - [[#emacs--the-internal-plugins][Emacs & The Internal Plugins]]
+  - [[#closing-early-init][Closing Early-Init!]]
+- [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
+  - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
     - [[#user-directories][User Directories]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
     - [[#general-management][General Management]]
     - [[#decorating-our-emacs][Decorating our Emacs]]
     - [[#specifying-several-useful-options][Specifying Several Useful Options]]
-  - [[#external-plugins][External Plugins]]
-    - [[#ricing-the-environment][Ricing The Environment]]
-    - [[#polishing-the-ui-of-our-editing-environment][Polishing the UI of our Editing Environment]]
-    - [[#various-tools-for-our-different-use-cases][Various Tools for our Different Use-cases]]
-  - [[#sprinkle-the-last-remaining-bit][Sprinkle the last remaining bit]]
+  - [[#expanding-irkallas-abilities][Expanding Irkalla's Abilities]]
+    - [[#applying-vibrant-colors-to-irkalla][Applying Vibrant Colors To Irkalla]]
+    - [[#unleashing-the-power-of-ui-extensions][Unleashing the Power of UI Extensions]]
+    - [[#building-a-versatile-toolbox][Building a Versatile Toolbox]]
+    - [[#tailoring-our-editing-experience][Tailoring our Editing Experience]]
+    - [[#a-more-efficient-completion-system][A More Efficient Completion System]]
+    - [[#harnessing-the-powers-of-lsp][Harnessing the Powers of LSP]]
+    - [[#coding-language-specific-changes][Coding Language Specific Changes]]
+  - [[#concluding-our-journey-with-irkalla-emacs][Concluding Our Journey with Irkalla Emacs]]
 
-* Early Initialization
+* Early Initialization of Irkalla Emacs
 
 :PROPERTIES:
 :header-args: :tangle early-init.el
@@ -45,14 +54,14 @@ wrote this madness.. (😅)
 #+begin_src emacs-lisp
 ;;; early-init.el --- Icy-Thoughts's Irkalla Emacs Early Initiliazation -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 Icy-Thought
+;; Copyright (C) 2023-2023 Icy-Thought
 
 ;; Author: Icy-Thought <icy-thought@pm.me>
 ;; Keywords: internal
 ;; URL: https://icy-thought.github.io/
 
 ;;; Commentary:
-;; Settings introduced in this file will be loaded early during the initliazation process of our Irkalla Emacs.
+;; Configurations which ought to be loaded during Irkalla Emacs initliazation process.
 
 ;;; Code:
 #+end_src
@@ -178,7 +187,13 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 (set-frame-parameter (selected-frame) 'alpha-background 85)
 #+end_src
 
-* Finally, Initialize Emacs!
+** Closing Early-Init!
+
+#+begin_src emacs-lisp
+;;; early-init.el ends here
+#+end_src
+
+* Embarking on the Irkalla Journey: Initialization.
 
 :PROPERTIES:
 :header-args: :tangle init.el
@@ -190,7 +205,7 @@ wrote this madness.. (😅)
 #+begin_src emacs-lisp
 ;;; init.el --- Icy-Thoughts's Irkalla Emacs configuration -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 Icy-Thought
+;; Copyright (C) 2023-2023 Icy-Thought
 
 ;; Author: Icy-Thought <icy-thought@pm.me>
 ;; Keywords: internal
@@ -202,7 +217,7 @@ wrote this madness.. (😅)
 ;;; Code:
 #+end_src
 
-** Emacs & The Internal Plugins
+** The Beginning of Irkalla Emacs
 
 Boilerplate code that is necessary to prevent garbage and misunderstanding from occurring along the road.
 
@@ -681,9 +696,9 @@ We also want to move to last known position in the buffer we just entered.
   :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
 #+end_src
 
-** External Plugins
+** Expanding Irkalla's Abilities
 
-*** Ricing The Environment
+*** Applying Vibrant Colors To Irkalla 
 
 #+begin_src emacs-lisp
 (defadvice load-theme (before clear-previous-themes activate)
@@ -703,6 +718,30 @@ A simple notification's library for us to use during our stay!
 #+begin_src emacs-lisp
 (use-package alert
   :custom (alert-default-style 'libnotify))
+#+end_src
+
+**** Doom-Themes: Pre-defined Themes
+
+#+begin_src emacs-lisp :tangle no
+(use-package doom-themes
+  :custom (doom-themes-treemacs-theme "doom-colors"))
+
+(with-eval-after-load 'doom-themes
+  (doom-themes-treemacs-config))
+(load-theme (intern "doom-tokyo-night") t))
+#+end_src
+
+**** Ef-Themes: Pre-defined Themes
+
+#+begin_src emacs-lisp :tangle no
+(use-package ef-themes
+  :init (load-theme (intern "ef-winter") t)
+  :custom
+  (ef-themes-select 'ef-winter)
+  (ef-themes-to-toggle '(ef-summer ef-winter))
+  (ef-themes-mixed-fonts t)
+  (ef-themes-variable-pitch-ui t)
+  (ef-themes-region '(intense no-extend neutral)))
 #+end_src
 
 **** Colorful Delimiters
@@ -726,7 +765,7 @@ A simple notification's library for us to use during our stay!
   :custom (solaire-global-mode +1))
 #+end_src
 
-*** Polishing the UI of our Editing Environment
+*** Unleashing the Power of UI Extensions
 
 **** Centaur Tabs: Tab-bar to Reduce the Burden of Navigation
 
@@ -1040,31 +1079,7 @@ Extending the support of our Nerd-icons to function in other areas.
               (svg-tag-make tag :end -1 :inverse nil :crop-left t :margin 0 :face 'org-agenda-date))))))
 #+end_src
 
-**** Doom-Themes: Pre-defined Themes
-
-#+begin_src emacs-lisp :tangle no
-(use-package doom-themes
-  :custom (doom-themes-treemacs-theme "doom-colors"))
-
-(with-eval-after-load 'doom-themes
-  (doom-themes-treemacs-config))
-(load-theme (intern "doom-tokyo-night") t))
-#+end_src
-
-**** Ef-Themes: Pre-defined Themes
-
-#+begin_src emacs-lisp :tangle no
-(use-package ef-themes
-  :init (load-theme (intern "ef-winter") t)
-  :custom
-  (ef-themes-select 'ef-winter)
-  (ef-themes-to-toggle '(ef-summer ef-winter))
-  (ef-themes-mixed-fonts t)
-  (ef-themes-variable-pitch-ui t)
-  (ef-themes-region '(intense no-extend neutral)))
-#+end_src
-
-*** Various Tools for our Different Use-cases
+*** Building a Versatile Toolbox
 
 **** Default Application Launchers
 
@@ -1079,19 +1094,1272 @@ Extending the support of our Nerd-icons to function in other areas.
                     "mpv" '(file)))))
 #+end_src
 
-**** Consult: 
+**** Consult: Consulting completing-read
 
+#+begin_src emacs-lisp
+(use-package consult
+  <<consult-bindings>>
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+  (advice-add #'register-preview :override #'consult-register-window)
+  ;; Consult -> select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  :custom
+  (consult-narrow-key "<") ;; "C-+"
 
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   :preview-key '(:debounce 0.4 any)))
+#+end_src
 
-**** Embark: 
-**** Magit: 
+To reduce the burden of recalling all bindings, let's rewrite some of them to match our previous Neovim setup.
+
+#+NAME: consult-bindings
+#+begin_src emacs-lisp
+:general
+(irkalla/space-lead-keydef
+  "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
+  "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
+
+  "p b"        '(consult-project-buffer :which-key "Switch (+visualize) to project buffer")
+  "p /"        '(consult-git-grep       :which-key "Grep current .git repostiory")
+
+  "f f"        '(consult-find           :which-key "Find file based on its given name")
+  "f r"        '(consult-recent-file    :which-key "Open file based on last time it was edited")
+
+  ;; LSP-related
+  "l"          '(:ignore t              :which-key "LSP & Editing")
+  "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
+  "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
+  "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
+  "l ["        '(consult-flymake        :which-key "Jump to Flymake diagnostics")
+  "l ]"        '(consult-compile-error  :which-key "Jump to compile-error in buffer"))
+
+(irkalla/comma-lead-keydef
+  "c"            '(:ignore t                   :which-key "Consult")
+  "c b"          '(consult-bookmark            :which-key "Open/Create named bookmark")
+  "c h"          '(consult-history             :which-key "Insert string from history of buffer")
+  "c k"          '(consult-kmacro              :which-key "Run a chosen KBD macro")
+  "c ?"          '(consult-man                 :which-key "String search for MAN-page")
+  "c /"          '(consult-info                :which-key "Full-text search through MANUALS")
+  "c p"          '(consult-yank-pop            :which-key "Paste past yanks at cursor")
+  "c t"          '(consult-theme               :which-key "Select/test (+preview) available themes")
+  "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
+  "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
+  "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame"))
+#+end_src
+
+Might as-well have consult integrate itself to our projectile and display existing files in current project directory.
+
+#+begin_src emacs-lisp
+(use-package consult-projectile
+  :after projectile
+  :general (irkalla/space-lead-keydef
+             "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
+#+end_src
+
+**** Embark: Mini-Buffer Actions Rooted in Keymaps
+
+To prevent Embark from displaying multi-line docs in Eldoc, make sure that only one line is displayed at a time.
+
+#+begin_src emacs-lisp
+(use-package eldoc
+  :custom
+  (eldoc-echo-area-use-multiline-p nil)
+  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+#+end_src
+
+Proceed with the installation & configuration of Embark.
+
+#+begin_src emacs-lisp
+(use-package embark
+  <<embark-bindings>>
+  :hook (eldoc-documentation-functions . embark-eldoc-first-target)
+  :custom
+  (embark-prompter #'embark-completing-read-prompter)
+  (embark-indicators '(embark-minimal-indicator
+                       embark-highlight-indicator
+                       embark-isearch-highlight-indicator))
+  :init (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+#+end_src
+
+Might as well add several binings
+
+#+NAME: embark-bindings
+#+begin_src emacs-lisp
+:general
+(irkalla/comma-lead-keydef
+  "e"   '(:ignore t       :which-key "Embark")
+  "e a" '(embark-act      :which-key "Prompt user for action -> perform")
+  "e d" '(embark-dwim     :which-key "Run default action on buffer")
+  "e h" '(embark-bindings :which-key "Explore all available Emacs bindings"))
+#+end_src
+
+Integrating Embark with our consult package.
+
+#+begin_src emacs-lisp
+(use-package embark-consult
+  :after (embark consult)
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
+#+end_src
+
+**** Git-Tools: Magit + Blamer + Git-Gutter
+
+***** Magit: A Magic Wand for Git
+#+begin_src emacs-lisp
+(use-package magit
+  :if (executable-find "git")
+  <<magit-bindings>>
+  :custom
+  (magit-auto-revert-mode nil)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+#+end_src
+
+Appending bindings to our Magit configuration.
+
+#+NAME: magit-bindings
+#+begin_src emacs-lisp
+:general
+(irkalla/space-lead-keydef
+  "g"   '(:ignore t :which-key "Magit")
+  "g g" '(magit :which-key "Launch our beloved Magit!"))
+#+end_src
+
+Display the ~TODO~'s of our Git repository in the Magit buffer. Useful for reducing the burden of grepping all the ~TODO~'s
+and later deciding which one to hop-on to.
+
+#+begin_src emacs-lisp
+(use-package magit-todos
+  :hook (magit-mode . magit-todos-mode)
+  :init
+  (setq magit-todos-nice (if (executable-find "nice") t nil)
+        magit-todos-scanner #'magit-todos--scan-with-rg)
+  :custom
+  (magit-todos-recursive t)
+  (magit-todos-depth 10)
+  (magit-todos-exclude-globs '(".git/" "*.html"))
+  :config (custom-set-variables
+           '(magit-todos-keywords (list "TODO" "FIXME" "HACK"))))
+#+end_src
+
+***** Blamer: Blame our Git Repository
+
+#+begin_src emacs-lisp
+(use-package blamer
+  :defer t
+  :custom
+  (blamer-idle-time 0.5)
+  (blamer-min-offset 70)
+  (blamer-view 'overlay-right)
+  (blamer-type 'visual)
+  (blamer-max-commit-message-length 70)
+  (blamer-force-truncate-long-line nil)
+  (blamer-author-formatter " ✎ %s ")
+  (blamer-commit-formatter "● \'%s\' ● ")
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                   :background nil
+                   :height 125
+                   :italic t))))
+#+end_src
+
+***** Git-Gutter: Highlight Git Changes
+
+#+begin_src emacs-lisp
+(use-package git-gutter
+  :hook (prog-mode . git-gutter-mode)
+  :diminish git-gutter-mode
+  :config (setq git-gutter:update-interval 1))
+#+end_src
+
 **** Ement: A Superior Matrix Client
-**** PDF-Tools: 
-**** Treemacs: 
-**** VTerm: 
-**** Vertico: 
 
-** Sprinkle the last remaining bit
+#+begin_src emacs-lisp
+(use-package ement
+  :defer t
+  :hook (ement-connect . olivetti-mode)
+  :custom
+  (ement-room-images t)
+  (ement-room-message-format-spec "%S> %W%B%r%R[%t]")
+  ;; :TODO| launch side-view + limited margin to names category when in a buffer otherwise do not launch...
+  ;; (ement-room-list-side-window)
+  (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
+                                          ement-notify--event-mentions-room-p)))
+#+end_src
+
+A quick function which helps us connect to our Matrix server on the fly.
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/ement-auto-connect ()
+  "Connect us to the matrix."
+  (interactive)
+  (ement-connect
+   :user-id "@gilganix:matrix.org"
+   :password (irkalla/read-secret-file "ement")
+   :uri-prefix "http://127.0.0.1:8009"))
+#+end_src
+
+**** PDF-Tools: A Quick PDF Viewer
+
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :elpaca nil ; :WARN| package <- fetch from Nixpkgs
+  :custom
+  (pdf-view-use-scaling t)
+  (pdf-view-use-imagemagick nil)
+  (pdf-view-display-size 'fit-width)
+  :config
+  ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
+  (add-hook 'pdf-view-mode-hook
+            (lambda () (setq-local evil-normal-state-cursor (list nil)))))
+#+end_src
+
+Defer loading ~PDF-Tools~ through pre-defined function.
+
+#+begin_src emacs-lisp
+(use-package pdf-loader
+  :elpaca nil
+  :custom (pdf-loader-install t))
+#+end_src
+
+Make sure that our PDF's are displayed with darker colors.
+
+#+begin_src emacs-lisp
+(use-package pdf-view
+  :elpaca nil
+  :magic ("%PDF" . pdf-view-mode)
+  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
+#+end_src
+
+We also want to jump back to the last known position after opening a PDF file.
+
+#+begin_src emacs-lisp
+(use-package pdf-view-restore
+  :hook (pdf-view-mode . pdf-view-restore-mode)
+  :custom (pdf-view-restore-filename (expand-file-name "pdf-view-restore" user-emacs-cache-directory)))
+#+end_src
+
+**** NOV: An EPUB Reader
+
+#+PROPERTY: header-args :tangle no
+
+#+begin_src emacs-lisp
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :hook ((nov-mode . visual-line-mode)
+         (nov-mode . visual-fill-column-mode))
+  :custom
+  (nov-text-width t)
+  (nov-text-width 120))
+#+end_src
+
+Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
+
+#+begin_src emacs-lisp
+(use-package nov-xwidget
+  :elpaca (:host github :repo "chenyanming/nov-xwidget")
+  :after nov
+  :general (nov-mode-map
+            "o" '(nov-xwidget-view :which-key "View EPUB file in Nov-Mode"))
+  :hook (nov-mode . nov-xwidget-inject-all-files))
+#+end_src
+
+**** Elfeed: An RSS-feed for the Madness
+
+#+begin_src emacs-lisp :tangle no
+(use-package elfeed
+  :custom
+  (elfeed-feeds
+   '(("https://sachachua.com/blog/feed/" emacs)
+     ("https://www.reddit.com/r/emacs/.rss" emacs)
+     ("https://terrytao.wordpress.com/feed/" mathematics)
+     ("https://writings.stephenwolfram.com/feed/" mathematics)
+     ("https://phys.org/rss-feed/physics-news/" physics)
+     ("https://phys.org/rss-feed/breaking/physics-news/" physics))))
+#+end_src
+
+**** Treemacs: A Tree-based File Manager
+
+#+begin_src emacs-lisp
+(use-package treemacs
+  <<treemacs-bindings>>
+  :init (with-eval-after-load 'winum
+          (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :custom (treemacs-width 28))
+#+end_src
+
+Adding several bindings for our ~Treemacs~.
+
+#+NAME: treemacs-bindings
+#+begin_src emacs-lisp
+:general
+(irkalla/comma-lead-keydef
+  :keymaps 'global-map
+  "f"          '(:ignore t                     :which-key "Treemacs")
+  "f b"        '(treemacs-bookmark             :which-key "Bookmark file at cursor")
+  "f d"        '(treemacs-delete-other-windows :which-key "Delete other Treemacs window")
+  "f f"        '(treemacs-find-file            :which-key "Navigate to file in Treemacs")
+  "f t"        '(treemacs-find-tag             :which-key "Navigate to tag in Treemacs")
+  "f s"        '(treemacs-select-directory     :which-key "Select directory at cursor")
+  "f <return>" '(treemacs                      :which-key "(toggle) Tree-based navigation")
+  "f <tab>"    '(treemacs-select-window        :which-key "Switch focus to Treemacs if existent"))
+#+end_src
+
+Integrating ~Treemacs~ with several packages:
+1. ~Evil-Mode~
+2. ~Projectile~
+3. ~Magit~
+4. ~Perspective~
+
+#+begin_src emacs-lisp
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
+
+(use-package treemacs-persp
+  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  :config (treemacs-set-scope-type 'Perspectives))
+#+end_src
+
+**** EShell: A Powerful Shell Which Understands Elisp!
+
+#+PROPERTY: header-args :tangle no
+
+#+begin_src emacs-lisp
+(use-package eshell
+  :elpaca nil
+  <<eshell-bindings>>
+  :custom
+  (eshell-tramp-initialize)
+  (eshell-history-size 1024)
+  (eshell-hist-ignoredups t)
+  (eshell-destroy-buffer-when-process-dies t))
+#+end_src
+
+Reducing the burden of longer bindings and appending Eshell-related bindings to our ~general.el~.
+
+#+begin_src emacs-lisp
+:general
+(irkalla/space-lead-keydef
+  "t t" '(eshell                  :which-key "Start Eshell")
+  "t p" '(eshell                  :which-key "Start Eshell in project ROOT")
+  "t c" '(eshell-life-is-too-much :which-key "Kill Eshell instance.."))
+
+(irkalla/comma-lead-keydef
+  "t n" '(nix-eshell              :which-key "Create Nix (Eshell) environment")
+  "t c" '(eshell-kill-process     :which-key "Kill running Eshell process"))
+#+end_src
+
+Syntax highlighting inside Eshell, similar to Fish-shell, is nice to have. Let's add such functionality to our Eshell.
+
+#+begin_src emacs-lisp
+(use-package eshell-syntax-highlighting
+  :hook (eshell-mode . eshell-syntax-highlighting-mode))
+#+end_src
+
+**** VTerm: A Quick Terminal Emulator
+
+#+begin_src emacs-lisp
+(use-package vterm
+  :elpaca nil
+  <<vterm-bindings>>
+  :custom
+  (vterm-timer-delay 0.01)
+  (vterm-max-scrollback 10000)
+  (vterm-clear-scrollback-when-clearing t))
+#+end_src
+
+Binding our VTerm for quicker access to the terminal.
+
+#+NAME: vterm-bindings
+#+begin_src emacs-lisp
+:general
+(general-imap
+  :keymaps 'vterm-mode-map
+  "<S-prior>" #'scroll-down-command
+  "<S-next>" #'scroll-up-command)
+
+(irkalla/space-lead-keydef
+  "t t" '(vterm-toggle    :which-key "Launch Terminal Emulator (VTerm)"))
+
+(irkalla/comma-lead-keydef
+  "t c" '(vterm-copy-mode :which-key "Read-only terminal -> copy, search etc."))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package vterm-toggle
+  :after vterm
+  :custom
+  (vterm-toggle-fullscreen-p nil)
+  (vterm-toggle-use-dedicated-buffer t))
+#+end_src
+
+**** Vertico: Vertical Interactive Completion
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :elpaca (:files (:defaults "extensions/*"))
+  :hook (elpaca-after-init . vertico-mode)
+  :custom (vertico-cycle t))
+#+end_src
+
+Allowing our mouse to behave as expected when used in ~Vertico~.
+
+#+begin_src emacs-lisp
+(use-package vertico-mouse
+  :elpaca nil
+  :hook (vertico-mode . vertico-mouse-mode))
+#+end_src
+
+Correcting navigation behaviour when interacting with directories in ~Vertico~.
+
+#+begin_src emacs-lisp
+(use-package vertico-directory
+  :elpaca nil
+  :general (vertico-map
+            "RET"   'vertico-directory-enter
+            "DEL"   'vertico-directory-delete-char
+            "M-DEL" 'vertico-directory-delete-word)
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+#+end_src
+
+Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
+1. Add a prompt indicator to the completing-read-multiple function
+2. Make prompt read-only
+3. Hides cursor within prompt
+4. Prevents cursor from being placed inside prompt
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :init
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" "" crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  (setq minibuffer-prompt-properties
+	    '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+#+end_src
+
+**** Marginalia: Mini-buffer Annotations
+
+#+begin_src emacs-lisp
+(use-package marginalia
+  :general (general-nmap
+             :keymaps 'minibuffer-local-map
+             "M-A"  '(marginalia-cycle :which-key "Cycle between Marginalia annotators"))
+  :hook (elpaca-after-init . marginalia-mode)
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right))
+#+end_src
+
+*** Tailoring our Editing Experience
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :config
+  ;; :WARN| Smooth scrolling (Emacs >= 29)
+  (when (boundp 'pixel-scroll-precision-mode)
+    (pixel-scroll-precision-mode 1))
+
+  ;; :TODO| Auto-break longer lines
+  (dolist (mode '(org-mode markdown-mode text-mode))
+    (add-hook (intern (concat (symbol-name mode) "-hook"))
+              (lambda ()
+                (visual-line-mode 1)
+                (auto-fill-mode 1))))
+  :custom
+  (electric-indent-inhibit t)
+  (indent-tabs-mode nil)
+  (standard-indent 4)
+  (tab-width 4)
+  (undo-limit 6710886400) ;; 64mb
+  (undo-strong-limit 100663296) ;; x 1.5 (96mb)
+  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
+  (word-wrap nil))
+#+end_src
+
+Management of history behaviour is necessary to prevent undesired garbage from stacking up.
+
+#+begin_src emacs-lisp
+(use-package savehist
+  :elpaca nil
+  :init (savehist-mode 1)
+  :custom
+  (history-length 1000)
+  (history-delete-duplicates t)
+  (savehist-autosave-interval 60)
+  (savehist-save-minibuffer-history t)
+  (savehist-file (expand-file-name "savehist" user-emacs-cache-directory)))
+#+end_src
+
+Navigate to last known position inside our buffer for quicker editing.
+
+#+begin_src emacs-lisp
+(use-package saveplace
+  :elpaca nil
+  :init (save-place-mode t)
+  :custom
+  (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
+  (save-place-forget-unreadable-files t))
+#+end_src
+
+Allowing Emacs to recognize the editor defaults of the active repository.
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :defer 1
+  :custom (editorconfig-mode 1))
+#+end_src
+
+Adding workspace like functionality to our editor is nice to have, because of the extended ability to manage windows and
+whatnot.
+
+#+begin_src emacs-lisp
+(use-package perspective
+  :general (general-nmap "C-x C-b" '(persp-list-buffers :which-key "C-x C-b, but with perspective-buf filter"))
+  :hook (elpaca-after-init . persp-mode)
+  :custom (persp-mode-prefix-key (kbd "C-c M-p")))
+#+end_src
+
+Display colors of HEX codes & color names inside active buffer.
+
+#+begin_src emacs-lisp
+(use-package rainbow-mode
+  :defer 1
+  :hook (prog-mode . rainbow-mode))
+#+end_src
+
+Folding code-blocks like paper to reduce the unnecessary space it occupies in the buffer.
+
+#+begin_src emacs-lisp
+(use-package ts-fold
+  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
+  :hook (prog-mode . global-ts-fold-mode))
+#+end_src
+
+**** EVIL: VIM bindings inside Emacs
+
+#+begin_src emacs-lisp
+(use-package evil
+  :general (evil-normal-state-map
+            "M-j" #'pixel-scroll-up
+            "M-k" #'pixel-scroll-down)
+  :hook (elpaca-after-init . evil-mode)
+  :custom
+  (evil-want-integration t)
+  (evil-want-keybinding nil)
+  (evil-undo-system 'undo-tree)
+  (evil-split-window-below t)
+  (evil-vsplit-window-right t)
+  (evil-want-C-i-jump nil)              ; restore org-mode tab folding
+  (evil-set-initial-state 'dashboard-mode 'emacs))
+#+end_src
+
+Expanding the behaviour of ~Evil-Mode~ to support more scenarios/environments.
+
+#+begin_src emacs-lisp
+(use-package evil-org
+  :hook (org-mode . evil-org-mode)
+  :delight (evil-org-mode))
+
+(use-package evil-collection
+  :hook (evil-mode . evil-collection-init)
+  :custom
+  (evil-collection-magit-want-horizontal-movement t)
+  (evil-collection-magit-use-y-for-yank t))
+#+end_src
+
+Escaping ~Evil-Mode~ should be relatively easy.
+
+#+begin_src emacs-lisp
+(use-package evil-escape
+  :hook (evil-mode . evil-escape-mode)
+  :delight (evil-escape-mode)
+  :custom
+  (evil-escape-key-sequence "jk")
+  (evil-escape-delay 0.1)
+  (evil-escape-unodered-key-sequence nil))
+#+end_src
+
+Displaying a visual hint for the actions performed in ~Evil-Mode~ seems to be reasonable and should therefore be included. 
+
+#+begin_src emacs-lisp
+(use-package evil-goggles
+  :hook (evil-mode . evil-goggles-mode)
+  :custom
+  (evil-goggles-enable-delete nil)
+  (evil-goggles-duration 0.100)
+  (evil-goggles-async-duration 0.900)
+  (evil-goggles-use-diff-faces))
+#+end_src
+
+A quicker way to comment/uncomment certain blocks of text/code is desired.
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :after evil
+  :general
+  (irkalla/comma-lead-keydef
+    ";" '(evilnc-comment-or-uncomment-lines :which-key "Comment/uncomment selected line"))
+  (irkalla/space-lead-keydef
+    ";" '(evilnc-comment-operator           :which-key "Comment code-block at cursor")))
+#+end_src
+
+**** MEOW: Yet Another Modal Editing
+
+Defining our ~QWERTY~-related bindings.
+
+#+begin_src emacs-lisp
+(defun meow-setup-qwerty ()
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+
+  ;; Where the def. of our Meow happens:
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("<escape>" . ignore))
+
+  (meow-leader-define-key
+   ;; SPC j/k will run the original command in MOTION state.
+   '("j" . "H-j")
+   '("k" . "H-k")
+
+   ;; Use SPC (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+
+   ;; Quicker navigation's
+   '("df" . fd-dired)
+   '("r" . consult-recent-file)
+   '("f" . +vertico/find-file-in)
+   '("F" . consult-find)
+   '("da" . consult-ripgrep)
+   '("SPC" . meow-M-x)
+   '("bs" . bookmark-set)
+   '("bm" . bookmark-bmenu-list)
+   '("bb" . switch-to-buffer)
+   '("bw" . +vertico/switch-workspace-buffer)
+   '("?" . meow-cheatsheet))
+
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore)))
+#+end_src
+
+Installing ~Meow~ and notifying it about our desired bindings.
+
+#+begin_src emacs-lisp
+(use-package meow
+  :demand t
+  :hook (elpaca-after-init . meow-global-mode)
+  :config
+  (setq meow-esc-delay 0.001)
+  (meow-setup-qwerty)
+  (meow-setup-indicator)
+  (meow-setup-line-number)
+  (add-hook 'meow-normal-mode-hook #'corfu-quit)
+  (add-to-list 'meow-update-cursor-functions-alist (cons 'meow--cursor-null-p (lambda ()))))
+#+end_src
+
+**** Highlight Indentation Guides
+
+#+begin_src emacs-lisp :tangle no
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top))
+#+end_src
+
+:TODO| colors -> indentation level + color change based on level of indentation
+
+**** Olivetti: Center Alignment of Content 
+
+#+begin_src emacs-lisp
+(use-package olivetti
+  :hook (elpaca-after-init . olivetti-mode)
+  :general (irkalla/comma-lead-keydef
+             "q" '(olivetti-mode :which-key "Distraction free writing!"))
+  :custom
+  (olivetti-body-width 0.7)
+  (olivetti-minimum-body-width 115)
+  (olivetti-recall-visual-line-mode-entry-state t))
+#+end_src
+
+**** Format-All: Quick Code Formatter
+
+#+begin_src emacs-lisp
+(use-package format-all
+  :hook ((prog-mode . format-all-mode)
+         (prog-mode . format-all-ensure-formatter))
+  :config
+  (setq-default format-all-formatters
+                '(("Nix" alejandra)
+                  ("Haskell" stylish-haskell)
+                  ("Rust" rustfmt))))
+#+end_src
+
+**** Jinx: Fast Spell Checker
+
+#+begin_src emacs-lisp
+(use-package jinx
+  :elpaca nil
+  :hook (elpaca-after-init . global-jinx-mode)
+  :general (general-nmap "z =" '(jinx-correct :which-key "Correct the damned misspellings...")))
+#+end_src
+
+**** Electric-Pair: Automatic Parens Pairing
+
+Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
+1. Insert LaTeX brackets on ~$~ insertion
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/org-electric-dollar nil
+  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+  (interactive)
+  (if (and (looking-at "\\\\)")
+           (looking-back "\\\\("))
+      (progn (delete-char 2)
+             (delete-char -2)
+             (insert "\\[\\]"))
+    (insert "\\(\\)")
+    (backward-char 2)))
+#+end_src
+
+**** Org-Mode: The Superior File-format
+
+#+begin_src emacs-lisp
+(use-package org
+  :elpaca nil
+  :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
+  :general
+  (:keymaps 'org-mode-map
+            :states '(emacs insert normal)
+            "C-<return>" #'org-ctrl-c-ret
+            "M-<return>" #'org-edit-special)
+  (:keymaps 'org-mode-map
+            :state 'insert
+            "$" #'irkalla/org-electric-dollar)
+  :config
+  ;; :NOTE| Move our LaTeX previews to cache dir
+  (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
+    (unless (file-directory-p latex-dir)
+      (mkdir latex-dir t))
+    (setq-default org-preview-latex-image-directory latex-dir))
+
+  ;; :NOTE| Change the aesthetics of our LaTeX previews
+  (setq-default org-latex-preview-options
+                (progn (plist-put org-format-latex-options :background "Transparent")
+                       (plist-put org-format-latex-options :scale 2.5)
+                       (plist-put org-format-latex-options :zoom 1.15)))
+  :custom
+  (org-catch-invisible-edits 'show-and-error)
+  (org-cycle-separator-lines 2)
+  (org-cycle-include-plain-lists 'integrate)
+  (org-ellipsis "…")
+  (org-export-coding-system 'utf-8)
+  (org-export-preserve-breaks t)
+  (org-hide-emphasis-markers t)
+  (org-highlight-latex-and-related '(native))
+  (org-insert-heading-respect-content t)
+  (org-latex-tables-centered t)
+  (org-pretty-entities t)
+  (org-special-ctrl-a/e t)
+  (org-startup-folded 'overview)
+  (org-startup-indented t)
+  (org-startup-with-inline-images t)
+  (org-support-shift-select t)
+  (org-tags-column 0)
+
+  ;; Source blocks
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
+  (org-src-fontify-natively t)
+  (org-src-preserve-indentation t)
+  (org-src-tab-acts-natively t))
+#+end_src
+
+Automatically render our LaTeX code-blocks.
+
+#+begin_src emacs-lisp
+(use-package org-fragtog
+  :after org
+  :hook (org-mode . org-fragtog-mode))
+#+end_src
+
+We also want to generate our "Table of Contents" on the fly.
+
+#+begin_src emacs-lisp
+(use-package toc-org
+  :after org
+  :hook (org-mode . toc-org-enable)
+  :custom (toc-org-max-depth 3))
+#+end_src
+
+***** Org-Modern: A Modern Org-Mode Look
+
+#+begin_src emacs-lisp
+(use-package org-modern
+  :after org
+  :hook (org-mode . org-modern-mode)
+  :config (set-face-attribute 'org-modern-symbol nil :family "DejaVu Sans")
+  :custom
+  ;; Settings replaced by ~svg-tag-mode
+  (org-modern-tag nil)
+  (org-modern-todo nil))
+#+end_src
+
+***** Org-Roam: A Powerful Note-Taking System
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :after org
+  :general
+  (irkalla/comma-lead-keydef
+    :keymaps 'org-mode-map
+    "o"     '(:ignore t               :which-key "Org-Roam")
+    "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam in active buffer")
+    "o r n" '(org-roam-node-find      :which-key "Find & open node by title or alias")
+    "o r g" '(org-roam-graph          :which-key "Build & display node of graph")
+    "o r i" '(org-roam-node-insert    :which-key "Find node -> insert `:id` org-link")
+    "o r c" '(org-roam-capture        :which-key "Launch org-capture for existing node"))
+  :custom
+  (org-roam-directory (file-truename "~/org/org-roam"))
+  (org-roam-completion-everywhere t)
+  (org-roam-capture-templates
+   `(("d" "default" plain "%?"
+      :if-new (file+head
+               "%<%Y%m%d%H%M%S>-${slug}.org"
+               ,(let ((options '("#+options: _:{}"
+                                 "#+options: ^:{}"
+                                 "#+startup: latexpreview"
+                                 "#+startup: entitiespretty"
+                                 "#+startup: inlineimages"
+                                 "#+title: ${title}")))
+                  (mapconcat 'identity options "\n")))
+      :unnarrowed t)))
+  (org-roam-node-display-template "${title}"))
+#+end_src
+
+A GUI is desired for our Org-Roam to reduce the burden of browsing our notes.
+
+#+begin_src emacs-lisp
+(use-package org-roam-ui
+  :after org-roam
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start nil))
+#+end_src
+
+***** Org-Babel: Execution of Org SRC-blocks
+
+Asynchronous ~Org-Babel~ evaluation for quicker block play.
+
+#+begin_src emacs-lisp
+(use-package ob-async
+  :after org)
+#+end_src
+
+Loading ~Org-Babel~ languages should occur automatically.
+
+#+begin_src emacs-lisp
+(defadvice org-babel-execute-src-block (around load-language nil activate)
+  "Load language if needed"
+  (let ((language (org-element-property :language (org-element-at-point))))
+    (unless (cdr (assoc (intern language) org-babel-load-languages))
+      (add-to-list 'org-babel-load-languages (cons (intern language) t))
+      (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+    ad-do-it))
+#+end_src
+
+**** Markdown: Simple Markup Language
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    :keymaps 'markdown-mode-map
+    "m d"    '(markdown-do :which-key "Perform a senile action based on context"))
+  :init (setq markdown-command "multimarkdown"))
+#+end_src
+
+**** Citar: Quickly Find & Act on Bibliographic References
+
+#+begin_src emacs-lisp
+(use-package citar
+  :hook ((LaTeX-mode org-mode) . citar-capf-setup)
+  :custom (citar-bibliography '("~/Notes/references.bib")))
+#+end_src
+
+Integrating ~Citar~ with ~Embark~.
+
+#+begin_src emacs-lisp
+(use-package citar-embark
+  :after (citar embark)
+  :hook (org-mode . citar-embark-mode)
+  :config (setq citar-at-point-function 'embark-act))
+#+end_src
+
+**** Undo-Tree: A Tree-based Undo System
+
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :hook (elpaca-after-init . global-undo-tree-mode)
+  :custom
+  (undo-tree-history-directory-alist `(("." . ,no-littering-etc-directory)))
+  (undo-tree-visualizer-diff t)
+  (undo-tree-visualizer-timestamps t))
+#+end_src
+
+*** A More Efficient Completion System
+
+**** Corfu: Completion in Region
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :elpaca (:files (:defaults "extensions/*.el"))
+  :general (corfu-map
+            "TAB"   #'corfu-next
+            [tab]   #'corfu-next
+            "S-TAB" #'corfu-previous
+            [backtab] #'corfu-previous)
+  :init (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
+  (corfu-preselect t)
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.05)
+  (corfu-count 16)
+  (corfu-scroll-margin 5)
+  (corfu-separator ?\s)
+  (corfu-on-exact-match 'insert)
+  (corfu-preview-current 'insert)
+  (corfu-quit-no-match 'separator)
+  :config
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+                (bound-and-true-p vertico--input)
+                (eq (current-local-map) read-passwd-map))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
+#+end_src
+
+Completion at point is necessary for Corfu to work its wonders as a completion system!
+
+#+begin_src emacs-lisp
+(use-package cape
+  :after corfu
+  :config
+  (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
+    (add-to-list 'completion-at-point-functions fn)))
+#+end_src
+
+Completions should display icons for their respective types.
+
+#+begin_src emacs-lisp
+(use-package kind-icon
+  :after corfu
+  :init (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  :custom (kind-icon-default-face 'corfu-default))
+#+end_src
+
+~Corfu~ should also display its completions in a floating window.
+
+#+begin_src emacs-lisp
+(use-package corfu-popupinfo
+  :elpaca nil
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
+#+end_src
+
+~Corfu~ should also function inside our Emacs terminals.
+
+#+begin_src emacs-lisp
+(use-package corfu-terminal
+  :unless window-system
+  :after corfu
+  :hook (corfu-mode . corfu-terminal-mode))
+#+end_src
+
+**** Tempel: Simple Template (Snippets) System
+
+#+begin_src emacs-lisp
+(use-package tempel
+  :hook ((prog-mode text-mode) . tempel-setup-capf)
+  :init (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory)))
+#+end_src
+
+Integrating Temple with Corfu to automatically display possible snippet completions. 
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete completion-at-point-functions)))
+#+end_src
+
+:TODO|CDLaTeX Alternative 
+
+**** ChatGPT: Trained Machine Learning System
+
+#+begin_src emacs-lisp :tangle no
+(use-package chatgpt-shell
+  :general (irkalla/comma-lead-keydef
+             "o c" '(chatgpt-shell :which-key "Startup ChatGPT client")
+             "o d" '(dall-e-shell  :which-key "Startup DALL-E client"))
+  :custom (chatgpt-shell-openai-key (lambda ()
+                                      (irkalla/read-secret-file "closedAI"))))
+#+end_src
+
+*** Harnessing the Powers of LSP
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :init
+  (setq completions-detailed t
+        completion-ignore-case t
+        tab-always-indent 'completion
+        tab-first-completion 'word-or-paren-or-punct))
+#+end_src
+
+**** Orderless: Completion That Matches Multiple Regexp
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :after vertico
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles  . (orderless flex)))
+                                        (eglot (styles . (orderless flex))))))
+#+end_src
+
+**** Eglot: Language Server Protocol
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :elpaca nil
+  :custom
+  (eglot-extend-to-xref t)
+  (eglot-ignored-server-capabilities '(:hoverProvider)))
+#+end_src
+
+**** Flycheck: On-The-Fly Syntax Checking
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :hook (prog-mode . global-flycheck-mode)
+  :custom (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+#+end_src
+
+*** Coding Language Specific Changes
+
+#+begin_src emacs-lisp
+(use-package eglot
+  <<eglot-bindings>>
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-menu-string "LSP")
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-confirm-server-initiated-edits nil))
+#+end_src
+
+Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
+
+#+begin_src emacs-lisp
+:general
+(irkalla/space-lead-keydef
+  :keymaps 'eglot-mode-map
+  "l a"    '(eglot-code-actions    :which-key "Perform code-actions on buffer")
+  "l r"    '(eglot-rename          :which-key "Rename $SYMBOL to a newer name")
+  "l f"    '(eglot-format          :which-key "Format active buffer")
+  "l ?"    '(xref-find-references  :which-key "Find references of identifier at cursor")
+  "l d"    '(xref-find-definitions :which-key "Find definition of identifier at cursor")
+  "l /"    '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
+#+end_src
+
+**** Emacs-Lisp: Emacs Very Own Lisp Dialect
+
+#+begin_src emacs-lisp
+(use-package parinfer-rust-mode
+  :hook (emacs-lisp-mode . parinfer-rust-mode)
+  :custom (parinfer-rust-auto-download t))
+#+end_src
+
+**** Haskell: Lazy & Statically Typed FP Language
+
+#+begin_src emacs-lisp
+(use-package haskell-mode
+  :mode ("\\.hs\\'" . haskell-mode)
+  :hook (haskell-mode . eglot-ensure)
+  :init (setq-local eglot-workspace-configuration
+                    '((haskell (formattingProvider "stylish-haskell")))))
+#+end_src
+
+**** Nix: Dynamic Typed FP Language Used in NixOS
+
+#+begin_src emacs-lisp
+(use-package nix-mode
+  :mode ("\\.nix\\'" . nix-mode)
+  :hook (nix-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
+#+end_src
+
+**** Python: Boring High-level GP Language
+
+#+begin_src emacs-lisp
+(use-package python-mode
+  :mode ("\\.py\\'" . python-mode)
+  :hook (python-mode . eglot-ensure)
+  :config
+  (setq eglot-workspace-configuration
+        '((:pyright . ((useLibraryCodeForTypes . t))))))
+#+end_src
+
+**** Rust: A Type-safe GP Language
+
+#+begin_src emacs-lisp
+(use-package rustic
+  :mode ("\\.rs$" . rustic-mode)
+  :custom (rustic-lsp-client 'eglot)
+  :init (setq-default eglot-workspace-configuration
+                      '((:rust-analyzer
+                         ;; https://rust-analyzer.github.io/manual.html
+                         :completion  (;; Completion-related
+                                       :callable (:snippets "fill_arguments"))
+                         :checkOnSave (;; Actions to check upon saving
+                                       :command "clippy"
+                                       :allTargets :json-false))))
+  :config
+  (defun irkalla/locate-cargo-toml (dir)
+    "Locate the missing rust project Cargo."
+    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
+        (list 'vc 'Git root)))
+  (add-hook 'rust-mode-hook (lambda ()
+                              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+#+end_src
+
+**** Typst: The Modern & Cleaner LaTeX
+
+#+begin_src emacs-lisp
+(use-package typst-mode
+  :elpaca (:host github :repo "Ziqi-Yang/typst-mode.el")
+  :mode ("\\.typ\\'" . typst-mode))
+#+end_src
+
+**** Yuck: Elkowar's Lisp Dialect for EWW
+
+#+begin_src emacs-lisp :tangle no
+(use-package yuck-mode)
+#+end_src
+
+** Concluding Our Journey with Irkalla Emacs
 
 #+begin_src emacs-lisp
 ;;; init.el ends here
