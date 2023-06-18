@@ -1,4 +1,4 @@
-#+title:        Irkalla - Path of No Return
+#+title:        Irkalla Emacs -> Path of No Return
 #+date:         2023-01-09
 #+author:       Icy-Thought
 #+description:  a introduction to my very first Emacs config!
@@ -6,8 +6,10 @@
 #+CAPTION: Irkalla Dashboard
 [[../.github/assets/png/irkalla.png]]
 
-* Irkalla
+* Irkalla Emacs
+
   This directory was created in attempt to create my very first Emacs configuration without relaying on pre-existing Emacs frameworks!
 
 * Credits
-  - [[Wallpaper][./logo.svg]] - Sergey_Kandakov
+
+  - [[Wallpaper][./logo.svg]] - =Sergey_Kandakov=

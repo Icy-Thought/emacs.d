@@ -1,6 +1,7 @@
 #+title: Just a Literate Emacs Configuration
 #+author: Icy-Thought
 #+language: en
+#+STARTUP: showeverything
 
 #+NAME: irkalla-emacs.png
 #+CAPTION: Showcasing my very first standalone Emacs configuration.
@@ -27,12 +28,13 @@
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
-    - [[#user-directories][User Directories]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
+    - [[#switching-user-directories][Switching User Directories]]
     - [[#general-management][General Management]]
     - [[#decorating-our-emacs][Decorating our Emacs]]
     - [[#specifying-several-useful-options][Specifying Several Useful Options]]
   - [[#expanding-irkallas-abilities][Expanding Irkalla's Abilities]]
+    - [[#supercharging-with-essentials][Supercharging with Essentials]]
     - [[#applying-vibrant-colors-to-irkalla][Applying Vibrant Colors To Irkalla]]
     - [[#unleashing-the-power-of-ui-extensions][Unleashing the Power of UI Extensions]]
     - [[#building-a-versatile-toolbox][Building a Versatile Toolbox]]
@@ -43,9 +45,8 @@
   - [[#concluding-our-journey-with-irkalla-emacs][Concluding Our Journey with Irkalla Emacs]]
 
 * Early Initialization of Irkalla Emacs
-
 :PROPERTIES:
-:header-args: :tangle early-init.el
+:header-args+: :tangle early-init.el :noweb yes
 :END:
 
 Complying with the [[https://gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html][Emacs convention]] with the intention of making it a tad easier for people to determine who the hell
@@ -139,7 +140,7 @@ wrote this madness.. (😅)
 Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 
 #+NAME: disable-emacs-modeline
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (put 'mode-line-format 'initial-value (default-toplevel-value 'mode-line-format))
 
 (setq-default mode-line-format nil)
@@ -194,9 +195,8 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 #+end_src
 
 * Embarking on the Irkalla Journey: Initialization.
-
 :PROPERTIES:
-:header-args: :tangle init.el
+:header-args+: :tangle init.el :noweb yes
 :END:
 
 Complying with the [[https://gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html][Emacs convention]] with the intention of making it a tad easier for people to determine who the hell
@@ -225,69 +225,6 @@ To retain our sanity, let's enable =debug-on-error=
 
 #+begin_src emacs-lisp
 (setq debug-on-error init-file-debug)
-#+end_src
-
-*** User Directories
-
-**** Cache/Config/Data Directories
-
-#+begin_src emacs-lisp
-(require 'xdg)
-
-(setq-default
- user-emacs-config-directory (expand-file-name "emacs" (xdg-config-home))
- user-emacs-data-directory   (expand-file-name "emacs" (xdg-data-home))
- user-emacs-cache-directory  (expand-file-name "emacs" (xdg-cache-home)))
-#+end_src
-
-**** Migrating Backup & Cache Directory
-
-#+begin_src emacs-lisp
-(let ((backup-dir (expand-file-name "backup" user-emacs-cache-directory))
-      (auto-save-dir (expand-file-name "auto-save" user-emacs-cache-directory)))
-  (unless (file-directory-p backup-dir)
-    (mkdir backup-dir t)
-    (mkdir auto-save-dir t))
-
-  (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-save-dir t))
-        create-lockfiles nil
-        backup-by-copying t))
-#+end_src
-
-***** Limiting Age & Backup Age
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :elpaca nil
-  :custom
-  (backup-by-copying t)
-  (delete-by-moving-to-trash t)
-  (delete-old-versions t)
-  (kept-new-versions 10)
-  (kept-old-versions 3))
-#+end_src
-
-**** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
-
-#+begin_src emacs-lisp
-(setq custom-file
-      (if (boundp 'server-socket-dir)
-          (expand-file-name "custom.el" server-socket-dir)
-        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
-
-(when (file-exists-p custom-file)
-  (load custom-file))
-#+end_src
-
-**** Custom-theme Directory
-
-#+begin_src emacs-lisp
-(defconst irkalla-directory "~/git/icy-thought/emacs.d/irkalla")
-
-(add-to-list 'load-path irkalla-directory)
-
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" irkalla-directory))
 #+end_src
 
 *** Elpaca: Package Manager
@@ -350,6 +287,69 @@ To retain our sanity, let's enable =debug-on-error=
 
 #+begin_src emacs-lisp
 (elpaca-wait)
+#+end_src
+
+*** Switching User Directories
+
+**** Cache/Config/Data Directories
+
+#+begin_src emacs-lisp
+(require 'xdg)
+
+(setq-default
+ user-emacs-config-directory (expand-file-name "emacs" (xdg-config-home))
+ user-emacs-data-directory   (expand-file-name "emacs" (xdg-data-home))
+ user-emacs-cache-directory  (expand-file-name "emacs" (xdg-cache-home)))
+#+end_src
+
+**** Migrating Backup & Cache Directory
+
+#+begin_src emacs-lisp
+(let ((backup-dir (expand-file-name "backup" user-emacs-cache-directory))
+      (auto-save-dir (expand-file-name "auto-save" user-emacs-cache-directory)))
+  (unless (file-directory-p backup-dir)
+    (mkdir backup-dir t)
+    (mkdir auto-save-dir t))
+
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-save-dir t))
+        create-lockfiles nil
+        backup-by-copying t))
+#+end_src
+
+***** Limiting Age & Backup Age
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :custom
+  (backup-by-copying t)
+  (delete-by-moving-to-trash t)
+  (delete-old-versions t)
+  (kept-new-versions 10)
+  (kept-old-versions 3))
+#+end_src
+
+**** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
+
+#+begin_src emacs-lisp
+(setq custom-file
+      (if (boundp 'server-socket-dir)
+          (expand-file-name "custom.el" server-socket-dir)
+        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
+
+(when (file-exists-p custom-file)
+  (load custom-file))
+#+end_src
+
+**** Custom-theme Directory
+
+#+begin_src emacs-lisp
+(defconst irkalla-directory "~/git/icy-thought/emacs.d/irkalla")
+
+(add-to-list 'load-path irkalla-directory)
+
+(add-to-list 'custom-theme-load-path (expand-file-name "colorschemes" irkalla-directory))
 #+end_src
 
 *** General Management
@@ -615,6 +615,7 @@ Changed file? Do not fret any longer, update the damn file!
 #+end_src
 
 **** Highlight Cursor-line
+
 #+begin_src emacs-lisp
 (use-package hl-line
   :elpaca nil
@@ -622,6 +623,7 @@ Changed file? Do not fret any longer, update the damn file!
 #+end_src
 
 **** Auto-revert: Update Inactive Files on-change
+
 #+begin_src emacs-lisp
 (use-package auto-revert
   :elpaca nil
@@ -632,6 +634,7 @@ Changed file? Do not fret any longer, update the damn file!
 #+end_src
 
 **** Word-based movement
+
 #+begin_src emacs-lisp
 (use-package subword
   :elpaca nil
@@ -697,6 +700,202 @@ We also want to move to last known position in the buffer we just entered.
 #+end_src
 
 ** Expanding Irkalla's Abilities
+
+*** Supercharging with Essentials
+
+**** General: A More Convenient Method for Binding Keys
+
+#+begin_src emacs-lisp
+(use-package general
+  :demand t
+  :config
+  (general-evil-setup t)
+  (general-override-mode)
+  (general-auto-unbind-keys)
+
+  ;; :NOTE| defining several ease-of-use bindings
+  (general-create-definer irkalla/space-lead-keydef
+    :keymaps 'override
+    :states '(emacs insert motion normal visual)
+    :prefix "SPC"
+    :global-prefix "M-SPC")
+
+  (general-create-definer irkalla/comma-lead-keydef
+    :keymaps 'override
+    :states '(emacs insert motion normal visual)
+    :prefix ","
+    :non-normal-prefix "M-,"))
+#+end_src
+
+Have Elpaca wait & verify that ~General~ was installed properly.
+
+#+begin_src emacs-lisp
+(elpaca-wait)
+#+end_src
+
+A place for non-categorized ~General~ bindings is always appreciated.
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :general
+  (irkalla/space-lead-keydef
+    ;; Buffer-related
+    "b"     '(:ignore t        :which-key "Buffer Management")
+    "b d"   '(kill-this-buffer :which-key "Kill active buffer")
+    "b n"   '(next-buffer      :which-key "Switch to next buffer")
+    "b p"   '(previous-buffer  :which-key "Switch to previous buffer")
+    "b s"   '(scratch-buffer   :which-key "Switch to current perspective scratch-buf")
+
+    ;; File-related
+    "f"     '(:ignore t        :which-key "Files")
+    "f RET" '(find-file        :which-key "Find files in current directory")
+
+    ;; Expression evaluation
+    "e"     '(:ignore t        :which-key "Evaluation")
+    "e e"   '(eval-expression  :which-key "Evaluate input expression")
+    "e b"   '(eval-buffer      :which-key "Evaluate buffer")
+
+    ;; Project Management
+    "p"          '(:ignore t              :which-key "Projects")
+    "p r"        '(projectile-replace     :which-key "Search & replace string in project")
+
+    ;; Manage Emacs session
+    "q"     '(:ignore t        :which-key "Manage active Emacs session")
+    "q r"   '(restart-emacs    :which-key "Restart Emacs session")
+    "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
+
+  (irkalla/space-lead-keydef
+    :states '(visual)
+    "e r"   '(eval-region      :which-key "Eval highlighted region")))
+#+end_src
+
+**** Helpful: Contextual & More Convenient Help Menu
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :general
+  (irkalla/space-lead-keydef
+    "h"   '(:ignore t        :which-key "Helpful")
+    "h k" '(helpful-key      :which-key "Describe Key")
+    "h f" '(helpful-callable :which-key "Describe Function")
+    "h v" '(helpful-variable :which-key "Describe Variable")
+    "h C" '(helpful-command  :which-key "Describe command")
+    "h F" '(helpful-function :which-key "Describe interactive functions"))
+
+  (irkalla/comma-lead-keydef
+    :keymaps 'emacs-lisp-mode-map
+    "h p" '(helpful-at-point :which-key "Show help for SYMB")))
+#+end_src
+
+**** Which-Key: Pop-up That Displays Available Bindings
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :custom
+  (which-key-allow-evil-operators t)
+  (which-key-idle-delay 0.3)
+  (which-key-show-remaining-keys t)
+  (which-key-separator " → ")
+  (which-key-sort-order 'which-key-prefix-then-key-order)
+  :config
+  (which-key-mode)
+  (which-key-setup-minibuffer))
+#+end_src
+
+**** Hydra:
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package hydra
+  :hook (emacs-lisp-mode . hydra-add-imenu))
+#+end_src
+
+Better to have our Hydra's float in mid-space instead of being positioned in the mini-buffer.
+
+#+begin_src emacs-lisp
+(use-package hydra-posframe
+  :after hydra
+  :hook (after-init . hydra-posframe-enable)
+  :custom
+  (hydra-hint-display-type 'posframe)
+  (hydra-posframe-show-params '((internal-border-width . 2)
+                                (left-fringe . 15)
+                                (right-fringe . 15)
+                                (poshandler . posframe-poshandler-window-center))))
+#+end_src
+
+A leader-key + easy way to implement hydras would reduce the burden of implementing such feature.
+
+#+begin_src emacs-lisp
+(use-package major-mode-hydra
+  :after hydra
+  :bind ("M-RET" . major-mode-hydra))
+#+end_src
+
+Guaranteeing that Hydra was installed properly is benefitial to our setup!
+
+#+begin_src emacs-lisp
+(elpaca-wait)
+#+end_src
+
+***** Pretty-Hydra: Project.el
+
+#+begin_src emacs-lisp
+(use-package project
+  :elpaca nil
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Project Management" 'mdicon "nf-seti-project")
+           :color teal :quit-key ("q" "c-g")))
+  ("Finder"
+   (("f" project-find-file "navigate file in project" :exit t)
+    ("f" project-or-external-find-file "navigate file in project or external root" :exit t)
+    ("r" projectile-recent "Navigate to recent file in project" :exit t))
+   "Buffers"
+   (("b" project-switch-to-buffer "Switch to buffer in project" :exit t)
+    ("K" project-kill-buffers "Kill opened buffers in project" :exit t))
+   "Actions"
+   (("R" project-query-replace-regexp "Query-replace REGEXP for all files in project" :exit t)
+    ("m" project-compile "Compile project" :exit t))
+   "Modes"
+   (("g" project-vc-dir "Run VC-DIR in project" :exit t)
+    ("h" project-dired "Start Dired in project" :exit t)
+    ("t" projectile-run-vterm "Run VTerm in project" :exit t))
+   "Search"
+   (("/" project-find-regexp "Find all matches for REGEXP in project" :exit t)
+    ("s" project-or-external-find-regexp "Find all matches for REGEXP in project OR outside" :exit t)
+    ("p" projectile-switch-project "Switch to known project" :exit t)))
+  :bind ("M-RET p" . project-hydra/body))
+#+end_src
+
+***** Pretty-Hydra: Eglot
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :elpaca nil
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Eglot (LSP)" 'mdicon "nf-md-code_braces_box")
+           :color teal :quit-key ("q" "c-g")))
+  ("Find"
+   (("d"  eglot-find-declaration "Find declaration for SYM" :exit t)
+    ("i"  eglot-find-implementation "Find implementation for SYM" :exit t)
+    ("D"  eglot-find-typeDefinition "Find type-def for SYM" :exit t))
+   "Edit"
+   (("r" eglot-rename "Rename symbol -> NEWNAME" :exit t)
+    ("a" eglot-code-actions "Display code actions of region" :exit t))
+   "Format"
+   (("=" eglot-format-buffer "Format active buffer" :exit t)
+    ("]" eglot-format "Format highlighted region" :exit t))
+   "Management"
+   (("X" eglot-shutdown "Shutdown Eglot server" :exit t)
+    ("R" eglot-reconnect "Re-connect Eglot server" :exit t)
+    ("E" eglot-events-buffer "Display server events buffer" :exit t)))
+  :bind ("M-RET l" . eglot-hydra/body))
+#+end_src
 
 *** Applying Vibrant Colors To Irkalla 
 
@@ -1354,8 +1553,9 @@ We also want to jump back to the last known position after opening a PDF file.
 #+end_src
 
 **** NOV: An EPUB Reader
-
-#+PROPERTY: header-args :tangle no
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src emacs-lisp
 (use-package nov
@@ -1429,9 +1629,6 @@ Integrating ~Treemacs~ with several packages:
 (use-package treemacs-evil
   :after (treemacs evil))
 
-(use-package treemacs-evil
-  :after (treemacs evil))
-
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
@@ -1444,8 +1641,9 @@ Integrating ~Treemacs~ with several packages:
 #+end_src
 
 **** EShell: A Powerful Shell Which Understands Elisp!
-
-#+PROPERTY: header-args :tangle no
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src emacs-lisp
 (use-package eshell
@@ -1735,6 +1933,9 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
 #+end_src
 
 **** MEOW: Yet Another Modal Editing
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 Defining our ~QWERTY~-related bindings.
 
@@ -1959,6 +2160,7 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   (org-export-preserve-breaks t)
   (org-hide-emphasis-markers t)
   (org-highlight-latex-and-related '(native))
+  (org-image-actual-width (* (display-pixel-width) 0.8))
   (org-insert-heading-respect-content t)
   (org-latex-tables-centered t)
   (org-pretty-entities t)
@@ -2052,6 +2254,19 @@ A GUI is desired for our Org-Roam to reduce the burden of browsing our notes.
 #+end_src
 
 ***** Org-Babel: Execution of Org SRC-blocks
+
+#+begin_src emacs-lisp
+(setq org-babel-default-header-args
+      '((:cache   . "no")
+        (:eval    . "never-export")
+        (:exports . "code")
+        (:hlines  . "no")
+        (:noweb   . "yes")
+        (:results . "drawer replace")
+        (:session . "none")
+        (:tangle  . "no")))
+(setq org-edit-src-auto-save-idle-delay 5)
+#+end_src
 
 Asynchronous ~Org-Babel~ evaluation for quicker block play.
 
