@@ -1338,7 +1338,7 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
   "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
   "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
   "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
-  "l ["        '(consult-flymake        :which-key "Jump to Flymake diagnostics")
+  "l ["        '(consult-flycheck       :which-key "Jump to Flycheck diagnostics")
   "l ]"        '(consult-compile-error  :which-key "Jump to compile-error in buffer"))
 
 (irkalla/comma-lead-keydef
@@ -1353,6 +1353,13 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
   "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
   "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
   "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame"))
+#+end_src
+
+The missing flycheck diagnostics integration with consult.
+
+#+begin_src emacs-lisp
+(use-package consult-flycheck
+  :after (consult flycheck))
 #+end_src
 
 Might as-well have consult integrate itself to our projectile and display existing files in current project directory.
