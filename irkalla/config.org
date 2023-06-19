@@ -227,6 +227,12 @@ To retain our sanity, let's enable =debug-on-error=
 (setq debug-on-error init-file-debug)
 #+end_src
 
+Profiling our Irkalla Emacs is necessary for determining what is slowing it down!
+
+#+begin_src emacs-lisp
+(setq use-package-compute-statistics t)
+#+end_src
+
 *** Elpaca: Package Manager
 
 **** Bootstrapping According to Official Docs
@@ -1523,6 +1529,7 @@ A quick function which helps us connect to our Matrix server on the fly.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
+  :defer t
   :elpaca nil ; :WARN| package <- fetch from Nixpkgs
   :custom
   (pdf-view-use-scaling t)
@@ -1817,7 +1824,7 @@ Management of history behaviour is necessary to prevent undesired garbage from s
 #+begin_src emacs-lisp
 (use-package savehist
   :elpaca nil
-  :init (savehist-mode 1)
+  :hook ((markdown-mode org-mode prog-mode text-mode) . savehist-mode)
   :custom
   (history-length 1000)
   (history-delete-duplicates t)
@@ -1831,7 +1838,7 @@ Navigate to last known position inside our buffer for quicker editing.
 #+begin_src emacs-lisp
 (use-package saveplace
   :elpaca nil
-  :init (save-place-mode t)
+  :hook ((markdown-mode org-mode prog-mode text-mode) . savehist-mode)
   :custom
   (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
   (save-place-forget-unreadable-files t))
@@ -2167,7 +2174,7 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   (org-export-preserve-breaks t)
   (org-hide-emphasis-markers t)
   (org-highlight-latex-and-related '(native))
-  (org-image-actual-width (* (display-pixel-width) 0.8))
+  (org-image-actual-width (truncate (* (window-pixel-width) 0.8)))
   (org-insert-heading-respect-content t)
   (org-latex-tables-centered t)
   (org-pretty-entities t)
