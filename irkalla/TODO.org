@@ -34,6 +34,7 @@
 - [] Customize Emacs-conf to surpass nvim-conf
   
 * :TODO: Actions
+- [ ] Proper ement scratchpad that works on hide..
 - [ ] LaTeX Setup (CDLaTeX + texlab-like compiling from nvim (tectonic???))
 - [ ] (ORG-MODE) Rust babel <- :FIXME| issue with main package...
 - [ ] Completion + Tab behavior.. (insert tab when no word prior to completion = desired)
