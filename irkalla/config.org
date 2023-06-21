@@ -1503,7 +1503,10 @@ and later deciding which one to hop-on to.
   :config (setq git-gutter:update-interval 1))
 #+end_src
 
-**** Ement: A Superior Matrix Client
+**** Ement: A Superior Matrix Client (disabled)
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src emacs-lisp
 (use-package ement
