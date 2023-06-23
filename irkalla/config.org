@@ -1350,7 +1350,7 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
   "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
   "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
   "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
-  "l ["        '(consult-flycheck       :which-key "Jump to Flycheck diagnostics")
+  "l ["        '(consult-flymake        :which-key "Jump to Flymake diagnostics")
   "l ]"        '(consult-compile-error  :which-key "Jump to compile-error in buffer"))
 
 (irkalla/comma-lead-keydef
@@ -1365,13 +1365,6 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
   "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
   "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
   "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame"))
-#+end_src
-
-The missing flycheck diagnostics integration with consult.
-
-#+begin_src emacs-lisp
-(use-package consult-flycheck
-  :after (consult flycheck))
 #+end_src
 
 Might as-well have consult integrate itself to our projectile and display existing files in current project directory.
@@ -2540,12 +2533,34 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (eglot-ignored-server-capabilities '(:hoverProvider)))
 #+end_src
 
+**** Flymake: Built-in Syntax Checker
+
+#+begin_src emacs-lisp
+(use-package flymake
+  :elpaca nil
+  :hook (prog-mode . flymake-mode)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t)
+  (flymake-fringe-indicator-position 'right-fringe)
+  (elisp-flymake-byte-compile-load-path load-path))
+#+end_src
+
 **** Flycheck: On-The-Fly Syntax Checking
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src emacs-lisp
 (use-package flycheck
   :hook (prog-mode . global-flycheck-mode)
   :custom (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+#+end_src
+
+The missing flycheck diagnostics integration with consult.
+
+#+begin_src emacs-lisp
+(use-package consult-flycheck
+  :after (consult flycheck))
 #+end_src
 
 *** Coding Language Specific Changes
@@ -2562,6 +2577,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
 
 Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
 
+#+NAME: eglot-bindings
 #+begin_src emacs-lisp
 :general
 (irkalla/space-lead-keydef
