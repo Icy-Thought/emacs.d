@@ -1376,18 +1376,26 @@ Might as-well have consult integrate itself to our projectile and display existi
              "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 #+end_src
 
-**** Embark: Mini-Buffer Actions Rooted in Keymaps
-
-To prevent Embark from displaying multi-line docs in Eldoc, make sure that only one line is displayed at a time.
+**** Eldoc: Document Things at Point
 
 #+begin_src emacs-lisp
 (use-package eldoc
   :custom
-  (eldoc-echo-area-use-multiline-p nil)
+  (eldoc-echo-area-use-multiline-p t)
+  (eldoc-echo-area-prefer-doc-buffer t)
   (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 #+end_src
 
-Proceed with the installation & configuration of Embark.
+Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be moved into its own posframe!
+
+#+begin_src emacs-lisp
+(use-package eldoc-box
+  :after eglot
+  :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
+#+end_src
+
+
+**** Embark: Mini-Buffer Actions Rooted in Keymaps
 
 #+begin_src emacs-lisp
 (use-package embark
@@ -1407,7 +1415,7 @@ Proceed with the installation & configuration of Embark.
                  (window-parameters (mode-line-format . none)))))
 #+end_src
 
-Might as well add several binings
+Might as well add several bindings to our Embark.
 
 #+NAME: embark-bindings
 #+begin_src emacs-lisp
