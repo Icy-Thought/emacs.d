@@ -14,6 +14,7 @@
     - [[#quicker-launches-in-fundamental-mode][Quicker Launches in Fundamental-mode]]
     - [[#dont-compact-font-cache-on-gc][Don't Compact Font-cache on GC]]
     - [[#increase-processing-power][Increase Processing Power]]
+    - [[#switching-user-directories][Switching User Directories]]
     - [[#native-compilation][Native Compilation]]
   - [[#reducing-noise-on-start][Reducing Noise on Start]]
     - [[#start-up-messages][Start-up Messages]]
@@ -23,13 +24,14 @@
     - [[#encoding-system---utf-8][Encoding System -> UTF-8]]
     - [[#load-recently-compiled-el-files][Load Recently Compiled =.el= Files]]
     - [[#prevent-frame-resize-on-launch][Prevent Frame Resize on Launch]]
+  - [[#early-decorations][Early Decorations]]
+    - [[#controlling-our-various-fonts][Controlling our Various Fonts]]
     - [[#remove-bloated-ui-elements][Remove Bloated UI-elements]]
     - [[#set-frame-transparency-early][Set Frame Transparency Early]]
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
-    - [[#switching-user-directories][Switching User Directories]]
     - [[#general-management][General Management]]
     - [[#decorating-our-emacs][Decorating our Emacs]]
     - [[#specifying-several-useful-options][Specifying Several Useful Options]]
@@ -72,8 +74,7 @@ wrote this madness.. (😅)
 *** Initialize ~use-package~ at a Later Stage
 
 #+begin_src emacs-lisp
-(setq package-quickstart t
-      package-enable-at-startup nil)
+(setq package-enable-at-startup nil)
 #+end_src
 
 *** Quicker Launches in Fundamental-mode
@@ -96,13 +97,45 @@ wrote this madness.. (😅)
   (setq read-process-output-max (* 24 1024 1024)))
 #+end_src
 
+*** Switching User Directories
+
+#+begin_src emacs-lisp
+(setq user-emacs-directory (expand-file-name "~/.config/emacs"))
+
+(defconst irkalla/user-cache-dir
+  ;; :NOTE| Default location for retaining cache files.
+  (let ((dir (expand-file-name "var/" user-emacs-directory)))
+    (unless (file-directory-p dir)
+      (make-directory dir)) dir))
+
+;; :NOTE| Adding the path for our custom themes
+(add-to-list 'custom-theme-load-path (expand-file-name "colorschemes" user-emacs-directory))
+#+end_src
+
+**** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
+
+#+begin_src emacs-lisp
+(setq custom-file
+      (if (boundp 'server-socket-dir)
+          (expand-file-name "custom.el" server-socket-dir)
+        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
+
+(when (file-exists-p custom-file)
+  (load custom-file))
+#+end_src
 
 *** Native Compilation 
 
 #+begin_src emacs-lisp
-(customize-set-variable 'native-comp-async-report-warnings-errors nil)
-(customize-set-variable 'native-comp-speed 2)
-(customize-set-variable 'native-comp-deferred-compilation t)
+(when (fboundp 'native-comp-available-p)
+  ;; :NOTE| Retain native compilation cache files in ~/.cache/emacs directory
+  (let ((path (expand-file-name "eln-cache/" irkalla/user-cache-dir)))
+    (setq native-comp-eln-load-path (list path)
+          native-compile-target-directory path))
+  
+  ;; :NOTE| Reduce native-compilation noise
+  (setq native-comp-async-report-warnings-errors nil
+        inhibit-automatic-native-compilation t))
 #+end_src
 
 ** Reducing Noise on Start
@@ -170,6 +203,38 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 #+begin_src emacs-lisp
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t)
+#+end_src
+
+
+** Early Decorations
+
+*** Controlling our Various Fonts
+
+Recreating a more aesthetically pleasing environment is the dream of every ricer!
+
+#+begin_src emacs-lisp
+(setq-default default-frame-alist '((font . "JetBrainsMono Nerd Font-13")))
+
+(custom-set-faces
+ '(default        ((t (:height 125 :weight semi-bold))))
+ '(fixed-pitch    ((t (:height 105 :weight semi-bold :width expanded))))
+ '(variable-pitch ((t (:height 105 :weight semi-bold)))))
+
+(set-fontset-font "fontset-default"
+                  'arabic (font-spec :family "Scheherazade New;" :size 25))
+#+end_src
+
+**** Switching Frame Slants
+
+#+begin_src emacs-lisp
+(custom-set-faces
+ '(font-lock-builtin-face       ((t (:slant italic))))
+ '(font-lock-comment-face       ((t (:slant italic))))
+ '(font-lock-doc-face           ((t (:slant italic))))
+ '(font-lock-function-name-face ((t (:weight bold :slant italic))))
+ '(font-lock-keyword-face       ((t (:slant italic))))
+ '(font-lock-preprocessor-face  ((t (:weight bold))))
+ '(font-lock-string-face        ((t (:slant italic)))))
 #+end_src
 
 *** Remove Bloated UI-elements
@@ -294,35 +359,18 @@ Profiling our Irkalla Emacs is necessary for determining what is slowing it down
 (elpaca-wait)
 #+end_src
 
-*** Switching User Directories
+*** General Management
 
-**** Cache/Config/Data Directories
-
-#+begin_src emacs-lisp
-(require 'xdg)
-
-(setq-default
- user-emacs-config-directory (expand-file-name "emacs" (xdg-config-home))
- user-emacs-data-directory   (expand-file-name "emacs" (xdg-data-home))
- user-emacs-cache-directory  (expand-file-name "emacs" (xdg-cache-home)))
-#+end_src
-
-**** Migrating Backup & Cache Directory
+**** Prevent Littering
 
 #+begin_src emacs-lisp
-(let ((backup-dir (expand-file-name "backup" user-emacs-cache-directory))
-      (auto-save-dir (expand-file-name "auto-save" user-emacs-cache-directory)))
-  (unless (file-directory-p backup-dir)
-    (mkdir backup-dir t)
-    (mkdir auto-save-dir t))
-
-  (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-save-dir t))
-        create-lockfiles nil
-        backup-by-copying t))
+(use-package no-littering
+  :config
+  (setq no-littering-etc-directory (expand-file-name "no-littering-etc/" irkalla/user-cache-dir)
+        no-littering-var-directory (expand-file-name "no-littering-var/" irkalla/user-cache-dir)))
 #+end_src
 
-***** Limiting Age & Backup Age
+**** Limiting File & Backup Age
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -335,40 +383,7 @@ Profiling our Irkalla Emacs is necessary for determining what is slowing it down
   (kept-old-versions 3))
 #+end_src
 
-**** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
-
-#+begin_src emacs-lisp
-(setq custom-file
-      (if (boundp 'server-socket-dir)
-          (expand-file-name "custom.el" server-socket-dir)
-        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
-
-(when (file-exists-p custom-file)
-  (load custom-file))
-#+end_src
-
-**** Custom-theme Directory
-
-#+begin_src emacs-lisp
-(defconst irkalla-directory "~/git/icy-thought/emacs.d/irkalla")
-
-(add-to-list 'load-path irkalla-directory)
-
-(add-to-list 'custom-theme-load-path (expand-file-name "colorschemes" irkalla-directory))
-#+end_src
-
-*** General Management
-
-**** Prevent Littering
-
-#+begin_src emacs-lisp
-(use-package no-littering
-  :config
-  (setq no-littering-etc-directory (expand-file-name "no-littering-etc/" user-emacs-cache-directory)
-        no-littering-var-directory (expand-file-name "no-littering-var/" user-emacs-cache-directory)))
-#+end_src
-
-***** Prevent ~recentf~ From Littering
+**** Prevent ~recentf~ From Littering
 
 #+begin_src emacs-lisp
 (use-package recentf
@@ -446,56 +461,27 @@ Several minor changes which increases the eye-candy of our editor by a small mar
     (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
 #+end_src
 
-**** Specifying Desired Font-set
-
-#+begin_src emacs-lisp
-(defconst irkalla/default-font "JetBrainsMono Nerd Font")
-
-;; Making our beloved font more aesthetically pleasing!
-(set-face-attribute 'default nil
-                    :family irkalla/default-font
-                    :height 125
-                    :weight 'semi-bold)
-
-(set-face-attribute 'variable-pitch nil
-                    :family irkalla/default-font
-                    :height 105
-                    :weight 'semi-bold)
-
-(set-face-attribute 'fixed-pitch nil
-                    :family irkalla/default-font
-                    :height 105
-                    :width 'expanded
-                    :weight 'semi-bold)
-
-(set-fontset-font "fontset-default"
-                  'arabic (font-spec :family "Scheherazade New;" :size 25))
-#+end_src
-
 **** Styling Several Font-faces
-
-#+begin_src emacs-lisp
-(custom-set-faces
- '(font-lock-builtin-face       ((t (:slant italic))))
- '(font-lock-comment-face       ((t (:slant italic))))
- '(font-lock-doc-face           ((t (:slant italic))))
- '(font-lock-function-name-face ((t (:weight bold :slant italic))))
- '(font-lock-keyword-face       ((t (:slant italic))))
- '(font-lock-preprocessor-face  ((t (:weight bold))))
- '(font-lock-string-face        ((t (:slant italic)))))
-#+end_src
 
 ***** Org-Mode
 
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  <<org-quote-verse>>
+  <<org-custom-faces>>)
+#+end_src
+
 ****** Quotes Shall Become /Italic/
 
+#+NAME: org-quote-verse
 #+begin_src emacs-lisp
 (setq-default org-fontify-quote-and-verse-blocks t)
 #+end_src
 
 ****** Headings Ought to Grow in Size
 
-#+begin_src emacs-lisp
+#+NAME: org-custom-faces
+#+begin_src emacs-lisp :tangle no
 (custom-set-faces
  '(org-document-title ((t (:height 1.5))))
  '(org-level-1        ((t (:inherit outline-1 :height 1.25))))
@@ -507,9 +493,15 @@ Several minor changes which increases the eye-candy of our editor by a small mar
 
 ***** Markdown
 
+#+begin_src emacs-lisp
+(with-eval-after-load 'markdown-mode
+  <<markdown-custom-faces>>)
+#+end_src
+
 ****** Headings Shall Follow the Steps of Org-Mode
 
-#+begin_src emacs-lisp
+#+NAME: markdown-custom-faces
+#+begin_src emacs-lisp :tangle no
 (custom-set-faces
  '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
  '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
@@ -574,11 +566,11 @@ Also, ligatures for cleaner symbols
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :config (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   :custom
   (echo-keystrokes 0.02)
   (enable-local-variables t)
   (enable-recursive-minibuffers t)
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (help-window-select t)
   (inhibit-startup-echo-area-message t)
   (kill-whole-line t)
@@ -924,7 +916,6 @@ Enabling our theme has never been more pleasant!
 #+begin_src emacs-lisp
 (with-eval-after-load 'autothemer
   (irkalla/apply-theme 'rose-pine))
-
 #+end_src
 
 **** Alert: System-integrated Notifier
@@ -1002,13 +993,7 @@ Enabling our theme has never been more pleasant!
   (centaur-tabs-show-count nil)
   (centaur-tabs-left-edge-margin nil)
   (centaur-tabs-headline-match)
-  :config
-  (dolist (centaur-face '(centaur-tabs-selected
-                          centaur-tabs-selected-modified
-                          centaur-tabs-unselected
-                          centaur-tabs-unselected-modified))
-    (set-face-attribute centaur-face nil :family irkalla/default-font :height 110))
-  (setq x-underline-at-descent-line t))
+  :config (setq x-underline-at-descent-line t))
 #+end_src
 
 **** Emacs-Dashboard: A Home-Page for our Emacs
@@ -1026,7 +1011,7 @@ Enabling our theme has never been more pleasant!
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
-  (dashboard-startup-banner (expand-file-name "dasHead.svg" user-emacs-config-directory))
+  (dashboard-startup-banner (expand-file-name "dasHead.svg" user-emacs-directory))
   (dashboard-center-content t)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
@@ -1101,9 +1086,7 @@ Enabling our theme has never been more pleasant!
 
 #+begin_src emacs-lisp
 (use-package nerd-icons
-  :custom
-  (nerd-icons-font-family irkalla/default-font)
-  (nerd-icons-scale-factors 1.25))
+  :custom (nerd-icons-scale-factors 1.25))
 #+end_src
 
 Extending the support of our Nerd-icons to function in other areas.
@@ -1131,10 +1114,7 @@ Extending the support of our Nerd-icons to function in other areas.
 ***** Installing SVG-tags + SVG-lib
 
 #+begin_src emacs-lisp
-(use-package svg-lib
-  :config
-  (plist-put svg-lib-style-default :font-family irkalla/default-font)
-  (plist-put svg-lib-style-default :font-size 13))
+(use-package svg-lib)
 
 (use-package svg-tag-mode
   :after svg-lib
@@ -1424,7 +1404,7 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 Might as well add several bindings to our Embark.
 
 #+NAME: embark-bindings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 :general
 (irkalla/comma-lead-keydef
   "e"   '(:ignore t       :which-key "Embark")
@@ -1580,7 +1560,7 @@ We also want to jump back to the last known position after opening a PDF file.
 #+begin_src emacs-lisp
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode)
-  :custom (pdf-view-restore-filename (expand-file-name "pdf-view-restore" user-emacs-cache-directory)))
+  :custom (pdf-view-restore-filename (expand-file-name "pdf-view-restore" irkalla/user-cache-dir)))
 #+end_src
 
 **** NOV: A Customizable EPUB Reader (disabled)
@@ -1879,7 +1859,7 @@ Management of history behaviour is necessary to prevent undesired garbage from s
   (history-delete-duplicates t)
   (savehist-autosave-interval 60)
   (savehist-save-minibuffer-history t)
-  (savehist-file (expand-file-name "savehist" user-emacs-cache-directory)))
+  (savehist-file (expand-file-name "savehist" irkalla/user-cache-dir)))
 #+end_src
 
 Navigate to last known position inside our buffer for quicker editing.
@@ -1889,7 +1869,7 @@ Navigate to last known position inside our buffer for quicker editing.
   :elpaca nil
   :hook ((markdown-mode org-mode prog-mode text-mode) . savehist-mode)
   :custom
-  (save-place-file (expand-file-name "saveplace" user-emacs-cache-directory))
+  (save-place-file (expand-file-name "saveplace" irkalla/user-cache-dir))
   (save-place-forget-unreadable-files t))
 #+end_src
 
@@ -2255,7 +2235,7 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
             "$" #'irkalla/org-electric-dollar)
   :config
   ;; :NOTE| Move our LaTeX previews to cache dir
-  (let ((latex-dir (concat user-emacs-cache-directory "latex-preview")))
+  (let ((latex-dir (concat irkalla/user-cache-dir "latex-preview")))
     (unless (file-directory-p latex-dir)
       (mkdir latex-dir t))
     (setq-default org-preview-latex-image-directory latex-dir))
@@ -2453,7 +2433,7 @@ Integrating ~Citar~ with ~Embark~.
             [tab]   #'corfu-next
             "S-TAB" #'corfu-previous
             [backtab] #'corfu-previous)
-  :hook (elpaca-after-init . global-corfu-mode)
+  :init (global-corfu-mode)
   :custom
   (corfu-auto t)
   (corfu-cycle t)
@@ -2520,7 +2500,7 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package tempel
   :hook ((prog-mode text-mode) . tempel-setup-capf)
-  :config (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory)))
+  :config (setq-default tempel-path (expand-file-name "templates/*.eld" user-emacs-directory)))
 #+end_src
 
 Integrating Temple with Corfu to automatically display possible snippet completions. 
@@ -2641,7 +2621,9 @@ Managing our coding buffers with Eglot is very common and therefore creating sho
 #+begin_src emacs-lisp
 (use-package parinfer-rust-mode
   :hook (emacs-lisp-mode . parinfer-rust-mode)
-  :custom (parinfer-rust-auto-download t))
+  :custom
+  (parinfer-rust-auto-download t)
+  (parinfer-rust-library-directory (expand-file-name "parinfer-rust/" irkalla/user-cache-dir)))
 #+end_src
 
 **** Haskell: Lazy & Statically Typed FP Language
