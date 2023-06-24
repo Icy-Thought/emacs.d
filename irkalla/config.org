@@ -72,7 +72,7 @@ wrote this madness.. (😅)
 *** Initialize ~use-package~ at a Later Stage
 
 #+begin_src emacs-lisp
-(setq package-quickstart nil
+(setq package-quickstart t
       package-enable-at-startup nil)
 #+end_src
 
@@ -363,7 +363,7 @@ Profiling our Irkalla Emacs is necessary for determining what is slowing it down
 
 #+begin_src emacs-lisp
 (use-package no-littering
-  :init
+  :config
   (setq no-littering-etc-directory (expand-file-name "no-littering-etc/" user-emacs-cache-directory)
         no-littering-var-directory (expand-file-name "no-littering-var/" user-emacs-cache-directory)))
 #+end_src
@@ -574,7 +574,7 @@ Also, ligatures for cleaner symbols
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :init (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  :config (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   :custom
   (echo-keystrokes 0.02)
   (enable-local-variables t)
@@ -905,19 +905,29 @@ Guaranteeing that Hydra was installed properly is benefitial to our setup!
 *** Applying Vibrant Colors To Irkalla 
 
 #+begin_src emacs-lisp
-(defadvice load-theme (before clear-previous-themes activate)
-  "Pave way for our upcoming theme!"
-  (mapc #'disable-theme custom-enabled-themes))
+;;;###autoload
+(defun irkalla/apply-theme (palette)
+  "A quicker way to apply our installed themes."
+  (if (custom-theme-p palette)
+      (enable-theme palette)
+    (load-theme palette :no-confirm)))
 #+end_src
 
-A wonderful package which helps us reduce the amount of boilerplate code required to setup a customized theme.
+**** Autothemer: A Convenient Way to Create Emacs Themes!
 
 #+begin_src emacs-lisp
-(use-package autothemer
-  :config (load-theme 'rose-pine t))
+(use-package autothemer)
 #+end_src
 
-A simple notification's library for us to use during our stay!
+Enabling our theme has never been more pleasant!
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'autothemer
+  (irkalla/apply-theme 'rose-pine))
+
+#+end_src
+
+**** Alert: System-integrated Notifier
 
 #+begin_src emacs-lisp
 (use-package alert
@@ -931,21 +941,23 @@ A simple notification's library for us to use during our stay!
   :custom (doom-themes-treemacs-theme "doom-colors"))
 
 (with-eval-after-load 'doom-themes
-  (doom-themes-treemacs-config))
-(load-theme (intern "doom-tokyo-night") t))
+  (doom-themes-treemacs-config)
+  (irkalla/apply-theme 'doom-tokyo-night))
 #+end_src
 
 **** Ef-Themes: Pre-defined Themes (disabled)
 
 #+begin_src emacs-lisp :tangle no
 (use-package ef-themes
-  :init (load-theme (intern "ef-winter") t)
   :custom
   (ef-themes-select 'ef-winter)
   (ef-themes-to-toggle '(ef-summer ef-winter))
   (ef-themes-mixed-fonts t)
   (ef-themes-variable-pitch-ui t)
   (ef-themes-region '(intense no-extend neutral)))
+
+(with-eval-after-load 'ef-themes
+  (irkalla/apply-theme 'ef-winter)
 #+end_src
 
 **** Colorful Delimiters
@@ -979,8 +991,8 @@ A simple notification's library for us to use during our stay!
   :general (centaur-tabs-mode-map
             "C-<prior>" #'centaur-tabs-backward
             "C-<next>"  #'centaur-tabs-forward)
-  :init (setq centaur-tabs-enable-key-bindings t)
   :custom
+  (centaur-tabs-enable-key-bindings t)
   (centaur-tabs-height 32)
   (centaur-tabs-set-icons t)
   (centaur-tabs-show-new-tab-button t)
@@ -1004,19 +1016,13 @@ A simple notification's library for us to use during our stay!
 #+begin_src emacs-lisp
 (use-package dashboard
   :after nerd-icons
-  :hook (dashboard-mode
-         . (lambda () (setq-local frame-title-format nil))) ;; remove default title
-  :init
-  ;; Launch dashboard on start!
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice
-        (lambda () (get-buffer-create "*dashboard*")))
+  :hook (elpaca-after-init . dashboard-open)
   :custom
-  ;; UI Customizations:
+  ;; :NOTE| UI-related changes
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
 
-  ;; Customizing setup:
+  ;; :NOTE| Customizing dashboard setup
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
@@ -1028,7 +1034,7 @@ A simple notification's library for us to use during our stay!
   ;; (dashboard-projects-switch-function 'irkalla/switch-project-by-name) ;; :TODO| setup a projectile consult switcher
   (dashboard-week-agenda t)
 
-  ;; Quick-Navigation buttons for our dashboard
+  ;; :NOTE| Quick-Navigation buttons for our dashboard
   (dashboard-set-navigator t)
   (dashboard-navigator-buttons
    `(
@@ -1047,7 +1053,7 @@ A simple notification's library for us to use during our stay!
        "Restart Irkalla Emacs instance."
        (lambda (&rest _) (restart-emacs))))))
 
-  ;; Controlling the state of our displayed items
+  ;; :NOTE| Controlling the state of our displayed items
   (dashboard-items '((recents   . 5)
                      (bookmarks . 5)
                      (projects  . 5)
@@ -1112,9 +1118,8 @@ Extending the support of our Nerd-icons to function in other areas.
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
 (use-package nerd-icons-completion
-  :after (nerd-icons marginalia)
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
-  :init (nerd-icons-completion-mode))
+  :after (nerd-icons vertico)
+  :hook (vertico-mode . nerd-icons-completion-mode))
 
 (use-package treemacs-nerd-icons
   :after (nerd-icons treemacs)
@@ -1133,7 +1138,7 @@ Extending the support of our Nerd-icons to function in other areas.
 
 (use-package svg-tag-mode
   :after svg-lib
-  :hook ((markdown-mode org-mode prog-mode) . svg-tag-mode)
+  :hook ((markdown-mode org-mode text-mode) . svg-tag-mode)
   :config
   <<svg-tag-constants>>
   <<svg-tag-progress-bar>>
@@ -1288,7 +1293,7 @@ Extending the support of our Nerd-icons to function in other areas.
 
 #+begin_src emacs-lisp
 (use-package openwith
-  :init (openwith-mode t)
+  :hook (elpaca-after-init . openwith-mode)
   :config
   (setq openwith-associations
         (list (list (openwith-make-extension-regexp
@@ -1311,7 +1316,7 @@ Extending the support of our Nerd-icons to function in other areas.
 (use-package consult
   <<consult-bindings>>
   :hook (completion-list-mode . consult-preview-at-point-mode)
-  :init
+  :config
   (setq register-preview-delay 0.5
         register-preview-function #'consult-register-format)
   (advice-add #'register-preview :override #'consult-register-window)
@@ -1407,8 +1412,8 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
   (embark-indicators '(embark-minimal-indicator
                        embark-highlight-indicator
                        embark-isearch-highlight-indicator))
-  :init (setq prefix-help-command #'embark-prefix-help-command)
   :config
+  (setq prefix-help-command #'embark-prefix-help-command)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -1464,15 +1469,15 @@ and later deciding which one to hop-on to.
 #+begin_src emacs-lisp
 (use-package magit-todos
   :hook (magit-mode . magit-todos-mode)
-  :init
-  (setq magit-todos-nice (if (executable-find "nice") t nil)
-        magit-todos-scanner #'magit-todos--scan-with-rg)
   :custom
   (magit-todos-recursive t)
   (magit-todos-depth 10)
   (magit-todos-exclude-globs '(".git/" "*.html"))
-  :config (custom-set-variables
-           '(magit-todos-keywords (list "TODO" "FIXME" "HACK"))))
+  (magit-todos-nice (if (executable-find "nice") t nil))
+  (magit-todos-scanner #'magit-todos--scan-with-rg)
+  :config
+  (custom-set-variables
+   '(magit-todos-keywords (list "TODO" "FIXME" "HACK"))))
 #+end_src
 
 ***** Blamer: Blame our Git Repository
@@ -1623,8 +1628,9 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
 #+begin_src emacs-lisp
 (use-package treemacs
   <<treemacs-bindings>>
-  :init (with-eval-after-load 'winum
-          (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :custom (treemacs-width 28))
 #+end_src
 
@@ -1809,7 +1815,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :init
+  :config
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"
                   (replace-regexp-in-string "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" "" crm-separator)
@@ -2162,7 +2168,7 @@ Installing ~Meow~ and notifying it about our desired bindings.
 #+begin_src emacs-lisp
 (use-package apheleia
   :diminish apheleia-mode
-  :init (apheleia-global-mode +1)
+  :hook (prog-mode . apheleia-mode)
   :config
   <<apheleia-additional-formatters>>)
  #+end_src
@@ -2404,7 +2410,7 @@ Loading ~Org-Babel~ languages should occur automatically.
   (irkalla/comma-lead-keydef
     :keymaps 'markdown-mode-map
     "m d"    '(markdown-do :which-key "Perform a senile action based on context"))
-  :init (setq markdown-command "multimarkdown"))
+  :custom (markdown-command "multimarkdown"))
 #+end_src
 
 **** Citar: Quickly Find & Act on Bibliographic References
@@ -2447,7 +2453,7 @@ Integrating ~Citar~ with ~Embark~.
             [tab]   #'corfu-next
             "S-TAB" #'corfu-previous
             [backtab] #'corfu-previous)
-  :init (global-corfu-mode)
+  :hook (elpaca-after-init . global-corfu-mode)
   :custom
   (corfu-auto t)
   (corfu-cycle t)
@@ -2487,8 +2493,8 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package kind-icon
   :after corfu
-  :init (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
-  :custom (kind-icon-default-face 'corfu-default))
+  :custom (kind-icon-default-face 'corfu-default)
+  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
 ~Corfu~ should also display its completions in a floating window.
@@ -2514,7 +2520,7 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package tempel
   :hook ((prog-mode text-mode) . tempel-setup-capf)
-  :init (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory)))
+  :config (setq-default tempel-path (expand-file-name "templates/*.eld" irkalla-directory)))
 #+end_src
 
 Integrating Temple with Corfu to automatically display possible snippet completions. 
@@ -2544,7 +2550,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :init
+  :config
   (setq completions-detailed t
         completion-ignore-case t
         tab-always-indent 'completion
@@ -2556,11 +2562,11 @@ Integrating Temple with Corfu to automatically display possible snippet completi
 #+begin_src emacs-lisp
 (use-package orderless
   :after vertico
-  :init
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles  . (orderless flex)))
-                                        (eglot (styles . (orderless flex))))))
+  :custom
+  (completion-styles '(orderless))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles  . (orderless flex)))
+                                   (eglot (styles . (orderless flex))))))
 #+end_src
 
 **** Eglot: Language Server Protocol
@@ -2644,7 +2650,7 @@ Managing our coding buffers with Eglot is very common and therefore creating sho
 (use-package haskell-mode
   :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
-  :init
+  :config
   (setq-local eglot-workspace-configuration
               '((haskell (formattingProvider "stylish-haskell")))))
 #+end_src
@@ -2674,7 +2680,8 @@ Managing our coding buffers with Eglot is very common and therefore creating sho
 #+begin_src emacs-lisp
 (use-package rustic
   :mode ("\\.rs$" . rustic-mode)
-  :init
+  :custom (rustic-lsp-client 'eglot)
+  :config
   (setq-default eglot-workspace-configuration
                 '((:rust-analyzer
                    ;; https://rust-analyzer.github.io/manual.html
@@ -2683,14 +2690,13 @@ Managing our coding buffers with Eglot is very common and therefore creating sho
                    :checkOnSave (;; Actions to check upon saving
                                  :command "clippy"
                                  :allTargets :json-false))))
-  :custom (rustic-lsp-client 'eglot)
-  :config
+
   (defun irkalla/locate-cargo-toml (dir)
     "Locate the missing rust project Cargo."
     (if-let ((root (locate-dominating-file dir "Cargo.toml")))
         (list 'vc 'Git root)))
-  (add-hook 'rust-mode-hook (lambda ()
-                              (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+  (add-hook 'rust-mode-hook
+            (lambda () (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
 #+end_src
 
 **** Typst: The Modern & Cleaner LaTeX
