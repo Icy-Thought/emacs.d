@@ -26,8 +26,6 @@
     - [[#prevent-frame-resize-on-launch][Prevent Frame Resize on Launch]]
   - [[#early-decorations][Early Decorations]]
     - [[#controlling-our-various-fonts][Controlling our Various Fonts]]
-    - [[#remove-bloated-ui-elements][Remove Bloated UI-elements]]
-    - [[#set-frame-transparency-early][Set Frame Transparency Early]]
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
@@ -48,7 +46,7 @@
 
 * Early Initialization of Irkalla Emacs
 :PROPERTIES:
-:header-args+: :tangle early-init.el :noweb yes
+:header-args+: :tangle "~/.config/emacs/early-init.el" :noweb yes
 :END:
 
 Complying with the [[https://gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html][Emacs convention]] with the intention of making it a tad easier for people to determine who the hell
@@ -74,7 +72,8 @@ wrote this madness.. (😅)
 *** Initialize ~use-package~ at a Later Stage
 
 #+begin_src emacs-lisp
-(setq package-enable-at-startup nil)
+(setq package-quickstart nil
+      package-enable-at-startup nil)
 #+end_src
 
 *** Quicker Launches in Fundamental-mode
@@ -124,7 +123,7 @@ wrote this madness.. (😅)
   (load custom-file))
 #+end_src
 
-*** Native Compilation 
+*** Native Compilation
 
 #+begin_src emacs-lisp
 (when (fboundp 'native-comp-available-p)
@@ -132,7 +131,7 @@ wrote this madness.. (😅)
   (let ((path (expand-file-name "eln-cache/" irkalla/user-cache-dir)))
     (setq native-comp-eln-load-path (list path)
           native-compile-target-directory path))
-  
+
   ;; :NOTE| Reduce native-compilation noise
   (setq native-comp-async-report-warnings-errors nil
         inhibit-automatic-native-compilation t))
@@ -146,8 +145,7 @@ wrote this madness.. (😅)
 (setq inhibit-startup-buffer-menu t
       inhibit-startup-message t
       inhibit-startup-screen t
-      inhibit-startup-echo-area-message t
-      initial-scratch-message nil)
+      inhibit-startup-echo-area-message t)
 #+end_src
 
 *** Prevent "For information..." Messages
@@ -181,15 +179,12 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
   (with-current-buffer buf (setq mode-line-format nil)))
 #+end_src
 
-** Remaining Modifications 
+** Remaining Modifications
 
 *** Encoding System -> UTF-8
 
 #+begin_src emacs-lisp
 (prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
 #+end_src
 
 *** Load Recently Compiled =.el= Files
@@ -205,16 +200,25 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
       frame-resize-pixelwise t)
 #+end_src
 
-
 ** Early Decorations
+
+#+begin_src emacs-lisp
+(setq default-frame-alist
+      '((alpha-background . 85)
+        (font . "JetBrainsMono Nerd Font 13")
+
+        ;; :NOTE| Disabling unnecessary bloat..
+        (fullscreen . nil)
+        (menu-bar-lines . 0)
+        (tool-bar-lines . 0)
+        (vertical-scroll-bars . nil)))
+#+end_src
 
 *** Controlling our Various Fonts
 
 Recreating a more aesthetically pleasing environment is the dream of every ricer!
 
 #+begin_src emacs-lisp
-(setq-default default-frame-alist '((font . "JetBrainsMono Nerd Font-13")))
-
 (custom-set-faces
  '(default        ((t (:height 125 :weight semi-bold))))
  '(fixed-pitch    ((t (:height 105 :weight semi-bold :width expanded))))
@@ -231,25 +235,10 @@ Recreating a more aesthetically pleasing environment is the dream of every ricer
  '(font-lock-builtin-face       ((t (:slant italic))))
  '(font-lock-comment-face       ((t (:slant italic))))
  '(font-lock-doc-face           ((t (:slant italic))))
- '(font-lock-function-name-face ((t (:weight bold :slant italic))))
+ '(font-lock-function-name-face ((t (:slant italic :weight bold))))
  '(font-lock-keyword-face       ((t (:slant italic))))
  '(font-lock-preprocessor-face  ((t (:weight bold))))
  '(font-lock-string-face        ((t (:slant italic)))))
-#+end_src
-
-*** Remove Bloated UI-elements
-
-#+begin_src emacs-lisp
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-#+end_src
-
-*** Set Frame Transparency Early
-
-#+begin_src emacs-lisp
-(add-to-list 'default-frame-alist '(alpha-background . 85))
-(set-frame-parameter (selected-frame) 'alpha-background 85)
 #+end_src
 
 ** Closing Early-Init!
@@ -260,7 +249,7 @@ Recreating a more aesthetically pleasing environment is the dream of every ricer
 
 * Embarking on the Irkalla Journey: Initialization.
 :PROPERTIES:
-:header-args+: :tangle init.el :noweb yes
+:header-args+: :tangle "~/.config/emacs/init.el" :noweb yes
 :END:
 
 Complying with the [[https://gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html][Emacs convention]] with the intention of making it a tad easier for people to determine who the hell
@@ -360,6 +349,8 @@ Profiling our Irkalla Emacs is necessary for determining what is slowing it down
 #+end_src
 
 *** General Management
+
+**** Profile Irkalla's Startup
 
 **** Prevent Littering
 
@@ -474,7 +465,7 @@ Several minor changes which increases the eye-candy of our editor by a small mar
 ****** Quotes Shall Become /Italic/
 
 #+NAME: org-quote-verse
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (setq-default org-fontify-quote-and-verse-blocks t)
 #+end_src
 
@@ -515,7 +506,7 @@ Several minor changes which increases the eye-candy of our editor by a small mar
 
 Reducing text in functions when possible is a nice feature to have.
 
-Example, prettify =lambda -> 𝛌= 
+Example, prettify =lambda -> 𝛌=
 #+begin_src emacs-lisp
 (use-package prettify-symbols
   :elpaca nil
@@ -616,7 +607,7 @@ Changed file? Do not fret any longer, update the damn file!
 #+begin_src emacs-lisp
 (use-package hl-line
   :elpaca nil
-  :hook (elpaca-after-init . hl-line-mode))
+  :hook (elpaca-after-init . global-hl-line-mode))
 #+end_src
 
 **** Auto-revert: Update Inactive Files on-change
@@ -624,7 +615,7 @@ Changed file? Do not fret any longer, update the damn file!
 #+begin_src emacs-lisp
 (use-package auto-revert
   :elpaca nil
-  :hook ((markdown-mode org-mode text-mode prog-mode) . auto-revert-mode)
+  :hook ((prog-mode text-mode) . auto-revert-mode)
   :custom
   (auto-revert-notify t)
   (auto-revert-verbose t))
@@ -635,14 +626,14 @@ Changed file? Do not fret any longer, update the damn file!
 #+begin_src emacs-lisp
 (use-package subword
   :elpaca nil
-  :hook (elpaca-after-init . subword-mode))
+  :hook ((prog-mode text-mode) . subword-mode))
 #+end_src
 
 We also want to move to last known position in the buffer we just entered.
 #+begin_src emacs-lisp
 (use-package save-place
   :elpaca nil
-  :hook (elpaca-after-init . save-place-mode))
+  :hook ((prog-mode text-mode) . save-place-mode))
 #+end_src
 
 **** Time: Configuring our Clock
@@ -681,7 +672,7 @@ We also want to move to last known position in the buffer we just entered.
 #+begin_src emacs-lisp
 (use-package display-line-numbers
   :elpaca nil
-  :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
+  :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
   :custom (display-line-numbers-type 'relative))
 #+end_src
 
@@ -894,7 +885,7 @@ Guaranteeing that Hydra was installed properly is benefitial to our setup!
   :bind ("M-RET l" . eglot-hydra/body))
 #+end_src
 
-*** Applying Vibrant Colors To Irkalla 
+*** Applying Vibrant Colors To Irkalla
 
 #+begin_src emacs-lisp
 ;;;###autoload
@@ -1001,7 +992,7 @@ Enabling our theme has never been more pleasant!
 #+begin_src emacs-lisp
 (use-package dashboard
   :after nerd-icons
-  :hook (elpaca-after-init . dashboard-open)
+  :config (dashboard-setup-startup-hook)
   :custom
   ;; :NOTE| UI-related changes
   (dashboard-display-icons-p t)
@@ -1024,7 +1015,7 @@ Enabling our theme has never been more pleasant!
   (dashboard-navigator-buttons
    `(
      ((,(nerd-icons-octicon "nf-oct-mark_github" :height 1.2 :v-adjust 0.0)
-       " Homepage"
+       "Homepage"
        "Browse my personal GitHub profile home."
        (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
 
@@ -1086,7 +1077,9 @@ Enabling our theme has never been more pleasant!
 
 #+begin_src emacs-lisp
 (use-package nerd-icons
-  :custom (nerd-icons-scale-factors 1.25))
+  :custom
+  (nerd-icons-font-family "JetBrainsMono Nerd Font")
+  (nerd-icons-scale-factors 1.25))
 #+end_src
 
 Extending the support of our Nerd-icons to function in other areas.
@@ -1109,23 +1102,22 @@ Extending the support of our Nerd-icons to function in other areas.
   :config (treemacs-load-theme "nerd-icons"))
 #+end_src
 
-**** SVG-Tags: A Ricer's Dream, SVG-based Tagging System! 
+**** SVG-Tags: A Ricer's Dream, SVG-based Tagging System!
 
-***** Installing SVG-tags + SVG-lib
+***** Installing SVG-Tags
 
 #+begin_src emacs-lisp
-(use-package svg-lib)
-
 (use-package svg-tag-mode
-  :after svg-lib
-  :hook ((markdown-mode org-mode text-mode) . svg-tag-mode)
+  :hook (text-mode . svg-tag-mode)
   :config
+  (plist-put svg-lib-style-default :font-size 13)
+
   <<svg-tag-constants>>
   <<svg-tag-progress-bar>>
   <<svg-tags>>)
 #+end_src
 
-***** Defining Various SVG-tags
+***** Defining Various SVG-Tags
 
 ****** Defining our Constants.
 
@@ -1853,7 +1845,7 @@ Management of history behaviour is necessary to prevent undesired garbage from s
 #+begin_src emacs-lisp
 (use-package savehist
   :elpaca nil
-  :hook ((markdown-mode org-mode prog-mode text-mode) . savehist-mode)
+  :hook ((prog-mode text-mode) . savehist-mode)
   :custom
   (history-length 1000)
   (history-delete-duplicates t)
@@ -1867,7 +1859,7 @@ Navigate to last known position inside our buffer for quicker editing.
 #+begin_src emacs-lisp
 (use-package saveplace
   :elpaca nil
-  :hook ((markdown-mode org-mode prog-mode text-mode) . savehist-mode)
+  :hook ((prog-mode text-mode) . savehist-mode)
   :custom
   (save-place-file (expand-file-name "saveplace" irkalla/user-cache-dir))
   (save-place-forget-unreadable-files t))
@@ -1951,7 +1943,7 @@ Escaping ~Evil-Mode~ should be relatively easy.
   (evil-escape-unodered-key-sequence nil))
 #+end_src
 
-Displaying a visual hint for the actions performed in ~Evil-Mode~ seems to be reasonable and should therefore be included. 
+Displaying a visual hint for the actions performed in ~Evil-Mode~ seems to be reasonable and should therefore be included.
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
@@ -2114,11 +2106,11 @@ Installing ~Meow~ and notifying it about our desired bindings.
 
 :TODO| colors -> indentation level + color change based on level of indentation
 
-**** Olivetti: Center Alignment of Content 
+**** Olivetti: Center Alignment of Content
 
 #+begin_src emacs-lisp
 (use-package olivetti
-  :hook (elpaca-after-init . olivetti-mode)
+  :defer t
   :general (irkalla/comma-lead-keydef
              "q" '(olivetti-mode :which-key "Distraction free writing!"))
   :custom
@@ -2196,7 +2188,7 @@ Being able to disable the code-formatter on demand is certainly desirable.
 #+begin_src emacs-lisp
 (use-package jinx
   :elpaca nil
-  :hook (elpaca-after-init . global-jinx-mode)
+  :hook ((prog-mode text-mode) . global-jinx-mode)
   :general (general-nmap "z =" '(jinx-correct :which-key "Correct the damned misspellings...")))
 #+end_src
 
@@ -2414,7 +2406,8 @@ Integrating ~Citar~ with ~Embark~.
 
 #+begin_src emacs-lisp
 (use-package undo-tree
-  :hook (elpaca-after-init . global-undo-tree-mode)
+  :after no-littering
+  :hook ((prog-mode text-mode) . global-undo-tree-mode)
   :custom
   (undo-tree-history-directory-alist `(("." . ,no-littering-etc-directory)))
   (undo-tree-visualizer-diff t)
@@ -2503,7 +2496,7 @@ Completions should display icons for their respective types.
   :config (setq-default tempel-path (expand-file-name "templates/*.eld" user-emacs-directory)))
 #+end_src
 
-Integrating Temple with Corfu to automatically display possible snippet completions. 
+Integrating Temple with Corfu to automatically display possible snippet completions.
 
 #+begin_src emacs-lisp
 ;;;###autoload
@@ -2512,7 +2505,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
                 (cons #'tempel-complete completion-at-point-functions)))
 #+end_src
 
-:TODO|CDLaTeX Alternative 
+:TODO|CDLaTeX Alternative
 
 **** ChatGPT: Trained Machine Learning System (disabled)
 
