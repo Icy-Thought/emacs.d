@@ -288,12 +288,18 @@ Profile our startup time to determine our heavy loaded packages!
 (add-hook 'elpaca-after-init-hook (lambda () (profiler-stop) (profiler-report)))
 #+end_src
 
+Have ~use-package~ report the slow packages for us to take action on.
+
+#+begin_src emacs-lisp
+(setq use-package-compute-statistics t)
+#+end_src
+
 *** Elpaca: Package Manager
 
 **** Bootstrapping According to Official Docs
 
 #+begin_src emacs-lisp
-(defvar elpaca-installer-version 0.4)
+(defvar elpaca-installer-version 0.5)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -301,7 +307,6 @@ Profile our startup time to determine our heavy loaded packages!
                               :ref nil
                               :files (:defaults (:exclude "extensions"))
                               :build (:not elpaca--activate-package)))
-
 (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
        (build (expand-file-name "elpaca/" elpaca-builds-directory))
        (order (cdr elpaca-order))
@@ -321,14 +326,13 @@ Profile our startup time to determine our heavy loaded packages!
                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
                  ((require 'elpaca))
                  ((elpaca-generate-autoloads "elpaca" repo)))
-            (kill-buffer buffer)
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
           (error "%s" (with-current-buffer buffer (buffer-string))))
       ((error) (warn "%s" err) (delete-directory repo 'recursive))))
   (unless (require 'elpaca-autoloads nil t)
     (require 'elpaca)
     (elpaca-generate-autoloads "elpaca" repo)
     (load "./elpaca-autoloads")))
-
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 #+end_src
@@ -1516,8 +1520,19 @@ A quick function which helps us connect to our Matrix server on the fly.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :defer t
-  :elpaca nil ; :WARN| package <- fetch from Nixpkgs
+  :elpaca nil
+  :custom (pdf-tools-install)) ; :WARN| package <- fetch from Nixpkgs
+#+end_src
+
+Make sure that our PDF's are displayed with darker colors.
+
+#+begin_src emacs-lisp
+(use-package pdf-view
+  :after pdf-tools
+  :elpaca nil
+  :magic ("%PDF" . pdf-view-mode)
+  :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
+  :hook (pdf-view-mode . pdf-view-themed-minor-mode)
   :custom
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
@@ -1526,23 +1541,6 @@ A quick function which helps us connect to our Matrix server on the fly.
   ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
   (add-hook 'pdf-view-mode-hook
             (lambda () (setq-local evil-normal-state-cursor (list nil)))))
-#+end_src
-
-Defer loading ~PDF-Tools~ through pre-defined function.
-
-#+begin_src emacs-lisp
-(use-package pdf-loader
-  :elpaca nil
-  :custom (pdf-loader-install t))
-#+end_src
-
-Make sure that our PDF's are displayed with darker colors.
-
-#+begin_src emacs-lisp
-(use-package pdf-view
-  :elpaca nil
-  :magic ("%PDF" . pdf-view-mode)
-  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
 #+end_src
 
 We also want to jump back to the last known position after opening a PDF file.
