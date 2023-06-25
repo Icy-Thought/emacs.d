@@ -280,10 +280,12 @@ To retain our sanity, let's enable =debug-on-error=
 (setq debug-on-error init-file-debug)
 #+end_src
 
-Profiling our Irkalla Emacs is necessary for determining what is slowing it down!
+Profile our startup time to determine our heavy loaded packages!
 
-#+begin_src emacs-lisp
-(setq use-package-compute-statistics t)
+#+begin_src emacs-lisp :tangle no
+(profiler-start 'cpu+mem)
+
+(add-hook 'elpaca-after-init-hook (lambda () (profiler-stop) (profiler-report)))
 #+end_src
 
 *** Elpaca: Package Manager
@@ -416,22 +418,18 @@ Profiling our Irkalla Emacs is necessary for determining what is slowing it down
 
 *** Decorating our Emacs
 
-Increase the width of our Emacs environment to encapsulate our wide & butchered comments.
-
-#+begin_src emacs-lisp
-(setq-default fill-column 120)
-#+end_src
-
 Several minor changes which increases the eye-candy of our editor by a small margin!
 
-1. Break long lines into smaller bits and display a marker (↴) at the end of each line.
-2. Break windows into equal portions.
-3. Stretch cursor to fit what it hovers above.
+1. Set default buffer width to 120 characters.
+2. Break long lines into smaller bits and display a marker (↴) at the end of each line.
+3. Break windows into equal portions.
+4. Stretch cursor to fit what it hovers above.
 
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
   :custom
+  (fill-column 120)
   (truncate-lines t)
   (truncate-string-ellipsis "↴")
   (window-combination-resize t)
@@ -596,12 +594,6 @@ Tell our completion system to ignore case's since being arrogant does not make o
   read-buffer-completion-ignore-case t)
 #+end_src
 
-Changed file? Do not fret any longer, update the damn file!
-
-#+begin_src emacs-lisp
-(setq-default load-prefer-newer t)
-#+end_src
-
 **** Highlight Cursor-line
 
 #+begin_src emacs-lisp
@@ -681,9 +673,7 @@ We also want to move to last known position in the buffer we just entered.
 #+begin_src emacs-lisp
 (use-package elec-pair
   :elpaca nil
-  :hook ((org-mode
-          markdown-mode
-          prog-mode) . electric-pair-mode)
+  :hook ((prog-mode text-mode) . electric-pair-mode)
   :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
 #+end_src
 
@@ -780,17 +770,15 @@ A place for non-categorized ~General~ bindings is always appreciated.
 
 #+begin_src emacs-lisp
 (use-package which-key
-  :defer 0
   :diminish which-key-mode
+  :hook ((elpaca-after-init . which-key-mode)
+         (which-key . which-key-setup-minibuffer))
   :custom
   (which-key-allow-evil-operators t)
   (which-key-idle-delay 0.3)
   (which-key-show-remaining-keys t)
   (which-key-separator " → ")
-  (which-key-sort-order 'which-key-prefix-then-key-order)
-  :config
-  (which-key-mode)
-  (which-key-setup-minibuffer))
+  (which-key-sort-order 'which-key-prefix-then-key-order))
 #+end_src
 
 **** Hydra: A System for our Keybindings (disabled)
@@ -942,16 +930,26 @@ Enabling our theme has never been more pleasant!
   (irkalla/apply-theme 'ef-winter)
 #+end_src
 
-**** Colorful Delimiters
+**** Matching Parens & Colorful Delimiters
+
+Colorful delimiters are rather useful, especially when dealing with lisp code!
 
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode)
-  :config
-  (setq show-paren-style 'parenthesis
-        show-paren-when-point-in-periphery nil
-        show-paren-when-point-inside-paren nil)
-  (show-paren-mode))
+  :config)
+#+end_src
+
+Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
+
+#+begin_src emacs-lisp
+(use-package parens
+  :elpaca nil
+  :hook (prog-mode . show-paren-mode)
+  :custom
+  (show-paren-style 'parenthesis)
+  (show-paren-when-point-in-periphery nil)
+  (show-paren-when-point-inside-paren nil))
 #+end_src
 
 **** Solaire: Cast a Shade On our Theme (disabled)
@@ -992,7 +990,7 @@ Enabling our theme has never been more pleasant!
 #+begin_src emacs-lisp
 (use-package dashboard
   :after nerd-icons
-  :config (dashboard-setup-startup-hook)
+  :hook (elpaca-after-init . dashboard-open)
   :custom
   ;; :NOTE| UI-related changes
   (dashboard-display-icons-p t)
@@ -1045,7 +1043,7 @@ Enabling our theme has never been more pleasant!
 
 #+begin_src emacs-lisp
 (use-package telephone-line
-  :hook (elpaca-after-init . telephone-line-mode)
+  :hook ((prog-mode text-mode) . telephone-line-mode)
   :custom
   (telephone-line-height 26)
   (telephone-line-evil-use-short-tag t)
@@ -1372,7 +1370,6 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 #+end_src
 
-
 **** Embark: Mini-Buffer Actions Rooted in Keymaps
 
 #+begin_src emacs-lisp
@@ -1416,6 +1413,7 @@ Integrating Embark with our consult package.
 **** Git-Tools: Magit + Blamer + Git-Gutter
 
 ***** Magit: A Magic Wand for Git
+
 #+begin_src emacs-lisp
 (use-package magit
   :if (executable-find "git")
@@ -1869,8 +1867,7 @@ Allowing Emacs to recognize the editor defaults of the active repository.
 
 #+begin_src emacs-lisp
 (use-package editorconfig
-  :defer 1
-  :custom (editorconfig-mode 1))
+  :hook (prog-mode . editorconfig-mode))
 #+end_src
 
 Adding workspace like functionality to our editor is nice to have, because of the extended ability to manage windows and
@@ -1887,7 +1884,6 @@ Display colors of HEX codes & color names inside active buffer.
 
 #+begin_src emacs-lisp
 (use-package rainbow-mode
-  :defer 1
   :hook (prog-mode . rainbow-mode))
 #+end_src
 
@@ -2188,7 +2184,7 @@ Being able to disable the code-formatter on demand is certainly desirable.
 #+begin_src emacs-lisp
 (use-package jinx
   :elpaca nil
-  :hook ((prog-mode text-mode) . global-jinx-mode)
+  :hook (text-mode . global-jinx-mode)
   :general (general-nmap "z =" '(jinx-correct :which-key "Correct the damned misspellings...")))
 #+end_src
 
