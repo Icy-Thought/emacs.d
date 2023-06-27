@@ -997,12 +997,10 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package dashboard
   :after nerd-icons
-  :config
-  (dashboard-setup-startup-hook)
-  ;; :NOTE| Select dashboard buffer after launch
-  (setq initial-buffer-choice
-       (lambda () (get-buffer-create "*dashboard*")))
+  :hook (elpaca-after-init . dashboard-open)
   :custom
+  (initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
+  
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
 
@@ -1525,20 +1523,33 @@ A quick function which helps us connect to our Matrix server on the fly.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :defer t
-  :elpaca nil  ; :WARN| package <- fetch from Nixpkgs
+  :elpaca nil ; :WARN| package <- fetch from Nixpkgs
+  :config
+  ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
+  (add-hook 'pdf-view-mode-hook
+            (lambda () (setq-local evil-normal-state-cursor (list nil)))))
+#+end_src
+
+Defer loading ~PDF-Tools~ through pre-defined function.
+
+#+begin_src emacs-lisp
+(use-package pdf-loader
+  :elpaca nil
+  :custom (pdf-loader-install t))
+#+end_src
+
+Make sure that our PDF’s are displayed with darker colors.
+
+#+begin_src emacs-lisp
+(use-package pdf-view
+  :elpaca nil
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-themed-minor-mode)
-  :config
-  (setq pdf-view-use-scaling t
-        pdf-view-use-imagemagick nil
-        pdf-view-display-size 'fit-width)
-  ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
-  (add-hook 'pdf-view-mode-hook
-            (lambda () (setq-local evil-normal-state-cursor (list nil))))
-  ;; Finally, we load our PDF-Tools!
-  (pdf-loader-install))
+  :custom
+  (pdf-view-use-scaling t)
+  (pdf-view-use-imagemagick nil)
+  (pdf-view-display-size 'fit-width))
 #+end_src
 
 We also want to jump back to the last known position after opening a PDF file.
