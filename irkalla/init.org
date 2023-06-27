@@ -79,8 +79,7 @@ wrote this madness.. (😅)
 *** Quicker Launches in Fundamental-mode
 
 #+begin_src emacs-lisp
-(setq initial-major-mode 'fundamental-mode
-      initial-scratch-message nil)
+(setq initial-major-mode 'fundamental-mode)
 #+end_src
 
 *** Don't Compact Font-cache on GC
@@ -204,14 +203,18 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 
 #+begin_src emacs-lisp
 (setq default-frame-alist
-      '((alpha-background . 85)
-        (font . "JetBrainsMono Nerd Font 13")
+      (append (list
+               '(alpha-background . 85)
 
-        ;; :NOTE| Disabling unnecessary bloat..
-        (fullscreen . nil)
-        (menu-bar-lines . 0)
-        (tool-bar-lines . 0)
-        (vertical-scroll-bars . nil)))
+               ;; :NOTE| Default Irkalla font
+               '(font . "JetBrainsMono Nerd Font-13:weight=semi-bold:antialias=true")
+               '(height . 125)
+
+               ;; :NOTE| Disabling unnecessary bloat..
+               '(fullscreen . nil)
+               '(menu-bar-lines . 0)
+               '(tool-bar-lines . 0)
+               '(vertical-scroll-bars . nil))))
 #+end_src
 
 *** Controlling our Various Fonts
@@ -220,7 +223,6 @@ Recreating a more aesthetically pleasing environment is the dream of every ricer
 
 #+begin_src emacs-lisp
 (custom-set-faces
- '(default        ((t (:height 125 :weight semi-bold))))
  '(fixed-pitch    ((t (:height 105 :weight semi-bold :width expanded))))
  '(variable-pitch ((t (:height 105 :weight semi-bold)))))
 
@@ -646,6 +648,7 @@ We also want to move to last known position in the buffer we just entered.
 
 #+begin_src emacs-lisp
 (use-package whitespace
+  :defer t
   :elpaca nil
   ;; :hook (prog-mode . whitespace-mode)
   :custom
@@ -994,13 +997,15 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package dashboard
   :after nerd-icons
-  :hook (elpaca-after-init . dashboard-open)
+  :config
+  (dashboard-setup-startup-hook)
+  ;; :NOTE| Select dashboard buffer after launch
+  (setq initial-buffer-choice
+       (lambda () (get-buffer-create "*dashboard*")))
   :custom
-  ;; :NOTE| UI-related changes
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
 
-  ;; :NOTE| Customizing dashboard setup
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text")
@@ -1013,7 +1018,6 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   ;; (dashboard-projects-switch-function 'irkalla/switch-project-by-name) ;; :TODO| setup a projectile consult switcher
   (dashboard-week-agenda t)
 
-  ;; :NOTE| Quick-Navigation buttons for our dashboard
   (dashboard-set-navigator t)
   (dashboard-navigator-buttons
    `(
@@ -1032,7 +1036,6 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
        "Restart Irkalla Emacs instance."
        (lambda (&rest _) (restart-emacs))))))
 
-  ;; :NOTE| Controlling the state of our displayed items
   (dashboard-items '((recents   . 5)
                      (bookmarks . 5)
                      (projects  . 5)
@@ -1124,7 +1127,7 @@ Extending the support of our Nerd-icons to function in other areas.
 ****** Defining our Constants.
 
 #+NAME: svg-tag-constants
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
 (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
 (defconst day-re "[A-Za-z]\\{3\\}")
@@ -1134,7 +1137,7 @@ Extending the support of our Nerd-icons to function in other areas.
 ****** Writing our SVG Progress-bar
 
 #+NAME: svg-tag-progress-bar
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defun svg-progress-percent (value)
     (svg-image (svg-lib-concat
                 (svg-lib-progress-bar (/ (string-to-number value) 100.0)
@@ -1155,7 +1158,8 @@ Extending the support of our Nerd-icons to function in other areas.
 
 ****** Ricing our SVG-Tags
 
-#+begin_src emacs-lisp
+#+NAME: svg-tags
+#+begin_src emacs-lisp :tangle no
 (setq svg-tag-tags
       `(
         ;; Org tags :THIS:
@@ -1312,7 +1316,7 @@ Extending the support of our Nerd-icons to function in other areas.
 To reduce the burden of recalling all bindings, let's rewrite some of them to match our previous Neovim setup.
 
 #+NAME: consult-bindings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 :general
 (irkalla/space-lead-keydef
   "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
@@ -1431,7 +1435,7 @@ Integrating Embark with our consult package.
 Appending bindings to our Magit configuration.
 
 #+NAME: magit-bindings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 :general
 (irkalla/space-lead-keydef
   "g"   '(:ignore t :which-key "Magit")
@@ -1599,7 +1603,7 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
 Adding several bindings for our ~Treemacs~.
 
 #+NAME: treemacs-bindings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 :general
 (irkalla/comma-lead-keydef
   :keymaps 'global-map
@@ -1652,7 +1656,8 @@ Integrating ~Treemacs~ with several packages:
 
 Reducing the burden of longer bindings and appending Eshell-related bindings to our ~general.el~.
 
-#+begin_src emacs-lisp
+#+NAME: eshell-bindings
+#+begin_src emacs-lisp :tangle no
 :general
 (irkalla/space-lead-keydef
   "t t" '(eshell                  :which-key "Start Eshell")
@@ -1686,7 +1691,7 @@ Syntax highlighting inside Eshell, similar to Fish-shell, is nice to have. Let's
 Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 :general
 (general-imap
   :keymaps 'vterm-mode-map
@@ -2276,7 +2281,7 @@ We also want to generate our "Table of Contents" on the fly.
 (use-package org-modern
   :after org
   :hook (org-mode . org-modern-mode)
-  :config (set-face-attribute 'org-modern-symbol nil :family "DejaVu Sans")
+  :custom-face (org-modern-symbol ((t :family "DejaVu Sans")))
   :custom
   ;; Settings replaced by ~svg-tag-mode
   (org-modern-tag nil)
@@ -2443,7 +2448,6 @@ Completion at point is necessary for Corfu to work its wonders as a completion s
 
 #+begin_src emacs-lisp
 (use-package cape
-  :after corfu
   :config
   (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
     (add-to-list 'completion-at-point-functions fn)))
@@ -2472,7 +2476,6 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package corfu-terminal
   :unless window-system
-  :after corfu
   :hook (corfu-mode . corfu-terminal-mode))
 #+end_src
 
@@ -2585,7 +2588,7 @@ The missing flycheck diagnostics integration with consult.
 Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
 
 #+NAME: eglot-bindings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 :general
 (irkalla/space-lead-keydef
   :keymaps 'eglot-mode-map
