@@ -24,7 +24,7 @@
     - [[#encoding-system---utf-8][Encoding System -> UTF-8]]
     - [[#load-recently-compiled-el-files][Load Recently Compiled =.el= Files]]
     - [[#prevent-frame-resize-on-launch][Prevent Frame Resize on Launch]]
-  - [[#early-decorations][Early Decorations]]
+  - [[#decorating-irkalla-early][Decorating Irkalla Early]]
     - [[#controlling-our-various-fonts][Controlling our Various Fonts]]
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
@@ -108,7 +108,7 @@ wrote this madness.. (😅)
       (make-directory dir)) dir))
 
 ;; :NOTE| Adding the path for our custom themes
-(add-to-list 'custom-theme-load-path (expand-file-name "colorschemes" user-emacs-directory))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 #+end_src
 
 **** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
@@ -200,7 +200,7 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
       frame-resize-pixelwise t)
 #+end_src
 
-** Early Decorations
+** Decorating Irkalla Early
 
 #+begin_src emacs-lisp
 (setq default-frame-alist
@@ -603,7 +603,7 @@ Tell our completion system to ignore case's since being arrogant does not make o
 #+begin_src emacs-lisp
 (use-package hl-line
   :elpaca nil
-  :hook (elpaca-after-init . global-hl-line-mode))
+  :hook ((prog-mode text-mode) . hl-line-mode))
 #+end_src
 
 **** Auto-revert: Update Inactive Files on-change
@@ -1001,11 +1001,12 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (dashboard-icon-type 'nerd-icons)
 
   ;; :NOTE| Customizing dashboard setup
+  (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
+  (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
-  (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
   (dashboard-startup-banner (expand-file-name "dasHead.svg" user-emacs-directory))
-  (dashboard-center-content t)
+  (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-set-init-info t)
@@ -1112,8 +1113,7 @@ Extending the support of our Nerd-icons to function in other areas.
 (use-package svg-tag-mode
   :hook (text-mode . svg-tag-mode)
   :config
-  (plist-put svg-lib-style-default :font-size 13)
-
+  (setq svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))
   <<svg-tag-constants>>
   <<svg-tag-progress-bar>>
   <<svg-tags>>)
@@ -1420,6 +1420,7 @@ Integrating Embark with our consult package.
 
 #+begin_src emacs-lisp
 (use-package magit
+  :defer t
   :if (executable-find "git")
   <<magit-bindings>>
   :custom
@@ -1520,27 +1521,20 @@ A quick function which helps us connect to our Matrix server on the fly.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :elpaca nil
-  :custom (pdf-tools-install)) ; :WARN| package <- fetch from Nixpkgs
-#+end_src
-
-Make sure that our PDF's are displayed with darker colors.
-
-#+begin_src emacs-lisp
-(use-package pdf-view
-  :after pdf-tools
-  :elpaca nil
+  :defer t
+  :elpaca nil  ; :WARN| package <- fetch from Nixpkgs
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-themed-minor-mode)
-  :custom
-  (pdf-view-use-scaling t)
-  (pdf-view-use-imagemagick nil)
-  (pdf-view-display-size 'fit-width)
   :config
+  (setq pdf-view-use-scaling t
+        pdf-view-use-imagemagick nil
+        pdf-view-display-size 'fit-width)
   ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
   (add-hook 'pdf-view-mode-hook
-            (lambda () (setq-local evil-normal-state-cursor (list nil)))))
+            (lambda () (setq-local evil-normal-state-cursor (list nil))))
+  ;; Finally, we load our PDF-Tools!
+  (pdf-loader-install))
 #+end_src
 
 We also want to jump back to the last known position after opening a PDF file.
@@ -2553,7 +2547,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   :elpaca nil
   :hook (prog-mode . flymake-mode)
   :custom
-  (flymake-show-diagnostics-at-end-of-line t)
+  ;; (flymake-show-diagnostics-at-end-of-line t) <- way to much info..
   (flymake-fringe-indicator-position 'right-fringe)
   (elisp-flymake-byte-compile-load-path load-path))
 #+end_src
