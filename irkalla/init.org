@@ -2455,7 +2455,7 @@ Completion at point is necessary for Corfu to work its wonders as a completion s
 
 Completions should display icons for their respective types.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package kind-icon
   :after corfu
   :custom (kind-icon-default-face 'corfu-default)
