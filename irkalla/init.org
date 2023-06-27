@@ -648,8 +648,8 @@ We also want to move to last known position in the buffer we just entered.
 
 #+begin_src emacs-lisp
 (use-package whitespace
-  :defer t
   :elpaca nil
+  :defer t
   ;; :hook (prog-mode . whitespace-mode)
   :custom
   (whitespace-action '(cleanup auto-cleanup))
@@ -1115,6 +1115,7 @@ Extending the support of our Nerd-icons to function in other areas.
   :hook (text-mode . svg-tag-mode)
   :config
   (setq svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))
+  
   <<svg-tag-constants>>
   <<svg-tag-progress-bar>>
   <<svg-tags>>)
@@ -1282,8 +1283,8 @@ Extending the support of our Nerd-icons to function in other areas.
 
 #+begin_src emacs-lisp
 (use-package screenshot
-  :defer t
-  :elpaca (:host github :repo "tecosaur/screenshot"))
+  :elpaca (:host github :repo "tecosaur/screenshot")
+  :defer t)
 #+end_src
 
 **** Consult: Consulting completing-read
@@ -1526,8 +1527,9 @@ A quick function which helps us connect to our Matrix server on the fly.
   :elpaca nil ; :WARN| package <- fetch from Nixpkgs
   :config
   ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
-  (add-hook 'pdf-view-mode-hook
-            (lambda () (setq-local evil-normal-state-cursor (list nil)))))
+  (with-eval-after-load 'evil
+    (add-hook 'pdf-view-mode-hook
+              (lambda () (setq-local evil-normal-state-cursor (list nil))))))
 #+end_src
 
 Defer loading ~PDF-Tools~ through pre-defined function.
@@ -1535,6 +1537,7 @@ Defer loading ~PDF-Tools~ through pre-defined function.
 #+begin_src emacs-lisp
 (use-package pdf-loader
   :elpaca nil
+  :after pdf-tools
   :custom (pdf-loader-install t))
 #+end_src
 
@@ -1543,6 +1546,7 @@ Make sure that our PDF’s are displayed with darker colors.
 #+begin_src emacs-lisp
 (use-package pdf-view
   :elpaca nil
+  :after pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-themed-minor-mode)
@@ -2466,9 +2470,9 @@ Completion at point is necessary for Corfu to work its wonders as a completion s
 
 Completions should display icons for their respective types.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package kind-icon
-  :after corfu
+  :after (svg-lib corfu)
   :custom (kind-icon-default-face 'corfu-default)
   :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
