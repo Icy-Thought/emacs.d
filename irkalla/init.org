@@ -207,7 +207,7 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
                '(alpha-background . 85)
 
                ;; :NOTE| Default Irkalla font
-               '(font . "JetBrainsMono Nerd Font-13:weight=semi-bold:antialias=true")
+               '(font . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
                '(height . 125)
 
                ;; :NOTE| Disabling unnecessary bloat..
@@ -223,8 +223,8 @@ Recreating a more aesthetically pleasing environment is the dream of every ricer
 
 #+begin_src emacs-lisp
 (custom-set-faces
- '(fixed-pitch    ((t (:height 105 :weight semi-bold :width expanded))))
- '(variable-pitch ((t (:height 105 :weight semi-bold)))))
+ '(fixed-pitch    ((t (:height 105 :weight bold :width expanded))))
+ '(variable-pitch ((t (:height 105 :weight bold)))))
 
 (set-fontset-font "fontset-default"
                   'arabic (font-spec :family "Scheherazade New;" :size 25))
@@ -1082,7 +1082,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package nerd-icons
   :custom
-  (nerd-icons-font-family "JetBrainsMono Nerd Font")
+  (nerd-icons-font-family "VictorMono Nerd Font")
   (nerd-icons-scale-factors 1.25))
 #+end_src
 
@@ -1114,7 +1114,7 @@ Extending the support of our Nerd-icons to function in other areas.
 (use-package svg-tag-mode
   :hook (text-mode . svg-tag-mode)
   :config
-  (setq svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))
+  (setq svg-lib-style-default (plist-put svg-lib-style-default :font-size 13.5))
   
   <<svg-tag-constants>>
   <<svg-tag-progress-bar>>
