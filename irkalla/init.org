@@ -219,13 +219,9 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 
 *** Controlling our Various Fonts
 
-Recreating a more aesthetically pleasing environment is the dream of every ricer!
+Aesthetically pleasing Arabic fonts are rather hard to come-by...
 
 #+begin_src emacs-lisp
-(custom-set-faces
- '(fixed-pitch    ((t (:height 105 :weight bold :width expanded))))
- '(variable-pitch ((t (:height 105 :weight bold)))))
-
 (set-fontset-font "fontset-default"
                   'arabic (font-spec :family "Scheherazade New;" :size 25))
 #+end_src
