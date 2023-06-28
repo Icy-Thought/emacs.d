@@ -456,56 +456,6 @@ Several minor changes which increases the eye-candy of our editor by a small mar
     (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
 #+end_src
 
-**** Styling Several Font-faces
-
-***** Org-Mode
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org
-  <<org-quote-verse>>
-  <<org-custom-faces>>)
-#+end_src
-
-****** Quotes Shall Become /Italic/
-
-#+NAME: org-quote-verse
-#+begin_src emacs-lisp :tangle no
-(setq-default org-fontify-quote-and-verse-blocks t)
-#+end_src
-
-****** Headings Ought to Grow in Size
-
-#+NAME: org-custom-faces
-#+begin_src emacs-lisp :tangle no
-(custom-set-faces
- '(org-document-title ((t (:height 1.5))))
- '(org-level-1        ((t (:inherit outline-1 :height 1.25))))
- '(org-level-2        ((t (:inherit outline-2 :height 1.15))))
- '(org-level-3        ((t (:inherit outline-3 :height 1.12))))
- '(org-level-4        ((t (:inherit outline-4 :height 1.09))))
- '(org-level-5        ((t (:inherit outline-5 :height 1.06)))))
-#+end_src
-
-***** Markdown
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'markdown-mode
-  <<markdown-custom-faces>>)
-#+end_src
-
-****** Headings Shall Follow the Steps of Org-Mode
-
-#+NAME: markdown-custom-faces
-#+begin_src emacs-lisp :tangle no
-(custom-set-faces
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
- '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
- '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
- '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold)))))
-#+end_src
-
 **** Prettifying our Symbols
 
 Reducing text in functions when possible is a nice feature to have.
@@ -998,6 +948,9 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 (use-package dashboard
   :after nerd-icons
   :hook (elpaca-after-init . dashboard-open)
+  :custom-face
+  (dashboard-heading ((t (:weight regular))))
+  (dashboard-banner-logo-title ((t (:weight regular))))
   :custom
   (initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
   
@@ -2233,6 +2186,13 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   (:keymaps 'org-mode-map
             :state 'insert
             "$" #'irkalla/org-electric-dollar)
+  :custom-face
+  (org-document-title ((t (:height 1.5))))
+  (org-level-1        ((t (:inherit outline-1 :height 1.25))))
+  (org-level-2        ((t (:inherit outline-2 :height 1.15))))
+  (org-level-3        ((t (:inherit outline-3 :height 1.12))))
+  (org-level-4        ((t (:inherit outline-4 :height 1.09))))
+  (org-level-5        ((t (:inherit outline-5 :height 1.06))))
   :config
   ;; :NOTE| Move our LaTeX previews to cache dir
   (let ((latex-dir (concat irkalla/user-cache-dir "latex-preview")))
@@ -2246,6 +2206,7 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
                        (plist-put org-format-latex-options :scale 2.5)
                        (plist-put org-format-latex-options :zoom 1.15)))
   :custom
+  (org-fontify-quote-and-verse-blocks t)
   (org-catch-invisible-edits 'show-and-error)
   (org-cycle-separator-lines 2)
   (org-cycle-include-plain-lists 'integrate)
@@ -2390,6 +2351,13 @@ Loading ~Org-Babel~ languages should occur automatically.
   (irkalla/comma-lead-keydef
     :keymaps 'markdown-mode-map
     "m d"    '(markdown-do :which-key "Perform a senile action based on context"))
+  :custom-face
+  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
+  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
+  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
+  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
+  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
+  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
   :custom (markdown-command "multimarkdown"))
 #+end_src
 
