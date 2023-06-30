@@ -1061,7 +1061,7 @@ Extending the support of our Nerd-icons to function in other areas.
 
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
-  :hook (text-mode . svg-tag-mode)
+  :hook ((prog-mode text-mode) . svg-tag-mode)
   :config
   (setq svg-lib-style-default (plist-put svg-lib-style-default :font-size 13.5))
   
@@ -1485,11 +1485,9 @@ A quick function which helps us connect to our Matrix server on the fly.
 #+begin_src emacs-lisp
 (use-package pdf-tools
   :elpaca nil ; :WARN| package <- fetch from Nixpkgs
-  :config
+  :hook
   ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
-  (with-eval-after-load 'evil
-    (add-hook 'pdf-view-mode-hook
-              (lambda () (setq-local evil-normal-state-cursor (list nil))))))
+  (pdf-view-mode . (lambda () (setq evil-normal-state-cursor (list nil)))))
 #+end_src
 
 Defer loading ~PDF-Tools~ through pre-defined function.
@@ -1788,17 +1786,11 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
+  :hook ((text-mode . auto-fill-mode)
+         (text-mode . visual-line-mode))
   :config
-  ;; :WARN| Smooth scrolling (Emacs >= 29)
-  (when (boundp 'pixel-scroll-precision-mode)
+  (unless (version< emacs-version "29.0")
     (pixel-scroll-precision-mode 1))
-
-  ;; :TODO| Auto-break longer lines
-  (dolist (mode '(org-mode markdown-mode text-mode))
-    (add-hook (intern (concat (symbol-name mode) "-hook"))
-              (lambda ()
-                (visual-line-mode 1)
-                (auto-fill-mode 1))))
   :custom
   (electric-indent-inhibit t)
   (indent-tabs-mode nil)
@@ -1871,7 +1863,7 @@ Folding code-blocks like paper to reduce the unnecessary space it occupies in th
 
 #+begin_src emacs-lisp
 (use-package evil
-  :general (evil-normal-state-map
+  :general (general-nmap
             "M-j" #'pixel-scroll-up
             "M-k" #'pixel-scroll-down)
   :hook (elpaca-after-init . evil-mode)
@@ -2184,15 +2176,16 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
 #+begin_src emacs-lisp
 (use-package org
   :elpaca nil
-  :hook ((org-mode org-babel-after-execute) . org-display-inline-images)
+  :hook (org-mode . org-display-inline-images)
   :general
+  (irkalla/comma-lead-keydef
+    "o"     '(:ignore t               :which-key "Org-Mode"))
   (:keymaps 'org-mode-map
             :states '(emacs insert normal)
             "C-<return>" #'org-ctrl-c-ret
             "M-<return>" #'org-edit-special)
-  (:keymaps 'org-mode-map
-            :state 'insert
-            "$" #'irkalla/org-electric-dollar)
+  (general-imap org-mode-map
+    "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.5))))
   (org-level-1        ((t (:inherit outline-1 :height 1.25))))
@@ -2217,6 +2210,7 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   (org-catch-invisible-edits 'show-and-error)
   (org-cycle-separator-lines 2)
   (org-cycle-include-plain-lists 'integrate)
+  (org-edit-src-auto-save-idle-delay 5)
   (org-ellipsis "…")
   (org-export-coding-system 'utf-8)
   (org-export-preserve-breaks t)
@@ -2279,7 +2273,7 @@ We also want to generate our "Table of Contents" on the fly.
   :general
   (irkalla/comma-lead-keydef
     :keymaps 'org-mode-map
-    "o"     '(:ignore t               :which-key "Org-Roam")
+    "o r"   '(:ignore t               :which-key "Org-Roam")
     "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam in active buffer")
     "o r n" '(org-roam-node-find      :which-key "Find & open node by title or alias")
     "o r g" '(org-roam-graph          :which-key "Build & display node of graph")
@@ -2317,17 +2311,47 @@ A GUI is desired for our Org-Roam to reduce the burden of browsing our notes.
 
 ***** Org-Babel: Execution of Org SRC-blocks
 
+Evaluate code-blocks on ~<Return>~ is an expected behaviour in my opinion. (🤷)
+
 #+begin_src emacs-lisp
-(setq org-babel-default-header-args
-      '((:cache   . "no")
-        (:eval    . "never-export")
-        (:exports . "code")
-        (:hlines  . "no")
-        (:noweb   . "yes")
-        (:results . "drawer replace")
-        (:session . "none")
-        (:tangle  . "no")))
-(setq org-edit-src-auto-save-idle-delay 5)
+;;;###autoload
+(defun irkalla/ret-babel-exec ()
+  "Execute src-block on <RET>, otherwise goto next line."
+  (interactive)
+  (if (org-in-src-block-p)
+      (org-babel-execute-src-block)
+    (evil-ret)))
+#+end_src
+
+Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
+
+#+begin_src emacs-lisp
+(use-package ob
+  :elpaca nil
+  :after org
+  :hook (org-babel-after-execute . org-display-inline-images)
+  :general (general-nmap org-mode-map
+             [remap evil-ret] #'irkalla/ret-babel-exec)
+  :custom
+  (org-babel-default-header-args
+   '((:cache   . "no")
+     (:eval    . "never-export")
+     (:exports . "code")
+     (:hlines  . "no")
+     (:noweb   . "yes")
+     (:results . "drawer replace")
+     (:session . "none")
+     (:tangle  . "no")))
+  (org-export-use-babel nil)
+  (org-confirm-babel-evaluate nil)
+  :config
+  (defadvice org-babel-execute-src-block (around load-language nil activate)
+   "Load Org-babel languages on demand."
+   (let ((language (org-element-property :language (org-element-at-point))))
+     (unless (cdr (assoc (intern language) org-babel-load-languages))
+       (add-to-list 'org-babel-load-languages (cons (intern language) t))
+       (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+     ad-do-it)))
 #+end_src
 
 Asynchronous ~Org-Babel~ evaluation for quicker block play.
@@ -2335,18 +2359,6 @@ Asynchronous ~Org-Babel~ evaluation for quicker block play.
 #+begin_src emacs-lisp
 (use-package ob-async
   :after org)
-#+end_src
-
-Loading ~Org-Babel~ languages should occur automatically.
-
-#+begin_src emacs-lisp
-(defadvice org-babel-execute-src-block (around load-language nil activate)
-  "Load language if needed"
-  (let ((language (org-element-property :language (org-element-at-point))))
-    (unless (cdr (assoc (intern language) org-babel-load-languages))
-      (add-to-list 'org-babel-load-languages (cons (intern language) t))
-      (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
-    ad-do-it))
 #+end_src
 
 **** Markdown: Simple Markup Language
@@ -2448,7 +2460,11 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package kind-icon
   :after (svg-lib corfu)
-  :custom (kind-icon-default-face 'corfu-default)
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  ;; :NOTE| Changing the color of our icons
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.08)
   :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
@@ -2565,9 +2581,19 @@ The missing flycheck diagnostics integration with consult.
 
 *** Coding Language Specific Changes
 
+Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
+
 #+begin_src emacs-lisp
 (use-package eglot
-  <<eglot-bindings>>
+  :general
+  (irkalla/space-lead-keydef
+    :keymaps 'eglot-mode-map
+    "l a"    '(eglot-code-actions    :which-key "Perform code-actions on buffer")
+    "l r"    '(eglot-rename          :which-key "Rename $SYMBOL to a newer name")
+    "l f"    '(eglot-format          :which-key "Format active buffer")
+    "l ?"    '(xref-find-references  :which-key "Find references of identifier at cursor")
+    "l d"    '(xref-find-definitions :which-key "Find definition of identifier at cursor")
+    "l /"    '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
   :custom
   (eglot-autoshutdown t)
   (eglot-menu-string "LSP")
@@ -2575,19 +2601,12 @@ The missing flycheck diagnostics integration with consult.
   (eglot-confirm-server-initiated-edits nil))
 #+end_src
 
-Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
+Quicker syntax-highlighting is always deemed desirable and helps us reduce the burden of seeking a cleaner syntax.
 
-#+NAME: eglot-bindings
-#+begin_src emacs-lisp :tangle no
-:general
-(irkalla/space-lead-keydef
-  :keymaps 'eglot-mode-map
-  "l a"    '(eglot-code-actions    :which-key "Perform code-actions on buffer")
-  "l r"    '(eglot-rename          :which-key "Rename $SYMBOL to a newer name")
-  "l f"    '(eglot-format          :which-key "Format active buffer")
-  "l ?"    '(xref-find-references  :which-key "Find references of identifier at cursor")
-  "l d"    '(xref-find-definitions :which-key "Find definition of identifier at cursor")
-  "l /"    '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
+#+begin_src emacs-lisp
+(use-package tree-sitter
+  :hook ((prog-mode . global-tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode)))
 #+end_src
 
 **** Emacs-Lisp: Emacs Very Own Lisp Dialect
@@ -2634,9 +2653,18 @@ Managing our coding buffers with Eglot is very common and therefore creating sho
 **** Rust: A Type-safe GP Language
 
 #+begin_src emacs-lisp
-(use-package rustic
-  :mode ("\\.rs$" . rustic-mode)
-  :custom (rustic-lsp-client 'eglot)
+(use-package rust-mode
+  :mode ("\\.rs$" . rust-mode)
+  :hook ((rust-mode . eglot-ensure)
+         (rust-mode . (lambda () (setq indent-tabs-mode nil))))
+  :general
+  (irkalla/comma-lead-keydef
+    "r b"   '(rust-compile        :which-key "Compile Active Project")
+    "r c"   '(rust-check          :which-key "")
+    "r l"   '(rust-run-clippy     :which-key "")
+    "r r"   '(rust-run            :which-key "Run Active Project")
+    "r t"   '(rust-test           :which-key "Run Tests on Project"))
+
   :config
   (setq-default eglot-workspace-configuration
                 '((:rust-analyzer
@@ -2648,11 +2676,30 @@ Managing our coding buffers with Eglot is very common and therefore creating sho
                                  :allTargets :json-false))))
 
   (defun irkalla/locate-cargo-toml (dir)
-    "Locate the missing rust project Cargo."
-    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
-        (list 'vc 'Git root)))
+      "Locate the missing Rust project Cargo.toml."
+      (if-let ((root (locate-dominating-file dir "Cargo.toml")))
+          (list 'vc 'Git root)))
   (add-hook 'rust-mode-hook
             (lambda () (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+#+end_src
+
+Integrating ~Cargo~ with our newly added ~Rust-Mode~ would help us make our environment more lively!
+
+#+begin_src emacs-lisp
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    "r p a" '(cargo-process-add   :which-key "")
+    "r p c" '(cargo-process-clean :which-key ""))
+  :custom (cargo-process--command-clippy "clippy"))
+#+end_src
+
+Being able to retain our notes in ~Org-Mode~ would've been wonderful. Therefore we ought to make it possible!
+
+#+begin_src emacs-lisp
+  (use-package ob-rust
+    :defer t)
 #+end_src
 
 **** Typst: The Modern & Cleaner LaTeX
