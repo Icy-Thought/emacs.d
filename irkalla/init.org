@@ -1428,13 +1428,24 @@ and later deciding which one to hop-on to.
                    :italic t))))
 #+end_src
 
-***** Git-Gutter: Highlight Git Changes
+***** Git-Gutter: Symbols to Highlight Git-related Changes
 
 #+begin_src emacs-lisp
 (use-package git-gutter
-  :hook (prog-mode . git-gutter-mode)
   :diminish git-gutter-mode
-  :config (setq git-gutter:update-interval 1))
+  :hook (prog-mode . git-gutter-mode)
+  :custom (git-gutter:update-interval 0.05))
+#+end_src
+
+Replacing ~Git-Gutter~ symbols with appropriate vertical lines (fringes) appears to be a saner alternative to the default
+symbols which comes with the package.
+
+#+begin_src emacs-lisp
+(use-package git-gutter-fringe
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
 #+end_src
 
 **** Ement: A Superior Matrix Client (disabled)
