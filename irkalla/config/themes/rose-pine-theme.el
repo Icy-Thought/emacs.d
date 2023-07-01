@@ -499,9 +499,9 @@
   (centaur-tabs-name-mouse-face                      (:foreground foam :bold t))
 
   ;; https://github.com/emacsorphanage/git-gutter
-  (git-gutter:added                                  (:foreground pine))
+  (git-gutter:added                                  (:foreground rose))
   (git-gutter:deleted                                (:foreground love))
-  (git-gutter:modified                               (:foreground foam))
+  (git-gutter:modified                               (:foreground pine))
 
   ;; https://github.com/minad/goggles
   (goggles-added                                     (:background pine))
