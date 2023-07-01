@@ -1240,6 +1240,7 @@ Extending the support of our Nerd-icons to function in other areas.
 
 #+begin_src emacs-lisp
 (use-package consult
+  :general
   <<consult-bindings>>
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :config
@@ -1265,7 +1266,6 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
 
 #+NAME: consult-bindings
 #+begin_src emacs-lisp :tangle no
-:general
 (irkalla/space-lead-keydef
   "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
   "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
@@ -1307,6 +1307,67 @@ Might as-well have consult integrate itself to our projectile and display existi
              "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 #+end_src
 
+**** Dirvish: A polished Dired Front-end
+
+#+begin_src emacs-lisp
+(use-package dirvish
+  :hook (dirvish-side . dirvish-side-follow-mode)
+  :general
+  <<dirvish-bindings>>
+  :config (dirvish-override-dired-mode)
+  :custom
+  (dirvish-side-width 30)
+  (dirvish-use-header-line t)
+  (dirvish-fd-default-dir "~/")
+  (dirvish-quick-access-entries
+   '(("h" "~/"                          "Home")
+     ("d" "~/Downloads/"                "Downloads")
+     ("m" "~/Library/unexplored"        "Library")
+     ("t" "~/.local/share/Trash/files/" "Trash")))
+  (dirvish-mode-line-format
+   '(:left (sort symlink) :right (omit yank index)))
+  (dirvish-attributes
+   '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
+  (dired-listing-switches
+   "-l --almost-all --human-readable --group-directories-first --no-group"))
+#+end_src
+
+#+NAME: dirvish-bindings
+#+begin_src emacs-lisp :toggle no
+(irkalla/comma-lead-keydef
+  "f"   '(:ignore t    :which-key "Dirvish")
+  "f f" '(dirvish-side :which-key "Toggle Dirvish Side-View")
+  "f /" '(dirvish-fd   :which-key "Run fd in Active Dir"))
+
+(irkalla/comma-lead-keydef
+  :keymaps 'dirvish-mode-map
+  "a"   '(dirvish-quick-access        :which-key "Quick-access Frequently Used Dirs")
+  "f"   '(dirvish-file-info-menu      :which-key "Get File Information")
+  "y"   '(dirvish-yank-menu           :which-key "Yank Marked Files")
+  "N"   '(dirvish-narrow              :which-key "Live Narrowing")
+  "^"   '(dirvish-history-last        :which-key "Goto Most Recent Buffer")
+  "h"   '(dirvish-history-jump        :which-key "Goto Recently Visited Dirs") ; remapped `describe-mode'
+  "s"   '(dirvish-quicksort           :which-key "Sort Active Buffer") ; remapped `dired-sort-toggle-or-edit'
+  "v"   '(dirvish-vc-menu             :which-key "Vision Control System") ; remapped `dired-view-file'
+  "TAB" '(dirvish-subtree-toggle      :which-key "Toggle Dir as Sub-tree")
+  "M-f" '(dirvish-history-go-forward  :which-key "History -> Forward")
+  "M-b" '(dirvish-history-go-backward :which-key "History -> Backward")
+  "M-l" '(dirvish-ls-switches-menu    :which-key "Setup Listing Switches")
+  "M-m" '(dirvish-mark-menu           :which-key "Manage Marks")
+  "M-t" '(dirvish-layout-toggle       :which-key "Toggle Fullscreen")
+  "M-s" '(dirvish-setup-menu          :which-key "User Interface Setup")
+  "M-e" '(dirvish-emerge-menu         :which-key "Manage Emerged Groups")
+  "M-j" '(dirvish-fd-jump             :which-key "Setup fd-find Switches"))
+#+end_src
+
+More syntax-highlighting is never a bad idea, especially for navigating files/dirs!
+
+#+begin_src emacs-lisp
+(use-package diredfl
+  :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
+  :custom-face (diredfl-dir-name ((t :bold t))))
+#+end_src
+
 **** Eldoc: Document Things at Point
 
 #+begin_src emacs-lisp
@@ -1330,8 +1391,9 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 
 #+begin_src emacs-lisp
 (use-package embark
-  <<embark-bindings>>
   :hook (eldoc-documentation-functions . embark-eldoc-first-target)
+  :general
+  <<embark-bindings>>
   :custom
   (embark-prompter #'embark-completing-read-prompter)
   (embark-indicators '(embark-minimal-indicator
@@ -1350,7 +1412,6 @@ Might as well add several bindings to our Embark.
 
 #+NAME: embark-bindings
 #+begin_src emacs-lisp :tangle no
-:general
 (irkalla/comma-lead-keydef
   "e"   '(:ignore t       :which-key "Embark")
   "e a" '(embark-act      :which-key "Prompt user for action -> perform")
@@ -1374,6 +1435,7 @@ Integrating Embark with our consult package.
 (use-package magit
   :defer t
   :if (executable-find "git")
+  :general
   <<magit-bindings>>
   :custom
   (magit-auto-revert-mode nil)
@@ -1384,7 +1446,6 @@ Appending bindings to our Magit configuration.
 
 #+NAME: magit-bindings
 #+begin_src emacs-lisp :tangle no
-:general
 (irkalla/space-lead-keydef
   "g"   '(:ignore t :which-key "Magit")
   "g g" '(magit :which-key "Launch our beloved Magit!"))
@@ -1562,55 +1623,6 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
      ("https://phys.org/rss-feed/breaking/physics-news/" physics))))
 #+end_src
 
-**** Treemacs: A Tree-based File Manager
-
-#+begin_src emacs-lisp
-(use-package treemacs
-  <<treemacs-bindings>>
-  :config
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :custom (treemacs-width 28))
-#+end_src
-
-Adding several bindings for our ~Treemacs~.
-
-#+NAME: treemacs-bindings
-#+begin_src emacs-lisp :tangle no
-:general
-(irkalla/comma-lead-keydef
-  :keymaps 'global-map
-  "f"          '(:ignore t                     :which-key "Treemacs")
-  "f b"        '(treemacs-bookmark             :which-key "Bookmark file at cursor")
-  "f d"        '(treemacs-delete-other-windows :which-key "Delete other Treemacs window")
-  "f f"        '(treemacs-find-file            :which-key "Navigate to file in Treemacs")
-  "f t"        '(treemacs-find-tag             :which-key "Navigate to tag in Treemacs")
-  "f s"        '(treemacs-select-directory     :which-key "Select directory at cursor")
-  "f <return>" '(treemacs                      :which-key "(toggle) Tree-based navigation")
-  "f <tab>"    '(treemacs-select-window        :which-key "Switch focus to Treemacs if existent"))
-#+end_src
-
-Integrating ~Treemacs~ with several packages:
-1. ~Evil-Mode~
-2. ~Projectile~
-3. ~Magit~
-4. ~Perspective~
-
-#+begin_src emacs-lisp
-(use-package treemacs-evil
-  :after (treemacs evil))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
-(use-package treemacs-magit
-  :after (treemacs magit))
-
-(use-package treemacs-persp
-  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :config (treemacs-set-scope-type 'Perspectives))
-#+end_src
-
 **** EShell: A Powerful Shell Which Understands Elisp! (disabled)
 :PROPERTIES:
 :header-args+: :tangle no
@@ -1619,6 +1631,7 @@ Integrating ~Treemacs~ with several packages:
 #+begin_src emacs-lisp
 (use-package eshell
   :elpaca nil
+  :general
   <<eshell-bindings>>
   :custom
   (eshell-tramp-initialize)
@@ -1631,7 +1644,6 @@ Reducing the burden of longer bindings and appending Eshell-related bindings to 
 
 #+NAME: eshell-bindings
 #+begin_src emacs-lisp :tangle no
-:general
 (irkalla/space-lead-keydef
   "t t" '(eshell                  :which-key "Start Eshell")
   "t p" '(eshell                  :which-key "Start Eshell in project ROOT")
@@ -1654,6 +1666,7 @@ Syntax highlighting inside Eshell, similar to Fish-shell, is nice to have. Let's
 #+begin_src emacs-lisp
 (use-package vterm
   :elpaca nil
+  :general
   <<vterm-bindings>>
   :custom
   (vterm-timer-delay 0.01)
@@ -1665,7 +1678,6 @@ Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
 #+begin_src emacs-lisp :tangle no
-:general
 (general-imap
   :keymaps 'vterm-mode-map
   "<S-prior>" #'scroll-down-command

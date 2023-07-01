@@ -120,6 +120,13 @@
   (dired-mark                                        (:foreground love))
   (dired-ignored                                     (:background gold))
 
+  ;; https://github.com/alexluigit/dirvish
+  (dirvish-hl-line                                   (:background rose :foreground surface))
+  (dirvish-vc-needs-merge-face                       (:background love :foreground surface))
+  (dirvish-git-commit-message-face                   (:background gold :foreground surface))
+  (dirvish-subtree-guide                             (:foreground highlight-high))
+  (dirvish-subtree-state                             (:foreground highlight-high))
+
   ;; https://www.emacswiki.org/emacs/Iedit
   (iedit-occurrence                                  (:background foam :foreground base))
   (iedit-read-only-occurrence                        (:background pine :foreground base))
