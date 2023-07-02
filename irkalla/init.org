@@ -100,12 +100,6 @@ wrote this madness.. (😅)
 #+begin_src emacs-lisp
 (setq user-emacs-directory (expand-file-name "~/.config/emacs"))
 
-(defconst irkalla/user-cache-dir
-  ;; :NOTE| Default location for retaining cache files.
-  (let ((dir (expand-file-name "var/" user-emacs-directory)))
-    (unless (file-directory-p dir)
-      (make-directory dir)) dir))
-
 ;; :NOTE| Adding the path for our custom themes
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 #+end_src
@@ -125,9 +119,9 @@ wrote this madness.. (😅)
 *** Native Compilation
 
 #+begin_src emacs-lisp
-(when (fboundp 'native-comp-available-p)
+(when (featurep 'native-compile)
   ;; :NOTE| Retain native compilation cache files in ~/.cache/emacs directory
-  (let ((path (expand-file-name "eln-cache/" irkalla/user-cache-dir)))
+  (let ((path (expand-file-name "var/eln-cache/" user-emacs-directory)))
     (setq native-comp-eln-load-path (list path)
           native-compile-target-directory path))
 
@@ -354,18 +348,42 @@ Have ~use-package~ report the slow packages for us to take action on.
 
 *** General Management
 
-**** Profile Irkalla's Startup
-
 **** Prevent Littering
 
 #+begin_src emacs-lisp
 (use-package no-littering
   :config
-  (setq no-littering-etc-directory (expand-file-name "no-littering-etc/" irkalla/user-cache-dir)
-        no-littering-var-directory (expand-file-name "no-littering-var/" irkalla/user-cache-dir)))
+  (setq-default
+   no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)   ; :WARN| store configurations
+   no-littering-var-directory (expand-file-name "var/" user-emacs-directory))) ; :WARN| store Emacs data
+#+end_src
+
+***** Prevent ~recentf~ From Littering
+
+#+begin_src emacs-lisp
+(use-package recentf
+  :elpaca nil
+  :after no-littering
+  :config
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  (add-to-list 'recentf-exclude no-littering-var-directory))
 #+end_src
 
 **** Limiting File & Backup Age
+
+Storing our ~Auto-Save~ and ~Backup~ files in our ~No-Littering~ directory is trivial!
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'no-littering
+  (setq-default
+   auto-save-file-name-transforms
+   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
+
+    backup-directory-alist
+    `((".*" . ,(no-littering-expand-var-file-name "backups/")))))
+#+end_src
+
+Afterwards, proceeding with the backup & auto-save related configurations should not cause us any worry.
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -376,17 +394,6 @@ Have ~use-package~ report the slow packages for us to take action on.
   (delete-old-versions t)
   (kept-new-versions 10)
   (kept-old-versions 3))
-#+end_src
-
-**** Prevent ~recentf~ From Littering
-
-#+begin_src emacs-lisp
-(use-package recentf
-  :elpaca nil
-  :after no-littering
-  :config
-  (add-to-list 'recentf-exclude no-littering-etc-directory)
-  (add-to-list 'recentf-exclude no-littering-var-directory))
 #+end_src
 
 **** Appropriate Garbage Collection
@@ -1568,7 +1575,7 @@ We also want to jump back to the last known position after opening a PDF file.
 #+begin_src emacs-lisp
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode)
-  :custom (pdf-view-restore-filename (expand-file-name "pdf-view-restore" irkalla/user-cache-dir)))
+  :custom (pdf-view-restore-filename (no-littering-expand-var-file-name "pdf-view-restore")))
 #+end_src
 
 **** NOV: A Customizable EPUB Reader (disabled)
@@ -1813,7 +1820,7 @@ Management of history behaviour is necessary to prevent undesired garbage from s
   (history-delete-duplicates t)
   (savehist-autosave-interval 60)
   (savehist-save-minibuffer-history t)
-  (savehist-file (expand-file-name "savehist" irkalla/user-cache-dir)))
+  (savehist-file (no-littering-expand-var-file-name "savehist")))
 #+end_src
 
 Navigate to last known position inside our buffer for quicker editing.
@@ -1823,7 +1830,7 @@ Navigate to last known position inside our buffer for quicker editing.
   :elpaca nil
   :hook ((prog-mode text-mode) . savehist-mode)
   :custom
-  (save-place-file (expand-file-name "saveplace" irkalla/user-cache-dir))
+  (save-place-file (no-littering-expand-var-file-name "saveplace"))
   (save-place-forget-unreadable-files t))
 #+end_src
 
@@ -2195,7 +2202,7 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   (org-level-5        ((t (:inherit outline-5 :height 1.06))))
   :config
   ;; :NOTE| Move our LaTeX previews to cache dir
-  (let ((latex-dir (concat irkalla/user-cache-dir "latex-preview")))
+  (let ((latex-dir (no-littering-expand-var-file-name "latex-preview")))
     (unless (file-directory-p latex-dir)
       (mkdir latex-dir t))
     (setq-default org-preview-latex-image-directory latex-dir))
@@ -2616,7 +2623,7 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
   :hook (emacs-lisp-mode . parinfer-rust-mode)
   :custom
   (parinfer-rust-auto-download t)
-  (parinfer-rust-library-directory (expand-file-name "parinfer-rust/" irkalla/user-cache-dir)))
+  (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
 #+end_src
 
 **** Haskell: Lazy & Statically Typed FP Language
