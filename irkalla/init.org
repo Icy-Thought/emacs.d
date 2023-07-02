@@ -1035,24 +1035,12 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (nerd-icons-scale-factors 1.25))
 #+end_src
 
-Extending the support of our Nerd-icons to function in other areas.
+Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer deems worthy!
 
 #+begin_src emacs-lisp
-(use-package nerd-icons-dired
-  :after (nerd-icons dired)
-  :hook (dired-mode . nerd-icons-dired-mode))
-
-(use-package nerd-icons-ibuffer
-  :after (nerd-icons ibuffer)
-  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
-
 (use-package nerd-icons-completion
   :after (nerd-icons vertico)
   :hook (vertico-mode . nerd-icons-completion-mode))
-
-(use-package treemacs-nerd-icons
-  :after (nerd-icons treemacs)
-  :config (treemacs-load-theme "nerd-icons"))
 #+end_src
 
 **** SVG-Tags: A Ricer's Dream, SVG-based Tagging System!
