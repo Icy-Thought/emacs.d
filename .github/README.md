@@ -2,6 +2,10 @@
   <img src="./assets/png/raccoon.png" alt="Emacs Logo" width="450" height="450"/>
 </p>
 
+# (Preview) Irkalla Emacs
+
+![Irkalla Emacs](./assets/png/irkalla.png)
+
 # Introduction 🌱
 
 Hello and thank you for visiting my Emacs configuration repository! This repository serves as a collection of my
