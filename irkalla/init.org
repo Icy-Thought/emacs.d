@@ -2527,11 +2527,12 @@ Integrating Temple with Corfu to automatically display possible snippet completi
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :config
-  (setq completions-detailed t
-        completion-ignore-case t
-        tab-always-indent 'completion
-        tab-first-completion 'word-or-paren-or-punct))
+  :custom
+  (completions-detailed t)
+  (completion-ignore-case t)
+  (compilation-scroll-output t)
+  (tab-always-indent 'completion)
+  (tab-first-completion 'word-or-paren-or-punct))
 #+end_src
 
 **** Orderless: Completion That Matches Multiple Regexp
