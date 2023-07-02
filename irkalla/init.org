@@ -957,7 +957,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
-  (dashboard-startup-banner (expand-file-name "dasHead.svg" user-emacs-directory))
+  (dashboard-startup-banner (expand-file-name "logos/owl-skull.svg" user-emacs-directory))
   (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
@@ -2502,7 +2502,7 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package tempel
   :hook ((prog-mode text-mode) . tempel-setup-capf)
-  :config (setq-default tempel-path (expand-file-name "templates/*.eld" user-emacs-directory)))
+  :config (setq-default tempel-path (expand-file-name "snippets/*.eld" user-emacs-directory)))
 #+end_src
 
 Integrating Temple with Corfu to automatically display possible snippet completions.
