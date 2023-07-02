@@ -1299,7 +1299,7 @@ Might as-well have consult integrate itself to our projectile and display existi
 
 #+begin_src emacs-lisp
 (use-package dirvish
-  :hook (dirvish-side . dirvish-side-follow-mode)
+  :hook (dired-mode . dirvish-side-follow-mode)
   :general
   <<dirvish-bindings>>
   :config (dirvish-override-dired-mode)
