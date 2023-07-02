@@ -1,7 +1,6 @@
 ;;; rose-pine.el --- All natural pine, faux fur and a bit of soho vibes
 
 ;;; Commentary
-
 ;;; [1]: https://rosepinetheme.com/
 ;;; [2]: https://github.com/articuluxe/harmsway/blob/master/.emacs.d/etc/themes/rose-pine-theme.el
 
@@ -121,11 +120,22 @@
   (dired-ignored                                     (:background gold))
 
   ;; https://github.com/alexluigit/dirvish
-  (dirvish-hl-line                                   (:background rose :foreground surface))
-  (dirvish-vc-needs-merge-face                       (:background love :foreground surface))
   (dirvish-git-commit-message-face                   (:background gold :foreground surface))
+  (dirvish-hl-line                                   (:background rose :foreground surface))
   (dirvish-subtree-guide                             (:foreground highlight-high))
   (dirvish-subtree-state                             (:foreground highlight-high))
+  (dirvish-vc-needs-merge-face                       (:background love :foreground surface))
+
+  ;; https://github.com/purcell/diredfl
+  (diredfl-compressed-file-name                      (:foreground iris))
+  (diredfl-compressed-file-suffix                    (:foreground iris))
+  (diredfl-deletion                                  (:background love :foreground gold))
+  (diredfl-dir-name                                  (:foreground foam))
+  (diredfl-file-name                                 (:foreground gold))
+  (diredfl-file-suffix                               (:foreground pine))
+  (diredfl-flag-mark                                 (:background foam :foreground pine))
+  (diredfl-link-prev                                 (:foreground foam))
+  (diredfl-number                                    (:foreground gold))
 
   ;; https://www.emacswiki.org/emacs/Iedit
   (iedit-occurrence                                  (:background foam :foreground base))

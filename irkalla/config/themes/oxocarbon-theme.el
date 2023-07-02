@@ -1,6 +1,6 @@
 ;;; oxocarbon.el --- All natural pine, faux fur and a bit of soho vibes
-;;; Commentary
 
+;;; Commentary
 ;;; [1]: https://github.com/nyoom-engineering/oxocarbon
 
 ;;; Code:
