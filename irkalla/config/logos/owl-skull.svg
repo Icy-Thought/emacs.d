@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    version="1.1"
-   viewBox="0 0 359.37121 499.99997"
+   viewBox="0 0 395.30834 549.99997"
    id="svg7330"
    sodipodi:docname="owl-skull.svg"
-   width="359.37122"
-   height="500"
+   width="395.30835"
+   height="550"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="3.1917472"
-     inkscape:cx="203.65021"
-     inkscape:cy="242.97037"
+     inkscape:zoom="1.5958736"
+     inkscape:cx="65.794684"
+     inkscape:cy="264.11866"
      inkscape:window-width="1920"
      inkscape:window-height="1015"
      inkscape:window-x="0"
@@ -36,7 +36,7 @@
      id="g976"
      inkscape:label="final"
      style="fill:#dbdbdb;fill-opacity:1"
-     transform="matrix(0.37321494,0,0,0.37321494,1.2628005e-6,-7.7216953e-8)"
+     transform="matrix(0.41053643,0,0,0.41053643,1.3890805e-6,-8.4938701e-8)"
      sodipodi:insensitive="true">
     <path
        fill="#343434"
