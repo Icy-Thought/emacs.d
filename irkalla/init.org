@@ -31,17 +31,19 @@
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
     - [[#general-management][General Management]]
-    - [[#decorating-our-emacs][Decorating our Emacs]]
-    - [[#specifying-several-useful-options][Specifying Several Useful Options]]
+    - [[#enhancing-the-aesthetics-and-functionality][Enhancing the Aesthetics and Functionality]]
+    - [[#unraveling-a-multitude-of-powerful-options][Unraveling a Multitude of Powerful Options]]
   - [[#expanding-irkallas-abilities][Expanding Irkalla's Abilities]]
     - [[#supercharging-with-essentials][Supercharging with Essentials]]
     - [[#applying-vibrant-colors-to-irkalla][Applying Vibrant Colors To Irkalla]]
     - [[#unleashing-the-power-of-ui-extensions][Unleashing the Power of UI Extensions]]
     - [[#building-a-versatile-toolbox][Building a Versatile Toolbox]]
+    - [[#supercharging-irkallas-mobility][Supercharging Irkalla's Mobility]]
     - [[#tailoring-our-editing-experience][Tailoring our Editing Experience]]
+    - [[#polish--perfect-formatting-and-spell-check][Polish & Perfect: Formatting and Spell-Check]]
     - [[#a-more-efficient-completion-system][A More Efficient Completion System]]
     - [[#harnessing-the-powers-of-lsp][Harnessing the Powers of LSP]]
-    - [[#coding-language-specific-changes][Coding Language Specific Changes]]
+    - [[#prog--text-code-craftsmanship][(Prog & Text) Code Craftsmanship]]
   - [[#concluding-our-journey-with-irkalla-emacs][Concluding Our Journey with Irkalla Emacs]]
 
 * Early Initialization of Irkalla Emacs
@@ -425,7 +427,7 @@ Afterwards, proceeding with the backup & auto-save related configurations should
   (emacs-lock-mode 'kill))
 #+end_src
 
-*** Decorating our Emacs
+*** Enhancing the Aesthetics and Functionality
 
 Several minor changes which increases the eye-candy of our editor by a small margin!
 
@@ -500,57 +502,30 @@ Also, ligatures for cleaner symbols
   :custom (posframe-mouse-banish '(0 . 5000)))
 #+end_src
 
-*** Specifying Several Useful Options
+*** Unraveling a Multitude of Powerful Options
 
-**** Identifying Ourselves
+**** Who am I???
 
 #+begin_src emacs-lisp
 (setq user-full-name "Icy-Thought"
       user-mail-address "icy-thought@pm.me")
 #+end_src
 
-**** Editor-related Customization's
+**** Rational Irkalla Emacs Behaviour  
 
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
   :custom
   (echo-keystrokes 0.02)
-  (enable-local-variables t)
   (enable-recursive-minibuffers t)
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (help-window-select t)
   (inhibit-startup-echo-area-message t)
-  (kill-whole-line t)
-  (recenter-positions '(top middle bottom))
-  (require-final-newline t)
-  (sentence-end-double-space nil)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (ring-bell-function 'ignore)
   (use-dialog-box nil)
   (use-short-answers t))
-#+end_src
-
-Prevent Emacs from spamming notifications when ~Err~ has been encountered.
-
-#+begin_src emacs-lisp
-(setq-default ring-bell-function 'ignore)
-#+end_src
-
-Navigating & Editing files can be tedious, therefore we need some defaults to retain our sanity..
-
-#+begin_src emacs-lisp
-(setq-default
-  auto-save-interval 50
-  confirm-nonexistent-file-or-buffer nil
-  find-file-suppress-same-file-warnings t
-  remote-file-name-inhibit-locks t)
-#+end_src
-
-Tell our completion system to ignore case's since being arrogant does not make our lives better..
-
-#+begin_src emacs-lisp
-(setq-default
-  read-file-name-completion-ignore-case t
-  read-buffer-completion-ignore-case t)
 #+end_src
 
 **** Highlight Cursor-line
@@ -572,7 +547,7 @@ Tell our completion system to ignore case's since being arrogant does not make o
   (auto-revert-verbose t))
 #+end_src
 
-**** Word-based movement
+**** Word-dependent Navigation
 
 #+begin_src emacs-lisp
 (use-package subword
@@ -597,7 +572,7 @@ We also want to move to last known position in the buffer we just entered.
   (display-time-day-and-date t))
 #+end_src
 
-**** Whitespace: Customizing Cook + Clean-up
+**** Whitespace: Customizing Look + Clean-up
 
 #+begin_src emacs-lisp
 (use-package whitespace
@@ -677,35 +652,37 @@ A place for non-categorized ~General~ bindings is always appreciated.
 (use-package emacs
   :elpaca nil
   :general
+  ("<escape>" 'keyboard-escape-quit)
+
   (irkalla/space-lead-keydef
     ;; Buffer-related
     "b"     '(:ignore t        :which-key "Buffer Management")
-    "b d"   '(kill-this-buffer :which-key "Kill active buffer")
-    "b n"   '(next-buffer      :which-key "Switch to next buffer")
-    "b p"   '(previous-buffer  :which-key "Switch to previous buffer")
-    "b s"   '(scratch-buffer   :which-key "Switch to current perspective scratch-buf")
+    "b d"   '(kill-this-buffer :which-key "Exit active buffer")
+    "b n"   '(next-buffer      :which-key "Switch -> next buffer")
+    "b p"   '(previous-buffer  :which-key "Switch -> prev. buffer")
+    "b s"   '(scratch-buffer   :which-key "Switch -> curr. scratch-buf")
 
     ;; File-related
     "f"     '(:ignore t        :which-key "Files")
-    "f RET" '(find-file        :which-key "Find files in current directory")
+    "f RET" '(find-file        :which-key "Find files in directory")
 
     ;; Expression evaluation
     "e"     '(:ignore t        :which-key "Evaluation")
-    "e e"   '(eval-expression  :which-key "Evaluate input expression")
+    "e e"   '(eval-expression  :which-key "Evaluate input")
     "e b"   '(eval-buffer      :which-key "Evaluate buffer")
 
     ;; Project Management
     "p"          '(:ignore t              :which-key "Projects")
-    "p r"        '(projectile-replace     :which-key "Search & replace string in project")
+    "p r"        '(projectile-replace     :which-key "Search & replace str")
 
     ;; Manage Emacs session
-    "q"     '(:ignore t        :which-key "Manage active Emacs session")
-    "q r"   '(restart-emacs    :which-key "Restart Emacs session")
+    "q"     '(:ignore t        :which-key "Manage Emacs sessions")
+    "q r"   '(restart-emacs    :which-key "Restart Emacs")
     "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
 
   (irkalla/space-lead-keydef
     :states '(visual)
-    "e r"   '(eval-region      :which-key "Eval highlighted region")))
+    "e r"   '(eval-region      :which-key "Eval highlighted")))
 #+end_src
 
 **** Helpful: Contextual & More Convenient Help Menu
@@ -714,12 +691,12 @@ A place for non-categorized ~General~ bindings is always appreciated.
 (use-package helpful
   :general
   (irkalla/space-lead-keydef
-    "h"   '(:ignore t        :which-key "Helpful")
-    "h k" '(helpful-key      :which-key "Describe Key")
-    "h f" '(helpful-callable :which-key "Describe Function")
-    "h v" '(helpful-variable :which-key "Describe Variable")
-    "h C" '(helpful-command  :which-key "Describe command")
-    "h F" '(helpful-function :which-key "Describe interactive functions"))
+    "h"   '(:ignore t        :which-key "Helpful Description")
+    "h k" '(helpful-key      :which-key "Key")
+    "h f" '(helpful-callable :which-key "Function")
+    "h v" '(helpful-variable :which-key "Variable")
+    "h C" '(helpful-command  :which-key "Command")
+    "h F" '(helpful-function :which-key "Interactive functions"))
 
   (irkalla/comma-lead-keydef
     :keymaps 'emacs-lisp-mode-map
@@ -928,9 +905,9 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package centaur-tabs
   :hook (elpaca-after-init . centaur-tabs-mode)
-  :general (centaur-tabs-mode-map
-            "C-<prior>" #'centaur-tabs-backward
-            "C-<next>"  #'centaur-tabs-forward)
+  :general (general-nmap 'centaur-tabs-mode-map
+             "C-<prior>" #'centaur-tabs-backward
+             "C-<next>"  #'centaur-tabs-forward)
   :custom
   (centaur-tabs-enable-key-bindings t)
   (centaur-tabs-height 32)
@@ -1223,21 +1200,13 @@ Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer de
                     "mpv" '(file)))))
 #+end_src
 
-**** Screenshot: Useful for Spreading Emacs Love
-
-#+begin_src emacs-lisp
-(use-package screenshot
-  :elpaca (:host github :repo "tecosaur/screenshot")
-  :defer t)
-#+end_src
-
 **** Consult: Consulting completing-read
 
 #+begin_src emacs-lisp
 (use-package consult
+  :hook (completion-list-mode . consult-preview-at-point-mode)
   :general
   <<consult-bindings>>
-  :hook (completion-list-mode . consult-preview-at-point-mode)
   :config
   (setq register-preview-delay 0.5
         register-preview-function #'consult-register-format)
@@ -1262,35 +1231,35 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
 #+NAME: consult-bindings
 #+begin_src emacs-lisp :tangle no
 (irkalla/space-lead-keydef
-  "/"          '(consult-ripgrep        :which-key "Quick Regex grep from current dir")
-  "b b"        '(consult-buffer         :which-key "Switch (+visualize) to buffer")
+  "/"          '(consult-ripgrep        :which-key "Quick RegExp grep")
+  "b b"        '(consult-buffer         :which-key "Switch -> buffer")
 
-  "p b"        '(consult-project-buffer :which-key "Switch (+visualize) to project buffer")
-  "p /"        '(consult-git-grep       :which-key "Grep current .git repostiory")
+  "p b"        '(consult-project-buffer :which-key "Switch -> project buffer")
+  "p /"        '(consult-git-grep       :which-key "Grep .git repostiory")
 
-  "f f"        '(consult-find           :which-key "Find file based on its given name")
-  "f r"        '(consult-recent-file    :which-key "Open file based on last time it was edited")
+  "f f"        '(consult-find           :which-key "Find file")
+  "f r"        '(consult-recent-file    :which-key "Recent files")
 
   ;; LSP-related
   "l"          '(:ignore t              :which-key "LSP & Editing")
-  "l m"        '(consult-mark           :which-key "Jump to marker in MARKER-list")
-  "l M"        '(consult-global-mark    :which-key "Global jump to marker in MARKER-list")
-  "l o"        '(consult-outline        :which-key "Jump to buffer outlines (headings)")
-  "l ["        '(consult-flymake        :which-key "Jump to Flymake diagnostics")
-  "l ]"        '(consult-compile-error  :which-key "Jump to compile-error in buffer"))
+  "l m"        '(consult-mark           :which-key "Jump -> marker")
+  "l M"        '(consult-global-mark    :which-key "Glob. jump -> marker")
+  "l o"        '(consult-outline        :which-key "Jump -> buffer outlines")
+  "l ["        '(consult-flymake        :which-key "Jump -> Flymake diagnostics")
+  "l ]"        '(consult-compile-error  :which-key "Jump -> compile-error in buffer"))
 
 (irkalla/comma-lead-keydef
   "c"            '(:ignore t                   :which-key "Consult")
-  "c b"          '(consult-bookmark            :which-key "Open/Create named bookmark")
-  "c h"          '(consult-history             :which-key "Insert string from history of buffer")
-  "c k"          '(consult-kmacro              :which-key "Run a chosen KBD macro")
-  "c ?"          '(consult-man                 :which-key "String search for MAN-page")
-  "c /"          '(consult-info                :which-key "Full-text search through MANUALS")
-  "c p"          '(consult-yank-pop            :which-key "Paste past yanks at cursor")
-  "c t"          '(consult-theme               :which-key "Select/test (+preview) available themes")
-  "c <return>"   '(consult-mode-command        :which-key "Run a CMD from ANY mode")
-  "c S-<return>" '(consult-complex-command     :which-key "Select & Evaluate CMD from history")
-  "c w"          '(consult-buffer-other-window :which-key "Buffer switch (+visualize) in frame"))
+  "c b"          '(consult-bookmark            :which-key "Open named bookmark")
+  "c h"          '(consult-history             :which-key "Insert string from hist.")
+  "c k"          '(consult-kmacro              :which-key "Run KBD macro")
+  "c ?"          '(consult-man                 :which-key "MAN-page str search")
+  "c /"          '(consult-info                :which-key "MANUALS text search")
+  "c p"          '(consult-yank-pop            :which-key "Paste yanks -> cursor")
+  "c t"          '(consult-theme               :which-key "Select available themes")
+  "c <return>"   '(consult-mode-command        :which-key "Run command")
+  "c S-<return>" '(consult-complex-command     :which-key "Evaluate CMD from hist.")
+  "c w"          '(consult-buffer-other-window :which-key "Frame buffer switch"))
 #+end_src
 
 Might as-well have consult integrate itself to our projectile and display existing files in current project directory.
@@ -1298,8 +1267,9 @@ Might as-well have consult integrate itself to our projectile and display existi
 #+begin_src emacs-lisp
 (use-package consult-projectile
   :after projectile
-  :general (irkalla/space-lead-keydef
-             "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
+  :general
+  (irkalla/space-lead-keydef
+    "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 #+end_src
 
 **** Dirvish: A polished Dired Front-end
@@ -1331,23 +1301,23 @@ Might as-well have consult integrate itself to our projectile and display existi
 #+begin_src emacs-lisp :toggle no
 (irkalla/comma-lead-keydef
   "f"   '(:ignore t    :which-key "Dirvish")
-  "f f" '(dirvish-side :which-key "Toggle Dirvish Side-View")
-  "f /" '(dirvish-fd   :which-key "Run fd in Active Dir"))
+  "f f" '(dirvish-side :which-key "Dirvish Side-View")
+  "f /" '(dirvish-fd   :which-key "Run fd in dir"))
 
 (irkalla/comma-lead-keydef
   :keymaps 'dirvish-mode-map
-  "a"   '(dirvish-quick-access        :which-key "Quick-access Frequently Used Dirs")
-  "f"   '(dirvish-file-info-menu      :which-key "Get File Information")
-  "y"   '(dirvish-yank-menu           :which-key "Yank Marked Files")
-  "N"   '(dirvish-narrow              :which-key "Live Narrowing")
-  "^"   '(dirvish-history-last        :which-key "Goto Most Recent Buffer")
-  "h"   '(dirvish-history-jump        :which-key "Goto Recently Visited Dirs") ; remapped `describe-mode'
-  "s"   '(dirvish-quicksort           :which-key "Sort Active Buffer") ; remapped `dired-sort-toggle-or-edit'
-  "v"   '(dirvish-vc-menu             :which-key "Vision Control System") ; remapped `dired-view-file'
-  "TAB" '(dirvish-subtree-toggle      :which-key "Toggle Dir as Sub-tree")
-  "M-f" '(dirvish-history-go-forward  :which-key "History -> Forward")
-  "M-b" '(dirvish-history-go-backward :which-key "History -> Backward")
-  "M-l" '(dirvish-ls-switches-menu    :which-key "Setup Listing Switches")
+  "a"   '(dirvish-quick-access        :which-key "Frequently used dirs")
+  "f"   '(dirvish-file-info-menu      :which-key "File information")
+  "y"   '(dirvish-yank-menu           :which-key "Yank marked files")
+  "N"   '(dirvish-narrow              :which-key "Live narrowing")
+  "^"   '(dirvish-history-last        :which-key "Goto recent buffer")
+  "h"   '(dirvish-history-jump        :which-key "Goto recent dirs") ; remapped `describe-mode'
+  "s"   '(dirvish-quicksort           :which-key "Sort buffers")     ; remapped `dired-sort-toggle-or-edit'
+  "v"   '(dirvish-vc-menu             :which-key "Version control")  ; remapped `dired-view-file'
+  "TAB" '(dirvish-subtree-toggle      :which-key "Dir -> sub-tree")
+  "M-f" '(dirvish-history-go-forward  :which-key "History -> forward")
+  "M-b" '(dirvish-history-go-backward :which-key "History -> backward")
+  "M-l" '(dirvish-ls-switches-menu    :which-key "Setup listing switches")
   "M-m" '(dirvish-mark-menu           :which-key "Manage Marks")
   "M-t" '(dirvish-layout-toggle       :which-key "Toggle Fullscreen")
   "M-s" '(dirvish-setup-menu          :which-key "User Interface Setup")
@@ -1379,7 +1349,9 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :after eglot
-  :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
+  :general
+  (general-nmap 'prog-mode-map
+    "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
 **** Embark: Mini-Buffer Actions Rooted in Keymaps
@@ -1409,9 +1381,9 @@ Might as well add several bindings to our Embark.
 #+begin_src emacs-lisp :tangle no
 (irkalla/comma-lead-keydef
   "e"   '(:ignore t       :which-key "Embark")
-  "e a" '(embark-act      :which-key "Prompt user for action -> perform")
-  "e d" '(embark-dwim     :which-key "Run default action on buffer")
-  "e h" '(embark-bindings :which-key "Explore all available Emacs bindings"))
+  "e a" '(embark-act      :which-key "Prompt for action -> perform")
+  "e d" '(embark-dwim     :which-key "Run default action -> buffer")
+  "e h" '(embark-bindings :which-key "Explore Emacs bindings"))
 #+end_src
 
 Integrating Embark with our consult package.
@@ -1422,7 +1394,7 @@ Integrating Embark with our consult package.
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-**** Git-Tools: Magit + Blamer + Git-Gutter
+**** Version Control: Magit + Blamer + Git-Gutter
 
 ***** Magit: A Magic Wand for Git
 
@@ -1443,7 +1415,7 @@ Appending bindings to our Magit configuration.
 #+begin_src emacs-lisp :tangle no
 (irkalla/space-lead-keydef
   "g"   '(:ignore t :which-key "Magit")
-  "g g" '(magit :which-key "Launch our beloved Magit!"))
+  "g g" '(magit :which-key "Open Magit!"))
 #+end_src
 
 Display the ~TODO~'s of our Git repository in the Magit buffer. Useful for reducing the burden of grepping all the ~TODO~'s
@@ -1599,9 +1571,10 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
 (use-package nov-xwidget
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :after nov
-  :general (nov-mode-map
-            "o" '(nov-xwidget-view :which-key "View EPUB file in Nov-Mode"))
-  :hook (nov-mode . nov-xwidget-inject-all-files))
+  :hook (nov-mode . nov-xwidget-inject-all-files)
+  :general
+  (general-nmap 'nov-mode-map
+    "o" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
 **** Elfeed: An RSS-feed for the Madness (disabled)
@@ -1641,8 +1614,8 @@ Reducing the burden of longer bindings and appending Eshell-related bindings to 
 #+begin_src emacs-lisp :tangle no
 (irkalla/space-lead-keydef
   "t t" '(eshell                  :which-key "Start Eshell")
-  "t p" '(eshell                  :which-key "Start Eshell in project ROOT")
-  "t c" '(eshell-life-is-too-much :which-key "Kill Eshell instance.."))
+  "t p" '(eshell                  :which-key "Start Eshell in project")
+  "t c" '(eshell-life-is-too-much :which-key "Kill Eshell.."))
 
 (irkalla/comma-lead-keydef
   "t n" '(nix-eshell              :which-key "Create Nix (Eshell) environment")
@@ -1673,16 +1646,15 @@ Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
 #+begin_src emacs-lisp :tangle no
-(general-imap
-  :keymaps 'vterm-mode-map
+(general-imap 'vterm-mode-map
   "<S-prior>" #'scroll-down-command
-  "<S-next>" #'scroll-up-command)
+  "<S-next>"  #'scroll-up-command)
 
 (irkalla/space-lead-keydef
-  "t t" '(vterm-toggle    :which-key "Launch Terminal Emulator (VTerm)"))
+  "t t" '(vterm-toggle :which-key "Open VTerm"))
 
 (irkalla/comma-lead-keydef
-  "t c" '(vterm-copy-mode :which-key "Read-only terminal -> copy, search etc."))
+  "t c" '(vterm-copy-mode :which-key "Terminal -> read-only"))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1746,11 +1718,11 @@ Correcting navigation behaviour when interacting with directories in ~Vertico~.
 #+begin_src emacs-lisp
 (use-package vertico-directory
   :elpaca nil
-  :general (vertico-map
-            "RET"   'vertico-directory-enter
-            "DEL"   'vertico-directory-delete-char
-            "M-DEL" 'vertico-directory-delete-word)
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :general (general-nmap 'vertico-map
+             "RET"   'vertico-directory-enter
+             "DEL"   'vertico-directory-delete-char
+             "M-DEL" 'vertico-directory-delete-word))
 #+end_src
 
 Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
@@ -1779,101 +1751,32 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 
 #+begin_src emacs-lisp
 (use-package marginalia
-  :general (general-nmap
-             :keymaps 'minibuffer-local-map
-             "M-A"  '(marginalia-cycle :which-key "Cycle between Marginalia annotators"))
   :hook (elpaca-after-init . marginalia-mode)
+  :general (general-nmap 'minibuffer-local-map
+             "M-A" '(marginalia-cycle :which-key "Cycle -> Marginalia annotators"))
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))
 #+end_src
 
-*** Tailoring our Editing Experience
+**** Screenshot: Useful for Spreading Emacs Love
 
 #+begin_src emacs-lisp
-(use-package emacs
-  :elpaca nil
-  :hook ((text-mode . auto-fill-mode)
-         (text-mode . visual-line-mode))
-  :config
-  (unless (version< emacs-version "29.0")
-    (pixel-scroll-precision-mode 1))
-  :custom
-  (electric-indent-inhibit t)
-  (indent-tabs-mode nil)
-  (standard-indent 4)
-  (tab-width 4)
-  (undo-limit 6710886400) ;; 64mb
-  (undo-strong-limit 100663296) ;; x 1.5 (96mb)
-  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
-  (word-wrap nil))
+(use-package screenshot
+  :elpaca (:host github :repo "tecosaur/screenshot")
+  :defer t)
 #+end_src
 
-Management of history behaviour is necessary to prevent undesired garbage from stacking up.
-
-#+begin_src emacs-lisp
-(use-package savehist
-  :elpaca nil
-  :hook ((prog-mode text-mode) . savehist-mode)
-  :custom
-  (history-length 1000)
-  (history-delete-duplicates t)
-  (savehist-autosave-interval 60)
-  (savehist-save-minibuffer-history t)
-  (savehist-file (no-littering-expand-var-file-name "savehist")))
-#+end_src
-
-Navigate to last known position inside our buffer for quicker editing.
-
-#+begin_src emacs-lisp
-(use-package saveplace
-  :elpaca nil
-  :hook ((prog-mode text-mode) . savehist-mode)
-  :custom
-  (save-place-file (no-littering-expand-var-file-name "saveplace"))
-  (save-place-forget-unreadable-files t))
-#+end_src
-
-Allowing Emacs to recognize the editor defaults of the active repository.
-
-#+begin_src emacs-lisp
-(use-package editorconfig
-  :hook (prog-mode . editorconfig-mode))
-#+end_src
-
-Adding workspace like functionality to our editor is nice to have, because of the extended ability to manage windows and
-whatnot.
-
-#+begin_src emacs-lisp
-(use-package perspective
-  :general (general-nmap "C-x C-b" '(persp-list-buffers :which-key "C-x C-b, but with perspective-buf filter"))
-  :hook (elpaca-after-init . persp-mode)
-  :custom (persp-mode-prefix-key (kbd "C-c M-p")))
-#+end_src
-
-Display colors of HEX codes & color names inside active buffer.
-
-#+begin_src emacs-lisp
-(use-package rainbow-mode
-  :hook (prog-mode . rainbow-mode))
-#+end_src
-
-Folding code-blocks like paper to reduce the unnecessary space it occupies in the buffer.
-
-#+begin_src emacs-lisp
-(use-package ts-fold
-  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
-  :hook (prog-mode . global-ts-fold-mode))
-#+end_src
+*** Supercharging Irkalla's Mobility
 
 **** EVIL: VIM bindings inside Emacs
 
 #+begin_src emacs-lisp
 (use-package evil
-  :general (general-nmap
-            "M-j" #'pixel-scroll-up
-            "M-k" #'pixel-scroll-down)
   :hook (elpaca-after-init . evil-mode)
+  :general (general-nmap
+             "M-j" #'pixel-scroll-up
+             "M-k" #'pixel-scroll-down)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
@@ -1928,10 +1831,10 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
 (use-package evil-nerd-commenter
   :after evil
   :general
-  (irkalla/comma-lead-keydef
-    ";" '(evilnc-comment-or-uncomment-lines :which-key "Comment/uncomment selected line"))
   (irkalla/space-lead-keydef
-    ";" '(evilnc-comment-operator           :which-key "Comment code-block at cursor")))
+    ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
+  (irkalla/comma-lead-keydef
+    ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
 #+end_src
 
 **** MEOW: Yet Another Modal Editing (disabled)
@@ -2061,6 +1964,89 @@ Installing ~Meow~ and notifying it about our desired bindings.
   (add-to-list 'meow-update-cursor-functions-alist (cons 'meow--cursor-null-p (lambda ()))))
 #+end_src
 
+**** Perspective: An Emacs Workspace Manager
+
+#+begin_src emacs-lisp
+(use-package perspective
+  :hook (elpaca-after-init . persp-mode)
+  :general (general-nmap
+             "C-x C-b" '(persp-list-buffers :which-key "Buf. switch + persp-filter"))
+  :custom (persp-mode-prefix-key (kbd "C-c M-p")))
+#+end_src
+
+*** Tailoring our Editing Experience
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :hook ((text-mode . auto-fill-mode)
+         (text-mode . visual-line-mode))
+  :general
+  (irkalla/space-lead-keydef
+    :keymaps '(prog-mode text-mode)
+    "a"   '(:ignore t    :which-key "Alignment Control")
+    "a r" '(align-regexp :which-key "Align -> RegExp"))
+  :config
+  (unless (version< emacs-version "29.0")
+    (pixel-scroll-precision-mode 1))
+  :custom
+  (auto-save-interval 30)
+  (confirm-nonexistent-file-or-buffer nil)
+  (electric-indent-inhibit t)
+  (find-file-suppress-same-file-warnings t)
+  (indent-tabs-mode nil)
+  (remote-file-name-inhibit-locks t)
+  (standard-indent 4)
+  (tab-width 4)
+  (undo-limit 6710886400) ;; 64mb
+  (undo-strong-limit 100663296) ;; x 1.5 (96mb)
+  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
+  (word-wrap nil))
+#+end_src
+
+**** Citar: Quickly Find & Act on Bibliographic References
+
+#+begin_src emacs-lisp
+(use-package citar
+  :hook ((LaTeX-mode org-mode) . citar-capf-setup)
+  :custom (citar-bibliography '("~/Notes/references.bib")))
+#+end_src
+
+Integrating ~Citar~ with ~Embark~.
+
+#+begin_src emacs-lisp
+(use-package citar-embark
+  :after (citar embark)
+  :hook (org-mode . citar-embark-mode)
+  :config (setq citar-at-point-function 'embark-act))
+#+end_src
+
+**** Editor-Conf: Application of Pre-defined Project Modifications
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :hook (prog-mode . editorconfig-mode))
+#+end_src
+
+**** Electric-Pair: Automatic Parens Pairing
+
+Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
+1. Insert LaTeX brackets on ~$~ insertion
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/org-electric-dollar nil
+  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+  (interactive)
+  (if (and (looking-at "\\\\)")
+           (looking-back "\\\\("))
+      (progn (delete-char 2)
+             (delete-char -2)
+             (insert "\\[\\]"))
+    (insert "\\(\\)")
+    (backward-char 2)))
+#+end_src
+
 **** Highlight Indentation Guides (disabled)
 
 #+begin_src emacs-lisp :tangle no
@@ -2078,26 +2064,68 @@ Installing ~Meow~ and notifying it about our desired bindings.
 #+begin_src emacs-lisp
 (use-package olivetti
   :defer t
-  :general (irkalla/comma-lead-keydef
-             "q" '(olivetti-mode :which-key "Distraction free writing!"))
+  :general
+  (irkalla/comma-lead-keydef
+    "q" '(olivetti-mode :which-key "Distraction free writing!"))
   :custom
   (olivetti-body-width 0.7)
   (olivetti-minimum-body-width 115)
   (olivetti-recall-visual-line-mode-entry-state t))
 #+end_src
 
-**** Format-All: Pre-defined Auto Formatting
+**** Rainbow-Mode: Colorize our Hex-Codes
 
 #+begin_src emacs-lisp
-(use-package format-all
-  :hook ((prog-mode . format-all-mode)
-         (prog-mode . format-all-ensure-formatter))
-  :config
-  (setq-default format-all-formatters
-                '(("Nix" alejandra)
-                  ("Haskell" stylish-haskell)
-                  ("Rust" rustfmt))))
+(use-package rainbow-mode
+  :hook (prog-mode . rainbow-mode))
 #+end_src
+
+**** Save-hist: Management of Our Cursed History
+
+#+begin_src emacs-lisp
+(use-package savehist
+  :elpaca nil
+  :hook ((prog-mode text-mode) . savehist-mode)
+  :custom
+  (history-length 1000)
+  (history-delete-duplicates t)
+  (savehist-autosave-interval 60)
+  (savehist-save-minibuffer-history t)
+  (savehist-file (no-littering-expand-var-file-name "savehist")))
+#+end_src
+
+**** Save-place: Recall Last Known Cursor Position
+
+#+begin_src emacs-lisp
+(use-package saveplace
+  :elpaca nil
+  :hook ((prog-mode text-mode) . savehist-mode)
+  :custom
+  (save-place-file (no-littering-expand-var-file-name "saveplace"))
+  (save-place-forget-unreadable-files t))
+#+end_src
+
+**** TS-fold: Folding Code-blocks Like Origami
+
+#+begin_src emacs-lisp
+(use-package ts-fold
+  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
+  :hook (prog-mode . global-ts-fold-mode))
+#+end_src
+
+**** Undo-Tree: A Tree-based Undo System
+
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :after no-littering
+  :hook ((prog-mode text-mode) . global-undo-tree-mode)
+  :custom
+  (undo-tree-history-directory-alist `(("." . ,no-littering-etc-directory)))
+  (undo-tree-visualizer-diff t)
+  (undo-tree-visualizer-timestamps t))
+#+end_src
+
+*** Polish & Perfect: Formatting and Spell-Check
 
 **** Apheleia: Asynchronous Code Formatter (disabled)
 :PROPERTIES:
@@ -2150,35 +2178,291 @@ Being able to disable the code-formatter on demand is certainly desirable.
   (apheleia-mode -1))
 #+end_src
 
+**** Format-All: Pre-defined Auto Formatting
+
+#+begin_src emacs-lisp
+(use-package format-all
+  :hook ((prog-mode . format-all-mode)
+         (prog-mode . format-all-ensure-formatter))
+  :config
+  (setq-default format-all-formatters
+                '(("Nix" alejandra)
+                  ("Haskell" stylish-haskell)
+                  ("Rust" rustfmt))))
+#+end_src
+
 **** Jinx: Fast Spell Checker
 
 #+begin_src emacs-lisp
 (use-package jinx
   :elpaca nil
   :hook (text-mode . global-jinx-mode)
-  :general (general-nmap "z =" '(jinx-correct :which-key "Correct the damned misspellings...")))
+  :general
+  (general-nmap '(prog-mode-map text-mode-map)
+    "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 #+end_src
 
-**** Electric-Pair: Automatic Parens Pairing
+*** A More Efficient Completion System
 
-Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
-1. Insert LaTeX brackets on ~$~ insertion
+**** Corfu: Completion in Region
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :elpaca (:files (:defaults "extensions/*.el"))
+  :hook (elpaca-after-init . global-corfu-mode)
+  :general (general-imap 'corfu-map
+            "TAB"   #'corfu-next
+            [tab]   #'corfu-next
+            "S-TAB" #'corfu-previous
+            [backtab] #'corfu-previous)
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
+  (corfu-preselect t)
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.05)
+  (corfu-count 16)
+  (corfu-scroll-margin 5)
+  (corfu-separator ?\s)
+  (corfu-on-exact-match 'insert)
+  (corfu-preview-current 'insert)
+  (corfu-quit-no-match 'separator)
+  :config
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+                (bound-and-true-p vertico--input)
+                (eq (current-local-map) read-passwd-map))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
+#+end_src
+
+Completion at point is necessary for Corfu to work its wonders as a completion system!
+
+#+begin_src emacs-lisp
+(use-package cape
+  :config
+  (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
+    (add-to-list 'completion-at-point-functions fn)))
+#+end_src
+
+Completions should display icons for their respective types.
+
+#+begin_src emacs-lisp
+(use-package kind-icon
+  :after (svg-lib corfu)
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  ;; :NOTE| Changing the color of our icons
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.08)
+  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+#+end_src
+
+~Corfu~ should also display its completions in a floating window.
+
+#+begin_src emacs-lisp
+(use-package corfu-popupinfo
+  :elpaca nil
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
+#+end_src
+
+~Corfu~ should also function inside our Emacs terminals.
+
+#+begin_src emacs-lisp
+(use-package corfu-terminal
+  :unless window-system
+  :hook (corfu-mode . corfu-terminal-mode))
+#+end_src
+
+**** Tempel: Simple Template (Snippets) System
+
+#+begin_src emacs-lisp
+(use-package tempel
+  :hook ((prog-mode text-mode) . tempel-setup-capf)
+  :config (setq-default tempel-path (expand-file-name "snippets/*.eld" user-emacs-directory)))
+#+end_src
+
+Integrating Temple with Corfu to automatically display possible snippet completions.
 
 #+begin_src emacs-lisp
 ;;;###autoload
-(defun irkalla/org-electric-dollar nil
-  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
-  (interactive)
-  (if (and (looking-at "\\\\)")
-           (looking-back "\\\\("))
-      (progn (delete-char 2)
-             (delete-char -2)
-             (insert "\\[\\]"))
-    (insert "\\(\\)")
-    (backward-char 2)))
+(defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete completion-at-point-functions)))
+#+end_src
+
+:TODO|CDLaTeX Alternative
+
+**** ChatGPT: Trained Machine Learning System (disabled)
+
+#+begin_src emacs-lisp :tangle no
+(use-package chatgpt-shell
+  :general (irkalla/comma-lead-keydef
+             "o c" '(chatgpt-shell :which-key "Open ChatGPT")
+             "o d" '(dall-e-shell  :which-key "Open DALL-E"))
+  :custom (chatgpt-shell-openai-key (lambda ()
+                                      (irkalla/read-secret-file "closedAI"))))
+#+end_src
+
+*** Harnessing the Powers of LSP
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :custom
+  (completions-detailed t)
+  (completion-ignore-case t)
+  (compilation-scroll-output t)
+  (tab-always-indent 'completion)
+  (tab-first-completion 'word-or-paren-or-punct))
+#+end_src
+
+**** Orderless: Completion That Matches Multiple Regexp
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :after vertico
+  :custom
+  (completion-styles '(orderless))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles  . (orderless flex)))
+                                   (eglot (styles . (orderless flex))))))
+#+end_src
+
+**** Eglot: Language Server Protocol
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :elpaca nil
+  :custom
+  (eglot-extend-to-xref t)
+  (eglot-ignored-server-capabilities '(:hoverProvider)))
+#+end_src
+
+**** Flymake: Built-in Syntax Checker
+
+#+begin_src emacs-lisp
+(use-package flymake
+  :elpaca nil
+  :hook (prog-mode . flymake-mode)
+  :custom
+  ;; (flymake-show-diagnostics-at-end-of-line t) <- way to much info..
+  (flymake-fringe-indicator-position 'right-fringe)
+  (elisp-flymake-byte-compile-load-path load-path))
+#+end_src
+
+**** Flycheck: On-The-Fly Syntax Checking
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :hook (prog-mode . global-flycheck-mode)
+  :custom (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+#+end_src
+
+The missing flycheck diagnostics integration with consult.
+
+#+begin_src emacs-lisp
+(use-package consult-flycheck
+  :after (consult flycheck))
+#+end_src
+
+*** (Prog & Text) Code Craftsmanship
+
+Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :general
+  (irkalla/space-lead-keydef
+    :keymaps 'eglot-mode-map
+    "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
+    "l r"    '(eglot-rename          :which-key "Rename $SYMB")
+    "l f"    '(eglot-format          :which-key "Format buffer")
+    "l ?"    '(xref-find-references  :which-key "Find -> references")
+    "l d"    '(xref-find-definitions :which-key "Find -> definition")
+    "l /"    '(xref-find-apropos     :which-key "Find $SYMB <- pattern"))
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-menu-string "LSP")
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-confirm-server-initiated-edits nil))
+#+end_src
+
+Quicker syntax-highlighting is always deemed desirable and helps us reduce the burden of seeking a cleaner syntax.
+
+#+begin_src emacs-lisp
+(use-package tree-sitter
+  :hook ((prog-mode . global-tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode)))
+#+end_src
+
+**** Emacs-Lisp: Emacs Very Own Lisp Dialect
+
+#+begin_src emacs-lisp
+(use-package parinfer-rust-mode
+  :hook (emacs-lisp-mode . parinfer-rust-mode)
+  :custom
+  (parinfer-rust-auto-download t)
+  (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
+#+end_src
+
+**** Haskell: Lazy & Statically Typed FP Language
+
+#+begin_src emacs-lisp
+(use-package haskell-mode
+  :mode ("\\.hs\\'" . haskell-mode)
+  :hook (haskell-mode . eglot-ensure)
+  :config
+  (setq-local eglot-workspace-configuration
+              '((haskell (formattingProvider "stylish-haskell")))))
+#+end_src
+
+**** Markdown: Simple Markup Language
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    :keymaps 'markdown-mode-map
+    "m d"    '(markdown-do :which-key "Perform -> action"))
+  :custom-face
+  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
+  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
+  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
+  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
+  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
+  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
+  :custom (markdown-command "multimarkdown"))
+#+end_src
+
+**** Nix: Dynamic Typed FP Language Used in NixOS
+
+#+begin_src emacs-lisp
+(use-package nix-mode
+  :mode ("\\.nix\\'" . nix-mode)
+  :hook (nix-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
 #+end_src
 
 **** Org-Mode: The Superior File-format
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/org-special-buf ()
+  "Edit Org src-blocks in prog-mode for LSP."
+  (interactive)
+  (if (eq major-mode 'org-src-mode)
+      (org-edit-src-exit)
+    (org-edit-special)))
+#+end_src
 
 #+begin_src emacs-lisp
 (use-package org
@@ -2186,12 +2470,10 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   :hook (org-mode . org-display-inline-images)
   :general
   (irkalla/comma-lead-keydef
-    "o"     '(:ignore t               :which-key "Org-Mode"))
-  (:keymaps 'org-mode-map
-            :states '(emacs insert normal)
-            "C-<return>" #'org-ctrl-c-ret
-            "M-<return>" #'org-edit-special)
-  (general-imap org-mode-map
+    "o"   '(:ignore t               :which-key "Org-Mode")
+    "o e" '(irkalla/org-special-buf :which-key "Edit -> special buffer")
+    "o t" '(org-babel-tangle        :which-key "Tangle buffer"))
+  (general-imap 'org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.5))))
@@ -2281,11 +2563,11 @@ We also want to generate our "Table of Contents" on the fly.
   (irkalla/comma-lead-keydef
     :keymaps 'org-mode-map
     "o r"   '(:ignore t               :which-key "Org-Roam")
-    "o r l" '(org-roam-buffer-toggle  :which-key "Toggle Org-Roam in active buffer")
-    "o r n" '(org-roam-node-find      :which-key "Find & open node by title or alias")
-    "o r g" '(org-roam-graph          :which-key "Build & display node of graph")
+    "o r l" '(org-roam-buffer-toggle  :which-key "Org-Roam -> buffer")
+    "o r n" '(org-roam-node-find      :which-key "Open node -> title/alias")
+    "o r g" '(org-roam-graph          :which-key "Build -> show node of graph")
     "o r i" '(org-roam-node-insert    :which-key "Find node -> insert `:id` org-link")
-    "o r c" '(org-roam-capture        :which-key "Launch org-capture for existing node"))
+    "o r c" '(org-roam-capture        :which-key "Open org-capture of node"))
   :custom
   (org-roam-directory (file-truename "~/org/org-roam"))
   (org-roam-completion-everywhere t)
@@ -2337,7 +2619,7 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
   :elpaca nil
   :after org
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (general-nmap org-mode-map
+  :general (general-nmap 'org-mode-map
              [remap evil-ret] #'irkalla/ret-babel-exec)
   :custom
   (org-babel-default-header-args
@@ -2368,285 +2650,6 @@ Asynchronous ~Org-Babel~ evaluation for quicker block play.
   :after org)
 #+end_src
 
-**** Markdown: Simple Markup Language
-
-#+begin_src emacs-lisp
-(use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode)
-  :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'markdown-mode-map
-    "m d"    '(markdown-do :which-key "Perform a senile action based on context"))
-  :custom-face
-  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
-  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
-  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
-  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
-  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
-  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
-  :custom (markdown-command "multimarkdown"))
-#+end_src
-
-**** Citar: Quickly Find & Act on Bibliographic References
-
-#+begin_src emacs-lisp
-(use-package citar
-  :hook ((LaTeX-mode org-mode) . citar-capf-setup)
-  :custom (citar-bibliography '("~/Notes/references.bib")))
-#+end_src
-
-Integrating ~Citar~ with ~Embark~.
-
-#+begin_src emacs-lisp
-(use-package citar-embark
-  :after (citar embark)
-  :hook (org-mode . citar-embark-mode)
-  :config (setq citar-at-point-function 'embark-act))
-#+end_src
-
-**** Undo-Tree: A Tree-based Undo System
-
-#+begin_src emacs-lisp
-(use-package undo-tree
-  :after no-littering
-  :hook ((prog-mode text-mode) . global-undo-tree-mode)
-  :custom
-  (undo-tree-history-directory-alist `(("." . ,no-littering-etc-directory)))
-  (undo-tree-visualizer-diff t)
-  (undo-tree-visualizer-timestamps t))
-#+end_src
-
-*** A More Efficient Completion System
-
-**** Corfu: Completion in Region
-
-#+begin_src emacs-lisp
-(use-package corfu
-  :elpaca (:files (:defaults "extensions/*.el"))
-  :general (corfu-map
-            "TAB"   #'corfu-next
-            [tab]   #'corfu-next
-            "S-TAB" #'corfu-previous
-            [backtab] #'corfu-previous)
-  :init (global-corfu-mode)
-  :custom
-  (corfu-auto t)
-  (corfu-cycle t)
-  (corfu-preselect t)
-  (corfu-auto-prefix 1)
-  (corfu-auto-delay 0.05)
-  (corfu-count 16)
-  (corfu-scroll-margin 5)
-  (corfu-separator ?\s)
-  (corfu-on-exact-match 'insert)
-  (corfu-preview-current 'insert)
-  (corfu-quit-no-match 'separator)
-  :config
-  (defun corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active)
-                (bound-and-true-p vertico--input)
-                (eq (current-local-map) read-passwd-map))
-      (setq-local corfu-echo-delay nil
-                  corfu-popupinfo-delay nil)
-      (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
-#+end_src
-
-Completion at point is necessary for Corfu to work its wonders as a completion system!
-
-#+begin_src emacs-lisp
-(use-package cape
-  :config
-  (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
-    (add-to-list 'completion-at-point-functions fn)))
-#+end_src
-
-Completions should display icons for their respective types.
-
-#+begin_src emacs-lisp
-(use-package kind-icon
-  :after (svg-lib corfu)
-  :custom
-  (kind-icon-default-face 'corfu-default)
-  ;; :NOTE| Changing the color of our icons
-  (kind-icon-blend-background nil)
-  (kind-icon-blend-frac 0.08)
-  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-#+end_src
-
-~Corfu~ should also display its completions in a floating window.
-
-#+begin_src emacs-lisp
-(use-package corfu-popupinfo
-  :elpaca nil
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
-#+end_src
-
-~Corfu~ should also function inside our Emacs terminals.
-
-#+begin_src emacs-lisp
-(use-package corfu-terminal
-  :unless window-system
-  :hook (corfu-mode . corfu-terminal-mode))
-#+end_src
-
-**** Tempel: Simple Template (Snippets) System
-
-#+begin_src emacs-lisp
-(use-package tempel
-  :hook ((prog-mode text-mode) . tempel-setup-capf)
-  :config (setq-default tempel-path (expand-file-name "snippets/*.eld" user-emacs-directory)))
-#+end_src
-
-Integrating Temple with Corfu to automatically display possible snippet completions.
-
-#+begin_src emacs-lisp
-;;;###autoload
-(defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-complete completion-at-point-functions)))
-#+end_src
-
-:TODO|CDLaTeX Alternative
-
-**** ChatGPT: Trained Machine Learning System (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package chatgpt-shell
-  :general (irkalla/comma-lead-keydef
-             "o c" '(chatgpt-shell :which-key "Startup ChatGPT client")
-             "o d" '(dall-e-shell  :which-key "Startup DALL-E client"))
-  :custom (chatgpt-shell-openai-key (lambda ()
-                                      (irkalla/read-secret-file "closedAI"))))
-#+end_src
-
-*** Harnessing the Powers of LSP
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :elpaca nil
-  :custom
-  (completions-detailed t)
-  (completion-ignore-case t)
-  (compilation-scroll-output t)
-  (tab-always-indent 'completion)
-  (tab-first-completion 'word-or-paren-or-punct))
-#+end_src
-
-**** Orderless: Completion That Matches Multiple Regexp
-
-#+begin_src emacs-lisp
-(use-package orderless
-  :after vertico
-  :custom
-  (completion-styles '(orderless))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles  . (orderless flex)))
-                                   (eglot (styles . (orderless flex))))))
-#+end_src
-
-**** Eglot: Language Server Protocol
-
-#+begin_src emacs-lisp
-(use-package eglot
-  :elpaca nil
-  :custom
-  (eglot-extend-to-xref t)
-  (eglot-ignored-server-capabilities '(:hoverProvider)))
-#+end_src
-
-**** Flymake: Built-in Syntax Checker
-
-#+begin_src emacs-lisp
-(use-package flymake
-  :elpaca nil
-  :hook (prog-mode . flymake-mode)
-  :custom
-  ;; (flymake-show-diagnostics-at-end-of-line t) <- way to much info..
-  (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path))
-#+end_src
-
-**** Flycheck: On-The-Fly Syntax Checking
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package flycheck
-  :hook (prog-mode . global-flycheck-mode)
-  :custom (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-#+end_src
-
-The missing flycheck diagnostics integration with consult.
-
-#+begin_src emacs-lisp
-(use-package consult-flycheck
-  :after (consult flycheck))
-#+end_src
-
-*** Coding Language Specific Changes
-
-Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
-
-#+begin_src emacs-lisp
-(use-package eglot
-  :general
-  (irkalla/space-lead-keydef
-    :keymaps 'eglot-mode-map
-    "l a"    '(eglot-code-actions    :which-key "Perform code-actions on buffer")
-    "l r"    '(eglot-rename          :which-key "Rename $SYMBOL to a newer name")
-    "l f"    '(eglot-format          :which-key "Format active buffer")
-    "l ?"    '(xref-find-references  :which-key "Find references of identifier at cursor")
-    "l d"    '(xref-find-definitions :which-key "Find definition of identifier at cursor")
-    "l /"    '(xref-find-apropos     :which-key "Find meaningful $SYMBOLS which matches pattern"))
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-menu-string "LSP")
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (eglot-confirm-server-initiated-edits nil))
-#+end_src
-
-Quicker syntax-highlighting is always deemed desirable and helps us reduce the burden of seeking a cleaner syntax.
-
-#+begin_src emacs-lisp
-(use-package tree-sitter
-  :hook ((prog-mode . global-tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode)))
-#+end_src
-
-**** Emacs-Lisp: Emacs Very Own Lisp Dialect
-
-#+begin_src emacs-lisp
-(use-package parinfer-rust-mode
-  :hook (emacs-lisp-mode . parinfer-rust-mode)
-  :custom
-  (parinfer-rust-auto-download t)
-  (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
-#+end_src
-
-**** Haskell: Lazy & Statically Typed FP Language
-
-#+begin_src emacs-lisp
-(use-package haskell-mode
-  :mode ("\\.hs\\'" . haskell-mode)
-  :hook (haskell-mode . eglot-ensure)
-  :config
-  (setq-local eglot-workspace-configuration
-              '((haskell (formattingProvider "stylish-haskell")))))
-#+end_src
-
-**** Nix: Dynamic Typed FP Language Used in NixOS
-
-#+begin_src emacs-lisp
-(use-package nix-mode
-  :mode ("\\.nix\\'" . nix-mode)
-  :hook (nix-mode . eglot-ensure)
-  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
-#+end_src
-
 **** Python: Boring High-level GP Language
 
 #+begin_src emacs-lisp
@@ -2667,11 +2670,11 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
          (rust-mode . (lambda () (setq indent-tabs-mode nil))))
   :general
   (irkalla/comma-lead-keydef
-    "r b"   '(rust-compile        :which-key "Compile Active Project")
-    "r c"   '(rust-check          :which-key "")
-    "r l"   '(rust-run-clippy     :which-key "")
-    "r r"   '(rust-run            :which-key "Run Active Project")
-    "r t"   '(rust-test           :which-key "Run Tests on Project"))
+    "r b"   '(rust-compile        :which-key "Compile project")
+    "r c"   '(rust-check          :which-key "Compile + cargo check")
+    "r l"   '(rust-run-clippy     :which-key "Run cargo clippy")
+    "r r"   '(rust-run            :which-key "Run project")
+    "r t"   '(rust-test           :which-key "Run tests on project"))
 
   :config
   (setq-default eglot-workspace-configuration
@@ -2698,8 +2701,8 @@ Integrating ~Cargo~ with our newly added ~Rust-Mode~ would help us make our envi
   :hook (rust-mode . cargo-minor-mode)
   :general
   (irkalla/comma-lead-keydef
-    "r p a" '(cargo-process-add   :which-key "")
-    "r p c" '(cargo-process-clean :which-key ""))
+    "r p a" '(cargo-process-add   :which-key "Cargo Add")
+    "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
 #+end_src
 
