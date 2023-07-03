@@ -1339,7 +1339,7 @@ More syntax-highlighting is never a bad idea, especially for navigating files/di
 (use-package eldoc
   :elpaca nil
   :custom
-  (eldoc-echo-area-use-multiline-p t)
+  (eldoc-echo-area-use-multiline-p nil)
   (eldoc-echo-area-prefer-doc-buffer t)
   (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 #+end_src
@@ -1349,9 +1349,8 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :after eglot
-  :general
-  (general-nmap 'prog-mode-map
-    "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
+  :general (general-nmap 'prog-mode-map
+             "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
 **** Embark: Mini-Buffer Actions Rooted in Keymaps
@@ -1676,6 +1675,18 @@ Binding our VTerm for quicker access to the terminal.
   <<vertico-multiform>>)
 #+end_src
 
+Make sure that the ability of ~Vertico~ is not limited due to certain pre-configured settings.
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :custom
+  ;; :NOTE| Enables searching outside of dir
+  (file-name-shadow-mode 1)
+  ;; :NOTE| Clears old-path when overridden -> new-path
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
+#+end_src
+
 Controlling ~Vertico~'s behaviour in several forms has oftentimes proven to be rather useful!
 
 #+NAME: vertico-multiform
@@ -1982,8 +1993,9 @@ Installing ~Meow~ and notifying it about our desired bindings.
   :hook ((text-mode . auto-fill-mode)
          (text-mode . visual-line-mode))
   :general
-  (irkalla/space-lead-keydef
-    :keymaps '(prog-mode text-mode)
+  (irkalla/comma-lead-keydef
+    :states '(visual)
+    :keymaps '(prog-mode-map text-mode-map)
     "a"   '(:ignore t    :which-key "Alignment Control")
     "a r" '(align-regexp :which-key "Align -> RegExp"))
   :config
@@ -2455,24 +2467,14 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
 **** Org-Mode: The Superior File-format
 
 #+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/org-special-buf ()
-  "Edit Org src-blocks in prog-mode for LSP."
-  (interactive)
-  (if (eq major-mode 'org-src-mode)
-      (org-edit-src-exit)
-    (org-edit-special)))
-#+end_src
-
-#+begin_src emacs-lisp
 (use-package org
   :elpaca nil
   :hook (org-mode . org-display-inline-images)
   :general
   (irkalla/comma-lead-keydef
-    "o"   '(:ignore t               :which-key "Org-Mode")
-    "o e" '(irkalla/org-special-buf :which-key "Edit -> special buffer")
-    "o t" '(org-babel-tangle        :which-key "Tangle buffer"))
+    "o"   '(:ignore t        :which-key "Org-Mode")
+    "o e" '(org-edit-special :which-key "Edit -> special buffer")
+    "o t" '(org-babel-tangle :which-key "Tangle buffer"))
   (general-imap 'org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
