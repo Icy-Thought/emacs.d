@@ -2355,6 +2355,16 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (eglot-ignored-server-capabilities '(:hoverProvider)))
 #+end_src
 
+**** Sideline: Minimal UI for LSP Diagnostics
+
+#+begin_src emacs-lisp
+(use-package sideline
+  :custom
+  (sideline-delay 0.2)
+  (sideline-display-backend-name nil)
+  (sideline-display-backend-type 'inner))
+#+end_src
+
 **** Flymake: Built-in Syntax Checker
 
 #+begin_src emacs-lisp
@@ -2367,7 +2377,15 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (elisp-flymake-byte-compile-load-path load-path))
 #+end_src
 
-**** Flycheck: On-The-Fly Syntax Checking
+A less crowded way to display our diagnostics compared to built-in solution.
+
+#+begin_src emacs-lisp
+(use-package sideline-flymake
+  :hook (flymake-mode  . sideline-mode)
+  :custom (sideline-backends-right '((sideline-flymake  . down))))
+#+end_src
+
+**** Flycheck: On-The-Fly Syntax Checking (disabled)
 :PROPERTIES:
 :header-args+: :tangle no
 :END:
@@ -2383,6 +2401,16 @@ The missing flycheck diagnostics integration with consult.
 #+begin_src emacs-lisp
 (use-package consult-flycheck
   :after (consult flycheck))
+#+end_src
+
+Integrate ~Flycheck~ with ~Sideline~ to display diagnostics on-hover.
+
+#+begin_src emacs-lisp
+(use-package sideline-flycheck
+  :hook (flycheck-mode . sideline-flycheck-setup)
+  :custom
+  (sideline-flymake-display-errors-whole-line 'line)
+  (sideline-backends-right '((sideline-flymake . up))))
 #+end_src
 
 *** (Prog & Text) Code Craftsmanship
