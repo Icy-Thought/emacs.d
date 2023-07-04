@@ -50,7 +50,7 @@
   (cursor                                            (:background gold :foreground base))
   (error                                             (:foreground love))
   (link                                              (:foreground iris))
-  (fringe                                            (:foreground overlay))
+  (fringe                                            (:background surface :foreground text))
   (file-name-shadow                                  (:foreground muted))
   (glyph-face                                        (:background love :foreground muted))
   (glyphless-char                                    (:foreground muted))
@@ -518,7 +518,7 @@
   ;; https://github.com/emacsorphanage/git-gutter
   (git-gutter:added                                  (:foreground rose))
   (git-gutter:deleted                                (:foreground love))
-  (git-gutter:modified                               (:foreground pine))
+  (git-gutter:modified                               (:foreground foam))
 
   ;; https://github.com/minad/goggles
   (goggles-added                                     (:background pine))
