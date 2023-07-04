@@ -1675,18 +1675,6 @@ Binding our VTerm for quicker access to the terminal.
   <<vertico-multiform>>)
 #+end_src
 
-Make sure that the ability of ~Vertico~ is not limited due to certain pre-configured settings.
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :elpaca nil
-  :custom
-  ;; :NOTE| Enables searching outside of dir
-  (file-name-shadow-mode 1)
-  ;; :NOTE| Clears old-path when overridden -> new-path
-  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
-#+end_src
-
 Controlling ~Vertico~'s behaviour in several forms has oftentimes proven to be rather useful!
 
 #+NAME: vertico-multiform
@@ -1710,6 +1698,7 @@ Displaying our ~Vertico~ instances in their respective pop-up window would've be
 
 #+begin_src emacs-lisp :tangle no
 (use-package vertico-posframe
+  :after vertico
   :hook (vertico-mode . vertico-posframe-mode)
   :custom
   (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
@@ -1721,6 +1710,7 @@ Allowing our mouse to behave as expected when used in ~Vertico~.
 #+begin_src emacs-lisp
 (use-package vertico-mouse
   :elpaca nil
+  :after vertico
   :hook (vertico-mode . vertico-mouse-mode))
 #+end_src
 
@@ -1729,11 +1719,12 @@ Correcting navigation behaviour when interacting with directories in ~Vertico~.
 #+begin_src emacs-lisp
 (use-package vertico-directory
   :elpaca nil
+  :after vertico
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  :general (general-nmap 'vertico-map
-             "RET"   'vertico-directory-enter
-             "DEL"   'vertico-directory-delete-char
-             "M-DEL" 'vertico-directory-delete-word))
+  :general (:keymaps 'vertico-map
+             "RET"   #'vertico-directory-enter
+             "DEL"   #'vertico-directory-delete-char
+             "M-DEL" #'vertico-directory-delete-word))
 #+end_src
 
 Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
@@ -2546,12 +2537,12 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
   (org-support-shift-select t)
   (org-tags-column 0)
 
-  ;; Source blocks
+  ;; Code blocks
   (org-confirm-babel-evaluate nil)
   (org-edit-src-content-indentation 0)
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
-  (org-src-tab-acts-natively t))
+  (org-src-tab-acts-natively nil))
 #+end_src
 
 Automatically render our LaTeX code-blocks.
