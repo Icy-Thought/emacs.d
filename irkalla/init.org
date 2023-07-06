@@ -810,6 +810,13 @@ Guaranteeing that Hydra was installed properly is benefitial to our setup!
   :bind ("M-RET l" . eglot-hydra/body))
 #+end_src
 
+**** Emacs Everwhere: Allow Emacs Universal Access
+
+#+begin_src emacs-lisp
+(use-package emacs-everywhere
+  :defer t)
+#+end_src
+
 *** Applying Vibrant Colors To Irkalla
 
 #+begin_src emacs-lisp
@@ -1089,9 +1096,9 @@ Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer de
 
         ;; Task priority [#a]
         ("\\[#[a-zA-Z]\\]"
-         . ( (lambda (tag)
-               (svg-tag-make tag :face 'org-priority
-                             :beg 2 :end -1 :margin 0 :inverse t))))
+         . ((lambda (tag)
+              (svg-tag-make tag :face 'org-priority
+                            :beg 2 :end -1 :margin 0 :inverse t))))
 
         ;; Progress [1/3] or [45%]
         ("\\(\\[[0-9]\\{1,3\\}%\\]\\)"
@@ -2691,12 +2698,13 @@ Asynchronous ~Org-Babel~ evaluation for quicker block play.
          (rust-mode . (lambda () (setq indent-tabs-mode nil))))
   :general
   (irkalla/comma-lead-keydef
-    "r b"   '(rust-compile        :which-key "Compile project")
-    "r c"   '(rust-check          :which-key "Compile + cargo check")
-    "r l"   '(rust-run-clippy     :which-key "Run cargo clippy")
-    "r r"   '(rust-run            :which-key "Run project")
-    "r t"   '(rust-test           :which-key "Run tests on project"))
-
+    :keymaps 'rust-mode-map
+    "r"   '(:ignore t       :which-key "Rust")
+    "r b" '(rust-compile    :which-key "Compile project")
+    "r c" '(rust-check      :which-key "Compile + cargo check")
+    "r l" '(rust-run-clippy :which-key "Run cargo clippy")
+    "r r" '(rust-run        :which-key "Run project")
+    "r t" '(rust-test       :which-key "Run tests on project"))
   :config
   (setq-default eglot-workspace-configuration
                 '((:rust-analyzer
@@ -2722,6 +2730,7 @@ Integrating ~Cargo~ with our newly added ~Rust-Mode~ would help us make our envi
   :hook (rust-mode . cargo-minor-mode)
   :general
   (irkalla/comma-lead-keydef
+    :keymaps 'rust-mode-map
     "r p a" '(cargo-process-add   :which-key "Cargo Add")
     "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
