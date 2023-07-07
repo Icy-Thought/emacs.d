@@ -939,7 +939,9 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (dashboard-heading ((t (:weight regular))))
   (dashboard-banner-logo-title ((t (:weight regular))))
   :custom
-  (initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
+  (initial-buffer-choice (lambda ()
+                           (dashboard-refresh-buffer)
+                           (get-buffer dashboard-buffer-name)))
   
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
