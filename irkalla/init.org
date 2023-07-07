@@ -368,7 +368,11 @@ Have ~use-package~ report the slow packages for us to take action on.
   :after no-littering
   :config
   (add-to-list 'recentf-exclude no-littering-etc-directory)
-  (add-to-list 'recentf-exclude no-littering-var-directory))
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+
+  ;; :NOTE| Ignore Emacs-everywhere file entries
+  (add-to-list 'recentf-exclude
+               (concat "/tmp/emacs-everywhere")))
 #+end_src
 
 **** Limiting File & Backup Age
@@ -810,11 +814,11 @@ Guaranteeing that Hydra was installed properly is benefitial to our setup!
   :bind ("M-RET l" . eglot-hydra/body))
 #+end_src
 
-**** Emacs Everwhere: Allow Emacs Universal Access
+**** Emacs Everywhere: Allow Emacs Universal Access
 
 #+begin_src emacs-lisp
 (use-package emacs-everywhere
-  :defer t)
+  :custom (emacs-everywhere-copy-command (list "cb" "copy" "%f")))
 #+end_src
 
 *** Applying Vibrant Colors To Irkalla
