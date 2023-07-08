@@ -551,21 +551,6 @@ Also, ligatures for cleaner symbols
   (auto-revert-verbose t))
 #+end_src
 
-**** Word-dependent Navigation
-
-#+begin_src emacs-lisp
-(use-package subword
-  :elpaca nil
-  :hook ((prog-mode text-mode) . subword-mode))
-#+end_src
-
-We also want to move to last known position in the buffer we just entered.
-#+begin_src emacs-lisp
-(use-package save-place
-  :elpaca nil
-  :hook ((prog-mode text-mode) . save-place-mode))
-#+end_src
-
 **** Time: Configuring our Clock
 
 #+begin_src emacs-lisp
@@ -576,28 +561,6 @@ We also want to move to last known position in the buffer we just entered.
   (display-time-day-and-date t))
 #+end_src
 
-**** Whitespace: Customizing Look + Clean-up
-
-#+begin_src emacs-lisp
-(use-package whitespace
-  :elpaca nil
-  :defer t
-  ;; :hook (prog-mode . whitespace-mode)
-  :custom
-  (whitespace-action '(cleanup auto-cleanup))
-  (whitespace-style
-   '(face spaces tabs newline trailing space-mark tab-mark newline-mark))
-  (whitespace-display-mappings
-   '(;; space -> · else .
-     (space-mark 32 [183] [46])
-     ;; new line -> ¬ else $
-     (newline-mark ?\n [172 ?\n] [36 ?\n])
-     ;; carriage return (Windows) -> ¶ else #
-     (newline-mark ?\r [182] [35])
-     ;; tabs -> » else >
-     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
-#+end_src
-
 **** Number-line: Relative Numbering
 
 #+begin_src emacs-lisp
@@ -605,15 +568,6 @@ We also want to move to last known position in the buffer we just entered.
   :elpaca nil
   :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
   :custom (display-line-numbers-type 'relative))
-#+end_src
-
-**** Electric Pair: Insert Matching SYMB Pairs
-
-#+begin_src emacs-lisp
-(use-package elec-pair
-  :elpaca nil
-  :hook ((prog-mode text-mode) . electric-pair-mode)
-  :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
 #+end_src
 
 ** Expanding Irkalla's Abilities
@@ -656,7 +610,7 @@ Have Elpaca wait & verify that ~General~ was installed properly.
 (use-package emacs
   :elpaca nil
   :general
-  ("<escape>" 'keyboard-escape-quit)
+  (general-def "<escape>" 'keyboard-escape-quit)
 
   (irkalla/space-lead-keydef
     ;; Buffer-related
@@ -1540,7 +1494,7 @@ A quick function which helps us connect to our Matrix server on the fly.
   :elpaca nil ; :WARN| package <- fetch from Nixpkgs
   :hook
   ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
-  (pdf-view-mode . (lambda () (setq evil-normal-state-cursor (list nil)))))
+  (pdf-view-mode . (lambda () (setq-local evil-normal-state-cursor (list nil)))))
 #+end_src
 
 Defer loading ~PDF-Tools~ through pre-defined function.
@@ -1638,13 +1592,15 @@ Reducing the burden of longer bindings and appending Eshell-related bindings to 
 #+NAME: eshell-bindings
 #+begin_src emacs-lisp :tangle no
 (irkalla/space-lead-keydef
-  "t t" '(eshell                  :which-key "Start Eshell")
-  "t p" '(eshell                  :which-key "Start Eshell in project")
-  "t c" '(eshell-life-is-too-much :which-key "Kill Eshell.."))
+  "t"   '(:ignore t               :which-key "Eshell")
+  "t t" '(eshell                  :which-key "Start instance")
+  "t p" '(eshell                  :which-key "Start project instance")
+  "t c" '(eshell-life-is-too-much :which-key "Kill instance.."))
 
 (irkalla/comma-lead-keydef
+  "t"   '(:ignore t               :which-key "Eshell")
   "t n" '(nix-eshell              :which-key "Create Nix (Eshell) environment")
-  "t c" '(eshell-kill-process     :which-key "Kill running Eshell process"))
+  "t c" '(eshell-kill-process     :which-key "Kill running process"))
 #+end_src
 
 Syntax highlighting inside Eshell, similar to Fish-shell, is nice to have. Let's add such functionality to our Eshell.
@@ -1676,9 +1632,11 @@ Binding our VTerm for quicker access to the terminal.
   "<S-next>"  #'scroll-up-command)
 
 (irkalla/space-lead-keydef
+  "t"   '(:ignore t    :which-key "Terminal")
   "t t" '(vterm-toggle :which-key "Open VTerm"))
 
 (irkalla/comma-lead-keydef
+  "t"   '(:ignore t       :which-key "Terminal")
   "t c" '(vterm-copy-mode :which-key "Terminal -> read-only"))
 #+end_src
 
@@ -1805,34 +1763,38 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
   :general (general-nmap
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
+  :config (evil-set-undo-system 'undo-redo)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
-  (evil-undo-system 'undo-tree)
   (evil-split-window-below t)
-  (evil-vsplit-window-right t)
-  (evil-want-C-i-jump nil)              ; restore org-mode tab folding
-  (evil-set-initial-state 'dashboard-mode 'emacs))
+  (evil-vsplit-window-right t))
 #+end_src
 
 Expanding the behaviour of ~Evil-Mode~ to support more scenarios/environments.
 
 #+begin_src emacs-lisp
-(use-package evil-org
-  :hook (org-mode . evil-org-mode)
-  :delight (evil-org-mode))
-
 (use-package evil-collection
+  :after evil
   :hook (evil-mode . evil-collection-init)
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
 #+end_src
 
-Escaping ~Evil-Mode~ should be relatively easy.
+Surrounding items similar to VIM should
+
+#+begin_src emacs-lisp
+(use-package evil-surround
+  :after evil
+  :hook ((prog-mode text-mode) . evil-surround-mode))
+#+end_src
+
+Escaping in ~Evil-Mode~ should be relatively easy.
 
 #+begin_src emacs-lisp
 (use-package evil-escape
+  :after evil
   :hook (evil-mode . evil-escape-mode)
   :delight (evil-escape-mode)
   :custom
@@ -1845,6 +1807,7 @@ Displaying a visual hint for the actions performed in ~Evil-Mode~ seems to be re
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
+  :after evil
   :hook (evil-mode . evil-goggles-mode)
   :custom
   (evil-goggles-enable-delete nil)
@@ -2007,17 +1970,9 @@ Installing ~Meow~ and notifying it about our desired bindings.
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :hook ((text-mode . auto-fill-mode)
+  :hook ((elpaca-after-init . pixel-scroll-precision-mode)
+         (text-mode . auto-fill-mode)
          (text-mode . visual-line-mode))
-  :general
-  (irkalla/comma-lead-keydef
-    :states '(visual)
-    :keymaps '(prog-mode-map text-mode-map)
-    "a"   '(:ignore t    :which-key "Alignment Control")
-    "a r" '(align-regexp :which-key "Align -> RegExp"))
-  :config
-  (unless (version< emacs-version "29.0")
-    (pixel-scroll-precision-mode 1))
   :custom
   (auto-save-interval 30)
   (confirm-nonexistent-file-or-buffer nil)
@@ -2050,30 +2005,46 @@ Integrating ~Citar~ with ~Embark~.
   :config (setq citar-at-point-function 'embark-act))
 #+end_src
 
-**** Editor-Conf: Application of Pre-defined Project Modifications
+**** E-diff: UI for Diff & Patches
+
+#+begin_src emacs-lisp
+(use-package ediff
+  :elpaca nil
+  :hook((ediff-prepare-buffer . outline-show-all)
+        (ediff-quit . winner-undo))
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-merge-split-window-function 'split-window-horizontally))
+#+end_src
+
+**** EditorConf: Application of Pre-defined Project Modifications
 
 #+begin_src emacs-lisp
 (use-package editorconfig
   :hook (prog-mode . editorconfig-mode))
 #+end_src
 
-**** Electric-Pair: Automatic Parens Pairing
-
-Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
-1. Insert LaTeX brackets on ~$~ insertion
+**** Electric Pair: Insert Matching SYMB Pairs
 
 #+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/org-electric-dollar nil
-  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
-  (interactive)
-  (if (and (looking-at "\\\\)")
-           (looking-back "\\\\("))
-      (progn (delete-char 2)
-             (delete-char -2)
-             (insert "\\[\\]"))
-    (insert "\\(\\)")
-    (backward-char 2)))
+(use-package elec-pair
+  :elpaca nil
+  :hook ((prog-mode text-mode) . electric-pair-mode)
+  :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+  :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
+#+end_src
+
+**** Expand Region: Region-based Navigation
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :after evil-collection
+  :general
+  (general-def '(prog-mode-map text-mode-map)
+    :states '(visual)
+    ")" 'er/expand-region
+    "(" 'er/contract-region))
 #+end_src
 
 **** Highlight Indentation Guides (disabled)
@@ -2088,11 +2059,22 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
 
 :TODO| colors -> indentation level + color change based on level of indentation
 
+**** Interactive Align: Visualize Align-RegExp
+
+#+begin_src emacs-lisp
+(use-package ialign
+  :general
+  (irkalla/comma-lead-keydef
+    :states '(visual)
+    :keymaps '(prog-mode-map text-mode-map)
+    "a"   '(:ignore t :which-key "Alignment Control")
+    "a r" '(ialign    :which-key "Align -> RegExp")))
+#+end_src
+
 **** Olivetti: Center Alignment of Content
 
 #+begin_src emacs-lisp
 (use-package olivetti
-  :defer t
   :general
   (irkalla/comma-lead-keydef
     "q" '(olivetti-mode :which-key "Distraction free writing!"))
@@ -2142,16 +2124,52 @@ Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
   :hook (prog-mode . global-ts-fold-mode))
 #+end_src
 
-**** Undo-Tree: A Tree-based Undo System
+**** Vundo: A Tree Viewer for Undo-Redo
 
 #+begin_src emacs-lisp
-(use-package undo-tree
-  :after no-littering
-  :hook ((prog-mode text-mode) . global-undo-tree-mode)
+(use-package vundo
+  :general
+  (irkalla/comma-lead-keydef
+    "u" '(vundo :which-key "Visualize Undo"))
   :custom
-  (undo-tree-history-directory-alist `(("." . ,no-littering-etc-directory)))
-  (undo-tree-visualizer-diff t)
-  (undo-tree-visualizer-timestamps t))
+  (vundo-compact-display t)
+  (vundo-glyph-alist vundo-unicode-symbols))
+#+end_src
+
+**** Word-dependent Navigation
+
+#+begin_src emacs-lisp
+(use-package subword
+  :elpaca nil
+  :hook ((prog-mode text-mode) . subword-mode))
+#+end_src
+
+We also want to move to last known position in the buffer we just entered.
+#+begin_src emacs-lisp
+(use-package save-place
+  :elpaca nil
+  :hook ((prog-mode text-mode) . save-place-mode))
+#+end_src
+
+**** Whitespace: Customizing Look + Clean-up
+
+#+begin_src emacs-lisp
+(use-package whitespace
+  :elpaca nil
+  ;; :hook (prog-mode . whitespace-mode)
+  :custom
+  (whitespace-action '(cleanup auto-cleanup))
+  (whitespace-style
+   '(face spaces tabs newline trailing space-mark tab-mark newline-mark))
+  (whitespace-display-mappings
+   '(;; space -> · else .
+     (space-mark 32 [183] [46])
+     ;; new line -> ¬ else $
+     (newline-mark ?\n [172 ?\n] [36 ?\n])
+     ;; carriage return (Windows) -> ¶ else #
+     (newline-mark ?\r [182] [35])
+     ;; tabs -> » else >
+     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 #+end_src
 
 *** Polish & Perfect: Formatting and Spell-Check
@@ -2511,9 +2529,29 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
 
 **** Org-Mode: The Superior File-format
 
+Extending ~Electric-Pairs~ ability to insert pairs in ~Org-Mode~:
+1. Insert LaTeX brackets on ~$~ insertion
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/org-electric-dollar nil
+  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+  (interactive)
+  (if (and (looking-at "\\\\)")
+           (looking-back "\\\\("))
+      (progn (delete-char 2)
+             (delete-char -2)
+             (insert "\\[\\]"))
+    (insert "\\(\\)")
+    (backward-char 2)))
+#+end_src
+
+Later, we proceed with the customization of our ~Org-Mode~ environment.
+
 #+begin_src emacs-lisp
 (use-package org
   :elpaca nil
+  :defer t
   :hook (org-mode . org-display-inline-images)
   :general
   (irkalla/comma-lead-keydef
@@ -2670,7 +2708,8 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
              [remap evil-ret] #'irkalla/ret-babel-exec)
   :custom
   (org-babel-default-header-args
-   '((:cache   . "no")
+   '((:async   . "yes")
+     (:cache   . "no")
      (:eval    . "never-export")
      (:exports . "code")
      (:hlines  . "no")
@@ -2688,13 +2727,6 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
        (add-to-list 'org-babel-load-languages (cons (intern language) t))
        (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
      ad-do-it)))
-#+end_src
-
-Asynchronous ~Org-Babel~ evaluation for quicker block play.
-
-#+begin_src emacs-lisp
-(use-package ob-async
-  :after org)
 #+end_src
 
 **** Python: Boring High-level GP Language
@@ -2759,7 +2791,7 @@ Being able to retain our notes in ~Org-Mode~ would've been wonderful. Therefore 
 
 #+begin_src emacs-lisp
   (use-package ob-rust
-    :defer t)
+    :after ob)
 #+end_src
 
 **** Typst: The Modern & Cleaner LaTeX
