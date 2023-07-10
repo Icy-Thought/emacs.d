@@ -515,7 +515,7 @@ Also, ligatures for cleaner symbols
       user-mail-address "icy-thought@pm.me")
 #+end_src
 
-**** Rational Irkalla Emacs Behaviour  
+**** Rational Irkalla Emacs Behaviour
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -819,32 +819,6 @@ Enabling our theme has never been more pleasant!
   :custom (alert-default-style 'libnotify))
 #+end_src
 
-**** Doom-Themes: Pre-defined Themes (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package doom-themes
-  :custom (doom-themes-treemacs-theme "doom-colors"))
-
-(with-eval-after-load 'doom-themes
-  (doom-themes-treemacs-config)
-  (irkalla/apply-theme 'doom-tokyo-night))
-#+end_src
-
-**** Ef-Themes: Pre-defined Themes (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package ef-themes
-  :custom
-  (ef-themes-select 'ef-winter)
-  (ef-themes-to-toggle '(ef-summer ef-winter))
-  (ef-themes-mixed-fonts t)
-  (ef-themes-variable-pitch-ui t)
-  (ef-themes-region '(intense no-extend neutral)))
-
-(with-eval-after-load 'ef-themes
-  (irkalla/apply-theme 'ef-winter)
-#+end_src
-
 **** Matching Parens & Colorful Delimiters
 
 Colorful delimiters are rather useful, especially when dealing with lisp code!
@@ -865,15 +839,6 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (show-paren-style 'parenthesis)
   (show-paren-when-point-in-periphery nil)
   (show-paren-when-point-inside-paren nil))
-#+end_src
-
-**** Solaire: Cast a Shade On our Theme (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package solaire-mode
-  :after doom-themes
-  :config (add-to-list 'solaire-mode-themes-to-face-swap "^doom-")
-  :custom (solaire-global-mode +1))
 #+end_src
 
 *** Unleashing the Power of UI Extensions
@@ -913,7 +878,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (initial-buffer-choice (lambda ()
                            (dashboard-refresh-buffer)
                            (get-buffer dashboard-buffer-name)))
-  
+
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
 
@@ -976,20 +941,6 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right))
 #+end_src
 
-**** Doom-Modeline: An Alternative Status-bar (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package doom-modeline
-  :hook (elpaca-after-init . doom-modeline-mode)
-  :custom
-  (doom-modeline-bar-width 4)
-  (doom-modeline-buffer-file-name 'relative-to-project)
-  (doom-modeline-github t)
-  (doom-modeline-github-interval (* 30 60))
-  (doom-modeline-height 35)
-  (if (display-graphic-p) (doom-modeline-hud t)))
-#+end_src
-
 **** Nerd-icons: Icons to Decorate our Environment
 
 #+begin_src emacs-lisp
@@ -1016,7 +967,7 @@ Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer de
   :hook ((prog-mode text-mode) . svg-tag-mode)
   :config
   (setq svg-lib-style-default (plist-put svg-lib-style-default :font-size 13.5))
-  
+
   <<svg-tag-constants>>
   <<svg-tag-progress-bar>>
   <<svg-tags>>)
@@ -1556,60 +1507,6 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
     "o" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
-**** Elfeed: An RSS-feed for the Madness (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package elfeed
-  :custom
-  (elfeed-feeds
-   '(("https://sachachua.com/blog/feed/" emacs)
-     ("https://www.reddit.com/r/emacs/.rss" emacs)
-     ("https://terrytao.wordpress.com/feed/" mathematics)
-     ("https://writings.stephenwolfram.com/feed/" mathematics)
-     ("https://phys.org/rss-feed/physics-news/" physics)
-     ("https://phys.org/rss-feed/breaking/physics-news/" physics))))
-#+end_src
-
-**** EShell: A Powerful Shell Which Understands Elisp! (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package eshell
-  :elpaca nil
-  :general
-  <<eshell-bindings>>
-  :custom
-  (eshell-tramp-initialize)
-  (eshell-history-size 1024)
-  (eshell-hist-ignoredups t)
-  (eshell-destroy-buffer-when-process-dies t))
-#+end_src
-
-Reducing the burden of longer bindings and appending Eshell-related bindings to our ~general.el~.
-
-#+NAME: eshell-bindings
-#+begin_src emacs-lisp :tangle no
-(irkalla/space-lead-keydef
-  "t"   '(:ignore t               :which-key "Eshell")
-  "t t" '(eshell                  :which-key "Start instance")
-  "t p" '(eshell                  :which-key "Start project instance")
-  "t c" '(eshell-life-is-too-much :which-key "Kill instance.."))
-
-(irkalla/comma-lead-keydef
-  "t"   '(:ignore t               :which-key "Eshell")
-  "t n" '(nix-eshell              :which-key "Create Nix (Eshell) environment")
-  "t c" '(eshell-kill-process     :which-key "Kill running process"))
-#+end_src
-
-Syntax highlighting inside Eshell, similar to Fish-shell, is nice to have. Let's add such functionality to our Eshell.
-
-#+begin_src emacs-lisp
-(use-package eshell-syntax-highlighting
-  :hook (eshell-mode . eshell-syntax-highlighting-mode))
-#+end_src
-
 **** VTerm: A Quick Terminal Emulator
 
 #+begin_src emacs-lisp
@@ -1826,133 +1723,6 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
     ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
   (irkalla/comma-lead-keydef
     ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
-#+end_src
-
-**** MEOW: Yet Another Modal Editing (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-Defining our ~QWERTY~-related bindings.
-
-#+begin_src emacs-lisp
-(defun meow-setup-qwerty ()
-  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-
-  ;; Where the def. of our Meow happens:
-  (meow-motion-overwrite-define-key
-   '("j" . meow-next)
-   '("k" . meow-prev)
-   '("<escape>" . ignore))
-
-  (meow-leader-define-key
-   ;; SPC j/k will run the original command in MOTION state.
-   '("j" . "H-j")
-   '("k" . "H-k")
-
-   ;; Use SPC (0-9) for digit arguments.
-   '("1" . meow-digit-argument)
-   '("2" . meow-digit-argument)
-   '("3" . meow-digit-argument)
-   '("4" . meow-digit-argument)
-   '("5" . meow-digit-argument)
-   '("6" . meow-digit-argument)
-   '("7" . meow-digit-argument)
-   '("8" . meow-digit-argument)
-   '("9" . meow-digit-argument)
-   '("0" . meow-digit-argument)
-   '("/" . meow-keypad-describe-key)
-
-   ;; Quicker navigation's
-   '("df" . fd-dired)
-   '("r" . consult-recent-file)
-   '("f" . +vertico/find-file-in)
-   '("F" . consult-find)
-   '("da" . consult-ripgrep)
-   '("SPC" . meow-M-x)
-   '("bs" . bookmark-set)
-   '("bm" . bookmark-bmenu-list)
-   '("bb" . switch-to-buffer)
-   '("bw" . +vertico/switch-workspace-buffer)
-   '("?" . meow-cheatsheet))
-
-  (meow-normal-define-key
-   '("0" . meow-expand-0)
-   '("9" . meow-expand-9)
-   '("8" . meow-expand-8)
-   '("7" . meow-expand-7)
-   '("6" . meow-expand-6)
-   '("5" . meow-expand-5)
-   '("4" . meow-expand-4)
-   '("3" . meow-expand-3)
-   '("2" . meow-expand-2)
-   '("1" . meow-expand-1)
-   '("-" . negative-argument)
-   '(";" . meow-reverse)
-   '("," . meow-inner-of-thing)
-   '("." . meow-bounds-of-thing)
-   '("[" . meow-beginning-of-thing)
-   '("]" . meow-end-of-thing)
-   '("a" . meow-append)
-   '("A" . meow-open-below)
-   '("b" . meow-back-word)
-   '("B" . meow-back-symbol)
-   '("c" . meow-change)
-   '("d" . meow-delete)
-   '("D" . meow-backward-delete)
-   '("e" . meow-next-word)
-   '("E" . meow-next-symbol)
-   '("f" . meow-find)
-   '("g" . meow-cancel-selection)
-   '("G" . meow-grab)
-   '("h" . meow-left)
-   '("H" . meow-left-expand)
-   '("i" . meow-insert)
-   '("I" . meow-open-above)
-   '("j" . meow-next)
-   '("J" . meow-next-expand)
-   '("k" . meow-prev)
-   '("K" . meow-prev-expand)
-   '("l" . meow-right)
-   '("L" . meow-right-expand)
-   '("m" . meow-join)
-   '("n" . meow-search)
-   '("o" . meow-block)
-   '("O" . meow-to-block)
-   '("p" . meow-yank)
-   '("q" . meow-quit)
-   '("Q" . meow-goto-line)
-   '("r" . meow-replace)
-   '("R" . meow-swap-grab)
-   '("s" . meow-kill)
-   '("t" . meow-till)
-   '("u" . meow-undo)
-   '("U" . meow-undo-in-selection)
-   '("v" . meow-visit)
-   '("w" . meow-mark-word)
-   '("W" . meow-mark-symbol)
-   '("x" . meow-line)
-   '("X" . meow-goto-line)
-   '("y" . meow-save)
-   '("Y" . meow-sync-grab)
-   '("z" . meow-pop-selection)
-   '("'" . repeat)
-   '("<escape>" . ignore)))
-#+end_src
-
-Installing ~Meow~ and notifying it about our desired bindings.
-
-#+begin_src emacs-lisp
-(use-package meow
-  :demand t
-  :hook (elpaca-after-init . meow-global-mode)
-  :config
-  (setq meow-esc-delay 0.001)
-  (meow-setup-qwerty)
-  (meow-setup-indicator)
-  (meow-setup-line-number)
-  (add-hook 'meow-normal-mode-hook #'corfu-quit)
-  (add-to-list 'meow-update-cursor-functions-alist (cons 'meow--cursor-null-p (lambda ()))))
 #+end_src
 
 **** Perspective: An Emacs Workspace Manager
@@ -2185,7 +1955,7 @@ We also want to move to last known position in the buffer we just entered.
   (apheleia-mode -1))
 #+end_src
 
-Afterwards, /disable-on-demand/ formatting function should be bound to a memorable key combination. 
+Afterwards, /disable-on-demand/ formatting function should be bound to a memorable key combination.
 
 #+begin_src emacs-lisp
 (use-package apheleia
@@ -2231,7 +2001,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
 (when (executable-find "alejandra")
   (push '(alejandra . ("alejandra" "--quiet" "-"))
         apheleia-formatters)
-        
+
   (setf (alist-get 'nix-mode apheleia-mode-alist)
         '(alejandra)))
 #+end_src
@@ -2243,7 +2013,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
 (when (executable-find "isort")
   (push '(isort . ("isort" "--profile" "black" "--stdout" "-"))
         apheleia-formatters)
-        
+
   (setf (alist-get 'python-mode apheleia-mode-alist)
         '(isort black)))
 #+end_src
@@ -2258,19 +2028,6 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
 
   (setf (alist-get 'rust-mode apheleia-mode-alist)
         '(rustfmt)))
-#+end_src
-
-**** Format-All: Pre-defined Auto Formatting (disabled)
-
-#+begin_src emacs-lisp :tangle no
-(use-package format-all
-  :hook ((prog-mode . format-all-mode)
-         (prog-mode . format-all-ensure-formatter))
-  :config
-  (setq-default format-all-formatters
-                '(("Nix" alejandra)
-                  ("Haskell" stylish-haskell)
-                  ("Rust" rustfmt))))
 #+end_src
 
 **** Jinx: Fast Spell Checker
@@ -2447,7 +2204,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (elisp-flymake-byte-compile-load-path load-path))
 #+end_src
 
-Extending the diagnostic ability of ~Flymake~ to support an additional set of language tools. 
+Extending the diagnostic ability of ~Flymake~ to support an additional set of language tools.
 
 #+begin_src emacs-lisp
 (use-package flymake-collection
