@@ -2204,7 +2204,21 @@ Extending the diagnostic ability of ~Flymake~ to support an additional set of la
   :hook (flymake-mode . flymake-collection-hook-setup))
 #+end_src
 
-A less crowded way to display our diagnostics compared to built-in solution.
+Make sure ~:flymake-hook~ has been loaded properly before proceeding with the remaining setup.
+
+#+begin_src emacs-lisp
+(elpaca-wait)
+#+end_src
+
+Preventing ~Eglot~ from interfering with our ~Flymake~ diagnostics is preferable.
+
+#+begin_src emacs-lisp
+(with-eval-after-load "eglot"
+ (add-to-list 'eglot-stay-out-of 'flymake)
+ (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend))
+#+end_src
+
+***** Sideline: Display Flymake Diagnostics on Hover
 
 #+begin_src emacs-lisp
 (use-package sideline-flymake
@@ -2523,14 +2537,13 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
 
 **** Python: Boring High-level GP Language
 
-:TODO| Fix the butchered experience...
-1. Extended completions similar to pyright.
-2. Flymake-ruff to work..
-
 #+begin_src emacs-lisp
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
-  :hook (python-mode . eglot-ensure))
+  :hook (python-mode . eglot-ensure)
+  :flymake-hook
+  (python-mode flymake-collection-mypy
+               flymake-collection-ruff))
 #+end_src
 
 **** Rust: A Type-safe GP Language
