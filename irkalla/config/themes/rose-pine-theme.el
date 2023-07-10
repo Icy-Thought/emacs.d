@@ -310,15 +310,15 @@
   (flycheck-inline-warning                           (:background gold :foreground gold :height 128))
 
   ;; https://github.com/DarthFennec/highlight-indent-guides
-  (highlight-indent-guides-character-face            (:foreground love :background love))
-  (highlight-indent-guides-stack-character-face      (:foreground love :background love))
-  (highlight-indent-guides-top-character-face        (:foreground love :background love))
-  (highlight-indent-guides-stack-odd-face            (:foreground love :background love))
-  (highlight-indent-guides-stack-even-face           (:foreground love :background love))
-  (highlight-indent-guides-even-face                 (:foreground love :background love))
-  (highlight-indent-guides-odd-face                  (:foreground love :background love))
-  (highlight-indent-guides-top-odd-face              (:foreground love :background love))
-  (highlight-indent-guides-top-even-face             (:foreground love :background love))
+  (highlight-indent-guides-character-face            (:foreground iris))
+  (highlight-indent-guides-even-face                 (:foreground rose))
+  (highlight-indent-guides-odd-face                  (:foreground pine))
+  (highlight-indent-guides-stack-character-face      (:foreground overlay))
+  (highlight-indent-guides-stack-even-face           (:foreground overlay))
+  (highlight-indent-guides-stack-odd-face            (:foreground overlay))
+  (highlight-indent-guides-top-character-face        (:foreground overlay))
+  (highlight-indent-guides-top-even-face             (:foreground overlay))
+  (highlight-indent-guides-top-odd-face              (:foreground overlay))
 
   ;; https://oremacs.com/swiper
   (ivy-current-match                                 (:background foam :foreground base :bold t))

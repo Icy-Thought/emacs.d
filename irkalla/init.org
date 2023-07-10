@@ -1817,14 +1817,14 @@ Integrating ~Citar~ with ~Embark~.
     "(" 'er/contract-region))
 #+end_src
 
-**** Highlight Indentation Guides (disabled)
+**** Highlight Indentation Guides
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'top))
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive 'top))
 #+end_src
 
 :TODO| colors -> indentation level + color change based on level of indentation
@@ -2534,7 +2534,6 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
 :TODO| Fix the butchered experience...
 1. Extended completions similar to pyright.
 2. Flymake-ruff to work..
-3. isort + black for formatting
 
 #+begin_src emacs-lisp
 (use-package python-mode
