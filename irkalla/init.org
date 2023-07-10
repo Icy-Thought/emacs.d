@@ -274,15 +274,7 @@ To retain our sanity, let's enable =debug-on-error=
 (setq debug-on-error init-file-debug)
 #+end_src
 
-Profile our startup time to determine our heavy loaded packages!
-
-#+begin_src emacs-lisp :tangle no
-(profiler-start 'cpu+mem)
-
-(add-hook 'elpaca-after-init-hook (lambda () (profiler-stop) (profiler-report)))
-#+end_src
-
-Have ~use-package~ report the slow packages for us to take action on.
+Allow ~use-package-report~ to inform us about the slow packages we have cursed Irkalla with!
 
 #+begin_src emacs-lisp
 (setq use-package-compute-statistics t)
@@ -349,6 +341,14 @@ Have ~use-package~ report the slow packages for us to take action on.
 #+end_src
 
 *** General Management
+
+**** Profile Irkalla's Startup
+
+#+begin_src emacs-lisp
+(use-package esup
+  :defer t
+  :custom (esup-depth 0))
+#+end_src
 
 **** Prevent Littering
 
@@ -1442,19 +1442,8 @@ A quick function which helps us connect to our Matrix server on the fly.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :elpaca nil ; :WARN| package <- fetch from Nixpkgs
-  :hook
-  ;; :HACK| a temporary fix for blinking PDF caused by Evil-Mode!
-  (pdf-view-mode . (lambda () (setq-local evil-normal-state-cursor (list nil)))))
-#+end_src
-
-Defer loading ~PDF-Tools~ through pre-defined function.
-
-#+begin_src emacs-lisp
-(use-package pdf-loader
   :elpaca nil
-  :after pdf-tools
-  :custom (pdf-loader-install t))
+  :custom (pdf-tools-install))
 #+end_src
 
 Make sure that our PDF’s are displayed with darker colors.
@@ -1465,7 +1454,10 @@ Make sure that our PDF’s are displayed with darker colors.
   :after pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
-  :hook (pdf-view-mode . pdf-view-themed-minor-mode)
+  :hook (pdf-view-mode . (lambda ()
+                           ;; :NOTE| Set the PDF free from the unnecessary borders
+                           (set (make-local-variable 'evil-normal-state-cursor) (list nil))
+                           (pdf-view-themed-minor-mode)))
   :custom
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
@@ -1775,7 +1767,7 @@ Integrating ~Citar~ with ~Embark~.
   :config (setq citar-at-point-function 'embark-act))
 #+end_src
 
-**** E-diff: UI for Diff & Patches
+**** Ediff: UI for our Diff & Patches
 
 #+begin_src emacs-lisp
 (use-package ediff
