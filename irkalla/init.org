@@ -621,8 +621,8 @@ Have Elpaca wait & verify that ~General~ was installed properly.
     "b s"   '(scratch-buffer   :which-key "Switch -> curr. scratch-buf")
 
     ;; File-related
-    "f"     '(:ignore t        :which-key "Files")
-    "f RET" '(find-file        :which-key "Find files in directory")
+    "f"     '(:ignore t        :which-key "Find")
+    "f RET" '(find-file        :which-key "Files in directory")
 
     ;; Expression evaluation
     "e"     '(:ignore t        :which-key "Evaluation")
@@ -1217,7 +1217,7 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
   "p b"        '(consult-project-buffer :which-key "Switch -> project buffer")
   "p /"        '(consult-git-grep       :which-key "Grep .git repostiory")
 
-  "f f"        '(consult-find           :which-key "Find file")
+  "f f"        '(consult-find           :which-key "File in Project")
   "f r"        '(consult-recent-file    :which-key "Recent files")
 
   ;; LSP-related
@@ -2174,47 +2174,7 @@ We also want to move to last known position in the buffer we just entered.
 
 *** Polish & Perfect: Formatting and Spell-Check
 
-**** Apheleia: Asynchronous Code Formatter (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package apheleia
-  :diminish apheleia-mode
-  :hook (prog-mode . apheleia-mode)
-  :config
-  <<apheleia-additional-formatters>>)
- #+end_src
-
- #+NAME: apheleia-additional-formatters
- #+begin_src emacs-lisp :tangle no
-;; :NOTE| Nix formatting
-(push '(alejandra . ("alejandra" "--quiet" "-"))
-      apheleia-formatters)
-
-(setf (alist-get 'nix-mode apheleia-mode-alist)
-      '(alejandra))
-
-;; :NOTE| Haskell formatting
-(push '(stylish-haskell . ("stylish-haskell" "-"))
-      apheleia-formatters)
-
-(setf (alist-get 'haskell-mode apheleia-mode-alist)
-      '(stylish-haskell))
-
-(setf (alist-get 'black apheleia-formatters)
-      '("black" "--fast" "-"))
-
-(setf (alist-get 'isort apheleia-formatters)
-      '("isort" "--profile" "black" "--stdout" "-"))
-
-;; :NOTE| Run ~black~ after ~isort~
-(setf (alist-get 'python-mode apheleia-mode-alist)
-      '(isort black))
-#+end_src
-
-Being able to disable the code-formatter on demand is certainly desirable.
+**** Apheleia: Asynchronous Code Formatter
 
 #+begin_src emacs-lisp
 ;;;###autoload
@@ -2225,9 +2185,84 @@ Being able to disable the code-formatter on demand is certainly desirable.
   (apheleia-mode -1))
 #+end_src
 
-**** Format-All: Pre-defined Auto Formatting
+Afterwards, /disable-on-demand/ formatting function should be bound to a memorable key combination. 
 
 #+begin_src emacs-lisp
+(use-package apheleia
+  :diminish apheleia-mode
+  :hook (prog-mode . apheleia-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    "l"   '(:ignore t                           :which-key "LSP")
+    "l d" '(irkalla/apheleia-disable-formatting :which-key "Disable Auto-format"))
+  :config
+  <<apheleia-custom-formatters>>)
+ #+end_src
+
+***** Self-defined Code Formatting Actions
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
+
+#+NAME: apheleia-custom-formatters
+#+begin_src emacs-lisp
+<<apheleia-lang-haskell>>
+<<apheleia-lang-nix>>
+<<apheleia-lang-python>>
+<<apheleia-lang-rust>>
+#+end_src
+
+****** Haskell: intelligent, but rather lazy..
+
+#+NAME: apheleia-lang-haskell
+#+begin_src emacs-lisp
+(when (executable-find "stylish-haskell")
+  (push '(stylish-haskell . ("stylish-haskell" "-"))
+        apheleia-formatters)
+
+  (setf (alist-get 'haskell-mode apheleia-mode-alist)
+        '(stylish-haskell)))
+#+end_src
+
+****** Nix-Lang: stuck in a perfectionist's loop
+
+#+NAME: apheleia-lang-nix
+#+begin_src emacs-lisp
+(when (executable-find "alejandra")
+  (push '(alejandra . ("alejandra" "--quiet" "-"))
+        apheleia-formatters)
+        
+  (setf (alist-get 'nix-mode apheleia-mode-alist)
+        '(alejandra)))
+#+end_src
+
+****** Python: the odd ball who keeps growing
+
+#+NAME: apheleia-lang-python
+#+begin_src emacs-lisp
+(when (executable-find "isort")
+  (push '(isort . ("isort" "--profile" "black" "--stdout" "-"))
+        apheleia-formatters)
+        
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+        '(isort black)))
+#+end_src
+
+****** Rust: wanna-be functional, but too literal
+
+#+NAME: apheleia-lang-rust
+#+begin_src emacs-lisp
+(when (executable-find "rustfmt")
+  (push '(rustfmt . ("rustfmt" "--emit=stdout" "-"))
+        apheleia-formatters)
+
+  (setf (alist-get 'rust-mode apheleia-mode-alist)
+        '(rustfmt)))
+#+end_src
+
+**** Format-All: Pre-defined Auto Formatting (disabled)
+
+#+begin_src emacs-lisp :tangle no
 (use-package format-all
   :hook ((prog-mode . format-all-mode)
          (prog-mode . format-all-ensure-formatter))
@@ -2412,6 +2447,14 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (elisp-flymake-byte-compile-load-path load-path))
 #+end_src
 
+Extending the diagnostic ability of ~Flymake~ to support an additional set of language tools. 
+
+#+begin_src emacs-lisp
+(use-package flymake-collection
+  :after flymake
+  :hook (flymake-mode . flymake-collection-hook-setup))
+#+end_src
+
 A less crowded way to display our diagnostics compared to built-in solution.
 
 #+begin_src emacs-lisp
@@ -2495,8 +2538,8 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
   :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
   :config
-  (setq-local eglot-workspace-configuration
-              '((haskell (formattingProvider "stylish-haskell")))))
+  (setq-default eglot-workspace-configuration
+                '((haskell (formattingProvider "stylish-haskell")))))
 #+end_src
 
 **** Markdown: Simple Markup Language
@@ -2731,13 +2774,15 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
 
 **** Python: Boring High-level GP Language
 
+:TODO| Fix the butchered experience...
+1. Extended completions similar to pyright.
+2. Flymake-ruff to work..
+3. isort + black for formatting
+
 #+begin_src emacs-lisp
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
-  :hook (python-mode . eglot-ensure)
-  :config
-  (setq eglot-workspace-configuration
-        '((:pyright . ((useLibraryCodeForTypes . t))))))
+  :hook (python-mode . eglot-ensure))
 #+end_src
 
 **** Rust: A Type-safe GP Language
@@ -2746,7 +2791,7 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
 (use-package rust-mode
   :mode ("\\.rs$" . rust-mode)
   :hook ((rust-mode . eglot-ensure)
-         (rust-mode . (lambda () (setq indent-tabs-mode nil))))
+         (rust-mode . (lambda () (setq-local indent-tabs-mode nil))))
   :general
   (irkalla/comma-lead-keydef
     :keymaps 'rust-mode-map
@@ -2767,9 +2812,9 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
                                  :allTargets :json-false))))
 
   (defun irkalla/locate-cargo-toml (dir)
-      "Locate the missing Rust project Cargo.toml."
-      (if-let ((root (locate-dominating-file dir "Cargo.toml")))
-          (list 'vc 'Git root)))
+    "Locate the missing Rust project Cargo.toml."
+    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
+        (list 'vc 'Git root)))
   (add-hook 'rust-mode-hook
             (lambda () (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
 #+end_src
