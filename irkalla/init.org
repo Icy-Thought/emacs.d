@@ -1488,8 +1488,10 @@ We also want to jump back to the last known position after opening a PDF file.
 #+begin_src emacs-lisp
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook ((nov-mode . visual-line-mode)
-         (nov-mode . visual-fill-column-mode))
+  :hook (nov-mode . (lambda ()
+                      (olivetti-mode)
+                      (visual-line-mode)
+                      (visual-fill-column-mode)))
   :general
   <<nov-bindings>>
   :custom-face
@@ -1828,8 +1830,7 @@ Integrating ~Citar~ with ~Embark~.
 (use-package elec-pair
   :elpaca nil
   :hook ((prog-mode text-mode) . electric-pair-mode)
-  :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-  :config (add-hook 'emacs-lisp-mode-hook (lambda () (electric-pair-mode 0))))
+  :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 #+end_src
 
 **** Expand Region: Region-based Navigation
@@ -2063,8 +2064,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   :general (irkalla/comma-lead-keydef
              "o c" '(chatgpt-shell :which-key "Open ChatGPT")
              "o d" '(dall-e-shell  :which-key "Open DALL-E"))
-  :custom (chatgpt-shell-openai-key (lambda ()
-                                      (irkalla/read-secret-file "closedAI"))))
+  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "closedAI"))))
 #+end_src
 
 *** Step-2: LSP, Diagnostics & Syntax Highlighting!
@@ -2312,7 +2312,9 @@ Integrate ~Flycheck~ with ~Sideline~ to display diagnostics on-hover.
 
 #+begin_src emacs-lisp
 (use-package parinfer-rust-mode
-  :hook (emacs-lisp-mode . parinfer-rust-mode)
+  :hook (emacs-lisp-mode . (lambda ()
+                             (electric-pair-mode -1)
+                             (parinfer-rust-mode)))
   :custom
   (parinfer-rust-auto-download t)
   (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
@@ -2576,8 +2578,9 @@ Afterwards, we proceed with the configuration of our ~Org-babel~ as planned.
 #+begin_src emacs-lisp
 (use-package rust-mode
   :mode ("\\.rs$" . rust-mode)
-  :hook ((rust-mode . eglot-ensure)
-         (rust-mode . (lambda () (setq-local indent-tabs-mode nil))))
+  :hook (rust-mode . (lambda ()
+                       (eglot-ensure)
+                       (setq indent-tabs-mode nil)))
   :general
   (irkalla/comma-lead-keydef
     :keymaps 'rust-mode-map
