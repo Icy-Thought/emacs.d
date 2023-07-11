@@ -24,13 +24,12 @@
     - [[#encoding-system---utf-8][Encoding System -> UTF-8]]
     - [[#load-recently-compiled-el-files][Load Recently Compiled =.el= Files]]
     - [[#prevent-frame-resize-on-launch][Prevent Frame Resize on Launch]]
-  - [[#decorating-irkalla-early][Decorating Irkalla Early]]
-    - [[#controlling-our-various-fonts][Controlling our Various Fonts]]
+  - [[#early-irkalla-decorations][Early Irkalla Decorations]]
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
-    - [[#general-management][General Management]]
+    - [[#customizing-the-inner-workings][Customizing the inner workings]]
     - [[#enhancing-the-aesthetics-and-functionality][Enhancing the Aesthetics and Functionality]]
     - [[#unraveling-a-multitude-of-powerful-options][Unraveling a Multitude of Powerful Options]]
   - [[#expanding-irkallas-abilities][Expanding Irkalla's Abilities]]
@@ -40,10 +39,9 @@
     - [[#building-a-versatile-toolbox][Building a Versatile Toolbox]]
     - [[#supercharging-irkallas-mobility][Supercharging Irkalla's Mobility]]
     - [[#tailoring-our-editing-experience][Tailoring our Editing Experience]]
-    - [[#polish--perfect-formatting-and-spell-check][Polish & Perfect: Formatting and Spell-Check]]
-    - [[#a-more-efficient-completion-system][A More Efficient Completion System]]
-    - [[#harnessing-the-powers-of-lsp][Harnessing the Powers of LSP]]
-    - [[#prog--text-code-craftsmanship][(Prog & Text) Code Craftsmanship]]
+    - [[#step-1-a-more-efficient-completion-system][Step-1: A More Efficient Completion System]]
+    - [[#step-2-lsp-diagnostics--syntax-highlighting][Step-2: LSP, Diagnostics & Syntax Highlighting!]]
+    - [[#step-3-language-specific-adjustments][Step-3: Language-specific Adjustments]]
   - [[#concluding-our-journey-with-irkalla-emacs][Concluding Our Journey with Irkalla Emacs]]
 
 * Early Initialization of Irkalla Emacs
@@ -195,7 +193,7 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
       frame-resize-pixelwise t)
 #+end_src
 
-** Decorating Irkalla Early
+** Early Irkalla Decorations
 
 #+begin_src emacs-lisp
 (setq default-frame-alist
@@ -213,26 +211,9 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
                '(vertical-scroll-bars . nil))))
 #+end_src
 
-*** Controlling our Various Fonts
-
-Aesthetically pleasing Arabic fonts are rather hard to come-by...
-
 #+begin_src emacs-lisp
 (set-fontset-font "fontset-default"
                   'arabic (font-spec :family "Scheherazade New;" :size 25))
-#+end_src
-
-**** Switching Frame Slants
-
-#+begin_src emacs-lisp
-(custom-set-faces
- '(font-lock-builtin-face       ((t (:slant italic))))
- '(font-lock-comment-face       ((t (:slant italic))))
- '(font-lock-doc-face           ((t (:slant italic))))
- '(font-lock-function-name-face ((t (:slant italic :weight bold))))
- '(font-lock-keyword-face       ((t (:slant italic))))
- '(font-lock-preprocessor-face  ((t (:weight bold))))
- '(font-lock-string-face        ((t (:slant italic)))))
 #+end_src
 
 ** Closing Early-Init!
@@ -340,7 +321,45 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 (elpaca-wait)
 #+end_src
 
-*** General Management
+*** Customizing the inner workings
+
+**** Controlling our Various Fonts
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/default-font-family ()
+  "Retrieve the font name from default-frame-alist."
+  (let ((font-value (cdr (assoc 'font default-frame-alist))))
+    (if (stringp font-value)
+        (car (split-string font-value "-"))
+      font-value)))
+#+end_src
+
+***** Applying Font-face across Irkalla
+
+#+begin_src emacs-lisp
+(use-package faces
+  :elpaca nil
+  :custom-face
+  (fixed-pitch    ((t (:family (irkalla/default-font-family) :height 125))))
+  (variable-pitch ((t (:family (irkalla/default-font-family) :height 135)))))
+#+end_src
+
+***** Switching Frame Slants
+
+#+begin_src emacs-lisp
+(use-package font-lock
+  :elpaca nil
+  :defer t
+  :custom-face
+  (font-lock-builtin-face       ((t (:slant italic))))
+  (font-lock-comment-face       ((t (:slant italic))))
+  (font-lock-doc-face           ((t (:slant italic))))
+  (font-lock-function-name-face ((t (:slant italic :weight bold))))
+  (font-lock-keyword-face       ((t (:slant italic))))
+  (font-lock-preprocessor-face  ((t (:weight bold))))
+  (font-lock-string-face        ((t (:slant italic)))))
+#+end_src
 
 **** Profile Irkalla's Startup
 
@@ -433,7 +452,9 @@ Afterwards, proceeding with the backup & auto-save related configurations should
 
 *** Enhancing the Aesthetics and Functionality
 
-Several minor changes which increases the eye-candy of our editor by a small margin!
+Our editing environment should become an environment we would like to spend our time in. Therefore I have chosen to
+apply several minor changes with the intentions of increasing the aesthetics of our editing environment by a small
+percentage!
 
 1. Set default buffer width to 120 characters.
 2. Break long lines into smaller bits and display a marker (↴) at the end of each line.
@@ -596,11 +617,8 @@ Also, ligatures for cleaner symbols
     :states '(emacs insert motion normal visual)
     :prefix ","
     :non-normal-prefix "M-,"))
-#+end_src
 
-Have Elpaca wait & verify that ~General~ was installed properly.
-
-#+begin_src emacs-lisp
+;; :NOTE| Necessary for :general to work with use-package!
 (elpaca-wait)
 #+end_src
 
@@ -719,11 +737,8 @@ A leader-key + easy way to implement hydras would reduce the burden of implement
 (use-package major-mode-hydra
   :after hydra
   :bind ("M-RET" . major-mode-hydra))
-#+end_src
 
-Guaranteeing that Hydra was installed properly is benefitial to our setup!
-
-#+begin_src emacs-lisp
+;; :NOTE| Well, we do want :pretty-hydra, don't we?
 (elpaca-wait)
 #+end_src
 
@@ -946,7 +961,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package nerd-icons
   :custom
-  (nerd-icons-font-family "VictorMono Nerd Font")
+  (nerd-icons-font-family (irkalla/default-font-family))
   (nerd-icons-scale-factors 1.25))
 #+end_src
 
@@ -1279,7 +1294,7 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 
 #+begin_src emacs-lisp
 (use-package eldoc-box
-  :after eglot
+  :after '(eldoc eglot)
   :general (general-nmap 'prog-mode-map
              "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
@@ -1380,10 +1395,7 @@ and later deciding which one to hop-on to.
   (blamer-author-formatter " ✎ %s ")
   (blamer-commit-formatter "● \'%s\' ● ")
   :custom-face
-  (blamer-face ((t :foreground "#7a88cf"
-                   :background nil
-                   :height 125
-                   :italic t))))
+  (blamer-face ((t (:background nil :height 125 :italic t)))))
 #+end_src
 
 ***** Git-Gutter: Symbols to Highlight Git-related Changes
@@ -1442,8 +1454,7 @@ A quick function which helps us connect to our Matrix server on the fly.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :elpaca nil
-  :custom (pdf-tools-install))
+  :elpaca nil) ;; <-^ fetched from Nixpkgs
 #+end_src
 
 Make sure that our PDF’s are displayed with darker colors.
@@ -1472,19 +1483,43 @@ We also want to jump back to the last known position after opening a PDF file.
   :custom (pdf-view-restore-filename (no-littering-expand-var-file-name "pdf-view-restore")))
 #+end_src
 
-**** NOV: A Customizable EPUB Reader (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
+**** NOV: A Customizable EPUB Reader
 
 #+begin_src emacs-lisp
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
   :hook ((nov-mode . visual-line-mode)
          (nov-mode . visual-fill-column-mode))
+  :general
+  <<nov-bindings>>
+  :custom-face
+  (shr-text ((t (:inherit variable-pitch-face :height 1.05))))
+  (shr-h1   ((t (:height 1.54 :slant italic))))
+  (shr-h2   ((t (:height 1.25 :slant italic))))
+  (shr-h3   ((t (:height 1.15 :slant italic))))
+  (shr-h4   ((t (:height 1.12 :slant italic))))
+  (shr-h5   ((t (:height 1.09 :slant italic))))
+  (shr-h6   ((t (:height 1.06 :slant italic))))
+
   :custom
   (nov-text-width t)
   (nov-text-width 120))
+#+end_src
+
+Defining bindings for our precious ~Nov-Mode~ to reduce the burden of navigation OTB.
+
+#+NAME: nov-bindings
+#+begin_src emacs-lisp :tangle no
+(general-nmap 'nov-mode-map
+  "H"   '(nov-previous-document   :which-key "Go -> previous doc")
+  "L"   '(nov-previous-document   :which-key "Go -> next doc")
+  "d"   '(nov-scroll-down         :which-key "Scroll downwards")
+  "u"   '(nov-scroll-up           :which-key "Scroll upwards")
+  "gm"  '(nov-display-metadata    :which-key "Show Metadata")
+  "gr"  '(nov-render-document     :which-key "Render document")
+  "o"   '(nov-goto-toc            :which-key "Table of contents")
+  "gv"  '(nov-view-source         :which-key "View source")
+  "gV"  '(nov-view-content-source :which-key "View content source"))
 #+end_src
 
 Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
@@ -1496,7 +1531,7 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :general
   (general-nmap 'nov-mode-map
-    "o" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
+    "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
 **** VTerm: A Quick Terminal Emulator
@@ -1878,14 +1913,6 @@ Integrating ~Citar~ with ~Embark~.
   (save-place-forget-unreadable-files t))
 #+end_src
 
-**** TS-fold: Folding Code-blocks Like Origami
-
-#+begin_src emacs-lisp
-(use-package ts-fold
-  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
-  :hook (prog-mode . global-ts-fold-mode))
-#+end_src
-
 **** Vundo: A Tree Viewer for Undo-Redo
 
 #+begin_src emacs-lisp
@@ -1934,106 +1961,7 @@ We also want to move to last known position in the buffer we just entered.
      (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 #+end_src
 
-*** Polish & Perfect: Formatting and Spell-Check
-
-**** Apheleia: Asynchronous Code Formatter
-
-#+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/apheleia-disable-formatting ()
-  "When triggered -> disable apheleia formatting on save."
-  (interactive)
-  (remove-hook 'before-save-hook 'eglot-format-buffer t)
-  (apheleia-mode -1))
-#+end_src
-
-Afterwards, /disable-on-demand/ formatting function should be bound to a memorable key combination.
-
-#+begin_src emacs-lisp
-(use-package apheleia
-  :diminish apheleia-mode
-  :hook (prog-mode . apheleia-mode)
-  :general
-  (irkalla/comma-lead-keydef
-    "l"   '(:ignore t                           :which-key "LSP")
-    "l d" '(irkalla/apheleia-disable-formatting :which-key "Disable Auto-format"))
-  :config
-  <<apheleia-custom-formatters>>)
- #+end_src
-
-***** Self-defined Code Formatting Actions
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-#+NAME: apheleia-custom-formatters
-#+begin_src emacs-lisp
-<<apheleia-lang-haskell>>
-<<apheleia-lang-nix>>
-<<apheleia-lang-python>>
-<<apheleia-lang-rust>>
-#+end_src
-
-****** Haskell: intelligent, but rather lazy..
-
-#+NAME: apheleia-lang-haskell
-#+begin_src emacs-lisp
-(when (executable-find "stylish-haskell")
-  (push '(stylish-haskell . ("stylish-haskell" "-"))
-        apheleia-formatters)
-
-  (setf (alist-get 'haskell-mode apheleia-mode-alist)
-        '(stylish-haskell)))
-#+end_src
-
-****** Nix-Lang: stuck in a perfectionist's loop
-
-#+NAME: apheleia-lang-nix
-#+begin_src emacs-lisp
-(when (executable-find "alejandra")
-  (push '(alejandra . ("alejandra" "--quiet" "-"))
-        apheleia-formatters)
-
-  (setf (alist-get 'nix-mode apheleia-mode-alist)
-        '(alejandra)))
-#+end_src
-
-****** Python: the odd ball who keeps growing
-
-#+NAME: apheleia-lang-python
-#+begin_src emacs-lisp
-(when (executable-find "isort")
-  (push '(isort . ("isort" "--profile" "black" "--stdout" "-"))
-        apheleia-formatters)
-
-  (setf (alist-get 'python-mode apheleia-mode-alist)
-        '(isort black)))
-#+end_src
-
-****** Rust: wanna-be functional, but too literal
-
-#+NAME: apheleia-lang-rust
-#+begin_src emacs-lisp
-(when (executable-find "rustfmt")
-  (push '(rustfmt . ("rustfmt" "--emit=stdout" "-"))
-        apheleia-formatters)
-
-  (setf (alist-get 'rust-mode apheleia-mode-alist)
-        '(rustfmt)))
-#+end_src
-
-**** Jinx: Fast Spell Checker
-
-#+begin_src emacs-lisp
-(use-package jinx
-  :elpaca nil
-  :hook (text-mode . global-jinx-mode)
-  :general
-  (general-nmap '(prog-mode-map text-mode-map)
-    "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
-#+end_src
-
-*** A More Efficient Completion System
+*** Step-1: A More Efficient Completion System
 
 **** Corfu: Completion in Region
 
@@ -2139,7 +2067,7 @@ Integrating Temple with Corfu to automatically display possible snippet completi
                                       (irkalla/read-secret-file "closedAI"))))
 #+end_src
 
-*** Harnessing the Powers of LSP
+*** Step-2: LSP, Diagnostics & Syntax Highlighting!
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -2150,6 +2078,92 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (compilation-scroll-output t)
   (tab-always-indent 'completion)
   (tab-first-completion 'word-or-paren-or-punct))
+#+end_src
+
+**** Apheleia: Asynchronous Code Formatter
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/apheleia-disable-formatting ()
+  "When triggered -> disable apheleia formatting on save."
+  (interactive)
+  (remove-hook 'before-save-hook 'eglot-format-buffer t)
+  (apheleia-mode -1))
+#+end_src
+
+Afterwards, /disable-on-demand/ formatting function should be bound to a memorable key combination.
+
+#+begin_src emacs-lisp
+(use-package apheleia
+  :diminish apheleia-mode
+  :hook (prog-mode . apheleia-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    "l"   '(:ignore t                           :which-key "LSP")
+    "l d" '(irkalla/apheleia-disable-formatting :which-key "Disable Auto-format"))
+  :config
+  <<apheleia-custom-formatters>>)
+ #+end_src
+
+***** Self-defined Code Formatting Actions
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
+
+#+NAME: apheleia-custom-formatters
+#+begin_src emacs-lisp
+<<apheleia-lang-haskell>>
+<<apheleia-lang-nix>>
+<<apheleia-lang-python>>
+<<apheleia-lang-rust>>
+#+end_src
+
+****** Haskell: intelligent, but rather lazy..
+
+#+NAME: apheleia-lang-haskell
+#+begin_src emacs-lisp
+(when (executable-find "stylish-haskell")
+  (push '(stylish-haskell . ("stylish-haskell" "-"))
+        apheleia-formatters)
+
+  (setf (alist-get 'haskell-mode apheleia-mode-alist)
+        '(stylish-haskell)))
+#+end_src
+
+****** Nix-Lang: stuck in a perfectionist's loop
+
+#+NAME: apheleia-lang-nix
+#+begin_src emacs-lisp
+(when (executable-find "alejandra")
+  (push '(alejandra . ("alejandra" "--quiet" "-"))
+        apheleia-formatters)
+
+  (setf (alist-get 'nix-mode apheleia-mode-alist)
+        '(alejandra)))
+#+end_src
+
+****** Python: the odd ball who keeps growing
+
+#+NAME: apheleia-lang-python
+#+begin_src emacs-lisp
+(when (executable-find "isort")
+  (push '(isort . ("isort" "--profile" "black" "--stdout" "-"))
+        apheleia-formatters)
+
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+        '(isort black)))
+#+end_src
+
+****** Rust: wanna-be functional, but too literal
+
+#+NAME: apheleia-lang-rust
+#+begin_src emacs-lisp
+(when (executable-find "rustfmt")
+  (push '(rustfmt . ("rustfmt" "--emit=stdout" "-"))
+        apheleia-formatters)
+
+  (setf (alist-get 'rust-mode apheleia-mode-alist)
+        '(rustfmt)))
 #+end_src
 
 **** Orderless: Completion That Matches Multiple Regexp
@@ -2169,9 +2183,23 @@ Integrating Temple with Corfu to automatically display possible snippet completi
 #+begin_src emacs-lisp
 (use-package eglot
   :elpaca nil
+  :defer t
+  :general
+  (irkalla/space-lead-keydef
+    :keymaps 'eglot-mode-map
+    "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
+    "l r"    '(eglot-rename          :which-key "Rename $SYMB")
+    "l f"    '(eglot-format          :which-key "Format buffer")
+    "l ?"    '(xref-find-references  :which-key "Find -> references")
+    "l d"    '(xref-find-definitions :which-key "Find -> definition")
+    "l /"    '(xref-find-apropos     :which-key "Find $SYMB <- pattern"))
   :custom
+  (eglot-autoshutdown t)
+  (eglot-confirm-server-initiated-edits nil)
   (eglot-extend-to-xref t)
-  (eglot-ignored-server-capabilities '(:hoverProvider)))
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-ignored-server-capabilities '(:hoverProvider))
+  (eglot-menu-string "LSP"))
 #+end_src
 
 **** Sideline: Minimal UI for LSP Diagnostics
@@ -2182,6 +2210,17 @@ Integrating Temple with Corfu to automatically display possible snippet completi
   (sideline-delay 0.2)
   (sideline-display-backend-name nil)
   (sideline-display-backend-type 'inner))
+#+end_src
+
+**** Jinx: Fast Spell Checker
+
+#+begin_src emacs-lisp
+(use-package jinx
+  :elpaca nil
+  :hook (text-mode . global-jinx-mode)
+  :general
+  (general-nmap '(prog-mode-map text-mode-map)
+    "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 #+end_src
 
 **** Flymake: Built-in Syntax Checker
@@ -2202,11 +2241,8 @@ Extending the diagnostic ability of ~Flymake~ to support an additional set of la
 (use-package flymake-collection
   :after flymake
   :hook (flymake-mode . flymake-collection-hook-setup))
-#+end_src
 
-Make sure ~:flymake-hook~ has been loaded properly before proceeding with the remaining setup.
-
-#+begin_src emacs-lisp
+;; :NOTE| Appending :flymake-hook to the keywords of use-package!
 (elpaca-wait)
 #+end_src
 
@@ -2254,29 +2290,7 @@ Integrate ~Flycheck~ with ~Sideline~ to display diagnostics on-hover.
   (sideline-backends-right '((sideline-flymake . up))))
 #+end_src
 
-*** (Prog & Text) Code Craftsmanship
-
-Managing our coding buffers with Eglot is very common and therefore creating shortcuts to the useful functions is necessary.
-
-#+begin_src emacs-lisp
-(use-package eglot
-  :general
-  (irkalla/space-lead-keydef
-    :keymaps 'eglot-mode-map
-    "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
-    "l r"    '(eglot-rename          :which-key "Rename $SYMB")
-    "l f"    '(eglot-format          :which-key "Format buffer")
-    "l ?"    '(xref-find-references  :which-key "Find -> references")
-    "l d"    '(xref-find-definitions :which-key "Find -> definition")
-    "l /"    '(xref-find-apropos     :which-key "Find $SYMB <- pattern"))
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-menu-string "LSP")
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (eglot-confirm-server-initiated-edits nil))
-#+end_src
-
-Quicker syntax-highlighting is always deemed desirable and helps us reduce the burden of seeking a cleaner syntax.
+**** Tree-Sitter: Quicker Syntax Highlighting + More!
 
 #+begin_src emacs-lisp
 (use-package tree-sitter
@@ -2284,7 +2298,17 @@ Quicker syntax-highlighting is always deemed desirable and helps us reduce the b
          (tree-sitter-after-on . tree-sitter-hl-mode)))
 #+end_src
 
-**** Emacs-Lisp: Emacs Very Own Lisp Dialect
+***** TS-fold: Folding Code-blocks Like Origami
+
+#+begin_src emacs-lisp
+(use-package ts-fold
+  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
+  :hook (prog-mode . global-ts-fold-mode))
+#+end_src
+
+*** Step-3: Language-specific Adjustments
+
+**** Parinfer: Controlling Wild Lisp Brackets
 
 #+begin_src emacs-lisp
 (use-package parinfer-rust-mode
@@ -2367,7 +2391,7 @@ Later, we proceed with the customization of our ~Org-Mode~ environment.
   (general-imap 'org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
-  (org-document-title ((t (:height 1.5))))
+  (org-document-title ((t (:height 1.50))))
   (org-level-1        ((t (:inherit outline-1 :height 1.25))))
   (org-level-2        ((t (:inherit outline-2 :height 1.15))))
   (org-level-3        ((t (:inherit outline-3 :height 1.12))))
@@ -2438,7 +2462,8 @@ We also want to generate our "Table of Contents" on the fly.
 (use-package org-modern
   :after org
   :hook (org-mode . org-modern-mode)
-  :custom-face (org-modern-symbol ((t :family "DejaVu Sans")))
+  :custom-face
+  (org-modern-symbol ((t (:family "DejaVu Sans"))))
   :custom
   ;; :NOTE| Settings replaced by svg-tag-mode
   (org-modern-tag nil)

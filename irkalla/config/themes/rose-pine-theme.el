@@ -515,6 +515,9 @@
   (centaur-tabs-default                              (:background base))
   (centaur-tabs-name-mouse-face                      (:foreground foam :bold t))
 
+  ;; https://github.com/Artawower/blamer.el
+  (blamer-face                                       (:foreground pine))
+
   ;; https://github.com/emacsorphanage/git-gutter
   (git-gutter:added                                  (:foreground rose))
   (git-gutter:deleted                                (:foreground love))
