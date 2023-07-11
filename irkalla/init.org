@@ -1489,9 +1489,10 @@ We also want to jump back to the last known position after opening a PDF file.
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
   :hook (nov-mode . (lambda ()
-                      (olivetti-mode)
-                      (visual-line-mode)
-                      (visual-fill-column-mode)))
+                      (olivetti-mode +1)
+                      (hl-line-mode +1)
+                      (visual-line-mode +1)
+                      (visual-fill-column-mode +1)))
   :general
   <<nov-bindings>>
   :custom-face
