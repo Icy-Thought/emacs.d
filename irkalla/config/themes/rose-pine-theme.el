@@ -137,6 +137,9 @@
   (diredfl-link-prev                                 (:foreground foam))
   (diredfl-number                                    (:foreground gold))
 
+  ;; https://github.com/nex3/perspective-el
+  (persp-selected-face                               (:foreground pine :weight 'bold :italic t))
+
   ;; https://www.emacswiki.org/emacs/Iedit
   (iedit-occurrence                                  (:background foam :foreground base))
   (iedit-read-only-occurrence                        (:background pine :foreground base))
@@ -175,12 +178,13 @@
   (doom-themes-visual-bell                           (:background love))
 
   ;; https://github.com/dbordak/telephone-line
-  (telephone-line-accent-active                      (:background overlay :foreground subtle))
+  (telephone-line-accent-active                      (:background overlay :foreground subtle :weight 'bold :italic t))
   (telephone-line-accent-inactive                    (:background overlay :foreground muted))
   (telephone-line-evil-normal                        (:background rose :foreground base :bold t))
   (telephone-line-evil-visual                        (:background gold :foreground base :bold t))
   (telephone-line-evil-motion                        (:background foam :foreground base :bold t))
   (telephone-line-evil-insert                        (:background pine :foreground base :bold t))
+  (telephone-line-projectile                         (:foreground iris :weight 'bold :italic t))
 
   ;;https://github.com/skeeto/elfeed
   (elfeed-search-feed-face                           (:foreground iris))
@@ -321,15 +325,19 @@
   (highlight-indent-guides-top-odd-face              (:foreground overlay))
 
   ;; https://oremacs.com/swiper
-  (ivy-current-match                                 (:background foam :foreground base :bold t))
   (ivy-action                                        (:background base :foreground iris))
+  (ivy-confirm-face                                  (:foreground pine))
+  (ivy-current-match                                 (:background foam :foreground base :bold t))
+  (ivy-grep-info                                     (:foreground foam))
   (ivy-grep-line-number                              (:background base :foreground gold))
+  (ivy-grep-line-number                              (:foreground iris))
   (ivy-minibuffer-match-face-1                       (:background base :foreground foam :bold t))
   (ivy-minibuffer-match-face-2                       (:background base :foreground pine))
   (ivy-minibuffer-match-highlight                    (:foreground foam))
-  (ivy-grep-info                                     (:foreground foam))
-  (ivy-grep-line-number                              (:foreground iris))
-  (ivy-confirm-face                                  (:foreground pine))
+
+  ;; https://github.com/tumashu/ivy-posframe
+  (ivy-posframe                                      (:background muted))
+  (ivy-posframe-border                               (:inherit 'ivy-posframe))
 
   ;; https://github.com/minad/vertico
   (vertico-multiline                                 (:background base :foreground text :distant-foreground text))
@@ -338,37 +346,6 @@
   (vertico-current                                   (:background overlay :foreground surface :distant-foreground text :bold t))
   (vertico-posframe-border                           (:background muted))
   (vertico-posframe                                  (:background base :foreground muted))
-
-  ;; https://github.com/minad/corfu
-  (corfu-annotations                                 (:foreground muted))
-  (corfu-current                                     (:inherit 'vertico-current))
-  (corfu-border                                      (:background overlay))
-  (corfu-bar                                         (:background gold))
-  (corfu-default                                     (:background base :foreground text))
-  (corfu-popupinfo                                   (:background overlay :foreground text :weight 'light :italic t))
-
-  ;; https://github.com/tumashu/ivy-posframe
-  (ivy-posframe                                      (:background muted))
-  (ivy-posframe-border                               (:inherit 'ivy-posframe))
-
-  ;; https://github.com/oantolin/orderless
-  (orderless-match-face-0                            (:foreground love :background "#211A1F" :weight 'semi-bold))
-  (orderless-match-face-1                            (:foreground foam :background "#222d3e" :weight 'semi-bold))
-  (orderless-match-face-2                            (:foreground gold :background "#221F18" :weight 'semi-bold))
-  (orderless-match-face-3                            (:foreground iris :background "#292233" :weight 'semi-bold))
-
-  (comint-highlight-prompt                           (:background gold :foreground base))
-
-  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion-Variables.html
-  (completions-annotations                           (:foreground muted :italic t))
-  (completions-highlight                             (:foreground foam :italic t))
-  (completions-common-part                           (:foreground gold :distant-foreground base :distant-background pine :bold t :italic t))
-  (completions-first-difference                      (:foreground love :strike-through t))
-  (consult-file                                      (:foreground muted :distant-foreground base))
-
-  ;; https://www.emacswiki.org/emacs/EdiffMode
-  (diff-added                                        (:background pine :foreground text))
-  (diff-changed                                      (:background gold :foreground base))
 
   ;; https://github.com/Alexander-Miller/treemacs
   (treemacs-directory-collapsed-face                 (:foreground muted))
@@ -386,16 +363,41 @@
   ;; https://github.com/hlissner/emacs-solaire-mode
   (solaire-default-face                              (:background base))
 
+  ;; https://www.emacswiki.org/emacs/EdiffMode
+  (diff-added                                        (:background pine :foreground text))
+  (diff-changed                                      (:background gold :foreground base))
+
+  ;; https://github.com/minad/corfu
+  (corfu-annotations                                 (:foreground muted))
+  (corfu-current                                     (:inherit 'vertico-current))
+  (corfu-border                                      (:background overlay))
+  (corfu-bar                                         (:background gold))
+  (corfu-default                                     (:background base :foreground text))
+  (corfu-popupinfo                                   (:background overlay :foreground text :italic t))
+
+  ;; https://github.com/oantolin/orderless
+  (orderless-match-face-0                            (:foreground love :weight 'semi-bold))
+  (orderless-match-face-1                            (:foreground foam :weight 'semi-bold))
+  (orderless-match-face-2                            (:foreground gold :weight 'semi-bold))
+  (orderless-match-face-3                            (:foreground iris :weight 'semi-bold))
+  (comint-highlight-prompt                           (:background gold :foreground base))
+
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion-Variables.html
+  (completions-annotations                           (:foreground muted :italic t))
+  (completions-highlight                             (:foreground foam :italic t))
+  (completions-common-part                           (:foreground gold :distant-foreground base :distant-background pine :bold t :italic t))
+  (completions-first-difference                      (:foreground love :strike-through t))
+  (consult-file                                      (:foreground muted :distant-foreground base))
+
   ;; https://emacs-lsp.github.io/lsp-mode/page/settings/headerline/
-  (lsp-headerline-breadcrumb-path-error-face         (:underline (:color rose :style 'wave)
-                                                                 :foreground muted :background base))
+  (lsp-headerline-breadcrumb-path-error-face         (:underline (:color rose :style 'wave)))
   (lsp-headerline-breadcrumb-path-face               (:background muted))
   (lsp-headerline-breadcrumb-path-hint-face          (:background base))
   (lsp-headerline-breadcrumb-path-info-face          (:background muted))
-  (lsp-headerline-breadcrumb-separator-face          (:background muted))
-  (lsp-headerline-breadcrumb-symbols-face            (:background foam))
   (lsp-headerline-breadcrumb-project-prefix-face     (:background gold))
+  (lsp-headerline-breadcrumb-separator-face          (:background muted))
   (lsp-headerline-breadcrumb-symbols-error-face      (:foreground love))
+  (lsp-headerline-breadcrumb-symbols-face            (:background foam))
 
   ;; https://github.com/emacs-lsp/lsp-ui
   (lsp-ui-doc-background                             (:background base :foreground love))
@@ -425,7 +427,7 @@
 
   ;; https://github.com/edkolev/evil-goggles
   (evil-goggles-default-face                         (:background gold))
-  (evil-goggles-join-face                            (:foreground foam))
+  (evil-goggles-join-face                            (:background foam))
   (evil-goggles-delete-face                          (:background love))
   (evil-goggles-paste-face                           (:background pine))
   (evil-goggles-indent-face                          (:background muted))

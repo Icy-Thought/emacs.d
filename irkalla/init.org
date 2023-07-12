@@ -558,7 +558,7 @@ Also, ligatures for cleaner symbols
 #+begin_src emacs-lisp
 (use-package hl-line
   :elpaca nil
-  :hook ((prog-mode text-mode) . hl-line-mode))
+  :hook (elpaca-after-init . global-hl-line-mode))
 #+end_src
 
 **** Auto-revert: Update Inactive Files on-change
@@ -824,7 +824,7 @@ Enabling our theme has never been more pleasant!
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'autothemer
-  (irkalla/apply-theme 'rose-pine))
+  (irkalla/apply-theme 'kanagawa))
 #+end_src
 
 **** Alert: System-integrated Notifier
@@ -1490,7 +1490,6 @@ We also want to jump back to the last known position after opening a PDF file.
   :mode ("\\.epub\\'" . nov-mode)
   :hook (nov-mode . (lambda ()
                       (olivetti-mode +1)
-                      (hl-line-mode +1)
                       (visual-line-mode +1)
                       (visual-fill-column-mode +1)))
   :general
@@ -2357,7 +2356,9 @@ Integrate ~Flycheck~ with ~Sideline~ to display diagnostics on-hover.
 (use-package nix-mode
   :mode ("\\.nix\\'" . nix-mode)
   :hook (nix-mode . eglot-ensure)
-  :config (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
+  :config
+  (with-eval-after-load 'eglot
+   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))))
 #+end_src
 
 **** Org-Mode: The Superior File-format
