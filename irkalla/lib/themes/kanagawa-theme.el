@@ -223,7 +223,7 @@
   (org-block                                     (:background sumiInk-0))
   (org-block-begin-line                          (:background winterBlue :foreground springBlue :weight 'bold :italic t))
   (org-block-end-line                            (:background winterRed :foreground peachRed :weight 'bold :italic t))
-  (org-code                                      (:background sumiInk-0))
+  (org-code                                      (:foreground carpYellow))
   (org-date                                      (:foreground waveBlue-2))
   (org-done                                      (:foreground dragonBlue))
   (org-ellipsis                                  (:foreground waveBlue-2 :bold t))
