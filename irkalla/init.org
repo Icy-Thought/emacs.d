@@ -2172,6 +2172,13 @@ Integrating Temple with Corfu to automatically display possible snippet completi
                 (cons #'tempel-complete completion-at-point-functions)))
 #+end_src
 
+Adding several pre-defined bindings to our ~Tempel~ does not sound like a bad idea!
+
+#+begin_src emacs-lisp
+(use-package tempel-collection
+  :after tempel)
+#+end_src
+
 :TODO|CDLaTeX Alternative
 
 **** ChatGPT: Trained Machine Learning System (disabled)
@@ -2276,7 +2283,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
 #+NAME: apheleia-lang-rust
 #+begin_src emacs-lisp
 (when (executable-find "rustfmt")
-  (push '(rustfmt . ("rustfmt" "--emit=stdout" "-"))
+  (push '(rustfmt . ("rustfmt" "--quiet" "--emit" "stdout"))
         apheleia-formatters)
 
   (setf (alist-get 'rust-mode apheleia-mode-alist)
