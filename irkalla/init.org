@@ -29,7 +29,7 @@
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
-    - [[#customizing-the-inner-workings][Customizing the inner workings]]
+    - [[#modifying-irkallas-many-behaviours][Modifying Irkalla's Many Behaviours]]
     - [[#enhancing-the-aesthetics-and-functionality][Enhancing the Aesthetics and Functionality]]
     - [[#unraveling-a-multitude-of-powerful-options][Unraveling a Multitude of Powerful Options]]
   - [[#expanding-irkallas-abilities][Expanding Irkalla's Abilities]]
@@ -325,9 +325,9 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 (elpaca-wait)
 #+end_src
 
-*** Customizing the inner workings
+*** Modifying Irkalla's Many Behaviours
 
-**** Controlling our Various Fonts
+**** Controlling Our Cursed Fonts
 
 #+begin_src emacs-lisp
 ;;;###autoload
@@ -454,6 +454,21 @@ Afterwards, proceeding with the backup & auto-save related configurations should
 (with-current-buffer "*Messages*"
   (emacs-lock-mode 'kill))
 #+end_src
+
+**** Quick-Add Public Projects
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/add-public-projects ()
+  "Add directories present in our /public directory to known projects."
+  (interactive)
+  (let ((base-dir (expand-file-name "~/Workspace/public")))
+    (mapc (lambda (dir)
+            (when (file-directory-p dir)
+              (projectile-add-known-project dir)))
+          (directory-files base-dir t "^[^.].*"))
+    (message "Directories inside ~/Workspace/public added as known projects.")))
+#+END_src
 
 *** Enhancing the Aesthetics and Functionality
 
@@ -630,7 +645,7 @@ Also, ligatures for cleaner symbols
 (elpaca-wait)
 #+end_src
 
-***** (General) Uncategorized Emacs Bindings
+***** (Emacs) Uncategorized General Bindings
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -987,7 +1002,7 @@ Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer de
 
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
-  :hook (text-mode . svg-tag-mode)
+  :hook ((prog-mode text-mode) . svg-tag-mode)
   :config
   (setq svg-lib-style-default
         (plist-put svg-lib-style-default :font-size 13.5))

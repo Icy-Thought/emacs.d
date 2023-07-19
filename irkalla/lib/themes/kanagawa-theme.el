@@ -234,7 +234,7 @@
   (org-indent                                    (:background sumiInk-1b :foreground sumiInk-1b))
   (org-meta-line                                 (:background winterGreen :foreground springGreen))
   (org-todo                                      (:foreground surimiOrange :bold t))
-  (org-verbatism                                 (:foreground crystalBlue))
+  (org-verbatim                                  (:foreground crystalBlue))
   (org-upcoming-deadline                         (:foreground peachRed))
 
   (org-level-1                                   (:foreground peachRed :height 1.3 :bold t))
