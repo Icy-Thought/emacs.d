@@ -14,7 +14,7 @@
     - [[#quicker-launches-in-fundamental-mode][Quicker Launches in Fundamental-mode]]
     - [[#dont-compact-font-cache-on-gc][Don't Compact Font-cache on GC]]
     - [[#increase-processing-power][Increase Processing Power]]
-    - [[#switching-user-directories][Switching User Directories]]
+    - [[#defining-user-directories][Defining User Directories]]
     - [[#native-compilation][Native Compilation]]
   - [[#reducing-noise-on-start][Reducing Noise on Start]]
     - [[#start-up-messages][Start-up Messages]]
@@ -95,13 +95,17 @@ wrote this madness.. (😅)
   (setq read-process-output-max (* 24 1024 1024)))
 #+end_src
 
-*** Switching User Directories
+*** Defining User Directories
 
 #+begin_src emacs-lisp
 (setq user-emacs-directory (expand-file-name "~/.config/emacs"))
+#+end_src
 
-;; :NOTE| Adding the path for our custom themes
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+We also want Emacs to become aware of our custom =themes/= directory!
+
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "lib/themes" user-emacs-directory))
 #+end_src
 
 **** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
@@ -905,7 +909,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
-  (dashboard-startup-banner (expand-file-name "logos/owl-skull.svg" user-emacs-directory))
+  (dashboard-startup-banner (expand-file-name "lib/logos/owl-skull.svg" user-emacs-directory))
   (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
@@ -1546,6 +1550,7 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
 #+begin_src emacs-lisp
 (use-package vterm
   :elpaca nil
+  :hook (vterm-mode . (lambda () (setq-local global-hl-line-mode nil)))
   :general
   <<vterm-bindings>>
   :custom
@@ -2168,7 +2173,7 @@ Completions should display icons for their respective types.
 #+begin_src emacs-lisp
 (use-package tempel
   :hook ((prog-mode text-mode) . tempel-setup-capf)
-  :config (setq-default tempel-path (expand-file-name "snippets/*.eld" user-emacs-directory)))
+  :config (setq-default tempel-path (expand-file-name "lib/snippets/*.eld" user-emacs-directory)))
 #+end_src
 
 Extending the support of ~Tempel~ should be one of our main priorities!
