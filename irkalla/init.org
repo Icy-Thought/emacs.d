@@ -624,22 +624,20 @@ Also, ligatures for cleaner symbols
 (use-package general
   :demand t
   :config
-  (general-evil-setup)
+  (with-eval-after-load 'evil
+    (general-evil-setup))
+
   (general-override-mode)
   (general-auto-unbind-keys)
 
   ;; :NOTE| defining several ease-of-use bindings
-  (general-create-definer irkalla/space-lead-keydef
-    :keymaps 'override
-    :states '(emacs insert motion normal visual)
-    :prefix "SPC"
-    :global-prefix "M-SPC")
+  (general-create-definer irkalla/backslash-lead-keydef
+    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
+    :prefix "\\")
 
   (general-create-definer irkalla/comma-lead-keydef
-    :keymaps 'override
-    :states '(emacs insert motion normal visual)
-    :prefix ","
-    :non-normal-prefix "M-,"))
+    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
+    :prefix ","))
 
 ;; :NOTE| Necessary for :general to work with use-package!
 (elpaca-wait)
@@ -651,9 +649,7 @@ Also, ligatures for cleaner symbols
 (use-package emacs
   :elpaca nil
   :general
-  (general-def "<escape>" 'keyboard-escape-quit)
-
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     ;; Buffer-related
     "b"     '(:ignore t        :which-key "Buffer Management")
     "b d"   '(kill-this-buffer :which-key "Exit active buffer")
@@ -679,7 +675,7 @@ Also, ligatures for cleaner symbols
     "q r"   '(restart-emacs    :which-key "Restart Emacs")
     "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
 
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     :states '(visual)
     "e r"   '(eval-region      :which-key "Eval highlighted")))
 #+end_src
@@ -702,7 +698,7 @@ Also, ligatures for cleaner symbols
 #+begin_src emacs-lisp
 (use-package helpful
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     "h"   '(:ignore t        :which-key "Helpful Description")
     "h k" '(helpful-key      :which-key "Key")
     "h f" '(helpful-callable :which-key "Function")
@@ -723,7 +719,9 @@ Also, ligatures for cleaner symbols
   :hook ((elpaca-after-init . which-key-mode)
          (which-key . which-key-setup-minibuffer))
   :custom
-  (which-key-allow-evil-operators t)
+  (with-eval-after-load 'evil
+    which-key-allow-evil-operators t)
+
   (which-key-idle-delay 0.3)
   (which-key-show-remaining-keys t)
   (which-key-separator " → ")
@@ -886,7 +884,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package centaur-tabs
   :hook (elpaca-after-init . centaur-tabs-mode)
-  :general (general-nmap 'centaur-tabs-mode-map
+  :general (general-def 'normal centaur-tabs-mode-map
              "C-<prior>" #'centaur-tabs-backward
              "C-<next>"  #'centaur-tabs-forward)
   :custom
@@ -968,7 +966,11 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   :hook ((prog-mode text-mode) . telephone-line-mode)
   :custom
   (telephone-line-height 26)
-  (telephone-line-evil-use-short-tag t)
+
+  (with-eval-after-load 'evil
+    (telephone-line-evil-use-short-tag t))
+  (with-eval-after-load 'meow
+    (telephone-line-meow-use-short-tag t))
 
   ;; Left separator
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
@@ -1200,7 +1202,7 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
 
 #+NAME: consult-bindings
 #+begin_src emacs-lisp :tangle no
-(irkalla/space-lead-keydef
+(irkalla/backslash-lead-keydef
   "/"          '(consult-ripgrep        :which-key "Quick RegExp grep")
   "b b"        '(consult-buffer         :which-key "Switch -> buffer")
 
@@ -1238,7 +1240,7 @@ Might as-well have consult integrate itself to our projectile and display existi
 (use-package consult-projectile
   :after projectile
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 #+end_src
 
@@ -1319,8 +1321,8 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :after '(eldoc eglot)
-  :general (general-nmap 'prog-mode-map
-             "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
+  :general (general-def 'normal prog-mode-map
+             [tab] '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
 **** Embark: Mini-Buffer Actions Rooted in Keymaps
@@ -1382,7 +1384,7 @@ Appending bindings to our Magit configuration.
 
 #+NAME: magit-bindings
 #+begin_src emacs-lisp :tangle no
-(irkalla/space-lead-keydef
+(irkalla/backslash-lead-keydef
   "g"   '(:ignore t :which-key "Magit")
   "g g" '(magit :which-key "Open Magit!"))
 #+end_src
@@ -1491,7 +1493,8 @@ Make sure that our PDF’s are displayed with darker colors.
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
                            ;; :NOTE| Set the PDF free from the unnecessary borders
-                           (set (make-local-variable 'evil-normal-state-cursor) (list nil))
+                           (with-eval-after-load 'evil
+                               (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
                            (pdf-view-themed-minor-mode)))
   :custom
   (pdf-view-use-scaling t)
@@ -1536,7 +1539,7 @@ Defining bindings for our precious ~Nov-Mode~ to reduce the burden of navigation
 
 #+NAME: nov-bindings
 #+begin_src emacs-lisp :tangle no
-(general-nmap 'nov-mode-map
+(general-def 'normal nov-mode-map
   "H"   '(nov-previous-document   :which-key "Go -> previous doc")
   "L"   '(nov-previous-document   :which-key "Go -> next doc")
   "d"   '(nov-scroll-down         :which-key "Scroll downwards")
@@ -1556,7 +1559,7 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
   :after nov
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :general
-  (general-nmap 'nov-mode-map
+  (general-def 'normal nov-mode-map
     "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
@@ -1578,11 +1581,11 @@ Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
 #+begin_src emacs-lisp :tangle no
-(general-imap 'vterm-mode-map
+(general-def 'insert vterm-mode-map
   "<S-prior>" #'scroll-down-command
   "<S-next>"  #'scroll-up-command)
 
-(irkalla/space-lead-keydef
+(irkalla/backslash-lead-keydef
   "t"   '(:ignore t    :which-key "Terminal")
   "t t" '(vterm-toggle :which-key "Open VTerm"))
 
@@ -1689,7 +1692,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package marginalia
   :hook (elpaca-after-init . marginalia-mode)
-  :general (general-nmap 'minibuffer-local-map
+  :general (general-def 'normal minibuffer-local-map
              "M-A" '(marginalia-cycle :which-key "Cycle -> Marginalia annotators"))
   :custom
   (marginalia-max-relative-age 0)
@@ -1707,11 +1710,14 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 *** Supercharging Irkalla's Mobility
 
 **** EVIL: VIM bindings inside Emacs (disabled)
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src emacs-lisp
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
-  :general (general-nmap
+  :general (general-def 'normal
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-redo)
@@ -1773,30 +1779,50 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
 (use-package evil-nerd-commenter
   :after evil
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
   (irkalla/comma-lead-keydef
     ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
 #+end_src
 
-**** MEOW: Yet Another Modal Editing (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
+**** MEOW: Yet Another Modal Editing
+
+Are you someone who is interested in Meow, but contemplating your decision over whether you should use it or not?
+Then I recommend you take some time off to read the [[https://github.com/meow-edit/meow/blob/master/VIM_COMPARISON.org][vim comparison] page written by the author.
+
+Being able to toggle =CaSeS= on command would save us a lot of time. Therefore adding it should be prioritized.
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/toggle-case ()
+  "Highlighted region -> upper/lower case region. Otherwise, apply only to CHAR."
+  (interactive)
+  (let* ((beg (point))
+         (end (1+ (point)))
+         (letter (char-after beg))
+         (upcased (eq letter (upcase letter)))
+         (f (if upcased #'downcase-region #'upcase-region)))
+    (funcall f beg end)
+    (unless (region-active-p)
+      (forward-char))))
+#+end_src
 
 #+begin_src emacs-lisp
 (defun meow-setup ()
-  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+  "Simple bindings intended to make our Meow workflow more fluid."
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
+        meow-use-cursor-position-hack t)
 
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
-   '("<escape>" . ignore))
+   '("<escape>" . keyboard-quit))
 
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
    '("k" . "H-k")
+   
    ;; Use SPC (0-9) for digit arguments.
    '("1" . meow-digit-argument)
    '("2" . meow-digit-argument)
@@ -1808,6 +1834,7 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
    '("8" . meow-digit-argument)
    '("9" . meow-digit-argument)
    '("0" . meow-digit-argument)
+
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
 
@@ -1823,12 +1850,19 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
    '("2" . meow-expand-2)
    '("1" . meow-expand-1)
 
+   '("~" . irkalla/toggle-case)
    '("-" . negative-argument)
+   '("=" . indent-region)
+   '(":" . recenter-top-bottom)
    '(";" . meow-reverse)
-   '("," . meow-inner-of-thing)
-   '("." . meow-bounds-of-thing)
+   '("." . repeat)
+   '("<" . meow-inner-of-thing)
+   '(">" . meow-bounds-of-thing)
+   '("(" . backward-sexp)
+   '(")" . forward-sexp)
    '("[" . meow-beginning-of-thing)
    '("]" . meow-end-of-thing)
+
    '("a" . meow-append)
    '("A" . meow-open-below)
    '("b" . meow-back-word)
@@ -1856,14 +1890,15 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
+   '("P" . meow-yank-pop)
    '("q" . meow-quit)
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
    '("R" . meow-swap-grab)
    '("s" . meow-kill)
    '("t" . meow-till)
-   '("u" . meow-undo)
-   '("U" . meow-undo-in-selection)
+   '("u" . undo)
+   '("U" . undo-redo)
    '("v" . meow-visit)
    '("w" . meow-mark-word)
    '("W" . meow-mark-symbol)
@@ -1872,8 +1907,7 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
    '("y" . meow-save)
    '("Y" . meow-sync-grab)
    '("z" . meow-pop-selection)
-   '("'" . repeat)
-   '("<escape>" . ignore)))
+   '("<escape>" . keyboard-quit)))
 #+end_src
 
 Installing ~MEOW~ and notifying it about our pre-defined bindings.
@@ -1882,13 +1916,48 @@ Installing ~MEOW~ and notifying it about our pre-defined bindings.
 (use-package meow
   :demand t
   :hook (elpaca-after-init . meow-global-mode)
-  :custom (meow-esc-delay 0.001)
+  :custom-face
+  (meow-beacon-indicator ((t (:inherit telephone-line-evil-emacs))))
+  (meow-insert-indicator ((t (:inherit telephone-line-evil-insert))))
+  (meow-motion-indicator ((t (:inherit telephone-line-evil-motion))))
+  (meow-normal-indicator ((t (:inherit telephone-line-evil-motion))))
+  (meow-keypad-indicator ((t (:inherit telephone-line-evil-operator))))
   :config
   (meow-setup)
   (meow-setup-indicator)
   (meow-setup-line-number)
-  (add-hook 'meow-normal-mode-hook #'corfu-quit)
-  (add-to-list 'meow-update-cursor-functions-alist (cons 'meow--cursor-null-p (lambda ()))))
+
+  ;; :NOTE| meow-things related bindings
+  (meow-thing-register 'tex-round    '(pair ("\\left(") ("\\right)"))     '(pair ("\\left(") ("\\right)")))
+  (meow-thing-register 'tex-square   '(pair ("\\left[") ("\\right]"))     '(pair ("\\left[") ("\\right]")))
+  (meow-thing-register 'tex-curly    '(pair ("\\left\\{") ("\\right\\}")) '(pair ("\\left\\{") ("\\right\\}")))
+
+  (meow-thing-register 'quote-gqq    '(pair ("„") ("“"))                  '(pair ("„") ("“")))
+  (meow-thing-register 'quote-gq     '(pair ("‚") ("‘"))                  '(pair ("‚") ("‘")))
+  (meow-thing-register 'quote-eqq    '(pair ("“") ("”"))                  '(pair ("“") ("”")))
+  (meow-thing-register 'quote-eq     '(pair ("‘") ("’"))                  '(pair ("‘") ("’")))
+
+  ;; Later we inform Meow about our new changes
+  (setq meow-char-thing-table
+        '((?\( . round) (?\) . round) (?\[ . square) (?\] . square) (?{ . curly) (?} . curly) (?\" . string)
+          (?r . tex-round) (?s . tex-square) (?c . tex-curly)
+          (?„ . quote-gqq) (?‚ . quote-gq) (?\“ . quote-eqq) (?\‘ . quote-eq)
+          (?s . symbol) (?. . sentence) (?b . buffer) (?p . paragraph) (?l . line)))
+
+  :custom
+  (meow-keypad-self-insert-undefined nil)
+  (meow-keypad-ctrl-meta-prefix nil)
+  (meow-keypad-literal-prefix ?\s)
+  (meow-keypad-meta-prefix ?m)
+  (meow-keypad-start-keys '((?c . ?c) (?u . ?u) (?x . ?x)))
+
+  (meow-expand-hint-remove-delay 1.5)
+  (meow-esc-delay 0.001)
+  (meow-use-clipboard t)
+  (meow-expand-exclude-mode-list nil)
+
+  ;; :NOTE| Pre-defined behaviour for our different modes
+  (meow-mode-state-list '((vterm-mode . insert))))
 #+end_src
 
 **** Perspective: An Emacs Workspace Manager
@@ -1896,8 +1965,6 @@ Installing ~MEOW~ and notifying it about our pre-defined bindings.
 #+begin_src emacs-lisp
 (use-package perspective
   :hook (elpaca-after-init . persp-mode)
-  :general (general-nmap
-             "C-x C-b" '(persp-list-buffers :which-key "Buf. switch + persp-filter"))
   :custom (persp-mode-prefix-key (kbd "C-c M-p")))
 #+end_src
 
@@ -1929,7 +1996,7 @@ Installing ~MEOW~ and notifying it about our pre-defined bindings.
 #+begin_src emacs-lisp
 (use-package citar
   :hook ((LaTeX-mode org-mode) . citar-capf-setup)
-  :custom (citar-bibliography '("~/Notes/references.bib")))
+  :custom (citar-bibliography '("~/Workspace/memorandum/references.bib")))
 #+end_src
 
 Integrating ~Citar~ with ~Embark~.
@@ -1970,24 +2037,13 @@ Integrating ~Citar~ with ~Embark~.
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 #+end_src
 
-**** Expand Region: Region-based Navigation
-
-#+begin_src emacs-lisp
-(use-package expand-region
-  :general
-  (general-def '(prog-mode-map text-mode-map)
-    :states '(visual)
-    ")" 'er/expand-region
-    "(" 'er/contract-region))
-#+end_src
-
 **** Highlight Indentation Guides
 
 #+begin_src emacs-lisp
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
   :custom
-  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-method 'column)
   (highlight-indent-guides-responsive 'top))
 #+end_src
 
@@ -2106,8 +2162,9 @@ We also want to move to last known position in the buffer we just entered.
 #+begin_src emacs-lisp
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
-  :hook (elpaca-after-init . global-corfu-mode)
-  :general (general-imap 'corfu-map
+  :hook ((elpaca-after-init . global-corfu-mode)
+         (meow-insert-exit . corfu-quit))
+  :general (general-def 'insert corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
             "S-TAB" #'corfu-previous
@@ -2328,7 +2385,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :defer t
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     :keymaps 'eglot-mode-map
     "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
     "l r"    '(eglot-rename          :which-key "Rename $SYMB")
@@ -2362,7 +2419,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :hook (text-mode . global-jinx-mode)
   :general
-  (general-nmap '(prog-mode-map text-mode-map)
+  (general-def 'normal (prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 #+end_src
 
@@ -2535,7 +2592,7 @@ Later, we proceed with the customization of our ~Org-Mode~ environment.
     "o"   '(:ignore t        :which-key "Org-Mode")
     "o e" '(org-edit-special :which-key "Edit -> special buffer")
     "o t" '(org-babel-tangle :which-key "Tangle buffer"))
-  (general-imap 'org-mode-map
+  (general-def 'insert org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.50))))
@@ -2545,6 +2602,8 @@ Later, we proceed with the customization of our ~Org-Mode~ environment.
   (org-level-4        ((t (:inherit outline-4 :height 1.09))))
   (org-level-5        ((t (:inherit outline-5 :height 1.06))))
   :config
+  (setq-default org-directory "~/Workspace/memorandum/org-mode")
+  
   ;; :NOTE| Move our LaTeX previews to cache dir
   (let ((latex-dir (no-littering-expand-var-file-name "latex-preview")))
     (unless (file-directory-p latex-dir)
@@ -2680,7 +2739,7 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :elpaca nil
   :after org
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (general-nmap 'org-mode-map
+  :general (general-def 'normal org-mode-map
              [remap evil-ret] #'irkalla/ret-babel-exec)
   :custom
   (org-babel-default-header-args
@@ -2724,15 +2783,6 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :hook (rust-mode . (lambda ()
                        (eglot-ensure)
                        (setq indent-tabs-mode nil)))
-  :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'rust-mode-map
-    "r"   '(:ignore t       :which-key "Rust")
-    "r b" '(rust-compile    :which-key "Compile project")
-    "r c" '(rust-check      :which-key "Compile + cargo check")
-    "r l" '(rust-run-clippy :which-key "Run cargo clippy")
-    "r r" '(rust-run        :which-key "Run project")
-    "r t" '(rust-test       :which-key "Run tests on project"))
   :config
   (setq-default eglot-workspace-configuration
                 '((:rust-analyzer
@@ -2756,11 +2806,6 @@ Integrating ~Cargo~ with our newly added ~Rust-Mode~ would help us make our envi
 #+begin_src emacs-lisp
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode)
-  :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'rust-mode-map
-    "r p a" '(cargo-process-add   :which-key "Cargo Add")
-    "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
 #+end_src
 
