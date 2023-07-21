@@ -631,12 +631,14 @@ Also, ligatures for cleaner symbols
   (general-auto-unbind-keys)
 
   ;; :NOTE| defining several ease-of-use bindings
-  (general-create-definer irkalla/backslash-lead-keydef
-    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
-    :prefix "\\")
+  (general-create-definer irkalla/space-lead-keydef
+    :keymaps 'override
+    :states '(emacs insert motion normal visual)
+    :prefix "SPC")
 
   (general-create-definer irkalla/comma-lead-keydef
-    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
+    :keymaps 'override
+    :states '(emacs insert motion normal visual)
     :prefix ","))
 
 ;; :NOTE| Necessary for :general to work with use-package!
@@ -649,7 +651,7 @@ Also, ligatures for cleaner symbols
 (use-package emacs
   :elpaca nil
   :general
-  (irkalla/backslash-lead-keydef
+  (irkalla/space-lead-keydef
     ;; Buffer-related
     "b"     '(:ignore t        :which-key "Buffer Management")
     "b d"   '(kill-this-buffer :which-key "Exit active buffer")
@@ -675,7 +677,7 @@ Also, ligatures for cleaner symbols
     "q r"   '(restart-emacs    :which-key "Restart Emacs")
     "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
 
-  (irkalla/backslash-lead-keydef
+  (irkalla/space-lead-keydef
     :states '(visual)
     "e r"   '(eval-region      :which-key "Eval highlighted")))
 #+end_src
@@ -698,7 +700,7 @@ Also, ligatures for cleaner symbols
 #+begin_src emacs-lisp
 (use-package helpful
   :general
-  (irkalla/backslash-lead-keydef
+  (irkalla/space-lead-keydef
     "h"   '(:ignore t        :which-key "Helpful Description")
     "h k" '(helpful-key      :which-key "Key")
     "h f" '(helpful-callable :which-key "Function")
@@ -1202,7 +1204,7 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
 
 #+NAME: consult-bindings
 #+begin_src emacs-lisp :tangle no
-(irkalla/backslash-lead-keydef
+(irkalla/space-lead-keydef
   "/"          '(consult-ripgrep        :which-key "Quick RegExp grep")
   "b b"        '(consult-buffer         :which-key "Switch -> buffer")
 
@@ -1240,7 +1242,7 @@ Might as-well have consult integrate itself to our projectile and display existi
 (use-package consult-projectile
   :after projectile
   :general
-  (irkalla/backslash-lead-keydef
+  (irkalla/space-lead-keydef
     "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 #+end_src
 
@@ -1384,7 +1386,7 @@ Appending bindings to our Magit configuration.
 
 #+NAME: magit-bindings
 #+begin_src emacs-lisp :tangle no
-(irkalla/backslash-lead-keydef
+(irkalla/space-lead-keydef
   "g"   '(:ignore t :which-key "Magit")
   "g g" '(magit :which-key "Open Magit!"))
 #+end_src
@@ -1585,7 +1587,7 @@ Binding our VTerm for quicker access to the terminal.
   "<S-prior>" #'scroll-down-command
   "<S-next>"  #'scroll-up-command)
 
-(irkalla/backslash-lead-keydef
+(irkalla/space-lead-keydef
   "t"   '(:ignore t    :which-key "Terminal")
   "t t" '(vterm-toggle :which-key "Open VTerm"))
 
@@ -1709,10 +1711,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 
 *** Supercharging Irkalla's Mobility
 
-**** EVIL: VIM bindings inside Emacs (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
+**** EVIL: VIM bindings inside Emacs
 
 #+begin_src emacs-lisp
 (use-package evil
@@ -1779,13 +1778,16 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
 (use-package evil-nerd-commenter
   :after evil
   :general
-  (irkalla/backslash-lead-keydef
+  (irkalla/space-lead-keydef
     ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
   (irkalla/comma-lead-keydef
     ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
 #+end_src
 
-**** MEOW: Yet Another Modal Editing
+**** MEOW: Yet Another Modal Editing (disabled)
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 Are you someone who is interested in Meow, but contemplating your decision over whether you should use it or not?
 Then I recommend you take some time off to read the [[https://github.com/meow-edit/meow/blob/master/VIM_COMPARISON.org][vim comparison] page written by the author.
@@ -2037,6 +2039,16 @@ Integrating ~Citar~ with ~Embark~.
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 #+end_src
 
+**** Expand Region: Region-based Navigation
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :general
+  (general-def 'visual (prog-mode-map text-mode-map)
+    ")" 'er/expand-region
+    "(" 'er/contract-region))
+#+end_src
+
 **** Highlight Indentation Guides
 
 #+begin_src emacs-lisp
@@ -2162,8 +2174,7 @@ We also want to move to last known position in the buffer we just entered.
 #+begin_src emacs-lisp
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
-  :hook ((elpaca-after-init . global-corfu-mode)
-         (meow-insert-exit . corfu-quit))
+  :hook (elpaca-after-init . global-corfu-mode)
   :general (general-def 'insert corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
@@ -2385,7 +2396,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :defer t
   :general
-  (irkalla/backslash-lead-keydef
+  (irkalla/space-lead-keydef
     :keymaps 'eglot-mode-map
     "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
     "l r"    '(eglot-rename          :which-key "Rename $SYMB")
@@ -2783,6 +2794,15 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :hook (rust-mode . (lambda ()
                        (eglot-ensure)
                        (setq indent-tabs-mode nil)))
+  :general
+  (irkalla/comma-lead-keydef
+    :keymaps 'rust-mode-map
+    "r"   '(:ignore t       :which-key "Rust")
+    "r b" '(rust-compile    :which-key "Compile project")
+    "r c" '(rust-check      :which-key "Compile + cargo check")
+    "r l" '(rust-run-clippy :which-key "Run cargo clippy")
+    "r r" '(rust-run        :which-key "Run project")
+    "r t" '(rust-test       :which-key "Run tests on project"))
   :config
   (setq-default eglot-workspace-configuration
                 '((:rust-analyzer
@@ -2806,6 +2826,11 @@ Integrating ~Cargo~ with our newly added ~Rust-Mode~ would help us make our envi
 #+begin_src emacs-lisp
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    :keymaps 'rust-mode-map
+    "r p a" '(cargo-process-add   :which-key "Cargo Add")
+    "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
 #+end_src
 
