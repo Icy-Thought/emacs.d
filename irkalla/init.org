@@ -624,9 +624,7 @@ Also, ligatures for cleaner symbols
 (use-package general
   :demand t
   :config
-  (with-eval-after-load 'evil
-    (general-evil-setup))
-
+  (general-evil-setup)
   (general-override-mode)
   (general-auto-unbind-keys)
 
@@ -721,9 +719,7 @@ Also, ligatures for cleaner symbols
   :hook ((elpaca-after-init . which-key-mode)
          (which-key . which-key-setup-minibuffer))
   :custom
-  (with-eval-after-load 'evil
-    which-key-allow-evil-operators t)
-
+  (which-key-allow-evil-operators t)
   (which-key-idle-delay 0.3)
   (which-key-show-remaining-keys t)
   (which-key-separator " → ")
@@ -968,11 +964,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   :hook ((prog-mode text-mode) . telephone-line-mode)
   :custom
   (telephone-line-height 26)
-
-  (with-eval-after-load 'evil
-    (telephone-line-evil-use-short-tag t))
-  (with-eval-after-load 'meow
-    (telephone-line-meow-use-short-tag t))
+  (telephone-line-evil-use-short-tag t)
 
   ;; Left separator
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
@@ -1495,8 +1487,7 @@ Make sure that our PDF’s are displayed with darker colors.
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
                            ;; :NOTE| Set the PDF free from the unnecessary borders
-                           (with-eval-after-load 'evil
-                               (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
+                           (set (make-local-variable 'evil-normal-state-cursor) (list nil))
                            (pdf-view-themed-minor-mode)))
   :custom
   (pdf-view-use-scaling t)
@@ -1782,184 +1773,6 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
     ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
   (irkalla/comma-lead-keydef
     ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
-#+end_src
-
-**** MEOW: Yet Another Modal Editing (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-Are you someone who is interested in Meow, but contemplating your decision over whether you should use it or not?
-Then I recommend you take some time off to read the [[https://github.com/meow-edit/meow/blob/master/VIM_COMPARISON.org][vim comparison] page written by the author.
-
-Being able to toggle =CaSeS= on command would save us a lot of time. Therefore adding it should be prioritized.
-
-#+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/toggle-case ()
-  "Highlighted region -> upper/lower case region. Otherwise, apply only to CHAR."
-  (interactive)
-  (let* ((beg (point))
-         (end (1+ (point)))
-         (letter (char-after beg))
-         (upcased (eq letter (upcase letter)))
-         (f (if upcased #'downcase-region #'upcase-region)))
-    (funcall f beg end)
-    (unless (region-active-p)
-      (forward-char))))
-#+end_src
-
-#+begin_src emacs-lisp
-(defun meow-setup ()
-  "Simple bindings intended to make our Meow workflow more fluid."
-  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-        meow-use-cursor-position-hack t)
-
-  (meow-motion-overwrite-define-key
-   '("j" . meow-next)
-   '("k" . meow-prev)
-   '("<escape>" . keyboard-quit))
-
-  (meow-leader-define-key
-   ;; SPC j/k will run the original command in MOTION state.
-   '("j" . "H-j")
-   '("k" . "H-k")
-   
-   ;; Use SPC (0-9) for digit arguments.
-   '("1" . meow-digit-argument)
-   '("2" . meow-digit-argument)
-   '("3" . meow-digit-argument)
-   '("4" . meow-digit-argument)
-   '("5" . meow-digit-argument)
-   '("6" . meow-digit-argument)
-   '("7" . meow-digit-argument)
-   '("8" . meow-digit-argument)
-   '("9" . meow-digit-argument)
-   '("0" . meow-digit-argument)
-
-   '("/" . meow-keypad-describe-key)
-   '("?" . meow-cheatsheet))
-
-  (meow-normal-define-key
-   '("0" . meow-expand-0)
-   '("9" . meow-expand-9)
-   '("8" . meow-expand-8)
-   '("7" . meow-expand-7)
-   '("6" . meow-expand-6)
-   '("5" . meow-expand-5)
-   '("4" . meow-expand-4)
-   '("3" . meow-expand-3)
-   '("2" . meow-expand-2)
-   '("1" . meow-expand-1)
-
-   '("~" . irkalla/toggle-case)
-   '("-" . negative-argument)
-   '("=" . indent-region)
-   '(":" . recenter-top-bottom)
-   '(";" . meow-reverse)
-   '("." . repeat)
-   '("<" . meow-inner-of-thing)
-   '(">" . meow-bounds-of-thing)
-   '("(" . backward-sexp)
-   '(")" . forward-sexp)
-   '("[" . meow-beginning-of-thing)
-   '("]" . meow-end-of-thing)
-
-   '("a" . meow-append)
-   '("A" . meow-open-below)
-   '("b" . meow-back-word)
-   '("B" . meow-back-symbol)
-   '("c" . meow-change)
-   '("d" . meow-delete)
-   '("D" . meow-backward-delete)
-   '("e" . meow-next-word)
-   '("E" . meow-next-symbol)
-   '("f" . meow-find)
-   '("g" . meow-cancel-selection)
-   '("G" . meow-grab)
-   '("h" . meow-left)
-   '("H" . meow-left-expand)
-   '("i" . meow-insert)
-   '("I" . meow-open-above)
-   '("j" . meow-next)
-   '("J" . meow-next-expand)
-   '("k" . meow-prev)
-   '("K" . meow-prev-expand)
-   '("l" . meow-right)
-   '("L" . meow-right-expand)
-   '("m" . meow-join)
-   '("n" . meow-search)
-   '("o" . meow-block)
-   '("O" . meow-to-block)
-   '("p" . meow-yank)
-   '("P" . meow-yank-pop)
-   '("q" . meow-quit)
-   '("Q" . meow-goto-line)
-   '("r" . meow-replace)
-   '("R" . meow-swap-grab)
-   '("s" . meow-kill)
-   '("t" . meow-till)
-   '("u" . undo)
-   '("U" . undo-redo)
-   '("v" . meow-visit)
-   '("w" . meow-mark-word)
-   '("W" . meow-mark-symbol)
-   '("x" . meow-line)
-   '("X" . meow-goto-line)
-   '("y" . meow-save)
-   '("Y" . meow-sync-grab)
-   '("z" . meow-pop-selection)
-   '("<escape>" . keyboard-quit)))
-#+end_src
-
-Installing ~MEOW~ and notifying it about our pre-defined bindings.
-
-#+begin_src emacs-lisp
-(use-package meow
-  :demand t
-  :hook (elpaca-after-init . meow-global-mode)
-  :custom-face
-  (meow-beacon-indicator ((t (:inherit telephone-line-evil-emacs))))
-  (meow-insert-indicator ((t (:inherit telephone-line-evil-insert))))
-  (meow-motion-indicator ((t (:inherit telephone-line-evil-motion))))
-  (meow-normal-indicator ((t (:inherit telephone-line-evil-motion))))
-  (meow-keypad-indicator ((t (:inherit telephone-line-evil-operator))))
-  :config
-  (meow-setup)
-  (meow-setup-indicator)
-  (meow-setup-line-number)
-
-  ;; :NOTE| meow-things related bindings
-  (meow-thing-register 'tex-round    '(pair ("\\left(") ("\\right)"))     '(pair ("\\left(") ("\\right)")))
-  (meow-thing-register 'tex-square   '(pair ("\\left[") ("\\right]"))     '(pair ("\\left[") ("\\right]")))
-  (meow-thing-register 'tex-curly    '(pair ("\\left\\{") ("\\right\\}")) '(pair ("\\left\\{") ("\\right\\}")))
-
-  (meow-thing-register 'quote-gqq    '(pair ("„") ("“"))                  '(pair ("„") ("“")))
-  (meow-thing-register 'quote-gq     '(pair ("‚") ("‘"))                  '(pair ("‚") ("‘")))
-  (meow-thing-register 'quote-eqq    '(pair ("“") ("”"))                  '(pair ("“") ("”")))
-  (meow-thing-register 'quote-eq     '(pair ("‘") ("’"))                  '(pair ("‘") ("’")))
-
-  ;; Later we inform Meow about our new changes
-  (setq meow-char-thing-table
-        '((?\( . round) (?\) . round) (?\[ . square) (?\] . square) (?{ . curly) (?} . curly) (?\" . string)
-          (?r . tex-round) (?s . tex-square) (?c . tex-curly)
-          (?„ . quote-gqq) (?‚ . quote-gq) (?\“ . quote-eqq) (?\‘ . quote-eq)
-          (?s . symbol) (?. . sentence) (?b . buffer) (?p . paragraph) (?l . line)))
-
-  :custom
-  (meow-keypad-self-insert-undefined nil)
-  (meow-keypad-ctrl-meta-prefix nil)
-  (meow-keypad-literal-prefix ?\s)
-  (meow-keypad-meta-prefix ?m)
-  (meow-keypad-start-keys '((?c . ?c) (?u . ?u) (?x . ?x)))
-
-  (meow-expand-hint-remove-delay 1.5)
-  (meow-esc-delay 0.001)
-  (meow-use-clipboard t)
-  (meow-expand-exclude-mode-list nil)
-
-  ;; :NOTE| Pre-defined behaviour for our different modes
-  (meow-mode-state-list '((vterm-mode . insert))))
 #+end_src
 
 **** Perspective: An Emacs Workspace Manager
