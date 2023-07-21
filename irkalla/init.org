@@ -629,55 +629,20 @@ Also, ligatures for cleaner symbols
   (general-auto-unbind-keys)
 
   ;; :NOTE| defining several ease-of-use bindings
-  (general-create-definer irkalla/space-lead-keydef
+ (general-create-definer irkalla/backslash-lead-keydef
     :keymaps 'override
     :states '(emacs insert motion normal visual)
-    :prefix "SPC")
+    :prefix "\\"
+    :global-prefix "M-\\")
 
   (general-create-definer irkalla/comma-lead-keydef
     :keymaps 'override
     :states '(emacs insert motion normal visual)
-    :prefix ","))
+    :prefix ","
+    :non-normal-prefix "M-,"))
 
 ;; :NOTE| Necessary for :general to work with use-package!
 (elpaca-wait)
-#+end_src
-
-***** (Emacs) Uncategorized General Bindings
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :elpaca nil
-  :general
-  (irkalla/space-lead-keydef
-    ;; Buffer-related
-    "b"     '(:ignore t        :which-key "Buffer Management")
-    "b d"   '(kill-this-buffer :which-key "Exit active buffer")
-    "b n"   '(next-buffer      :which-key "Switch -> next buffer")
-    "b p"   '(previous-buffer  :which-key "Switch -> prev. buffer")
-    "b s"   '(scratch-buffer   :which-key "Switch -> curr. scratch-buf")
-
-    ;; File-related
-    "f"     '(:ignore t        :which-key "Find")
-    "f RET" '(find-file        :which-key "Files in directory")
-
-    ;; Expression evaluation
-    "e"     '(:ignore t        :which-key "Evaluation")
-    "e e"   '(eval-expression  :which-key "Evaluate input")
-    "e b"   '(eval-buffer      :which-key "Evaluate buffer")
-
-    ;; Project Management
-    "p"          '(:ignore t              :which-key "Projects")
-    "p r"        '(projectile-replace     :which-key "Search & replace str")
-
-    ;; Manage Emacs session
-    "q"     '(:ignore t        :which-key "Manage Emacs sessions")
-    "q r"   '(restart-emacs    :which-key "Restart Emacs")
-    "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
-
-  (irkalla/space-lead-keydef
-    :states '(visual)
-    "e r"   '(eval-region      :which-key "Eval highlighted")))
 #+end_src
 
 ***** (Elpaca) Quick-Access To our Package Manager
@@ -693,12 +658,29 @@ Also, ligatures for cleaner symbols
     "p u" '(elpaca-update-all :which-key "Update all packages")))
 #+end_src
 
+**** Nerd-icons: Icons to Decorate our Environment
+
+#+begin_src emacs-lisp
+(use-package nerd-icons
+  :custom
+  (nerd-icons-font-family (irkalla/default-font-family))
+  (nerd-icons-scale-factors 1.25))
+#+end_src
+
+Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer deems worthy!
+
+#+begin_src emacs-lisp
+(use-package nerd-icons-completion
+  :after (nerd-icons vertico)
+  :hook (vertico-mode . nerd-icons-completion-mode))
+#+end_src
+
 **** Helpful: Contextual & More Convenient Help Menu
 
 #+begin_src emacs-lisp
 (use-package helpful
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     "h"   '(:ignore t        :which-key "Helpful Description")
     "h k" '(helpful-key      :which-key "Key")
     "h f" '(helpful-callable :which-key "Function")
@@ -726,93 +708,237 @@ Also, ligatures for cleaner symbols
   (which-key-sort-order 'which-key-prefix-then-key-order))
 #+end_src
 
-**** Hydra: A System for our Keybindings (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package hydra
-  :hook (emacs-lisp-mode . hydra-add-imenu))
-#+end_src
+**** Hydra: A System for our Keybindings
 
 Better to have our Hydra's float in mid-space instead of being positioned in the mini-buffer.
 
 #+begin_src emacs-lisp
 (use-package hydra-posframe
-  :after hydra
-  :hook (after-init . hydra-posframe-enable)
+  :elpaca (:host github :repo "Ladicle/hydra-posframe")
   :custom
   (hydra-hint-display-type 'posframe)
   (hydra-posframe-show-params '((internal-border-width . 2)
                                 (left-fringe . 15)
                                 (right-fringe . 15)
-                                (poshandler . posframe-poshandler-window-center))))
+                                (poshandler . posframe-poshandler-window-center)))
+  :config (hydra-posframe-mode t))
 #+end_src
 
-A leader-key + easy way to implement hydras would reduce the burden of implementing such feature.
+Pulling Hydra with prettyfying techinques should be the default of Irkalla!
 
 #+begin_src emacs-lisp
-(use-package major-mode-hydra
-  :after hydra
-  :bind ("M-RET" . major-mode-hydra))
+(use-package pretty-hydra
+  :demand t
+  :after hydra-posframe
+  :hook (emacs-lisp-mode . (lambda ()
+                             (add-to-list 'imenu-generic-expression
+                                          '("Hydras" "^.*(\\(pretty-hydra-define\\) \\([a-zA-Z-]+\\)" 2))))
+  :general (general-nmap "SPC" 'main-hydra/body)
+  :config
+  (defun icons-displayable-p ()
+    "Return non-nil if `nerd-icons' is displayable."
+    (featurep 'nerd-icons)
+    (require 'nerd-icons nil t))
 
-;; :NOTE| Well, we do want :pretty-hydra, don't we?
+  (cl-defun pretty-hydra-title (title &optional icon-type icon-name
+                                      &key face height v-adjust)
+    "Add an icon in the hydra title."
+    (let ((face (or face `(:foreground ,(face-background 'highlight))))
+          (height (or height 1.0))
+          (v-adjust (or v-adjust 0.0)))
+      (concat
+       (when (and (icons-displayable-p) icon-type icon-name)
+         (let ((f (intern (format "all-the-icons-%s" icon-type))))
+           (when (fboundp f)
+             (concat
+              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+              " "))))
+       (propertize title 'face face)))))
+ 
+;; :NOTE| Integrate ~pretty-hydra~ with ~use-package~!
 (elpaca-wait)
 #+end_src
 
-***** Pretty-Hydra: Project.el
+***** (Hydra) General Emacs Bindings
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :config
+  <<hydra-main-head>>
+  <<hydra-general-actions>>
+  <<hydra-option-toggles>>
+  <<hydra-window-controls>>)
+#+end_src
+
+#+NAME: hydra-main-head
+#+begin_src emacs-lisp :tangle no
+(pretty-hydra-define main-hydra
+  (:title (pretty-hydra-title "Main Hydra Head" 'sucicon "nf-custom-emacs")
+   :color amaranth :quit-key ("q" "C-g"))
+
+  ("Emacs"
+   (("g" general-hydra-actions/body "General Emacs" :exit t)
+    ("p" project-hydra/body "Projects" :exit t)
+    ("t" toggle-options-hydra/body "Toggle Options" :exit t)
+    ("w" window-control-hydra/body "Window Controls" :exit t))
+
+   "Editor"
+   (("e" eglot-hydra/body "Eglot (LSP)" :exit t))))
+
+#+end_src
+
+#+NAME: hydra-general-actions
+#+begin_src emacs-lisp :tangle no
+(pretty-hydra-define general-hydra-actions
+  (:title (pretty-hydra-title "General Emacs" 'faicon "nf-seti-project") 
+   :color amaranth :quit-key ("q" "C-g"))
+
+  ("Finder"
+   (("f f" find-file "Files in directory" :exit t))
+
+   "Buffers"
+   (("b d" kill-this-buffer "Exit active buffer" :exit t)
+    ("b n" next-buffer      "Switch -> next buffer" :exit t)
+    ("b p" previous-buffer  "Switch -> prev. buffer" :exit t)
+    ("b s" scratch-buffer   "Switch -> curr. scratch-buf" :exit t))
+
+   "Evaluation"
+   (("e e" eval-expression "input" :exit t)
+    ("e b" eval-buffer     "buffer" :exit t)
+    ("e r" eval-region     "highlight" :exit t))
+
+   "Emacs"
+   (("q r" restart-emacs "Restart Emacs!" :exit t)
+    ("q q" kill-emacs    "Quit Emacs..." :exit t))))
+#+end_src
+
+#+NAME: hydra-option-toggles
+#+begin_src emacs-lisp :tangle no
+(pretty-hydra-define toggle-options-hydra
+  (:title (pretty-hydra-title "Options to Toggle" 'faicon "toggle-on")
+   :color amaranth :quit-key ("q" "C-g"))
+
+  ("Basic"
+   (("n" linum-mode "line number" :toggle t)
+    ("w" whitespace-mode "whitespace" :toggle t)
+    ("W" whitespace-cleanup-mode "whitespace cleanup" :toggle t)
+    ("r" rainbow-mode "rainbow" :toggle t)
+    ("L" page-break-lines-mode "page break lines" :toggle t))
+
+   "Highlight"
+   (("s" symbol-overlay-mode "symbol" :toggle t)
+    ("l" hl-line-mode "line" :toggle t)
+    ("x" highlight-sexp-mode "sexp" :toggle t)
+    ("t" hl-todo-mode "todo" :toggle t))
+   
+   "UI"
+   (("d" jp-themes-toggle-light-dark "dark theme" :toggle jp-current-theme-dark-p))
+
+   "Coding"
+   (("p" smartparens-mode "smartparens" :toggle t)
+    ("P" smartparens-strict-mode "smartparens strict" :toggle t)
+    ("S" show-smartparens-mode "show smartparens" :toggle t)
+    ("f" flycheck-mode "flycheck" :toggle t))
+
+   "Emacs"
+   (("D" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
+    ("X" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit)))))
+#+end_src
+
+#+NAME: hydra-window-controls
+#+begin_src emacs-lisp :tangle no
+(pretty-hydra-define window-control-hydra
+  (:title (pretty-hydra-title "Manage Emacs Windows" 'faicon "windows")
+   :color amaranth :quit-key ("q" "C-g"))
+
+  ("Actions"
+   (("TAB" other-window "switch")
+    ("x" ace-delete-window "delete")
+    ("m" ace-delete-other-windows "maximize")
+    ("s" ace-swap-window "swap")
+    ("a" ace-select-window "select"))
+
+   "Resize"
+   (("h" move-border-left "←")
+    ("j" move-border-down "↓")
+    ("k" move-border-up "↑")
+    ("l" move-border-right "→")
+    ("n" balance-windows "balance")
+    ("f" toggle-frame-fullscreen "toggle fullscreen"))
+
+   "Split"
+   (("b" split-window-right "horizontally")
+    ("B" split-window-horizontally-instead "horizontally instead")
+    ("v" split-window-below "vertically")
+    ("V" split-window-vertically-instead "vertically instead"))
+
+   "Zoom"
+   (("+" zoom-in "in")
+    ("=" zoom-in)
+    ("-" zoom-out "out")
+    ("0" jp-zoom-default "reset"))))
+#+end_src
+
+***** (Hydra) Project.el
 
 #+begin_src emacs-lisp
 (use-package project
   :elpaca nil
   :pretty-hydra
-  ((:title (pretty-hydra-title "Project Management" 'mdicon "nf-seti-project")
-           :color teal :quit-key ("q" "c-g")))
-  ("Finder"
-   (("f" project-find-file "navigate file in project" :exit t)
-    ("f" project-or-external-find-file "navigate file in project or external root" :exit t)
-    ("r" projectile-recent "Navigate to recent file in project" :exit t))
-   "Buffers"
-   (("b" project-switch-to-buffer "Switch to buffer in project" :exit t)
-    ("K" project-kill-buffers "Kill opened buffers in project" :exit t))
-   "Actions"
-   (("R" project-query-replace-regexp "Query-replace REGEXP for all files in project" :exit t)
-    ("m" project-compile "Compile project" :exit t))
-   "Modes"
-   (("g" project-vc-dir "Run VC-DIR in project" :exit t)
-    ("h" project-dired "Start Dired in project" :exit t)
-    ("t" projectile-run-vterm "Run VTerm in project" :exit t))
-   "Search"
-   (("/" project-find-regexp "Find all matches for REGEXP in project" :exit t)
-    ("s" project-or-external-find-regexp "Find all matches for REGEXP in project OR outside" :exit t)
-    ("p" projectile-switch-project "Switch to known project" :exit t)))
-  :bind ("M-RET p" . project-hydra/body))
+  ((:title (pretty-hydra-title "Project Management" 'faicon "nf-seti-project") 
+    :color amaranth :quit-key ("q" "C-g"))
+
+   ("Finder"
+    (("f" project-find-file "navigate file in project" :exit t)
+     ("F" project-or-external-find-file "navigate file in project or external root" :exit t)
+     ("r" projectile-recent "Navigate to recent file in project" :exit t))
+
+    "Buffers"
+    (("b" project-switch-to-buffer "Switch to buffer in project" :exit t)
+     ("K" project-kill-buffers "Kill opened buffers in project" :exit t))
+
+    "Actions"
+    (("R" project-query-replace-regexp "Query-replace REGEXP for all files in project" :exit t)
+     ("m" project-compile "Compile project" :exit t))
+
+    "Modes"
+    (("g" project-vc-dir "Run VC-DIR in project" :exit t)
+     ("h" project-dired "Start Dired in project" :exit t)
+     ("t" projectile-run-vterm "Run VTerm in project" :exit t))
+
+    "Search"
+    (("/" project-find-regexp "Find all matches for REGEXP in project" :exit t)
+     ("s" project-or-external-find-regexp "Find all matches for REGEXP in project OR outside" :exit t)
+     ("p" projectile-switch-project "Switch to known project" :exit t)))))
 #+end_src
 
-***** Pretty-Hydra: Eglot
+***** (Hydra) Eglot.el
 
 #+begin_src emacs-lisp
 (use-package eglot
   :elpaca nil
   :pretty-hydra
-  ((:title (pretty-hydra-title "Eglot (LSP)" 'mdicon "nf-md-code_braces_box")
-           :color teal :quit-key ("q" "c-g")))
-  ("Find"
-   (("d"  eglot-find-declaration "Find declaration for SYM" :exit t)
-    ("i"  eglot-find-implementation "Find implementation for SYM" :exit t)
-    ("D"  eglot-find-typeDefinition "Find type-def for SYM" :exit t))
-   "Edit"
-   (("r" eglot-rename "Rename symbol -> NEWNAME" :exit t)
-    ("a" eglot-code-actions "Display code actions of region" :exit t))
-   "Format"
-   (("=" eglot-format-buffer "Format active buffer" :exit t)
-    ("]" eglot-format "Format highlighted region" :exit t))
-   "Management"
-   (("X" eglot-shutdown "Shutdown Eglot server" :exit t)
-    ("R" eglot-reconnect "Re-connect Eglot server" :exit t)
-    ("E" eglot-events-buffer "Display server events buffer" :exit t)))
-  :bind ("M-RET l" . eglot-hydra/body))
+  ((:title (pretty-hydra-title "Eglot (LSP)" 'faicon "nf-md-code_braces_box") 
+    :color amaranth :quit-key ("q" "C-g"))
+
+   ("Navigate"
+    (("d" eglot-find-declaration "Find -> definition" :exit t)
+     ("i" eglot-find-implementation "Find -> implementation" :exit t)
+     ("D" eglot-find-typeDefinition "Find -> type-def" :exit t))
+
+    "Edit"
+    (("r" eglot-rename "Rename $SYMB -> New-Name" :exit t)
+     ("a" eglot-code-actions "Perform Code-actions" :exit t))
+
+    "Format"
+    (("=" eglot-format-buffer "Format -> buffer" :exit t)
+     ("]" eglot-format "Format -> region" :exit t))
+
+    "Manage"
+    (("X" eglot-shutdown "Shutdown Eglot server" :exit t)
+     ("R" eglot-reconnect "Re-connect Eglot server" :exit t)
+     ("E" eglot-events-buffer "Display server events buffer" :exit t)))))
 #+end_src
 
 **** Emacs Everywhere: Allow Emacs Universal Access
@@ -882,7 +1008,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package centaur-tabs
   :hook (elpaca-after-init . centaur-tabs-mode)
-  :general (general-def 'normal centaur-tabs-mode-map
+  :general (general-nmap 'centaur-tabs-mode-map
              "C-<prior>" #'centaur-tabs-backward
              "C-<next>"  #'centaur-tabs-forward)
   :custom
@@ -973,23 +1099,6 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
   ;; Right separator
   (telephone-line-primary-right-separator 'telephone-line-tan-right)
   (telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right))
-#+end_src
-
-**** Nerd-icons: Icons to Decorate our Environment
-
-#+begin_src emacs-lisp
-(use-package nerd-icons
-  :custom
-  (nerd-icons-font-family (irkalla/default-font-family))
-  (nerd-icons-scale-factors 1.25))
-#+end_src
-
-Allowing ~Nerd-Icons~ to display icons in ~Vertico~ is what the typical ricer deems worthy!
-
-#+begin_src emacs-lisp
-(use-package nerd-icons-completion
-  :after (nerd-icons vertico)
-  :hook (vertico-mode . nerd-icons-completion-mode))
 #+end_src
 
 **** SVG-Tags: A Ricer's Dream, SVG-based Tagging System!
@@ -1196,7 +1305,7 @@ To reduce the burden of recalling all bindings, let's rewrite some of them to ma
 
 #+NAME: consult-bindings
 #+begin_src emacs-lisp :tangle no
-(irkalla/space-lead-keydef
+(irkalla/backslash-lead-keydef
   "/"          '(consult-ripgrep        :which-key "Quick RegExp grep")
   "b b"        '(consult-buffer         :which-key "Switch -> buffer")
 
@@ -1234,7 +1343,7 @@ Might as-well have consult integrate itself to our projectile and display existi
 (use-package consult-projectile
   :after projectile
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
 #+end_src
 
@@ -1315,7 +1424,7 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :after '(eldoc eglot)
-  :general (general-def 'normal prog-mode-map
+  :general (general-nmap 'prog-mode-map
              [tab] '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
@@ -1378,7 +1487,7 @@ Appending bindings to our Magit configuration.
 
 #+NAME: magit-bindings
 #+begin_src emacs-lisp :tangle no
-(irkalla/space-lead-keydef
+(irkalla/backslash-lead-keydef
   "g"   '(:ignore t :which-key "Magit")
   "g g" '(magit :which-key "Open Magit!"))
 #+end_src
@@ -1532,7 +1641,7 @@ Defining bindings for our precious ~Nov-Mode~ to reduce the burden of navigation
 
 #+NAME: nov-bindings
 #+begin_src emacs-lisp :tangle no
-(general-def 'normal nov-mode-map
+(general-nmap 'nov-mode-map
   "H"   '(nov-previous-document   :which-key "Go -> previous doc")
   "L"   '(nov-previous-document   :which-key "Go -> next doc")
   "d"   '(nov-scroll-down         :which-key "Scroll downwards")
@@ -1552,7 +1661,7 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
   :after nov
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :general
-  (general-def 'normal nov-mode-map
+  (general-nmap 'nov-mode-map
     "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
@@ -1574,11 +1683,11 @@ Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
 #+begin_src emacs-lisp :tangle no
-(general-def 'insert vterm-mode-map
+(general-imap 'vterm-mode-map
   "<S-prior>" #'scroll-down-command
   "<S-next>"  #'scroll-up-command)
 
-(irkalla/space-lead-keydef
+(irkalla/backslash-lead-keydef
   "t"   '(:ignore t    :which-key "Terminal")
   "t t" '(vterm-toggle :which-key "Open VTerm"))
 
@@ -1685,7 +1794,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package marginalia
   :hook (elpaca-after-init . marginalia-mode)
-  :general (general-def 'normal minibuffer-local-map
+  :general (general-nmap 'minibuffer-local-map
              "M-A" '(marginalia-cycle :which-key "Cycle -> Marginalia annotators"))
   :custom
   (marginalia-max-relative-age 0)
@@ -1707,7 +1816,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
-  :general (general-def 'normal
+  :general (general-nmap
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-redo)
@@ -1769,7 +1878,7 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
 (use-package evil-nerd-commenter
   :after evil
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
   (irkalla/comma-lead-keydef
     ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
@@ -1988,7 +2097,7 @@ We also want to move to last known position in the buffer we just entered.
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
   :hook (elpaca-after-init . global-corfu-mode)
-  :general (general-def 'insert corfu-map
+  :general (general-imap 'corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
             "S-TAB" #'corfu-previous
@@ -2209,7 +2318,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :defer t
   :general
-  (irkalla/space-lead-keydef
+  (irkalla/backslash-lead-keydef
     :keymaps 'eglot-mode-map
     "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
     "l r"    '(eglot-rename          :which-key "Rename $SYMB")
@@ -2243,7 +2352,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :hook (text-mode . global-jinx-mode)
   :general
-  (general-def 'normal (prog-mode-map text-mode-map)
+  (general-nmap '(prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 #+end_src
 
@@ -2416,7 +2525,7 @@ Later, we proceed with the customization of our ~Org-Mode~ environment.
     "o"   '(:ignore t        :which-key "Org-Mode")
     "o e" '(org-edit-special :which-key "Edit -> special buffer")
     "o t" '(org-babel-tangle :which-key "Tangle buffer"))
-  (general-def 'insert org-mode-map
+  (general-imap 'org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.50))))
@@ -2563,7 +2672,7 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :elpaca nil
   :after org
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (general-def 'normal org-mode-map
+  :general (general-nmap 'org-mode-map
              [remap evil-ret] #'irkalla/ret-babel-exec)
   :custom
   (org-babel-default-header-args
