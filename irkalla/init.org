@@ -1935,7 +1935,7 @@ Completion at point is necessary for Corfu to work its wonders as a completion s
 #+begin_src emacs-lisp
 (use-package cape
   :config
-  (dolist (fn '(cape-file cape-dabbrev cape-ispell cape-symbol cape-tex cape-keyword))
+  (dolist (fn '(cape-file cape-dabbrev cape-symbol cape-tex cape-keyword))
     (add-to-list 'completion-at-point-functions fn)))
 #+end_src
 
