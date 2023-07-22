@@ -1230,7 +1230,7 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :after '(eldoc eglot)
-  :general (general-nmap 'prog-mode-map
+  :general (general-nmap 'eglot-mode-map
              [tab] '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
@@ -1353,10 +1353,7 @@ symbols which comes with the package.
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
 #+end_src
 
-**** Ement: A Superior Matrix Client (disabled)
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
+**** Ement: A Superior Matrix Client
 
 #+begin_src emacs-lisp
 (use-package ement
@@ -1365,8 +1362,9 @@ symbols which comes with the package.
   :custom
   (ement-room-images t)
   (ement-room-message-format-spec "%S> %W%B%r%R[%t]")
-  ;; :TODO| launch side-view + limited margin to names category when in a buffer otherwise do not launch...
-  ;; (ement-room-list-side-window)
+  (ement-room-send-message-filter #'ement-room-send-org-filter)
+
+  ;; :NOTE| Notifications ought to be limited to @mentions only!
   (ement-notify-notification-predicates
    '(ement-notify--event-mentions-session-user-p
      ement-notify--event-mentions-room-p)))
