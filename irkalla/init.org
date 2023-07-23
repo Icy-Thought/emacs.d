@@ -680,7 +680,7 @@ Also, ligatures for cleaner symbols
     "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
 
   (irkalla/space-lead-keydef
-    :states '(visual)
+    :states 'visual
     "e r"   '(eval-region      :which-key "Eval highlighted")))
 #+end_src
 
@@ -710,8 +710,7 @@ Also, ligatures for cleaner symbols
     "h C" '(helpful-command  :which-key "Command")
     "h F" '(helpful-function :which-key "Interactive functions"))
 
-  (irkalla/comma-lead-keydef
-    :keymaps 'emacs-lisp-mode-map
+  (irkalla/comma-lead-keydef emacs-lisp-mode-map
     "h p" '(helpful-at-point :which-key "Show help for SYMB")))
 #+end_src
 
@@ -797,7 +796,7 @@ Also, highlighting the matching ~paren~ is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package centaur-tabs
   :hook (elpaca-after-init . centaur-tabs-mode)
-  :general (general-nmap 'centaur-tabs-mode-map
+  :general (general-nmap centaur-tabs-mode-map
              "C-<prior>" #'centaur-tabs-backward
              "C-<next>"  #'centaur-tabs-forward)
   :custom
@@ -1229,9 +1228,9 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 
 #+begin_src emacs-lisp
 (use-package eldoc-box
-  :after '(eldoc eglot)
-  :general (general-nmap 'eglot-mode-map
-             [tab] '(eldoc-box-help-at-point :which-key "LSP info at point")))
+  :after (eldoc eglot)
+  :general (general-nmap '(override eglot-mode-map)
+             "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
 **** Embark: Mini-Buffer Actions Rooted in Keymaps
@@ -1445,7 +1444,7 @@ Defining bindings for our precious ~Nov-Mode~ to reduce the burden of navigation
 
 #+NAME: nov-bindings
 #+begin_src emacs-lisp :tangle no
-(general-nmap 'nov-mode-map
+(general-nmap nov-mode-map
   "H"   '(nov-previous-document   :which-key "Go -> previous doc")
   "L"   '(nov-previous-document   :which-key "Go -> next doc")
   "d"   '(nov-scroll-down         :which-key "Scroll downwards")
@@ -1465,7 +1464,7 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
   :after nov
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :general
-  (general-nmap 'nov-mode-map
+  (general-nmap nov-mode-map
     "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
@@ -1487,7 +1486,7 @@ Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
 #+begin_src emacs-lisp :tangle no
-(general-imap 'vterm-mode-map
+(general-imap vterm-mode-map
   "<S-prior>" #'scroll-down-command
   "<S-next>"  #'scroll-up-command)
 
@@ -1598,7 +1597,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package marginalia
   :hook (elpaca-after-init . marginalia-mode)
-  :general (general-nmap 'minibuffer-local-map
+  :general (general-nmap minibuffer-local-map
              "M-A" '(marginalia-cycle :which-key "Cycle -> Marginalia annotators"))
   :custom
   (marginalia-max-relative-age 0)
@@ -1792,9 +1791,7 @@ Integrating ~Citar~ with ~Embark~.
 #+begin_src emacs-lisp
 (use-package ialign
   :general
-  (irkalla/comma-lead-keydef
-    :states '(visual)
-    :keymaps '(prog-mode-map text-mode-map)
+  (irkalla/comma-lead-keydef 'visual (prog-mode-map text-mode-map)
     "a"   '(:ignore t :which-key "Alignment Control")
     "a r" '(ialign    :which-key "Align -> RegExp")))
 #+end_src
@@ -1901,7 +1898,7 @@ We also want to move to last known position in the buffer we just entered.
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
   :hook (elpaca-after-init . global-corfu-mode)
-  :general (general-imap 'corfu-map
+  :general (general-imap corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
             "S-TAB" #'corfu-previous
@@ -1998,9 +1995,10 @@ Extending the support of ~Tempel~ should be one of our main priorities!
 
 #+begin_src emacs-lisp :tangle no
 (use-package chatgpt-shell
-  :general (irkalla/comma-lead-keydef
-             "o c" '(chatgpt-shell :which-key "Open ChatGPT")
-             "o d" '(dall-e-shell  :which-key "Open DALL-E"))
+  :general
+  (irkalla/comma-lead-keydef
+    "o c" '(chatgpt-shell :which-key "Open ChatGPT")
+    "o d" '(dall-e-shell  :which-key "Open DALL-E"))
   :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "closedAI"))))
 #+end_src
 
@@ -2123,8 +2121,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :defer t
   :general
-  (irkalla/space-lead-keydef
-    :keymaps 'eglot-mode-map
+  (irkalla/space-lead-keydef eglot-mode-map
     "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
     "l r"    '(eglot-rename          :which-key "Rename $SYMB")
     "l f"    '(eglot-format          :which-key "Format buffer")
@@ -2275,8 +2272,7 @@ Integrate ~Flycheck~ with ~Sideline~ to display diagnostics on-hover.
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'markdown-mode-map
+  (irkalla/comma-lead-keydef markdown-mode-map
     "m d"    '(markdown-do :which-key "Perform -> action"))
   :custom-face
   (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
@@ -2330,7 +2326,8 @@ Later, we proceed with the customization of our ~Org-Mode~ environment.
     "o"   '(:ignore t        :which-key "Org-Mode")
     "o e" '(org-edit-special :which-key "Edit -> special buffer")
     "o t" '(org-babel-tangle :which-key "Tangle buffer"))
-  (general-imap 'org-mode-map
+
+  (general-imap org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.50))))
@@ -2420,8 +2417,7 @@ We also want to generate our "Table of Contents" on the fly.
 (use-package org-roam
   :after org
   :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'org-mode-map
+  (irkalla/comma-lead-keydef org-mode-map
     "o r"   '(:ignore t               :which-key "Org-Roam")
     "o r l" '(org-roam-buffer-toggle  :which-key "Org-Roam -> buffer")
     "o r n" '(org-roam-node-find      :which-key "Open node -> title/alias")
@@ -2477,8 +2473,8 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :elpaca nil
   :after org
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (general-nmap 'org-mode-map
-             [remap evil-ret] #'irkalla/ret-babel-exec)
+  :general (general-nmap '(override org-mode-map)
+             "RET" '(irkalla/ret-babel-exec :which-key "Evaluate Org src-block"))
   :custom
   (org-babel-default-header-args
    '((:async   . "yes")
@@ -2522,8 +2518,7 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
                        (eglot-ensure)
                        (setq indent-tabs-mode nil)))
   :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'rust-mode-map
+  (irkalla/comma-lead-keydef rust-mode-map
     "r"   '(:ignore t       :which-key "Rust")
     "r b" '(rust-compile    :which-key "Compile project")
     "r c" '(rust-check      :which-key "Compile + cargo check")
@@ -2554,8 +2549,7 @@ Integrating ~Cargo~ with our newly added ~Rust-Mode~ would help us make our envi
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode)
   :general
-  (irkalla/comma-lead-keydef
-    :keymaps 'rust-mode-map
+  (irkalla/comma-lead-keydef rust-mode-map
     "r p a" '(cargo-process-add   :which-key "Cargo Add")
     "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
