@@ -2428,9 +2428,10 @@ A GUI is desired for our Org-Roam to reduce the burden of browsing our notes.
 (defun irkalla/ret-babel-exec ()
   ;; Execute src-block on <RET>, otherwise goto next line.
   (interactive)
-  (if (org-in-src-block-p)
-      (org-babel-execute-src-block)
-    (evil-ret)))
+  (when (and (eq major-mode 'org-mode)
+             (org-in-src-block-p))
+    (org-babel-execute-src-block))
+  (evil-ret))
 #+end_src
 
 Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
