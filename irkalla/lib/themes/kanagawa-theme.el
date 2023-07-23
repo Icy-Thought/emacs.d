@@ -125,7 +125,7 @@
   (font-lock-regexp-grouping-backslash           (:foreground boatYellow2))
   (font-lock-string-face                         (:foreground springGreen :italic t))
   (font-lock-type-face                           (:foreground waveAqua2))
-  (font-lock-variable-name-face                  (:foreground fujiWhite))
+  (font-lock-variable-name-face                  (:foreground autumnGreen))
   (font-lock-warning-face                        (:foreground roninYellow))
   
   ;; https://www.emacswiki.org/emacs/MiniBuffer#minibuffer
@@ -218,6 +218,17 @@
   (message-header-xheader                        (:foreground old-white))
   (custom-link                                   (:foreground crystalBlue))
   (link                                          (:foreground crystalBlue))
+
+  ;; https://github.com/alphapapa/ement.el
+  (ement-room-list-direct                        (:foreground oniViolet))
+  (ement-room-list-favourite                     (:foreground dragonBlue))
+  (ement-room-list-recent                        (:foreground roninYellow))
+  (ement-room-list-space                         (:foreground carpYellow))
+  (ement-room-list-very-recent                   (:foreground autumnRed))
+  (ement-room-mention                            (:foreground autumnRed))
+  (ement-room-name                               (:foreground crystalBlue))
+  (ement-room-self                               (:foreground autumnGreen))
+  (ement-room-self-message                       (:foreground fujiWhite))
 
   ;; https://orgmode.org/org.html
   (org-block                                     (:background sumiInk-0))
@@ -553,6 +564,9 @@
 
   ;; https://github.com/Artawower/blamer.el
   (blamer-face                                   (:foreground dragonBlue :italic t))
+
+  ;; https://github.com/magit/magit
+  (magit-section-heading                         (:foreground waveAqua2))
 
   ;; https://github.com/emacsorphanage/git-gutter
   (git-gutter:added                              (:foreground autumnGreen))
