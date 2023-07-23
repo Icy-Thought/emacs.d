@@ -125,7 +125,7 @@
   (font-lock-regexp-grouping-backslash           (:foreground boatYellow2))
   (font-lock-string-face                         (:foreground springGreen :italic t))
   (font-lock-type-face                           (:foreground waveAqua2))
-  (font-lock-variable-name-face                  (:foreground waveRed))
+  (font-lock-variable-name-face                  (:foreground fujiWhite))
   (font-lock-warning-face                        (:foreground roninYellow))
   
   ;; https://www.emacswiki.org/emacs/MiniBuffer#minibuffer
@@ -250,7 +250,7 @@
   (which-func                                    (:inherit 'font-lock-function-name-face :bold t))
   (which-key-command-description-face            (:foreground crystalBlue))
   (which-key-group-description-face              (:foreground waveRed))
-  (which-key-key-face                            (:inherit 'font-lock-variable-name-face))
+  (which-key-key-face                            (:foreground waveRed))
   (which-key-local-map-description-face          (:foreground carpYellow))
   (which-key-posframe                            (:background waveBlue-1))
   (which-key-posframe-border                     (:background waveBlue-1))
