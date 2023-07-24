@@ -11,7 +11,7 @@
 - [ ] Tell remaining applications to replace tabs -> 4 spaces!
 - [ ] Stuck Haskell babel due to system GHCi configuration..
 
-* Plugins to check out!
+* Plugins worth checking out!
     - https://github.com/emacs-lsp/dap-mode
     - (later) https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode
     - https://gitlab.com/matsievskiysv/math-preview
