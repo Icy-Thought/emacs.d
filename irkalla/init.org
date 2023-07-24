@@ -1018,7 +1018,7 @@ Allowing =Nerd-Icons= to display icons in =Vertico= is what the typical ricer de
               (svg-tag-make tag :face 'org-cite :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
         ;; Org TAGS
-        (":TODO:" . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-headline-todo))))
+        (":TODO:" . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-todo))))
         (":WIP:" . ((lambda (tag) (svg-tag-make "WIP" :inverse t :face 'org-cite))))
         (":DONE:" . ((lambda (tag) (svg-tag-make "DONE" :inverse t :face 'org-done))))
         (":NOTE:" . ((lambda (tag) (svg-tag-make "NOTE"))))
