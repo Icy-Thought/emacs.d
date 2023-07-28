@@ -1215,16 +1215,18 @@ More syntax-highlighting is never a bad idea, especially for navigating files/di
 (use-package eldoc
   :elpaca nil
   :custom
+  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  (eldoc-echo-area-display-truncation-message nil)
   (eldoc-echo-area-use-multiline-p nil)
   (eldoc-echo-area-prefer-doc-buffer t)
-  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+  (eldoc-idle-delay 1.0))
 #+end_src
 
 Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be moved into its own posframe!
 
 #+begin_src emacs-lisp
 (use-package eldoc-box
-  :after (eldoc eglot)
+  :after eldoc
   :general (general-nmap '(override eglot-mode-map)
              "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
@@ -2117,7 +2119,6 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
 #+begin_src emacs-lisp
 (use-package eglot
   :elpaca nil
-  :defer t
   :general
   (irkalla/space-lead-keydef eglot-mode-map
     "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
@@ -2443,7 +2444,7 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :elpaca nil
   :after org
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (general-nmap '(override org-mode-map)
+  :general (general-nmap org-mode-map
              "RET" '(irkalla/ret-babel-exec :which-key "Evaluate Org src-block"))
   :custom
   (org-babel-default-header-args
@@ -2496,14 +2497,16 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
     "r r" '(rust-run        :which-key "Run project")
     "r t" '(rust-test       :which-key "Run tests on project"))
   :config
-  (setq-default eglot-workspace-configuration
-                '((:rust-analyzer
-                   ;; https://rust-analyzer.github.io/manual.html
-                   :completion  (;; Completion-related
-                                 :callable (:snippets "fill_arguments"))
-                   :checkOnSave (;; Actions to check upon saving
-                                 :command "clippy"
-                                 :allTargets :json-false))))
+  (add-to-list 'eglot-server-programs
+               `(rust-mode . (:rust-analyzer
+                              ;; https://rust-analyzer.github.io/manual.html
+                              (:initializationOptions
+                               :cargo       (:features "all")
+                               :completion  (;; Completion-related
+                                             :callable (:snippets "fill_arguments"))
+                               :checkOnSave (;; Actions to check upon saving
+                                             :command "clippy"
+                                             :allTargets :json-false)))))
 
   (defun irkalla/locate-cargo-toml (dir)
     "Locate the missing Rust project Cargo.toml."
