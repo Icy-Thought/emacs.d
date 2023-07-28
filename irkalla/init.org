@@ -339,6 +339,14 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
       font-value)))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package face-remap
+  :elpaca nil
+  :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
+         ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
+         ("C--" . (lambda () (interactive) (text-scale-decrease 0.5)))))
+#+end_src
+
 ***** Applying Font-face across Irkalla
 
 #+begin_src emacs-lisp
