@@ -1586,17 +1586,17 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :config
+  :preface
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"
                   (replace-regexp-in-string "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" "" crm-separator)
                   (car args))
           (cdr args)))
+  :hook (minibuffer-setup . cursor-intangible-mode)
+  :config
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
   (setq minibuffer-prompt-properties
-	    '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+        '(read-only t cursor-intangible t face minibuffer-prompt)))
 #+end_src
 
 **** Marginalia: Mini-buffer Annotations
@@ -1902,7 +1902,17 @@ We also want to move to last known position in the buffer we just entered.
 #+begin_src emacs-lisp
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
-  :hook (elpaca-after-init . global-corfu-mode)
+  :preface
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+                (bound-and-true-p vertico--input)
+                (eq (current-local-map) read-passwd-map))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  :hook ((elpaca-after-init . global-corfu-mode)
+         (minibuffer-setup . corfu-enable-always-in-minibuffer))
   :general (:states 'insert :keymaps 'corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
@@ -1919,17 +1929,7 @@ We also want to move to last known position in the buffer we just entered.
   (corfu-separator ?\s)
   (corfu-on-exact-match nil)
   (corfu-preview-current 'insert)
-  (corfu-quit-no-match 'separator)
-  :config
-  (defun corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active)
-                (bound-and-true-p vertico--input)
-                (eq (current-local-map) read-passwd-map))
-      (setq-local corfu-echo-delay nil
-                  corfu-popupinfo-delay nil)
-      (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
+  (corfu-quit-no-match 'separator))
 #+end_src
 
 Completion at point is necessary for Corfu to work its wonders as a completion system!
@@ -1974,15 +1974,12 @@ Completions should display icons for their respective types.
 **** Tempel: Simple Template (Snippets) System
 
 #+begin_src emacs-lisp
-;;;###autoload
-(defun tempel-setup-capf ()
-  "Integrating Temple with Corfu to automatically display possible snippet completions."
-  (setq-local completion-at-point-functions
-              (cons #'tempel-complete completion-at-point-functions)))
-#+end_src
-
-#+begin_src emacs-lisp
 (use-package tempel
+  :preface
+  (defun tempel-setup-capf ()
+    "Integrating Temple with Corfu to automatically display possible snippet completions."
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete completion-at-point-functions)))
   :hook ((conf-mode prog-mode text-mode) . tempel-setup-capf)
   :config (setq-default tempel-path (expand-file-name "lib/snippets/*.eld" user-emacs-directory)))
 #+end_src
@@ -2023,20 +2020,14 @@ Extending the support of ~Tempel~ should be one of our main priorities!
 **** Apheleia: Asynchronous Code Formatter
 
 #+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/apheleia-disable-formatting ()
-  "When triggered -> disable apheleia formatting on save."
-  (interactive)
-  (with-eval-after-load 'apheleia
-    (remove-hook 'before-save-hook 'eglot-format-buffer t)
-    (apheleia-mode -1)))
-#+end_src
-
-Afterwards, /disable-on-demand/ formatting function should be bound to a memorable key combination.
-
-#+begin_src emacs-lisp
 (use-package apheleia
   :diminish apheleia-mode
+  :preface
+  (defun irkalla/apheleia-disable-formatting ()
+    "When triggered -> disable apheleia formatting on save."
+    (interactive)
+    (remove-hook 'before-save-hook 'eglot-format-buffer t)
+    (apheleia-mode -1))
   :hook (prog-mode . apheleia-mode)
   :general
   (irkalla/comma-lead-keydef
@@ -2274,38 +2265,30 @@ Preventing ~Eglot~ from interfering with our ~Flymake~ diagnostics is preferable
 
 **** Org-Mode: The Superior File-format
 
-Extending =Electric-Pairs= ability to insert pairs in ~Org-Mode~:
-1. Insert LaTeX brackets on ~$~ insertion
-
-#+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/org-electric-dollar nil
-  "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
-  (interactive)
-  (if (and (looking-at "\\\\)")
-           (looking-back "\\\\("))
-      (progn (delete-char 2)
-             (delete-char -2)
-             (insert "\\[\\]"))
-    (insert "\\(\\)")
-    (backward-char 2)))
-#+end_src
-
-Later, we proceed with the customization of our ~Org-Mode~ environment.
-
 #+begin_src emacs-lisp
 (use-package org
   :elpaca nil
   :defer t
+  :preface
+  (defun irkalla/org-electric-dollar ()
+    "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+    (interactive)
+    (if (and (looking-at "\\\\)")
+             (looking-back "\\\\("))
+        (progn (delete-char 2)
+               (delete-char -2)
+               (insert "\\[\\]"))
+      (insert "\\(\\)")
+      (backward-char 2)))
   :hook (org-mode . org-display-inline-images)
   :general
+  (:states 'insert :keymaps 'org-mode-map
+    "$" #'irkalla/org-electric-dollar)
+
   (irkalla/comma-lead-keydef
     "o"   '(:ignore t        :which-key "Org-Mode")
     "o e" '(org-edit-special :which-key "Edit -> special buffer")
     "o t" '(org-babel-tangle :which-key "Tangle buffer"))
-
-  (:states 'insert :keymaps 'org-mode-map
-    "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.50))))
   (org-level-1        ((t (:inherit outline-1 :height 1.25))))
@@ -2433,36 +2416,11 @@ A GUI is desired for our Org-Roam to reduce the burden of browsing our notes.
 ***** Org-Babel: Execution of Org SRC-blocks
 
 #+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/org-execute-action ()
-  "Execute the appropriate action based on the given context."
-  (interactive)
-  (let ((context (org-element-context)))
-    (pcase (org-element-type context)
-      (`src-block
-       ;; In a source block, call `org-babel-execute-src-block'.
-       (org-babel-eval-wipe-error-buffer)
-       (org-babel-execute-src-block current-prefix-arg))
-      (`babel-call
-       ;; In a `:+CALL:' block, call `org-babel-execute-maybe'.
-       (call-interactively #'org-babel-execute-maybe))
-      (`table-row
-       ;; In a table or table-cell, call `org-table-next-row'.
-       (call-interactively #'org-table-next-row))
-      ((or `link `timestamp)
-       ;; On a link or a timestamp, call `org-open-at-point'.
-       (call-interactively #'org-open-at-point))
-      (_
-       ;; Fallback to evil standard command
-       (call-interactively #'evil-ret)))))
-#+end_src
-
-Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
-
-#+begin_src emacs-lisp
 (use-package ob
   :elpaca nil
   :after org
+  :preface
+  <<org-execute-action>>
   :hook (org-babel-after-execute . org-display-inline-images)
   :general (:states 'normal :keymaps 'org-mode-map
              "RET" '(irkalla/org-execute-action :which-key "Execute appropriate Org action"))
@@ -2489,6 +2447,31 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
      ad-do-it)))
 #+end_src
 
+#+NAME: org-execute-action
+#+begin_src emacs-lisp :tangle no
+(defun irkalla/org-execute-action ()
+  "Execute the appropriate action based on the given context."
+  (interactive)
+  (let ((context (org-element-context)))
+    (pcase (org-element-type context)
+      (`src-block
+       ;; In a source block, call `org-babel-execute-src-block'.
+       (org-babel-eval-wipe-error-buffer)
+       (org-babel-execute-src-block current-prefix-arg))
+      (`babel-call
+       ;; In a `:+CALL:' block, call `org-babel-execute-maybe'.
+       (call-interactively #'org-babel-execute-maybe))
+      (`table-row
+       ;; In a table or table-cell, call `org-table-next-row'.
+       (call-interactively #'org-table-next-row))
+      ((or `link `timestamp)
+       ;; On a link or a timestamp, call `org-open-at-point'.
+       (call-interactively #'org-open-at-point))
+      (_
+       ;; Fallback to evil standard command
+       (call-interactively #'evil-ret)))))
+#+end_src
+
 **** Python: Boring High-level GP Language
 
 #+begin_src emacs-lisp
@@ -2505,9 +2488,15 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
 #+begin_src emacs-lisp
 (use-package rust-mode
   :mode ("\\.rs$" . rust-mode)
+  :preface
+  (defun irkalla/locate-cargo-toml (dir)
+    "Locate the missing Rust project Cargo.toml."
+    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
+        (list 'vc 'Git root)))
   :hook (rust-mode . (lambda ()
                        (eglot-ensure)
-                       (setq indent-tabs-mode nil)))
+                       (indent-tabs-mode -1)
+                       (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
   :general
   (irkalla/comma-lead-keydef rust-mode-map
     "r"   '(:ignore t       :which-key "Rust")
@@ -2526,14 +2515,7 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
                                              :callable (:snippets "fill_arguments"))
                                :checkOnSave (;; Actions to check upon saving
                                              :command "clippy"
-                                             :allTargets :json-false)))))
-
-  (defun irkalla/locate-cargo-toml (dir)
-    "Locate the missing Rust project Cargo.toml."
-    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
-        (list 'vc 'Git root)))
-  (add-hook 'rust-mode-hook
-            (lambda () (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+                                             :allTargets :json-false))))))
 #+end_src
 
 Integrating =Cargo= with our newly added =Rust-Mode= would help us make our environment more lively!
