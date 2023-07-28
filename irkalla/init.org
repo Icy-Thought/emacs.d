@@ -800,7 +800,7 @@ Also, highlighting the matching =Paren= is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package centaur-tabs
   :hook (elpaca-after-init . centaur-tabs-mode)
-  :general (general-nmap centaur-tabs-mode-map
+  :general (:states 'normal :keymaps 'centaur-tabs-mode-map
              "C-<prior>" #'centaur-tabs-backward
              "C-<next>"  #'centaur-tabs-forward)
   :custom
@@ -1235,7 +1235,7 @@ Having our Eldoc stuck in mini-buffer is not desirable, therefore it ought to be
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :after eldoc
-  :general (general-nmap prog-mode-map
+  :general (:states '(normal operator) :keymaps 'prog-mode-map
              "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 #+end_src
 
@@ -1452,7 +1452,7 @@ Defining bindings for our precious =Nov-Mode= to reduce the burden of navigation
 
 #+NAME: nov-bindings
 #+begin_src emacs-lisp :tangle no
-(general-nmap nov-mode-map
+(:states 'normal :keymaps 'nov-mode-map
   "H"   '(nov-previous-document   :which-key "Go -> previous doc")
   "L"   '(nov-previous-document   :which-key "Go -> next doc")
   "d"   '(nov-scroll-down         :which-key "Scroll downwards")
@@ -1471,9 +1471,8 @@ Allow ~NOV~ to display cleaner (+themed) EPUB files when launched.
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :after nov
   :hook (nov-mode . nov-xwidget-inject-all-files)
-  :general
-  (general-nmap nov-mode-map
-    "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
+  :general (:states 'normal :keymaps 'nov-mode-map
+             "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 #+end_src
 
 **** VTerm: A Quick Terminal Emulator
@@ -1494,7 +1493,7 @@ Binding our VTerm for quicker access to the terminal.
 
 #+NAME: vterm-bindings
 #+begin_src emacs-lisp :tangle no
-(general-imap vterm-mode-map
+(:states 'insert :keymaps 'vterm-mode-map
   "<S-prior>" #'scroll-down-command
   "<S-next>"  #'scroll-up-command)
 
@@ -1605,8 +1604,6 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package marginalia
   :hook (elpaca-after-init . marginalia-mode)
-  :general (general-nmap minibuffer-local-map
-             "M-A" '(marginalia-cycle :which-key "Cycle -> Marginalia annotators"))
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))
@@ -1627,7 +1624,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 #+begin_src emacs-lisp
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
-  :general (general-nmap
+  :general (:states 'normal
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-redo)
@@ -1776,10 +1773,9 @@ Integrating ~Citar~ with ~Embark~.
 
 #+begin_src emacs-lisp
 (use-package expand-region
-  :general
-  (general-vmap '(prog-mode-map text-mode-map)
-    ")" 'er/expand-region
-    "(" 'er/contract-region))
+  :general (:states 'visual :keymaps '(prog-mode-map text-mode-map)
+             ")" 'er/expand-region
+             "(" 'er/contract-region))
 #+end_src
 
 **** Highlight Indentation Guides
@@ -1799,7 +1795,8 @@ Integrating ~Citar~ with ~Embark~.
 #+begin_src emacs-lisp
 (use-package ialign
   :general
-  (irkalla/comma-lead-keydef 'visual (prog-mode-map text-mode-map)
+  (irkalla/comma-lead-keydef
+    :states 'visual :keymaps '(prog-mode-map text-mode-map)
     "a"   '(:ignore t :which-key "Alignment Control")
     "a r" '(ialign    :which-key "Align -> RegExp")))
 #+end_src
@@ -1906,7 +1903,7 @@ We also want to move to last known position in the buffer we just entered.
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
   :hook (elpaca-after-init . global-corfu-mode)
-  :general (general-imap corfu-map
+  :general (:states 'insert :keymaps 'corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
             "S-TAB" #'corfu-previous
@@ -2128,7 +2125,8 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
 (use-package eglot
   :elpaca nil
   :general
-  (irkalla/space-lead-keydef eglot-mode-map
+  (irkalla/space-lead-keydef
+    :states 'normal :keymaps 'eglot-mode-map
     "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
     "l r"    '(eglot-rename          :which-key "Rename $SYMB")
     "l f"    '(eglot-format          :which-key "Format buffer")
@@ -2161,7 +2159,7 @@ Afterwards, /disable-on-demand/ formatting function should be bound to a memorab
   :elpaca nil
   :hook (text-mode . global-jinx-mode)
   :general
-  (general-nmap '(prog-mode-map text-mode-map)
+  (:states 'normal :keymaps '(prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 #+end_src
 
@@ -2306,7 +2304,7 @@ Later, we proceed with the customization of our ~Org-Mode~ environment.
     "o e" '(org-edit-special :which-key "Edit -> special buffer")
     "o t" '(org-babel-tangle :which-key "Tangle buffer"))
 
-  (general-imap org-mode-map
+  (:states 'insert :keymaps 'org-mode-map
     "$" #'irkalla/org-electric-dollar)
   :custom-face
   (org-document-title ((t (:height 1.50))))
@@ -2466,7 +2464,7 @@ Modifying ~Org-Tangle~ to suit our tedious workflow is our main priority here.
   :elpaca nil
   :after org
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (general-nmap org-mode-map
+  :general (:states 'normal :keymaps 'org-mode-map
              "RET" '(irkalla/org-execute-action :which-key "Execute appropriate Org action"))
   :custom
   (org-babel-default-header-args
