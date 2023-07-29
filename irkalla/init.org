@@ -2129,7 +2129,6 @@ Extending the support of ~Tempel~ should be one of our main priorities!
   (eglot-confirm-server-initiated-edits nil)
   (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (eglot-ignored-server-capabilities '(:hoverProvider))
   (eglot-menu-string "LSP"))
 #+end_src
 
@@ -2506,16 +2505,18 @@ A GUI is desired for our Org-Roam to reduce the burden of browsing our notes.
     "r r" '(rust-run        :which-key "Run project")
     "r t" '(rust-test       :which-key "Run tests on project"))
   :config
-  (add-to-list 'eglot-server-programs
-               `(rust-mode . (:rust-analyzer
-                              ;; https://rust-analyzer.github.io/manual.html
-                              (:initializationOptions
-                               :cargo       (:features "all")
-                               :completion  (;; Completion-related
-                                             :callable (:snippets "fill_arguments"))
-                               :checkOnSave (;; Actions to check upon saving
-                                             :command "clippy"
-                                             :allTargets :json-false))))))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 `((rust-ts-mode rust-mode)
+                   . ("rust-analyzer"
+                      ;; https://rust-analyzer.github.io/manual.html
+                      :initializationOptions
+                      (:cargo       (:features "all")
+                       :completion  (;; Completion-related
+                                     :callable (:snippets "fill_arguments"))
+                       :checkOnSave (;; Actions to check upon saving
+                                     :command "clippy"
+                                     :allTargets :json-false)))))))
 #+end_src
 
 Integrating =Cargo= with our newly added =Rust-Mode= would help us make our environment more lively!
