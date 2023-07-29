@@ -1381,13 +1381,11 @@ A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.e
 (defun irkalla/ement-auto-connect ()
   "Connect Emacs to the Matrix, unless connection == existant."
   (interactive)
-  (require 'ement)
-  (unless ement-sessions
+  (unless (ignore-errors (ement-room-list))
     (ement-connect
      :user-id "@gilganix:matrix.org"
      :password (irkalla/read-secret-file "ement")
-     :uri-prefix "http://localhost:8009"))
-  (ement-room-list))
+     :uri-prefix "http://localhost:8009")))
 #+end_src
 
 **** PDF-Tools: A Quick PDF Viewer
