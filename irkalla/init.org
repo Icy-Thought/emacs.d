@@ -2524,6 +2524,7 @@ Integrating =Cargo= with our newly added =Rust-Mode= would help us make our envi
   :hook (rust-mode . cargo-minor-mode)
   :general
   (irkalla/comma-lead-keydef rust-mode-map
+    "r p"   '(:ignore t           :which-key "Cargo")
     "r p a" '(cargo-process-add   :which-key "Cargo Add")
     "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
