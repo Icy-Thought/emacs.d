@@ -199,13 +199,24 @@ Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
 
 ** Early Irkalla Decorations
 
+Firstly, we define our desired Irkalla Emacs font.
+
+#+begin_src emacs-lisp
+(defcustom irkalla/default-font-family "VictorMono Nerd Font"
+  "The default font of our Irkalla Emacs."
+  :type 'string
+  :group 'irkalla)
+#+end_src
+
+Afterwards, we inform Irkalla Emacs about our desired changes for it to apply them as requested!
+
 #+begin_src emacs-lisp
 (setq default-frame-alist
       (append (list
                '(alpha-background . 85)
 
                ;; :NOTE| Default Irkalla font
-               '(font . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
+               `(font . ,(concat irkalla/default-font-family "-13.5:weight=bold:antialias=true"))
                '(height . 125)
 
                ;; :NOTE| Disabling unnecessary bloat..
@@ -330,16 +341,6 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 **** Controlling Our Cursed Fonts
 
 #+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/default-font-family ()
-  "Retrieve the font name from default-frame-alist."
-  (let ((font-value (cdr (assoc 'font default-frame-alist))))
-    (if (stringp font-value)
-        (car (split-string font-value "-"))
-      font-value)))
-#+end_src
-
-#+begin_src emacs-lisp
 (use-package face-remap
   :elpaca nil
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
@@ -352,9 +353,10 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 #+begin_src emacs-lisp
 (use-package faces
   :elpaca nil
-  :custom-face
-  (fixed-pitch    ((t (:family (irkalla/default-font-family) :height 125))))
-  (variable-pitch ((t (:family (irkalla/default-font-family) :height 135)))))
+  :config
+  (custom-set-faces
+    '(fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
+    '(variable-pitch ((t (:family irkalla/default-font-family :height 135))))))
 #+end_src
 
 ***** Switching Frame Slants
@@ -898,7 +900,7 @@ Also, highlighting the matching =Paren= is very useful when you are lost! (😅)
 #+begin_src emacs-lisp
 (use-package nerd-icons
   :custom
-  (nerd-icons-font-family (irkalla/default-font-family))
+  (nerd-icons-font-family irkalla/default-font-family)
   (nerd-icons-scale-factors 1.25))
 #+end_src
 
@@ -1776,17 +1778,14 @@ Integrating ~Citar~ with ~Embark~.
              "(" 'er/contract-region))
 #+end_src
 
-**** Highlight Indentation Guides
+**** Indent Bars: Highlight Code Indentations
 
 #+begin_src emacs-lisp
-(use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :custom
-  (highlight-indent-guides-method 'column)
-  (highlight-indent-guides-responsive 'top))
+(use-package indent-bars
+  :elpaca (:host github :repo "jdtsmith/indent-bars")
+  :hook (prog-mode . indent-bars-mode)
+  :custom (indent-bars-zigzag nil))
 #+end_src
-
-:TODO| colors -> indentation level + color change based on level of indentation
 
 **** Interactive Align: Visualize Align-RegExp
 
@@ -2202,7 +2201,7 @@ Preventing ~Eglot~ from interfering with our ~Flymake~ diagnostics is preferable
 
 #+begin_src emacs-lisp
 (use-package ts-fold
-  :elpaca (ts-fold :host github :repo "emacs-tree-sitter/ts-fold")
+  :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
   :hook (prog-mode . global-ts-fold-mode))
 #+end_src
 
