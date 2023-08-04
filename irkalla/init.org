@@ -37,6 +37,7 @@
     - [[#applying-vibrant-colors-to-irkalla][Applying Vibrant Colors To Irkalla]]
     - [[#unleashing-the-power-of-ui-extensions][Unleashing the Power of UI Extensions]]
     - [[#building-a-versatile-toolbox][Building a Versatile Toolbox]]
+    - [[#integrating-social-necessities-to-irkalla][Integrating Social Necessities to Irkalla]]
     - [[#supercharging-irkallas-mobility][Supercharging Irkalla's Mobility]]
     - [[#tailoring-our-editing-experience][Tailoring our Editing Experience]]
     - [[#step-1-a-more-efficient-completion-system][Step-1: A More Efficient Completion System]]
@@ -350,7 +351,7 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 
 ***** Applying Font-face across Irkalla
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lispemacs_china
 (use-package faces
   :elpaca nil
   :config
@@ -1360,36 +1361,6 @@ symbols which comes with the package.
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
 #+end_src
 
-**** Ement: A Superior Matrix Client
-
-#+begin_src emacs-lisp
-(use-package ement
-  :defer t
-  :hook (ement-room-mode . olivetti-mode)
-  :custom
-  (ement-room-images t)
-  (ement-room-message-format-spec "%S> %W%B%r%R[%t]")
-  (ement-room-send-message-filter #'ement-room-send-org-filter)
-
-  ;; :NOTE| Notifications ought to be limited to @mentions only!
-  (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
-                                          ement-notify--event-mentions-room-p)))
-#+end_src
-
-A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.el=!
-
-#+begin_src emacs-lisp
-;;;###autoload
-(defun irkalla/ement-auto-connect ()
-  "Connect Emacs to the Matrix, unless connection == existant."
-  (interactive)
-  (unless (ignore-errors (ement-room-list))
-    (ement-connect
-     :user-id "@gilganix:matrix.org"
-     :password (irkalla/read-secret-file "ement")
-     :uri-prefix "http://localhost:8009")))
-#+end_src
-
 **** PDF-Tools: A Quick PDF Viewer
 
 #+begin_src emacs-lisp
@@ -1615,6 +1586,45 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot")
   :defer t)
+#+end_src
+
+*** Integrating Social Necessities to Irkalla
+
+**** Ement: A Superior Matrix Client
+
+#+begin_src emacs-lisp
+(use-package ement
+  :defer t
+  :hook (ement-room-mode . olivetti-mode)
+  :custom
+  (ement-room-images t)
+  (ement-room-message-format-spec "%S> %W%B%r%R[%t]")
+  (ement-room-send-message-filter #'ement-room-send-org-filter)
+
+  ;; :NOTE| Notifications ought to be limited to @mentions only!
+  (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
+                                          ement-notify--event-mentions-room-p)))
+#+end_src
+
+A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.el=!
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/ement-auto-connect ()
+  "Connect Emacs to the Matrix, unless connection == existant."
+  (interactive)
+  (unless (ignore-errors (ement-room-list))
+    (ement-connect
+     :user-id "@gilganix:matrix.org"
+     :password (irkalla/read-secret-file "ement")
+     :uri-prefix "http://localhost:8009")))
+#+end_src
+
+**** Telega: A Telegram Client for Emacs (disabled)
+
+#+begin_src emacs-lisp :tangle no
+(use-package telega
+  :elpaca nil) ;; <-^ fetched from Nixpkgs
 #+end_src
 
 *** Supercharging Irkalla's Mobility
