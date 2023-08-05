@@ -1598,7 +1598,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
   :hook (ement-room-mode . olivetti-mode)
   :custom
   (ement-room-images t)
-  (ement-room-message-format-spec "%S> %W%B%r%R[%t]")
+  (ement-room-message-format-spec "%S>%L %B%r%R[%t]")
   (ement-room-send-message-filter #'ement-room-send-org-filter)
 
   ;; :NOTE| Notifications ought to be limited to @mentions only!
