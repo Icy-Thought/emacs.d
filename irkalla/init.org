@@ -215,10 +215,9 @@ Afterwards, we inform Irkalla Emacs about our desired changes for it to apply th
 (setq default-frame-alist
       (append (list
                '(alpha-background . 85)
-
-               ;; :NOTE| Default Irkalla font
                `(font . ,(concat irkalla/default-font-family "-13.5:weight=bold:antialias=true"))
                '(height . 125)
+               '(mouse-color . "white")
 
                ;; :NOTE| Disabling unnecessary bloat..
                '(fullscreen . nil)
@@ -548,7 +547,7 @@ percentage!
      "\\\\" "://")))
 #+end_src
 
-**** Display Pop-up Windows, instead of mini-buffer
+**** Display Pop-up Windows, Instead of Mini-Buffer
 
 #+begin_src emacs-lisp
 (use-package posframe
@@ -886,11 +885,9 @@ Also, highlighting the matching =Paren= is very useful when you are lost! (😅)
   :custom
   (telephone-line-height 26)
   (telephone-line-evil-use-short-tag t)
-
   ;; Left separator
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
   (telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left)
-
   ;; Right separator
   (telephone-line-primary-right-separator 'telephone-line-tan-right)
   (telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right))
@@ -1070,6 +1067,16 @@ Allowing =Nerd-Icons= to display icons in =Vertico= is what the typical ricer de
         (,(format "<%s \\(%s>\\)" date-re day-time-re)
          . ((lambda (tag)
               (svg-tag-make tag :end -1 :inverse nil :crop-left t :margin 0 :face 'org-agenda-date))))))
+#+end_src
+
+**** HTMLize: Decorate Buffer Text With HTML
+
+Without ~htmlize~ =Ement.el= fails to decorate our /src-blocks/ properly. Thus it is required of us to add it to our package
+list to apply the appropriate decorations where necessary for an aesthetically pleasing =Ement= buffer.
+
+#+begin_src emacs-lisp
+(use-package htmlize
+  :defer t)
 #+end_src
 
 *** Building a Versatile Toolbox
