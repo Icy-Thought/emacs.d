@@ -9,22 +9,16 @@
 
 * Table of Contents :TOC:
 - [[#early-initialization-of-irkalla-emacs][Early Initialization of Irkalla Emacs]]
-  - [[#performance-configurations][Performance Configurations]]
+  - [[#performance-related-changes][Performance-related Changes]]
     - [[#initialize-use-package-at-a-later-stage][Initialize ~use-package~ at a Later Stage]]
-    - [[#quicker-launches-in-fundamental-mode][Quicker Launches in Fundamental-mode]]
-    - [[#dont-compact-font-cache-on-gc][Don't Compact Font-cache on GC]]
     - [[#increase-processing-power][Increase Processing Power]]
-    - [[#defining-user-directories][Defining User Directories]]
     - [[#native-compilation][Native Compilation]]
-  - [[#reducing-noise-on-start][Reducing Noise on Start]]
-    - [[#start-up-messages][Start-up Messages]]
-    - [[#prevent-for-information-messages][Prevent "For information..." Messages]]
-    - [[#loading-x-files-echos][Loading =X= Files Echo's]]
-  - [[#remaining-modifications][Remaining Modifications]]
+    - [[#garbage-collection][Garbage Collection]]
+  - [[#specifying-desired-options][Specifying Desired Options]]
+  - [[#directories--encoding][Directories & Encoding]]
+    - [[#defining-user-directories][Defining User Directories]]
     - [[#encoding-system---utf-8][Encoding System -> UTF-8]]
-    - [[#load-recently-compiled-el-files][Load Recently Compiled =.el= Files]]
-    - [[#prevent-frame-resize-on-launch][Prevent Frame Resize on Launch]]
-  - [[#early-irkalla-decorations][Early Irkalla Decorations]]
+  - [[#preliminary-decorations][Preliminary Decorations]]
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
   - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
@@ -68,25 +62,15 @@ wrote this madness.. (😅)
 ;;; Code:
 #+end_src
 
-** Performance Configurations
+** Performance-related Changes
 
 *** Initialize ~use-package~ at a Later Stage
 
 #+begin_src emacs-lisp
-(setq package-quickstart nil
-      package-enable-at-startup nil)
-#+end_src
-
-*** Quicker Launches in Fundamental-mode
-
-#+begin_src emacs-lisp
-(setq initial-major-mode 'fundamental-mode)
-#+end_src
-
-*** Don't Compact Font-cache on GC
-
-#+begin_src emacs-lisp
-(setq inhibit-compacting-font-caches t)
+(setq-default package-enable-at-startup nil
+              package--init-file-ensured t 
+              package-quickstart nil
+              package-archives nil)
 #+end_src
 
 *** Increase Processing Power
@@ -94,31 +78,6 @@ wrote this madness.. (😅)
 #+begin_src emacs-lisp
 (when (boundp 'read-process-output-max)
   (setq read-process-output-max (* 24 1024 1024)))
-#+end_src
-
-*** Defining User Directories
-
-#+begin_src emacs-lisp
-(setq user-emacs-directory (expand-file-name "~/.config/emacs"))
-#+end_src
-
-We also want Emacs to become aware of our custom =themes/= directory!
-
-#+begin_src emacs-lisp
-(add-to-list 'custom-theme-load-path
-             (expand-file-name "lib/themes" user-emacs-directory))
-#+end_src
-
-**** Migrating Custom-file -> =/tmp/emacs-custom-*.el=
-
-#+begin_src emacs-lisp
-(setq custom-file
-      (if (boundp 'server-socket-dir)
-          (expand-file-name "custom.el" server-socket-dir)
-        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
-
-(when (file-exists-p custom-file)
-  (load custom-file))
 #+end_src
 
 *** Native Compilation
@@ -130,75 +89,105 @@ We also want Emacs to become aware of our custom =themes/= directory!
     (setq native-comp-eln-load-path (list path)
           native-compile-target-directory path))
 
-  ;; :NOTE| Reduce native-compilation noise
-  (setq native-comp-async-report-warnings-errors nil
-        inhibit-automatic-native-compilation t))
+  ;; :NOTE| Prevent unwanted runtime builds + reduce noise
+  (setq-default comp-deferred-compilation nil
+                native-comp-deferred-compilation nil
+                native-comp-async-report-warnings-errors nil))
 #+end_src
 
-** Reducing Noise on Start
-
-*** Start-up Messages
+*** Garbage Collection
 
 #+begin_src emacs-lisp
-(setq inhibit-startup-buffer-menu t
-      inhibit-startup-message t
-      inhibit-startup-screen t
-      inhibit-startup-echo-area-message t)
+(setq-default gc-cons-threshold (expt 2 32)
+              gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+              gc-cons-percentage 0.6)
 #+end_src
 
-*** Prevent "For information..." Messages
+** Specifying Desired Options
 
 #+begin_src emacs-lisp
-(advice-add #'display-startup-echo-area-message :override #'ignore)
-(advice-add #'display-startup-screen :override #'ignore)
+(setq-default ad-redefinition-action 'accept
+              auto-mode-case-fold nil
+              auto-save-list-file-prefix nil
+              command-line-x-option-alist nil
+              create-lockfiles nil
+              default-input-method nil
+              fast-but-imprecise-scrolling t
+              ffap-machine-p-known 'reject
+              frame-inhibit-implied-resize t
+              frame-resize-pixelwise t
+              idle-update-delay 1.0
+              inhibit-compacting-font-caches t
+              inhibit-default-init t
+              inhibit-splash-screen t
+              inhibit-startup-buffer-menu t
+              inhibit-startup-echo-area-message user-login-name
+              inhibit-startup-message t
+              inhibit-startup-screen t
+              initial-major-mode 'fundamental-mode
+              initial-scratch-message nil 
+              load-prefer-newer nil
+              make-backup-files nil
+              mode-line-format nil
+              redisplay-skip-fontification-on-input t 
+              select-active-regions 'only 
+              site-run-file nil
+              use-dialog-box nil
+              use-file-dialog nil
+              use-short-answers t
+              vc-follow-symlinks t)
 #+end_src
 
-*** Loading =X= Files Echo's
+** Directories & Encoding
+
+*** Defining User Directories
 
 #+begin_src emacs-lisp
-(unless init-file-debug
-  (define-advice load-file (:override (file) silence)
-    (load file nil 'nomessage))
-  ;; Undo advice until later for proper loading..
-  (define-advice startup--load-user-init-file (:before (&rest _) undo-silence)
-    (advice-remove #'load-file #'load-file@silence))
-  <<disable-emacs-modeline>>)
+(setq-default user-emacs-directory
+              (expand-file-name "~/.config/emacs"))
 #+end_src
 
-Disable default Emacs mode-line for a minor launch time boost. (30-50 ms)
+We also want Emacs to become aware of our custom =themes/= directory!
 
-#+NAME: disable-emacs-modeline
-#+begin_src emacs-lisp :tangle no
-(put 'mode-line-format 'initial-value (default-toplevel-value 'mode-line-format))
-
-(setq-default mode-line-format nil)
-
-(dolist (buf (buffer-list))
-  (with-current-buffer buf (setq mode-line-format nil)))
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "lib/themes" user-emacs-directory))
 #+end_src
 
-** Remaining Modifications
+**** Migrating Custom-file -> =etc/custom.el=
+
+#+begin_src emacs-lisp
+(setq-default custom-file
+              (expand-file-name "etc/custom.el" user-emacs-directory))
+
+(unless (file-exists-p custom-file)
+  (with-temp-buffer (write-file custom-file)))
+
+(when (file-exists-p custom-file)
+  (load custom-file 'noerror 'nomessage))
+#+end_src
 
 *** Encoding System -> UTF-8
 
 #+begin_src emacs-lisp
+(setq-default coding-system-for-read 'utf-8
+              coding-system-for-write 'utf-8
+              default-process-coding-system '(utf-8-unix . utf-8-unix)
+              locale-coding-system 'utf-8)
+
 (prefer-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8-unix)
+(set-charset-priority 'unicode)
+(set-clipboard-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-locale-environment "en_US.UTF-8")
+(set-selection-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
 #+end_src
 
-*** Load Recently Compiled =.el= Files
-
-#+begin_src emacs-lisp
-(customize-set-variable 'load-prefer-newer t)
-#+end_src
-
-*** Prevent Frame Resize on Launch
-
-#+begin_src emacs-lisp
-(setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t)
-#+end_src
-
-** Early Irkalla Decorations
+** Preliminary Decorations
 
 Firstly, we define our desired Irkalla Emacs font.
 
@@ -261,20 +250,6 @@ wrote this madness.. (😅)
 #+end_src
 
 ** The Beginning of Irkalla Emacs
-
-Boilerplate code that is necessary to prevent garbage and misunderstanding from occurring along the road.
-
-To retain our sanity, let's enable =debug-on-error=
-
-#+begin_src emacs-lisp
-(setq debug-on-error init-file-debug)
-#+end_src
-
-Allow ~use-package-report~ to inform us about the slow packages we have cursed Irkalla with!
-
-#+begin_src emacs-lisp
-(setq use-package-compute-statistics t)
-#+end_src
 
 *** Elpaca: Package Manager
 
@@ -387,10 +362,9 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 
 #+begin_src emacs-lisp
 (use-package no-littering
-  :config
-  (setq-default
-   no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)   ; :WARN| store configurations
-   no-littering-var-directory (expand-file-name "var/" user-emacs-directory))) ; :WARN| store Emacs data
+  :custom
+  (no-littering-etc-directory (expand-file-name "config/" user-emacs-directory))
+  (no-littering-var-directory (expand-file-name "data/" user-emacs-directory)))
 #+end_src
 
 ***** Prevent =recentf= From Littering
@@ -398,15 +372,23 @@ Allow ~use-package-report~ to inform us about the slow packages we have cursed I
 #+begin_src emacs-lisp
 (use-package recentf
   :elpaca nil
-  :defer t
-  :after no-littering
+  :custom
+  (recentf-save-file-modes #o600)
+  (recentf-max-saved-items 1024)
+  (recentf-auto-cleanup 600)
+  (recentf-exclude '(;; Compressed files & Archives
+                     "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$"
+                     "\\.bz2$" "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zpaq$"
+                     "\\.lz$" "\\.lrz$" "\\.lzo$" "\\.lzma$" "\\.shar$" "\\.kgb$"
+                     "\\.zip$" "\\.Z$" "\\.7z$" "\\.rar$"
+                     ;; TRAMP
+                     "^/sudo:" "^/ssh:"
+                     ;; Emacs-Everywhere
+                     "/tmp/emacs-everywhere"))
   :config
-  (add-to-list 'recentf-exclude no-littering-etc-directory)
-  (add-to-list 'recentf-exclude no-littering-var-directory)
-
-  ;; :NOTE| Ignore Emacs-everywhere file entries
-  (add-to-list 'recentf-exclude
-               (concat "/tmp/emacs-everywhere")))
+  (with-eval-after-load 'no-littering
+    (add-to-list 'recentf-exclude no-littering-etc-directory)
+    (add-to-list 'recentf-exclude no-littering-var-directory)))
 #+end_src
 
 **** Limiting File & Backup Age
@@ -429,11 +411,14 @@ Afterwards, proceeding with the backup & auto-save related configurations should
 (use-package emacs
   :elpaca nil
   :custom
+  (auto-save-interval 200)
+  (auto-save-timeout 30)
   (backup-by-copying t)
   (delete-by-moving-to-trash t)
   (delete-old-versions t)
-  (kept-new-versions 10)
-  (kept-old-versions 3))
+  (kept-new-versions 7)
+  (kept-old-versions 3)
+  (make-backup-files t))
 #+end_src
 
 **** Appropriate Garbage Collection
@@ -441,7 +426,11 @@ Afterwards, proceeding with the backup & auto-save related configurations should
 #+begin_src emacs-lisp
 (use-package gcmh
   :demand t
-  :custom (gcmh-mode 1))
+  :delight " Ⓖ"
+  :custom (gcmh-mode 1)
+  (gcmh-idle-delay 'auto)
+  (gcmh-auto-idle-delay-factor 10)
+  (gcmh-high-cons-threshold (* 16 1024 1024))) ; 16MB
 #+end_src
 
 **** Secrets Management Through Agenix
@@ -482,9 +471,7 @@ Afterwards, proceeding with the backup & auto-save related configurations should
 
 *** Enhancing the Aesthetics and Functionality
 
-Our editing environment should become an environment we would like to spend our time in. Therefore I have chosen to
-apply several minor changes with the intentions of increasing the aesthetics of our editing environment by a small
-percentage!
+Our editing environment should become an environment we would like to spend our time in. Therefore I have chosen to apply several minor changes with the intentions of increasing the aesthetics of our editing environment by a small percentage!
 
 1. Set default buffer width to 120 characters.
 2. Break long lines into smaller bits and display a marker (↴) at the end of each line.
@@ -570,15 +557,44 @@ percentage!
 (use-package emacs
   :elpaca nil
   :custom
+  (backward-delete-char-untabify-method 'hungry)
+  (cursor-in-non-selected-windows nil)
+  (dired-kill-when-opening-new-dired-buffer t)
   (echo-keystrokes 0.02)
   (enable-recursive-minibuffers t)
   (help-window-select t)
-  (inhibit-startup-echo-area-message t)
-  (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
-  (ring-bell-function 'ignore)
-  (use-dialog-box nil)
-  (use-short-answers t))
+  (read-process-output-max (* 64 1024));
+  (ring-bell-function 'ignore))
+#+end_src
+
+Reducing debug output is always desirable, unless we ask for a verbose debugging log!
+
+#+begin_src emacs-lisp
+(setq-default debug-on-error init-file-debug
+              jka-compr-verbose init-file-debug)
+#+end_src
+
+***** Scroll-bar & Scrolling Behaviour
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :hook (elpaca-after-init . pixel-scroll-precision-mode)
+  :custom
+  (auto-window-vscroll nil)
+  (fast-but-imprecise-scrolling nil)
+  (hscroll-margin 1)
+  (hscroll-step 1)
+  (lazy-lock-defer-on-scrolling t)
+  (mouse-wheel-progressive-speed nil)
+  (mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+  (scroll-conservatively 101)
+  (scroll-down-aggressively 0.01)
+  (scroll-margin 3)
+  (scroll-preserve-screen-position t)
+  (scroll-step 1)
+  (scroll-up-aggressively 0.01))
 #+end_src
 
 **** Highlight Cursor-line
@@ -596,6 +612,7 @@ percentage!
   :elpaca nil
   :hook ((prog-mode text-mode) . auto-revert-mode)
   :custom
+  (auto-revert-interval 1)
   (auto-revert-notify t)
   (auto-revert-verbose t))
 #+end_src
@@ -1722,11 +1739,9 @@ A quicker way to comment/uncomment certain blocks of text/code is desired.
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :hook ((elpaca-after-init . pixel-scroll-precision-mode)
-         (text-mode . auto-fill-mode)
+  :hook ((text-mode . auto-fill-mode)
          (text-mode . visual-line-mode))
   :custom
-  (auto-save-interval 30)
   (confirm-nonexistent-file-or-buffer nil)
   (electric-indent-inhibit t)
   (find-file-suppress-same-file-warnings t)
@@ -2024,9 +2039,15 @@ Extending the support of ~Tempel~ should be one of our main priorities!
 (use-package emacs
   :elpaca nil
   :custom
-  (completions-detailed t)
-  (completion-ignore-case t)
+  (compilation-always-kill t)
+  (compilation-ask-about-save nil)
   (compilation-scroll-output t)
+  (compilation-scroll-output t)
+
+  (completion-ignore-case t)
+  (completions-detailed t)
+
+  (read-file-name-completion-ignore-case t)
   (tab-always-indent 'completion)
   (tab-first-completion 'word-or-paren-or-punct))
 #+end_src
