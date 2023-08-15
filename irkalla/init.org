@@ -313,43 +313,6 @@ wrote this madness.. (😅)
 
 *** Modifying Irkalla's Many Behaviours
 
-**** Controlling Our Cursed Fonts
-
-#+begin_src emacs-lisp
-(use-package face-remap
-  :elpaca nil
-  :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
-         ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
-         ("C--" . (lambda () (interactive) (text-scale-decrease 0.5)))))
-#+end_src
-
-***** Applying Font-face across Irkalla
-
-#+begin_src emacs-lispemacs_china
-(use-package faces
-  :elpaca nil
-  :config
-  (custom-set-faces
-    '(fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
-    '(variable-pitch ((t (:family irkalla/default-font-family :height 135))))))
-#+end_src
-
-***** Switching Frame Slants
-
-#+begin_src emacs-lisp
-(use-package font-lock
-  :elpaca nil
-  :defer t
-  :custom-face
-  (font-lock-builtin-face       ((t (:slant italic))))
-  (font-lock-comment-face       ((t (:slant italic))))
-  (font-lock-doc-face           ((t (:slant italic))))
-  (font-lock-function-name-face ((t (:slant italic :weight bold))))
-  (font-lock-keyword-face       ((t (:slant italic))))
-  (font-lock-preprocessor-face  ((t (:weight bold))))
-  (font-lock-string-face        ((t (:slant italic)))))
-#+end_src
-
 **** Profile Irkalla's Startup
 
 #+begin_src emacs-lisp
@@ -487,6 +450,65 @@ Our editing environment should become an environment we would like to spend our 
   (truncate-string-ellipsis "↴")
   (window-combination-resize t)
   (x-stretch-cursor t))
+#+end_src
+
+**** Controlling Our Cursed Fonts
+
+#+begin_src emacs-lisp
+(use-package face-remap
+  :elpaca nil
+  :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
+         ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
+         ("C--" . (lambda () (interactive) (text-scale-decrease 0.5)))))
+#+end_src
+
+Having a fancy ~buffer-face~ which we can toggle on demand would be an elegant way to enhance the aesthetics of our
+reading experience. Therefore we shall add this missing feature!
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/no-distractions ()
+  "Toggle buffer appearance for a touch of sophistication."
+  (interactive)
+  (cond
+    (buffer-face-mode
+     (display-line-numbers-mode +1)
+     (olivetti-mode -1)
+     (text-scale-increase 0.0)
+     (buffer-face-mode -1))
+    (t (display-line-numbers-mode -1)
+       (olivetti-mode +1)
+       (olivetti-set-width 80)
+       (text-scale-increase 1.5)
+       (setq-local buffer-face-mode-face '(:family "Dancing Script"))
+       (buffer-face-mode +1))))
+#+end_src
+
+***** Applying Font-face across Irkalla
+
+#+begin_src emacs-lisp
+(use-package faces
+  :elpaca nil
+  :config
+  (custom-set-faces
+    '(fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
+    '(variable-pitch ((t (:family irkalla/default-font-family :height 135))))))
+#+end_src
+
+***** Switching Frame Slants
+
+#+begin_src emacs-lisp
+(use-package font-lock
+  :elpaca nil
+  :defer t
+  :custom-face
+  (font-lock-builtin-face       ((t (:slant italic))))
+  (font-lock-comment-face       ((t (:slant italic))))
+  (font-lock-doc-face           ((t (:slant italic))))
+  (font-lock-function-name-face ((t (:slant italic :weight bold))))
+  (font-lock-keyword-face       ((t (:slant italic))))
+  (font-lock-preprocessor-face  ((t (:weight bold))))
+  (font-lock-string-face        ((t (:slant italic)))))
 #+end_src
 
 **** Transparent Emacs Frame (Toggle)
@@ -668,7 +690,7 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
 (elpaca-wait)
 #+end_src
 
-***** (Emacs) Uncategorized General Bindings
+***** (Emacs) Bindings For Our Peace of Mind
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -678,33 +700,36 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
 
   (irkalla/space-lead-keydef
     ;; Buffer-related
-    "b"     '(:ignore t        :which-key "Buffer Management")
-    "b d"   '(kill-this-buffer :which-key "Exit active buffer")
-    "b n"   '(next-buffer      :which-key "Switch -> next buffer")
-    "b p"   '(previous-buffer  :which-key "Switch -> prev. buffer")
-    "b s"   '(scratch-buffer   :which-key "Switch -> curr. scratch-buf")
+    "b"     '(:ignore t          :which-key "Buffer Management")
+    "b d"   '(kill-this-buffer   :which-key "Exit active buffer")
+    "b n"   '(next-buffer        :which-key "Switch -> next buffer")
+    "b p"   '(previous-buffer    :which-key "Switch -> prev. buffer")
+    "b s"   '(scratch-buffer     :which-key "Switch -> curr. scratch-buf")
 
     ;; File-related
-    "f"     '(:ignore t        :which-key "Find")
-    "f RET" '(find-file        :which-key "Files in directory")
+    "f"     '(:ignore t          :which-key "Find")
+    "f RET" '(find-file          :which-key "Files in directory")
 
     ;; Expression evaluation
-    "e"     '(:ignore t        :which-key "Evaluation")
-    "e e"   '(eval-expression  :which-key "Evaluate input")
-    "e b"   '(eval-buffer      :which-key "Evaluate buffer")
+    "e"     '(:ignore t          :which-key "Evaluation")
+    "e e"   '(eval-expression    :which-key "Evaluate input")
+    "e b"   '(eval-buffer        :which-key "Evaluate buffer")
 
     ;; Project Management
-    "p"          '(:ignore t              :which-key "Projects")
-    "p r"        '(projectile-replace     :which-key "Search & replace str")
+    "p"     '(:ignore t          :which-key "Projects")
+    "p r"   '(projectile-replace :which-key "Search & replace str")
 
     ;; Manage Emacs session
-    "q"     '(:ignore t        :which-key "Manage Emacs sessions")
-    "q r"   '(restart-emacs    :which-key "Restart Emacs")
-    "q q"   '(kill-emacs       :which-key "Quit Emacs..."))
+    "q"     '(:ignore t          :which-key "Manage Emacs sessions")
+    "q r"   '(restart-emacs      :which-key "Restart Emacs")
+    "q q"   '(kill-emacs         :which-key "Quit Emacs..."))
 
   (irkalla/space-lead-keydef
     :states 'visual
-    "e r"   '(eval-region      :which-key "Eval highlighted")))
+    "e r"   '(eval-region        :which-key "Eval highlighted"))
+
+  (irkalla/comma-lead-keydef
+    "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing")))
 #+end_src
 
 ***** (Elpaca) Quick-Access To our Package Manager
