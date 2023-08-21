@@ -68,6 +68,7 @@ wrote this madness.. (😅)
 
 #+begin_src emacs-lisp
 (setq package-enable-at-startup nil
+      package--init-file-ensured t
       package-quickstart nil)
 #+end_src
 
@@ -96,8 +97,7 @@ wrote this madness.. (😅)
 *** Garbage Collection
 
 #+begin_src emacs-lisp
-(setq gc-cons-threshold (expt 2 32)
-      gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
       gc-cons-percentage 0.6)
 #+end_src
 
@@ -263,6 +263,12 @@ wrote this madness.. (😅)
 
 (setq package-archive-priorities
       '(("elpa" . 1) ("org" . 2) ("melpa" .  3)))
+#+end_src
+
+Tell ~use-package~ to report the heavy packages for us to tweak!
+
+#+begin_src emacs-lisp
+(setq use-package-compute-statistics t)
 #+end_src
 
 **** Elpaca: Elegant Package Manager
@@ -1440,6 +1446,14 @@ Make sure that our PDF’s are displayed with darker colors.
                            ;; :NOTE| Set the PDF free from the unnecessary borders
                            (set (make-local-variable 'evil-normal-state-cursor) (list nil))
                            (pdf-view-themed-minor-mode)))
+  :config
+  (define-advice pdf-view-enlarge (:after (&rest _args) center-after-enlarge)
+    "Center the PDF view in the active PDF window after enlarging it."
+   (pdf-view-center-in-window))
+
+  (define-advice pdf-view-shrink (:after (&rest _args) center-after-shrink)
+    "Center the PDF view in the active PDF window after shrinking it."
+    (pdf-view-center-in-window))
   :custom
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
@@ -2606,8 +2620,8 @@ Integrating =Cargo= with our newly added =Rust-Mode= would help us make our envi
 Being able to retain our notes in ~Org-Mode~ would've been wonderful. Therefore we ought to make it possible!
 
 #+begin_src emacs-lisp
-  (use-package ob-rust
-    :after ob)
+(use-package ob-rust
+  :after ob)
 #+end_src
 
 **** Typst: The Modern & Cleaner LaTeX
