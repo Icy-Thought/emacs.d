@@ -1676,7 +1676,7 @@ Let's enhances the behavior & appearance of Emacs mini-buffer prompt:
   (ement-room-images t)
   (ement-room-message-format-spec "%S>%L %B%r%R[%t]")
   (ement-room-send-message-filter #'ement-room-send-org-filter)
-  (ement-save-session t))
+  (ement-save-sessions t))
 #+end_src
 
 A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.el=!
@@ -1688,7 +1688,7 @@ A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.e
   (require 'ement)
   (let* ((matrix-username "@gilganix:matrix.org"))
     (cond
-      ((assoc-default matrix-username ement-sessions)
+      ((map-elt ement-sessions matrix-username)
        (ement-room-list))
       ((ement--read-sessions)
        (call-interactively #'ement-connect))
