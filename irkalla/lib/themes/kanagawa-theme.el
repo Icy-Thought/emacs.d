@@ -229,6 +229,7 @@
   (ement-room-name                               (:foreground crystalBlue))
   (ement-room-self                               (:foreground autumnGreen))
   (ement-room-self-message                       (:foreground fujiWhite))
+  (ement-room-quote                              (:foreground oniViolet))
 
   ;; https://orgmode.org/org.html
   (org-block                                     (:background sumiInk-0))
