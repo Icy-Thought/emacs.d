@@ -1916,11 +1916,11 @@ Integrating ~Citar~ with ~Embark~.
   :elpaca nil
   :hook ((prog-mode text-mode) . savehist-mode)
   :custom
-  (history-length 1000)
   (history-delete-duplicates t)
+  (history-length 1000)
   (savehist-autosave-interval 60)
-  (savehist-save-minibuffer-history t)
-  (savehist-file (no-littering-expand-var-file-name "savehist")))
+  (savehist-file (no-littering-expand-var-file-name "savehist"))
+  (savehist-save-minibuffer-history nil))
 #+end_src
 
 **** Save-place: Recall Last Known Cursor Position
