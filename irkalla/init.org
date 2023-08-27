@@ -1,6 +1,5 @@
 #+title: Just a Literate Emacs Configuration
 #+author: Icy-Thought
-#+language: en
 #+STARTUP: showeverything
 
 #+NAME: irkalla-emacs.png
@@ -717,7 +716,7 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
 
   (irkalla/space-lead-keydef
     ;; Buffer-related
-    "b"     '(:ignore t          :which-key "Buffer Management")
+    "b"     '(:ignore t          :which-key "Buffer")
     "b d"   '(kill-this-buffer   :which-key "Exit active buffer")
     "b n"   '(next-buffer        :which-key "Switch -> next buffer")
     "b p"   '(previous-buffer    :which-key "Switch -> prev. buffer")
@@ -746,7 +745,12 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
     "e r"   '(eval-region        :which-key "Eval highlighted"))
 
   (irkalla/comma-lead-keydef
-    "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing")))
+    "b"   '(:ignore t               :which-key "Buffer")
+    "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing")
+
+    "g"   '(:ignore t               :which-key "Profiling")
+    "g s" '(profiler-start          :which-key "Start Profiling")
+    "g k" '(profiler-stop           :which-key "Stop Profiling")))
 #+end_src
 
 ***** (Elpaca) Quick-Access To our Package Manager
@@ -768,7 +772,7 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
 (use-package helpful
   :general
   (irkalla/space-lead-keydef
-    "h"   '(:ignore t        :which-key "Helpful Description")
+    "h"   '(:ignore t        :which-key "Helpful")
     "h k" '(helpful-key      :which-key "Key")
     "h f" '(helpful-callable :which-key "Function")
     "h v" '(helpful-variable :which-key "Variable")
@@ -776,6 +780,7 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
     "h F" '(helpful-function :which-key "Interactive functions"))
 
   (irkalla/comma-lead-keydef emacs-lisp-mode-map
+    "h"   '(:ignore t        :which-key "Helpful")
     "h p" '(helpful-at-point :which-key "Show help for SYMB")))
 #+end_src
 
@@ -2236,7 +2241,7 @@ Extending the support of ~Tempel~ should be one of our main priorities!
 #+begin_src emacs-lisp
 (use-package jinx
   :elpaca nil
-  :hook (text-mode . global-jinx-mode)
+  :hook (text-mode . jinx-mode)
   :general
   (:states 'normal :keymaps '(prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
@@ -2294,7 +2299,7 @@ Preventing ~Eglot~ from interfering with our ~Flymake~ diagnostics is preferable
 #+begin_src emacs-lisp
 (use-package ts-fold
   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
-  :hook (prog-mode . global-ts-fold-mode))
+  :hook (prog-mode . ts-fold-mode))
 #+end_src
 
 *** Step-3: Language-specific Adjustments
