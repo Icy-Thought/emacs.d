@@ -2294,6 +2294,17 @@ Preventing ~Eglot~ from interfering with our ~Flymake~ diagnostics is preferable
          (tree-sitter-after-on . tree-sitter-hl-mode)))
 #+end_src
 
+***** Combobulate: Structured Editing & Navigation
+
+#+begin_src emacs-lisp
+(use-package combobulate
+  :elpaca (:host github :repo "mickeynp/combobulate")
+  :hook (tree-sitter-after-on . combobulate-mode)
+  :general
+  (irkalla/space-lead-keydef
+    "l c" '(combobulate :which-key "Combobulate")))
+#+end_src
+
 ***** TS-fold: Folding Code-blocks Like Origami
 
 #+begin_src emacs-lisp
