@@ -580,6 +580,20 @@ reading experience. Therefore we shall add this missing feature!
   :custom (posframe-mouse-banish '(0 . 5000)))
 #+end_src
 
+**** Window Zoom on Demand -> "Full-screen"
+
+#+begin_src emacs-lisp
+(use-package winner
+  :elpaca nil
+  :hook (elpaca-after-init . winner-mode)
+  :general
+  (irkalla/comma-lead-keydef
+   "z"   '(:ignore t            :which-key "Winner Mode")
+   "z p" '(delete-other-windows :which-key "Win -> Zoom-in")
+   "z u" '(winner-undo          :which-key "Undo Winner")
+   "z r" '(winner-undo          :which-key "Redo Winner")))
+#+end_src
+
 *** Unraveling a Multitude of Options
 
 **** Identify yourself; who are you???
