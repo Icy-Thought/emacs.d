@@ -20,13 +20,13 @@
   - [[#preliminary-decorations][Preliminary Decorations]]
   - [[#closing-early-init][Closing Early-Init!]]
 - [[#embarking-on-the-irkalla-journey-initialization][Embarking on the Irkalla Journey: Initialization.]]
-  - [[#the-beginning-of-irkalla-emacs][The Beginning of Irkalla Emacs]]
+  - [[#part-1-exploring-the-feasibility-of-emacs][Part 1: Exploring The Feasibility of Emacs]]
     - [[#managing-our-ever-growing-packages][Managing Our Ever-Growing Packages]]
-    - [[#modifying-irkallas-behaviour][Modifying Irkalla's Behaviour]]
-    - [[#enhancing-the-aesthetics--functionality][Enhancing The Aesthetics & Functionality]]
+    - [[#expanding-the-ever-growing-essential-pkgs][Expanding The Ever-Growing Essential Pkgs]]
+    - [[#adjusting-several-behaviour-patterns][Adjusting Several Behaviour Patterns]]
+    - [[#tweaking-built-in-aesthetics--functionality][Tweaking Built-in Aesthetics & Functionality]]
     - [[#unraveling-a-multitude-of-options][Unraveling a Multitude of Options]]
-  - [[#expanding-irkallas-abilities][Expanding Irkalla's Abilities]]
-    - [[#supercharging-with-essentials][Supercharging with Essentials]]
+  - [[#part-2-experimenting-with-miraculous-pkgs][Part 2: Experimenting With Miraculous Pkgs]]
     - [[#applying-vibrant-colors-to-irkalla][Applying Vibrant Colors To Irkalla]]
     - [[#unleashing-the-power-of-ui-extensions][Unleashing the Power of UI Extensions]]
     - [[#building-a-versatile-toolbox][Building a Versatile Toolbox]]
@@ -36,7 +36,7 @@
     - [[#step-1-a-more-efficient-completion-system][Step-1: A More Efficient Completion System]]
     - [[#step-2-lsp-diagnostics--syntax-highlighting][Step-2: LSP, Diagnostics & Syntax Highlighting!]]
     - [[#step-3-language-specific-adjustments][Step-3: Language-specific Adjustments]]
-  - [[#concluding-our-journey-with-irkalla-emacs][Concluding Our Journey with Irkalla Emacs]]
+  - [[#part-3-concluding-our-emacs-journey][Part 3: Concluding Our Emacs Journey]]
 
 * Early Initialization of Irkalla Emacs
 :PROPERTIES:
@@ -245,7 +245,7 @@ wrote this madness.. (😅)
 ;;; Code:
 #+end_src
 
-** The Beginning of Irkalla Emacs
+** Part 1: Exploring The Feasibility of Emacs
 
 *** Managing Our Ever-Growing Packages
 
@@ -328,7 +328,136 @@ Later we modify our ~package.el~ & ~use-package~ for a more appropriate Emacs en
 (elpaca-wait)
 #+end_src
 
-*** Modifying Irkalla's Behaviour
+*** Expanding The Ever-Growing Essential Pkgs
+
+**** General: A More Convenient Method for Binding Keys
+
+#+begin_src emacs-lisp
+(use-package general
+  :demand t
+  :config
+  (general-evil-setup)
+  (general-override-mode)
+  (general-auto-unbind-keys)
+
+  ;; :NOTE| defining several ease-of-use bindings
+  (general-create-definer irkalla/space-lead-keydef
+    :keymaps 'override
+    :states '(emacs insert motion normal visual)
+    :prefix "SPC"
+    :global-prefix "M-SPC")
+
+  (general-create-definer irkalla/comma-lead-keydef
+    :keymaps 'override
+    :states '(emacs insert motion normal visual)
+    :prefix ","
+    :non-normal-prefix "M-,"))
+
+;; :NOTE| Necessary for :general to work with use-package!
+(elpaca-wait)
+#+end_src
+
+***** (Emacs) Bindings For Our Peace of Mind
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :general
+  (general-def "<escape>" 'keyboard-escape-quit)
+
+  (irkalla/space-lead-keydef
+    ;; Buffer-related
+    "b"     '(:ignore t          :which-key "Buffer")
+    "b d"   '(kill-this-buffer   :which-key "Exit active buffer")
+    "b n"   '(next-buffer        :which-key "Switch -> next buffer")
+    "b p"   '(previous-buffer    :which-key "Switch -> prev. buffer")
+    "b s"   '(scratch-buffer     :which-key "Switch -> curr. scratch-buf")
+
+    ;; File-related
+    "f"     '(:ignore t          :which-key "Find")
+    "f RET" '(find-file          :which-key "Files in directory")
+
+    ;; Expression evaluation
+    "e"     '(:ignore t          :which-key "Evaluation")
+    "e e"   '(eval-expression    :which-key "Evaluate input")
+    "e b"   '(eval-buffer        :which-key "Evaluate buffer")
+
+    ;; Project Management
+    "p"     '(:ignore t          :which-key "Projects")
+    "p r"   '(projectile-replace :which-key "Search & replace str")
+
+    ;; Manage Emacs session
+    "q"     '(:ignore t          :which-key "Manage Emacs sessions")
+    "q r"   '(restart-emacs      :which-key "Restart Emacs")
+    "q q"   '(kill-emacs         :which-key "Quit Emacs..."))
+
+  (irkalla/space-lead-keydef
+    :states 'visual
+    "e r"   '(eval-region        :which-key "Eval highlighted"))
+
+  (irkalla/comma-lead-keydef
+    "b"   '(:ignore t               :which-key "Buffer")
+    "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing")
+
+    "g"   '(:ignore t               :which-key "Profiling")
+    "g s" '(profiler-start          :which-key "Start Profiling")
+    "g k" '(profiler-stop           :which-key "Stop Profiling")))
+#+end_src
+
+***** (Elpaca) Quick-Access To our Package Manager
+
+#+begin_src emacs-lisp
+(use-package elpaca
+  :elpaca nil
+  :general
+  (irkalla/comma-lead-keydef
+    "p"   '(:ignore t         :which-key "Package Manager")
+    "p p" '(elpaca-manager    :which-key "Open Elpaca")
+    "p f" '(elpaca-fetch-all  :which-key "Fetch package commits")
+    "p u" '(elpaca-update-all :which-key "Update all packages")))
+#+end_src
+
+**** Helpful: Contextual & More Convenient Help Menu
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :general
+  (irkalla/space-lead-keydef
+    "h"   '(:ignore t        :which-key "Helpful")
+    "h k" '(helpful-key      :which-key "Key")
+    "h f" '(helpful-callable :which-key "Function")
+    "h v" '(helpful-variable :which-key "Variable")
+    "h C" '(helpful-command  :which-key "Command")
+    "h F" '(helpful-function :which-key "Interactive functions"))
+
+  (irkalla/comma-lead-keydef emacs-lisp-mode-map
+    "h"   '(:ignore t        :which-key "Helpful")
+    "h p" '(helpful-at-point :which-key "Show help for SYMB")))
+#+end_src
+
+**** Which-Key: Pop-up That Displays Available Bindings
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :hook ((elpaca-after-init . which-key-mode)
+         (which-key . which-key-setup-minibuffer))
+  :custom
+  (which-key-allow-evil-operators t)
+  (which-key-idle-delay 0.3)
+  (which-key-show-remaining-keys t)
+  (which-key-separator " → ")
+  (which-key-sort-order 'which-key-prefix-then-key-order))
+#+end_src
+
+**** Emacs Everywhere: Allow Emacs Universal Access
+
+#+begin_src emacs-lisp
+(use-package emacs-everywhere
+  :custom (emacs-everywhere-copy-command (list "cb" "copy" "%f")))
+#+end_src
+
+*** Adjusting Several Behaviour Patterns
 
 **** Profile Irkalla's Startup
 
@@ -448,7 +577,7 @@ Afterwards, proceeding with the backup & auto-save related configurations should
     (message "Directories inside ~/Workspace/public added as known projects.")))
 #+END_src
 
-*** Enhancing The Aesthetics & Functionality
+*** Tweaking Built-in Aesthetics & Functionality
 
 Our editing environment should become an environment we would like to spend our time in. Therefore I have chosen to apply several minor changes with the intentions of increasing the aesthetics of our editing environment by a small percentage!
 
@@ -689,136 +818,7 @@ Reducing debug output is always desirable, unless we ask for a verbose debugging
   :custom (display-line-numbers-type 'relative))
 #+end_src
 
-** Expanding Irkalla's Abilities
-
-*** Supercharging with Essentials
-
-**** General: A More Convenient Method for Binding Keys
-
-#+begin_src emacs-lisp
-(use-package general
-  :demand t
-  :config
-  (general-evil-setup)
-  (general-override-mode)
-  (general-auto-unbind-keys)
-
-  ;; :NOTE| defining several ease-of-use bindings
-  (general-create-definer irkalla/space-lead-keydef
-    :keymaps 'override
-    :states '(emacs insert motion normal visual)
-    :prefix "SPC"
-    :global-prefix "M-SPC")
-
-  (general-create-definer irkalla/comma-lead-keydef
-    :keymaps 'override
-    :states '(emacs insert motion normal visual)
-    :prefix ","
-    :non-normal-prefix "M-,"))
-
-;; :NOTE| Necessary for :general to work with use-package!
-(elpaca-wait)
-#+end_src
-
-***** (Emacs) Bindings For Our Peace of Mind
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :elpaca nil
-  :general
-  (general-def "<escape>" 'keyboard-escape-quit)
-
-  (irkalla/space-lead-keydef
-    ;; Buffer-related
-    "b"     '(:ignore t          :which-key "Buffer")
-    "b d"   '(kill-this-buffer   :which-key "Exit active buffer")
-    "b n"   '(next-buffer        :which-key "Switch -> next buffer")
-    "b p"   '(previous-buffer    :which-key "Switch -> prev. buffer")
-    "b s"   '(scratch-buffer     :which-key "Switch -> curr. scratch-buf")
-
-    ;; File-related
-    "f"     '(:ignore t          :which-key "Find")
-    "f RET" '(find-file          :which-key "Files in directory")
-
-    ;; Expression evaluation
-    "e"     '(:ignore t          :which-key "Evaluation")
-    "e e"   '(eval-expression    :which-key "Evaluate input")
-    "e b"   '(eval-buffer        :which-key "Evaluate buffer")
-
-    ;; Project Management
-    "p"     '(:ignore t          :which-key "Projects")
-    "p r"   '(projectile-replace :which-key "Search & replace str")
-
-    ;; Manage Emacs session
-    "q"     '(:ignore t          :which-key "Manage Emacs sessions")
-    "q r"   '(restart-emacs      :which-key "Restart Emacs")
-    "q q"   '(kill-emacs         :which-key "Quit Emacs..."))
-
-  (irkalla/space-lead-keydef
-    :states 'visual
-    "e r"   '(eval-region        :which-key "Eval highlighted"))
-
-  (irkalla/comma-lead-keydef
-    "b"   '(:ignore t               :which-key "Buffer")
-    "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing")
-
-    "g"   '(:ignore t               :which-key "Profiling")
-    "g s" '(profiler-start          :which-key "Start Profiling")
-    "g k" '(profiler-stop           :which-key "Stop Profiling")))
-#+end_src
-
-***** (Elpaca) Quick-Access To our Package Manager
-
-#+begin_src emacs-lisp
-(use-package elpaca
-  :elpaca nil
-  :general
-  (irkalla/comma-lead-keydef
-    "p"   '(:ignore t         :which-key "Package Manager")
-    "p p" '(elpaca-manager    :which-key "Open Elpaca")
-    "p f" '(elpaca-fetch-all  :which-key "Fetch package commits")
-    "p u" '(elpaca-update-all :which-key "Update all packages")))
-#+end_src
-
-**** Helpful: Contextual & More Convenient Help Menu
-
-#+begin_src emacs-lisp
-(use-package helpful
-  :general
-  (irkalla/space-lead-keydef
-    "h"   '(:ignore t        :which-key "Helpful")
-    "h k" '(helpful-key      :which-key "Key")
-    "h f" '(helpful-callable :which-key "Function")
-    "h v" '(helpful-variable :which-key "Variable")
-    "h C" '(helpful-command  :which-key "Command")
-    "h F" '(helpful-function :which-key "Interactive functions"))
-
-  (irkalla/comma-lead-keydef emacs-lisp-mode-map
-    "h"   '(:ignore t        :which-key "Helpful")
-    "h p" '(helpful-at-point :which-key "Show help for SYMB")))
-#+end_src
-
-**** Which-Key: Pop-up That Displays Available Bindings
-
-#+begin_src emacs-lisp
-(use-package which-key
-  :diminish which-key-mode
-  :hook ((elpaca-after-init . which-key-mode)
-         (which-key . which-key-setup-minibuffer))
-  :custom
-  (which-key-allow-evil-operators t)
-  (which-key-idle-delay 0.3)
-  (which-key-show-remaining-keys t)
-  (which-key-separator " → ")
-  (which-key-sort-order 'which-key-prefix-then-key-order))
-#+end_src
-
-**** Emacs Everywhere: Allow Emacs Universal Access
-
-#+begin_src emacs-lisp
-(use-package emacs-everywhere
-  :custom (emacs-everywhere-copy-command (list "cb" "copy" "%f")))
-#+end_src
+** Part 2: Experimenting With Miraculous Pkgs
 
 *** Applying Vibrant Colors To Irkalla
 
@@ -1719,7 +1719,7 @@ A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.e
 
 **** Telega: A Telegram Client for Emacs (disabled)
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package telega
   :elpaca nil) ;; <-^ fetched from Nixpkgs
 #+end_src
@@ -2672,7 +2672,7 @@ Being able to retain our notes in ~Org-Mode~ would've been wonderful. Therefore 
 (use-package yuck-mode)
 #+end_src
 
-** Concluding Our Journey with Irkalla Emacs
+** Part 3: Concluding Our Emacs Journey
 
 #+begin_src emacs-lisp
 ;;; init.el ends here
