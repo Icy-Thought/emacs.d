@@ -450,6 +450,15 @@ Later we modify our ~package.el~ & ~use-package~ for a more appropriate Emacs en
   (which-key-sort-order 'which-key-prefix-then-key-order))
 #+end_src
 
+**** Direnv: Apply Local Environment Variables
+
+#+begin_src emacs-lisp
+(use-package direnv
+  :hook (elpaca-after-init . direnv-mode)
+  :config (add-to-list 'warning-suppress-types '(direnv))
+  :custom (direnv-always-show-summary nil))
+#+end_src
+
 **** Emacs Everywhere: Allow Emacs Universal Access
 
 #+begin_src emacs-lisp
