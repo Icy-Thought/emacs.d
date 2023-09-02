@@ -1730,7 +1730,8 @@ A ~defun~ is required for us to launch a seperate scratchpad buffer for =Ement.e
 
 #+begin_src emacs-lisp
 (use-package telega
-  :elpaca nil) ;; <-^ fetched from Nixpkgs
+  :elpaca nil ;; <-^ fetched from Nixpkgs
+  :defer 2)
 #+end_src
 
 *** Supercharging Irkalla's Mobility
