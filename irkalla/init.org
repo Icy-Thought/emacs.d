@@ -1459,7 +1459,8 @@ symbols which comes with the package.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :elpaca nil) ;; <-^ fetched from Nixpkgs
+  :elpaca nil ;; <-^ fetched from Nixpkgs
+  :config (push 'pdf-tools elpaca-ignored-dependencies))
 #+end_src
 
 Make sure that our PDF’s are displayed with darker colors.
