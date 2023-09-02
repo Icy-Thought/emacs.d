@@ -463,7 +463,7 @@ Later we modify our ~package.el~ & ~use-package~ for a more appropriate Emacs en
 
 #+begin_src emacs-lisp
 (use-package emacs-everywhere
-  :custom (emacs-everywhere-copy-command (list "cb" "copy" "%f")))
+  :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
 #+end_src
 
 *** Adjusting Several Behaviour Patterns
