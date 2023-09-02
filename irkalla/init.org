@@ -102,6 +102,8 @@ wrote this madness.. (😅)
 
 ** Specifying Desired Options
 
+To view the documentation of a specific variable, refer to ~SPC h v~.
+
 #+begin_src emacs-lisp
 (setq ad-redefinition-action 'accept
       auto-mode-case-fold nil
@@ -121,13 +123,11 @@ wrote this madness.. (😅)
       inhibit-startup-echo-area-message user-login-name
       inhibit-startup-message t
       inhibit-startup-screen t
-      initial-major-mode 'fundamental-mode
-      initial-scratch-message nil 
       load-prefer-newer nil
       make-backup-files nil
       mode-line-format nil
-      redisplay-skip-fontification-on-input t 
-      select-active-regions 'only 
+      redisplay-skip-fontification-on-input t
+      select-active-regions 'only
       site-run-file nil
       use-dialog-box nil
       use-file-dialog nil
