@@ -34,6 +34,30 @@
 (set-fontset-font "fontset-default"
                   'arabic (font-spec :family "Scheherazade New;" :size 25))
 
+;;;###autoload
+(defun irkalla/toggle-frame-transparency ()
+  "Toggle (on/off) Emacs frame transparency on demand!"
+  (interactive)
+  (let ((alpha-value
+         (if (equal (frame-parameter nil 'alpha-background) 100)
+             85 100)))
+    (set-frame-parameter nil 'alpha-background alpha-value)
+    (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
+
+;;;###autoload
+(defun irkalla/apply-theme (palette)
+  "A quicker way to apply our installed themes."
+  (if (custom-theme-p palette)
+      (enable-theme palette)
+    (load-theme palette :no-confirm)))
+
+;; Replace several symbols with prettier alternatives
+(use-package prettify-symbols
+  :elpaca nil
+  ;; Use-case: lambda -> 𝛌
+  :hook (emacs-lisp-mode . prettify-symbols-mode)
+  :custom (prettify-symbols-unprettify-at-point 'right-edge))
+
 (provide 'init-aesthetics)
 ;;; init-aesthetics.el ends here
 

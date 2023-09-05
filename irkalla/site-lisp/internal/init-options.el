@@ -40,7 +40,7 @@
               use-short-answers t
               vc-follow-symlinks t)
 
-;; Hardcode Emacs to work with UTF-8
+;; :NOTE| Hardcode Emacs to work with UTF-8
 (setq-default coding-system-for-read 'utf-8
               coding-system-for-write 'utf-8
               default-process-coding-system '(utf-8-unix . utf-8-unix)
@@ -56,6 +56,13 @@
 (set-locale-environment "en_US.UTF-8")
 (set-selection-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
+
+;; Prevent certain buffers from being killed
+(with-current-buffer "*scratch*"
+  (emacs-lock-mode 'kill))
+
+(with-current-buffer "*Messages*"
+  (emacs-lock-mode 'kill))
 
 (provide 'init-options)
 ;;; init-options.el ends here
