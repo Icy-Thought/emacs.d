@@ -22,6 +22,5 @@
   (which-key-separator " → ")
   (which-key-sort-order 'which-key-prefix-then-key-order))
 
-
 (provide 'init-whichkey)
 ;;; init-whichkey.el ends here

@@ -51,6 +51,9 @@
       (enable-theme palette)
     (load-theme palette :no-confirm)))
 
+(use-package autothemer
+  :config (irkalla/apply-theme 'kanagawa))
+
 ;; Replace several symbols with prettier alternatives
 (use-package prettify-symbols
   :elpaca nil
