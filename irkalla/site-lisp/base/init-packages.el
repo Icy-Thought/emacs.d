@@ -25,6 +25,10 @@
 (setq-default package-install-upgrade-built-in t
               use-package-compute-statistics t)
 
+;; Reducing time consumed to start Emacs
+(setq-default package-enable-at-startup nil
+              package--init-file-ensured t
+              package-quickstart nil)
 
 (provide 'init-packages)
 ;;; init-packages.el ends here

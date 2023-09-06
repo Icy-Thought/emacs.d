@@ -12,6 +12,12 @@
 
 ;;; Code:
 
+(irkalla/enable-modules (corfu tempel diagnostics apheleia eldoc))
+(irkalla/enable-modules (babel elisp
+                         haskell nixlang
+                         markdown orgmode org-roam
+                         python rust))
+
 (use-package emacs
   :elpaca nil
   :custom

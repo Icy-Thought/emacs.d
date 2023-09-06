@@ -11,6 +11,9 @@
 
 ;;; Code:
 
+(irkalla/enable-modules (evil dirvish ligatures memorandum
+                         ediff region citar whitespace))
+
 (use-package auto-revert
   :elpaca nil
   :hook ((prog-mode text-mode) . auto-revert-mode)

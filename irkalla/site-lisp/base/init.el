@@ -24,7 +24,7 @@
     (error "Invalid argument. MODULE-LIST should be a list of symbols")))
 
 ;; Requiring `Core' modules to prevent config collision
-(irkalla/enable-modules (packages elpaca functions performance options backup
+(irkalla/enable-modules (packages elpaca functions performance options
                          general frames scrolling))
 
 (use-package time
@@ -34,15 +34,7 @@
   (display-time-day-and-date t))
 
 ;; Requiring the remaining modules
-(irkalla/enable-modules (aesthetics font-faces icons svg-tags))
-
-(irkalla/enable-modules (completion corfu tempel diagnostics apheleia eldoc))
-
-(irkalla/enable-modules (editor evil dirvish ligatures memorandum ediff region citar whitespace))
-
-(irkalla/enable-modules (utilities garbage direnv whichkey dashboard
-                         centaur modeline consult embark vc readers vertico annotations
-                         recentf benchmark social terminals))
+(irkalla/enable-modules (completion decorations editor utilities))
 
 (provide 'init)
 ;;; init.el ends here
