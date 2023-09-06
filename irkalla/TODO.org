@@ -5,11 +5,7 @@
 * :TODO: <- self explanatory ->
 - [ ] LaTeX Setup (CDLaTeX + texlab-like compiling from nvim (tectonic???))
 - [ ] Fix background of Emacs dashboard logo + latex preview images! (:FIXME| Emacs problem -> nothing to be fixed...)
-- [ ] Eldoc to showcase proper documentation for Rust-Mode
-  - [ ] Quicker Eglot LSP initialization??
-- [ ] Ement.el -> verified session (Pantalaimon crap..)
-- [ ] Tell remaining applications to replace tabs -> 4 spaces!
-- [ ] Stuck Haskell babel due to system GHCi configuration..
+- [ ] Infinite loading for Haskell babel due to system GHCi configuration..
 
 * Plugins worth checking out!
     - https://github.com/emacs-lsp/dap-mode
