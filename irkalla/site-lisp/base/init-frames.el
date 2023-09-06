@@ -26,13 +26,6 @@
   (debug-on-error init-file-debug)
   (jka-compr-verbose init-file-debug))
 
-;; Prevent certain buffers from being killed
-(with-current-buffer "*scratch*"
-  (emacs-lock-mode 'kill))
-
-(with-current-buffer "*Messages*"
-  (emacs-lock-mode 'kill))
-
 (use-package perspective
   :hook (elpaca-after-init . persp-mode)
   :custom (persp-mode-prefix-key (kbd "C-c M-p")))

@@ -32,6 +32,7 @@
       (completion-at-point reverse))))
 
 (use-package vertico-posframe
+  :disabled t
   :after vertico
   :hook (vertico-mode . vertico-posframe-mode)
   :custom

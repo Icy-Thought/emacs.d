@@ -29,7 +29,7 @@
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
-  (dashboard-startup-banner (concat irkalla/aesthetics-dir "/logos/owl-skull.svg"))
+  (dashboard-startup-banner (concat irkalla/decorations-dir "/logos/owl-skull.svg"))
   (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)

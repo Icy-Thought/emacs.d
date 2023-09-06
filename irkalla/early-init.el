@@ -1,4 +1,4 @@
-;;; site-start.el --- Icy-Thoughts's Irkalla Emacs Early Initiliazation -*- lexical-binding: t -*-
+;;; early-init.el --- Icy-Thoughts's Irkalla Emacs Early Initiliazation -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -7,10 +7,11 @@
 ;; URL: https://icy-thought.github.io/
 
 ;;; Commentary:
-;; Configurations which ought to be loaded during Irkalla Emacs initliazation process.
+;; Configurations which ought to be loaded during Irkalla Emacs early initliazation process.
 
 ;;; Code:
 
+;; :NOTE| adding modifications to early init.
 (defcustom irkalla/default-font-family "VictorMono Nerd Font"
   "The default font of our Irkalla Emacs."
   :type 'string
@@ -38,7 +39,7 @@
 
 (defvar irkalla/root-dir       (file-truename "~/Workspace/public/emacs.d/irkalla/site-lisp"))
 (defvar irkalla/core-dir       (concat irkalla/root-dir "/core"))
-(defvar irkalla/aesthetics-dir (concat irkalla/root-dir "/aesthetics"))
+(defvar irkalla/decorations-dir (concat irkalla/root-dir "/decorations"))
 (defvar irkalla/editor-dir     (concat irkalla/root-dir "/editor"))
 (defvar irkalla/keymaps-dir    (concat irkalla/root-dir "/keymaps"))
 (defvar irkalla/utilities-dir  (concat irkalla/root-dir "/utilities"))
@@ -53,6 +54,23 @@
 (add-subdirs-to-load-path irkalla/root-dir)
 
 (add-to-list 'custom-theme-load-path
-             (concat irkalla/aesthetics-dir "/themes"))
+             (concat irkalla/decorations-dir "/themes"))
 
-(require 'init)
+;; :NOTE| Changing the behaviour of custom.el
+(setq-default custom-file
+              (expand-file-name "etc/custom.el" user-emacs-directory))
+
+(if (file-exists-p custom-file)
+    (load custom-file 'noerror 'nomessage)
+  (with-temp-buffer (write-file custom-file)))
+
+;; Prevent certain buffers from being killed
+(with-current-buffer "*scratch*"  (emacs-lock-mode 'kill))
+(with-current-buffer "*Messages*" (emacs-lock-mode 'kill))
+
+;; Early package modifications
+(require 'init-packages)
+(require 'init-performance)
+(require 'init-options)
+
+;;; early-init.el ends here

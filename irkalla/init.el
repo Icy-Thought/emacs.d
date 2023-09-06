@@ -1,4 +1,4 @@
-;;; init.el --- Core: Where It All Begins -*- lexical-binding: t -*-
+;;; init.el --- Initialization: Where It All Begins -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -23,9 +23,8 @@
                    module-list))
     (error "Invalid argument. MODULE-LIST should be a list of symbols")))
 
-;; Requiring `Core' modules to prevent config collision
-(irkalla/enable-modules (packages elpaca functions performance options
-                         general frames scrolling))
+;; Requiring `Base' modules to prevent config collision
+(irkalla/enable-modules (packages elpaca functions garbage general frames scrolling))
 
 (use-package time
   :elpaca nil
