@@ -51,13 +51,16 @@
       (enable-theme palette)
     (load-theme palette :no-confirm)))
 
+;; :NOTE| Autothemer and our custom themes
+(add-to-list 'custom-theme-load-path
+             (concat irkalla/aesthetics-dir "/themes"))
+
 (use-package autothemer
   :config (irkalla/apply-theme 'kanagawa))
 
-;; Replace several symbols with prettier alternatives
+;; :NOTE| Replace several symbols with prettier alternatives
 (use-package prettify-symbols
   :elpaca nil
-  ;; Use-case: lambda -> 𝛌
   :hook (emacs-lisp-mode . prettify-symbols-mode)
   :custom (prettify-symbols-unprettify-at-point 'right-edge))
 

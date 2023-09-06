@@ -113,14 +113,14 @@
            . ((lambda (tag) (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
 
           ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)"
-           . ((lambda (tag) (svg-tag-make tag :end -1 :crop-left t)))
+           . ((lambda (tag) (svg-tag-make tag :end -1 :crop-left t))))
 
             ;;; Works for stuff like :XXX|YYY:
-           ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:")
+          ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:"
            . ((lambda (tag)
-                (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t)))
+                (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
 
-           (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)")
+          (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)"
            . ((lambda (tag)
                 (svg-tag-make tag :beg 1 :end -1 :margin 0 :crop-left t))))
 
