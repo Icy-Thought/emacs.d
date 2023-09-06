@@ -28,6 +28,9 @@
              ")" 'er/expand-region
              "(" 'er/contract-region))
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 (use-package parens
   :elpaca nil
   :hook (prog-mode . show-paren-mode)

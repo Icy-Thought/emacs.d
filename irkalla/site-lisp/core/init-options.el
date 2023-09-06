@@ -57,12 +57,5 @@
 (set-selection-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 
-;; Prevent certain buffers from being killed
-(with-current-buffer "*scratch*"
-  (emacs-lock-mode 'kill))
-
-(with-current-buffer "*Messages*"
-  (emacs-lock-mode 'kill))
-
 (provide 'init-options)
 ;;; init-options.el ends here

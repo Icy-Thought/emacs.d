@@ -1,0 +1,110 @@
+;;; init-orgmode.el --- Org-Mode: The Superior Document Format -*- lexical-binding: t -*-
+
+;; Copyright (C) 2023-2023 Icy-Thought
+
+;; Author: Icy-Thought <icy-thought@pm.me>
+;; Keywords: internal
+;; URL: https://icy-thought.github.io/
+
+;;; Commentary:
+;; It does not get more fluid than Org-Mode! Using another documentation format does not seeem like a logical choice
+;; after being exposed to it.
+
+;;; Code:
+
+(use-package org
+  :elpaca nil
+  :defer t
+  :preface
+  (defun irkalla/org-electric-dollar ()
+    "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+    (interactive)
+    (if (and (looking-at "\\\\)")
+             (looking-back "\\\\("))
+        (progn (delete-char 2)
+               (delete-char -2)
+               (insert "\\[\\]"))
+      (insert "\\(\\)")
+      (backward-char 2)))
+  :hook (org-mode . org-display-inline-images)
+  :general
+  (:states 'insert :keymaps 'org-mode-map
+    "$" #'irkalla/org-electric-dollar)
+
+  (irkalla/comma-lead-keydef
+    "o"   '(:ignore t        :which-key "Org-Mode")
+    "o e" '(org-edit-special :which-key "Edit -> special buffer")
+    "o t" '(org-babel-tangle :which-key "Tangle buffer"))
+  :custom-face
+  (org-document-title ((t (:height 1.50))))
+  (org-level-1        ((t (:inherit outline-1 :height 1.25))))
+  (org-level-2        ((t (:inherit outline-2 :height 1.15))))
+  (org-level-3        ((t (:inherit outline-3 :height 1.12))))
+  (org-level-4        ((t (:inherit outline-4 :height 1.09))))
+  (org-level-5        ((t (:inherit outline-5 :height 1.06))))
+  :config
+  (setq org-directory "~/Workspace/memorandum/org-mode")
+  
+  ;; :NOTE| Move our LaTeX previews to cache dir
+  (let ((latex-dir (no-littering-expand-var-file-name "latex-preview/")))
+    (unless (file-directory-p latex-dir)
+      (mkdir latex-dir t))
+    (setq org-preview-latex-image-directory latex-dir))
+
+  ;; :NOTE| Change the aesthetics of our LaTeX previews
+  (setq org-latex-preview-options
+        (progn (plist-put org-format-latex-options :background "Transparent")
+               (plist-put org-format-latex-options :scale 2.5)
+               (plist-put org-format-latex-options :zoom 1.15)))
+  :custom
+  (org-fontify-quote-and-verse-blocks t)
+  (org-catch-invisible-edits 'show-and-error)
+  (org-cycle-separator-lines 2)
+  (org-cycle-include-plain-lists 'integrate)
+  (org-edit-src-auto-save-idle-delay 5)
+  (org-ellipsis "…")
+  (org-export-coding-system 'utf-8)
+  (org-export-preserve-breaks t)
+  (org-hide-emphasis-markers t)
+  (org-highlight-latex-and-related '(native))
+  (org-image-actual-width (truncate (* (window-pixel-width) 0.8)))
+  (org-insert-heading-respect-content t)
+  (org-latex-tables-centered t)
+  (org-special-ctrl-a/e t)
+  (org-startup-folded 'overview)
+  (org-startup-indented t)
+  (org-startup-with-inline-images t)
+  (org-support-shift-select t)
+  (org-tags-column 0)
+
+  ;; Code blocks
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
+  (org-src-fontify-natively t)
+  (org-src-preserve-indentation t)
+  (org-src-tab-acts-natively nil))
+
+;; :NOTE| Automatic rendering of LaTeX code-blocks
+(use-package org-fragtog
+  :after org
+  :hook (org-mode . org-fragtog-mode))
+
+;; :NOTE| Automatic generation of ToC
+(use-package toc-org
+  :after org
+  :hook (org-mode . toc-org-enable)
+  :custom (toc-org-max-depth 3))
+
+;; :NOTE| Modernizing our Org-Mode buffers
+(use-package org-modern
+  :after org
+  :hook (org-mode . org-modern-mode)
+  :custom-face
+  (org-modern-symbol ((t (:family "DejaVu Sans"))))
+  :custom
+  ;; :NOTE| Settings replaced by svg-tag-mode
+  (org-modern-tag nil)
+  (org-modern-todo nil))
+
+(provide 'init-orgmode)
+;;; init-orgmode.el ends here

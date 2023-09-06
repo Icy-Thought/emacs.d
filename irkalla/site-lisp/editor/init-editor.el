@@ -11,6 +11,14 @@
 
 ;;; Code:
 
+(use-package auto-revert
+  :elpaca nil
+  :hook ((prog-mode text-mode) . auto-revert-mode)
+  :custom
+  (auto-revert-interval 1)
+  (auto-revert-notify t)
+  (auto-revert-verbose t))
+
 (use-package editorconfig
   :hook (prog-mode . editorconfig-mode))
 
@@ -48,6 +56,10 @@
   :elpaca nil
   :hook ((prog-mode text-mode) . electric-pair-mode)
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
+
+(use-package hl-line
+  :elpaca nil
+  :hook (elpaca-after-init . global-hl-line-mode))
 
 (use-package olivetti
   :general
