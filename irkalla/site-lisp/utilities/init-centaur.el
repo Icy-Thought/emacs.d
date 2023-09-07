@@ -31,4 +31,3 @@
 
 (provide 'init-centaur)
 ;;; init-centaur.el ends here
-

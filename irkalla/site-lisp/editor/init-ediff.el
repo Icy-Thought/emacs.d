@@ -22,4 +22,3 @@
 
 (provide 'init-ediff)
 ;;; init-ediff.el ends here
-

@@ -11,15 +11,30 @@
 
 ;;; Code:
 
-(use-package savehist
+(use-package emacs
   :elpaca nil
-  :hook ((prog-mode text-mode) . savehist-mode)
   :custom
+  (auto-save-interval 200)
+  (auto-save-timeout 30)
+  (backup-by-copying t)
+  (delete-by-moving-to-trash t)
+  (delete-old-versions t)
   (history-delete-duplicates t)
   (history-length 1000)
+  (kept-new-versions 7)
+  (kept-old-versions 3)
+  (make-backup-files t)
+  (undo-limit 6710886400) ;; 64mb
+  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
+  (undo-strong-limit 100663296)) ;; x 1.5 (96mb)
+
+(use-package savehist
+  :elpaca nil
+  :hook (elpaca-after-init . savehist-mode)
+  :custom
   (savehist-autosave-interval 60)
   (savehist-file (no-littering-expand-var-file-name "savehist"))
-  (savehist-save-minibuffer-history nil))
+  (savehist-ignored-variables '(ement-room-message-history)))
 
 (use-package save-place
   :elpaca nil
