@@ -30,6 +30,18 @@
   :hook ((text-mode . auto-fill-mode)
          (text-mode . visual-line-mode))
   :custom
+  (auto-save-interval 200)
+  (auto-save-timeout 30)
+  (backup-by-copying t)
+  (delete-by-moving-to-trash t)
+  (delete-old-versions t)
+  (kept-new-versions 7)
+  (kept-old-versions 3)
+  (make-backup-files t)
+  (undo-limit 6710886400) ;; 64mb
+  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
+  (undo-strong-limit 100663296) ;; x 1.5 (96mb)
+
   (confirm-nonexistent-file-or-buffer nil)
   (electric-indent-inhibit t)
   (fill-column 120)
@@ -40,9 +52,6 @@
   (tab-width 4)
   (truncate-lines t)
   (truncate-string-ellipsis "↴")
-  (undo-limit 6710886400) ;; 64mb
-  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
-  (undo-strong-limit 100663296) ;; x 1.5 (96mb)
   (window-combination-resize t)
   (word-wrap nil)
   (x-stretch-cursor t))

@@ -40,16 +40,6 @@
               use-short-answers t
               vc-follow-symlinks t)
 
-;; :NOTE| Controlling retention of file backups
-(setq-default auto-save-interval 200
-              auto-save-timeout 30
-              backup-by-copying t
-              delete-by-moving-to-trash t
-              delete-old-versions t
-              kept-new-versions 7
-              kept-old-versions 3
-              make-backup-files t)
-
 ;; :NOTE| Hardcode Emacs to work with UTF-8
 (setq-default coding-system-for-read 'utf-8
               coding-system-for-write 'utf-8
