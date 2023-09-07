@@ -11,29 +11,6 @@
 
 ;;; Code:
 
-;; :NOTE| adding modifications to early init.
-(defcustom irkalla/default-font-family "VictorMono Nerd Font"
-  "The default font of our Irkalla Emacs."
-  :type 'string
-  :group 'irkalla)
-
-(setq default-frame-alist
-      (append (list
-               '(alpha-background . 85)
-               `(font . ,(concat irkalla/default-font-family "-13.5:weight=bold:antialias=true"))
-               '(height . 125)
-               '(mouse-color . "white")
-
-               ;; :NOTE| Disabling unnecessary bloat..
-               '(fullscreen . nil)
-               '(menu-bar-lines . 0)
-               '(tool-bar-lines . 0)
-               '(vertical-scroll-bars . nil))))
-
-(set-fontset-font "fontset-default"
-                  'arabic (font-spec :family "Scheherazade New;" :size 25)
-                  (charsetp 'chinese-gb18030) (font-spec :family "Sarasa Gothic SC" :size 25))
-
 ;; :NOTE| Defining our custom directories
 (setq user-emacs-directory "~/.config/emacs")
 
@@ -56,6 +33,11 @@
 (add-to-list 'custom-theme-load-path
              (concat irkalla/decorations-dir "/themes"))
 
+;; Early package modifications
+(require 'init-packages)
+(require 'init-performance)
+(require 'init-options)
+
 ;; :NOTE| Changing the behaviour of custom.el
 (setq-default custom-file
               (expand-file-name "etc/custom.el" user-emacs-directory))
@@ -68,9 +50,27 @@
 (with-current-buffer "*scratch*"  (emacs-lock-mode 'kill))
 (with-current-buffer "*Messages*" (emacs-lock-mode 'kill))
 
-;; Early package modifications
-(require 'init-packages)
-(require 'init-performance)
-(require 'init-options)
+;; :NOTE| appending UI changes early to Emacs
+(defcustom irkalla/default-font-family "VictorMono Nerd Font"
+  "The default font of our Irkalla Emacs."
+  :type 'string
+  :group 'irkalla)
+
+(setq default-frame-alist
+      (append (list
+               '(alpha-background . 85)
+               `(font . ,(concat irkalla/default-font-family "-13.5:weight=bold:antialias=true"))
+               '(height . 125)
+               '(mouse-color . "white")
+
+               ;; :NOTE| Disabling unnecessary bloat..
+               '(fullscreen . nil)
+               '(menu-bar-lines . 0)
+               '(tool-bar-lines . 0)
+               '(vertical-scroll-bars . nil))))
+
+(set-fontset-font "fontset-default"
+                  'arabic (font-spec :family "Scheherazade New;" :size 25)
+                  (charsetp 'chinese-gb18030) (font-spec :family "Sarasa Gothic SC" :size 25))
 
 ;;; early-init.el ends here
