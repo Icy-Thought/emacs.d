@@ -11,7 +11,7 @@
 
 ;;; Code:
 
-(irkalla/enable-modules (font-faces icons svg-tags))
+(irkalla/enable-modules (font-faces icons))
 
 ;;;###autoload
 (defun irkalla/toggle-frame-transparency ()
@@ -41,4 +41,3 @@
 
 (provide 'init-decorations)
 ;;; init-decorations.el ends here
-
