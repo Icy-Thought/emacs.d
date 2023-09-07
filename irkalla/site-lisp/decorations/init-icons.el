@@ -13,7 +13,7 @@
 
 (use-package nerd-icons
   :custom
-  (nerd-icons-font-family irkalla/default-font-family)
+  (nerd-icons-font-family (face-attribute 'default :family))
   (nerd-icons-scale-factors 1.25))
 
 (use-package nerd-icons-completion

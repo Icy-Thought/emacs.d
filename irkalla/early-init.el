@@ -51,22 +51,17 @@
 (with-current-buffer "*Messages*" (emacs-lock-mode 'kill))
 
 ;; :NOTE| appending UI changes early to Emacs
-(defcustom irkalla/default-font-family "VictorMono Nerd Font"
-  "The default font of our Irkalla Emacs."
-  :type 'string
-  :group 'irkalla)
-
 (setq default-frame-alist
       (append (list
-               '(alpha-background . 85)
-               `(font . ,(concat irkalla/default-font-family "-13.5:weight=bold:antialias=true"))
-               '(height . 125)
-               '(mouse-color . "white")
+               '(alpha-background     . 85)
+               `(font                 . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
+               '(height               . 125)
+               '(mouse-color          . "white")
 
                ;; :NOTE| Disabling unnecessary bloat..
-               '(fullscreen . nil)
-               '(menu-bar-lines . 0)
-               '(tool-bar-lines . 0)
+               '(fullscreen           . nil)
+               '(menu-bar-lines       . 0)
+               '(tool-bar-lines       . 0)
                '(vertical-scroll-bars . nil))))
 
 (set-fontset-font "fontset-default"
