@@ -34,6 +34,7 @@
   :custom
   (savehist-autosave-interval 60)
   (savehist-file (no-littering-expand-var-file-name "savehist"))
+  (savehist-additional-variables '(command-history evil-jumps-history))
   (savehist-ignored-variables '(ement-room-message-history)))
 
 (use-package save-place
