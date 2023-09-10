@@ -11,10 +11,14 @@
 
 ;;; Code:
 
-(use-package tree-sitter
+(use-package treesit
   :elpaca nil
-  :hook ((prog-mode . global-tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode)))
+  :custom (treesit-font-lock-level 4))
+
+(use-package treesit-auto
+  :demand t
+  :after tree-sitter
+  :hook (prog-mode . global-treesit-auto-mode))
 
 (use-package ts-fold
   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
