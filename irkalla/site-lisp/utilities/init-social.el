@@ -14,6 +14,10 @@
 ;; :NOTE| Matrix Emacs client
 (use-package ement
   :hook (ement-room-mode . olivetti-mode)
+  :general (:states 'normal :keymaps 'ement-room-mode-map
+            [remap pixel-scroll-interpolate-up]   'ement-room-scroll-down-command
+            [remap pixel-scroll-interpolate-down] 'ement-room-scroll-up-mark-read)
+    
   :custom
   ;; :NOTE| Notifications ought to be limited to @mentions only!
   (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
