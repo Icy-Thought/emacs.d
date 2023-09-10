@@ -24,7 +24,8 @@
     (error "Invalid argument. MODULE-LIST should be a list of symbols")))
 
 ;; Requiring `Base' modules to prevent config collision
-(irkalla/enable-modules (packages elpaca functions garbage general frames scrolling))
+(irkalla/enable-modules
+ (packages elpaca functions garbage general frames scrolling))
 
 (use-package time
   :elpaca nil
@@ -33,7 +34,8 @@
   (display-time-day-and-date t))
 
 ;; Requiring the remaining modules
-(irkalla/enable-modules (completion decorations editor utilities))
+(irkalla/enable-modules
+ (completion decorations editor utilities))
 
 (provide 'init)
 ;;; init.el ends here

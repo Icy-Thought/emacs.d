@@ -12,11 +12,13 @@
 
 ;;; Code:
 
-(irkalla/enable-modules (corfu tempel diagnostics apheleia eldoc))
-(irkalla/enable-modules (babel elisp
-                         haskell nixlang
-                         markdown orgmode org-roam
-                         python rust))
+;; Editing basis
+(irkalla/enable-modules
+ (corfu tempel diagnostics apheleia eldoc))
+
+;; Language-specific
+(irkalla/enable-modules
+ (babel elisp haskell nixlang markdown orgmode org-roam python rust))
 
 (use-package emacs
   :elpaca nil
@@ -64,10 +66,6 @@
   :general
   (:states 'normal :keymaps '(prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
-
-(use-package tree-sitter
-  :hook ((prog-mode . global-tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode)))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here

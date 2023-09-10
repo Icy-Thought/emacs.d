@@ -11,8 +11,8 @@
 
 ;;; Code:
 
-(irkalla/enable-modules (evil dirvish ligatures memorandum
-                         ediff region citar whitespace))
+(irkalla/enable-modules
+ (evil dirvish ligatures memorandum ediff region citar treesitter whitespace))
 
 (use-package auto-revert
   :elpaca nil

@@ -14,8 +14,10 @@
 
 (use-package svg-tag-mode
   :hook ((prog-mode text-mode) . svg-tag-mode)
-  :custom (svg-lib-style-default (plist-put svg-lib-style-default :font-size 13.5))
   :config
+  (setq svg-lib-style-default
+        (plist-put svg-lib-style-default :font-size 13.5))
+
   (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
   (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
   (defconst day-re "[A-Za-z]\\{3\\}")

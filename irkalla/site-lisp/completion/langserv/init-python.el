@@ -16,7 +16,8 @@
   :hook (python-mode . eglot-ensure)
   :flymake-hook
   (python-mode flymake-collection-mypy
-               flymake-collection-ruff))
+               flymake-collection-ruff)
+  :interpreter ("/usr/bin/env python3" . python-mode))
 
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia

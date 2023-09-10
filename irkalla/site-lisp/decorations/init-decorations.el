@@ -11,7 +11,8 @@
 
 ;;; Code:
 
-(irkalla/enable-modules (font-faces icons))
+(irkalla/enable-modules
+ (font-faces icons))
 
 ;;;###autoload
 (defun irkalla/toggle-frame-transparency ()
