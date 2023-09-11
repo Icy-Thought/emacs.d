@@ -6,6 +6,7 @@
 - [ ] LaTeX Setup (CDLaTeX + texlab-like compiling from nvim (tectonic???))
 - [ ] Fix background of Emacs dashboard logo + latex preview images! (:FIXME| Emacs problem -> nothing to be fixed...)
 - [ ] Infinite loading for Haskell babel due to system GHCi configuration..
+- [ ] Treesitter Emacs (Nix issue??)
 
 * Plugins worth checking out!
     - https://github.com/emacs-lsp/dap-mode

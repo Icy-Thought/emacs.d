@@ -15,6 +15,14 @@
   :elpaca nil
   :after org
   :preface
+  (defun demand-babel-languages (orig-fun &rest args)
+    "Load language if needed before executing a source block."
+    (let ((language (org-element-property :language (org-element-at-point))))
+      (unless (cdr (assoc (intern language) org-babel-load-languages))
+        (add-to-list 'org-babel-load-languages (cons (intern language) t))
+        (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+      (apply orig-fun args)))
+
   (defun irkalla/org-execute-action ()
     "Execute the appropriate action based on the given context."
     (interactive)
@@ -36,6 +44,7 @@
         (_
          ;; Fallback to evil standard command
          (call-interactively #'evil-ret)))))
+
   :hook (org-babel-after-execute . org-display-inline-images)
   :general (:states 'normal :keymaps 'org-mode-map
             "RET" '(irkalla/org-execute-action :which-key "Execute appropriate Org action"))
@@ -52,15 +61,8 @@
      (:tangle  . "no")))
   (org-export-use-babel nil)
   (org-confirm-babel-evaluate nil)
-
   :config
-  (defadvice org-babel-execute-src-block (around load-language nil activate)
-   "Load Org-babel languages on demand."
-   (let ((language (org-element-property :language (org-element-at-point))))
-     (unless (cdr (assoc (intern language) org-babel-load-languages))
-       (add-to-list 'org-babel-load-languages (cons (intern language) t))
-       (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
-     ad-do-it)))
+  (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
 
 (provide 'init-babel)
 ;;; init-babel.el ends here
