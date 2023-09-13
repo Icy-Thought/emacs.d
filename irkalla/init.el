@@ -25,7 +25,7 @@
 
 ;; Requiring `Base' modules to prevent config collision
 (irkalla/enable-modules
- (packages elpaca functions garbage general frames scrolling))
+ (elpaca functions garbage general frames scrolling))
 
 (use-package time
   :elpaca nil

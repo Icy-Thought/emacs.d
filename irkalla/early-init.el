@@ -54,7 +54,7 @@
 (setq default-frame-alist
       (append (list
                '(alpha-background     . 85)
-               `(font                 . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
+               '(font                 . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
                '(height               . 125)
                '(mouse-color          . "white")
 
