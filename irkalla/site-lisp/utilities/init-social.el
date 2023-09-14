@@ -49,7 +49,9 @@
 ;; :NOTE| Emacs Telegram client
 (use-package telega
   :elpaca nil ;; <-^ fetched from Nixpkgs
-  :defer 2)
+  :defer 2
+  :hook (telega-chat-mode . olivetti-mode)
+  :custom (telega-directory (no-littering-expand-var-file-name "telega/")))
 
 (provide 'init-social)
 ;;; init-social.el ends here
