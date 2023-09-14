@@ -29,8 +29,7 @@
               inhibit-startup-echo-area-message user-login-name
               inhibit-startup-message t
               inhibit-startup-screen t
-              load-prefer-newer nil
-              make-backup-files nil
+              load-prefer-newer noninteractive
               mode-line-format nil
               redisplay-skip-fontification-on-input t
               select-active-regions 'only
@@ -40,22 +39,8 @@
               use-short-answers t
               vc-follow-symlinks t)
 
-;; :NOTE| Hardcode Emacs to work with UTF-8
-(setq-default coding-system-for-read 'utf-8
-              coding-system-for-write 'utf-8
-              default-process-coding-system '(utf-8-unix . utf-8-unix)
-              locale-coding-system 'utf-8)
-
-(prefer-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8-unix)
-(set-charset-priority 'unicode)
-(set-clipboard-coding-system 'utf-8)
+;; :NOTE| Sanner defautlt for Emacs encoding system
 (set-default-coding-systems 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(set-locale-environment "en_US.UTF-8")
-(set-selection-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
 
 (provide 'init-options)
 ;;; init-options.el ends here

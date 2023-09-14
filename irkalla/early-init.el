@@ -14,13 +14,12 @@
 ;; :NOTE| Defining our custom directories
 (setq user-emacs-directory "~/.config/emacs")
 
-(defvar irkalla/root-dir       (file-truename "~/Workspace/public/emacs.d/irkalla/site-lisp"))
-(defvar irkalla/core-dir       (concat irkalla/root-dir "/core"))
+(defvar irkalla/root-dir        (file-truename "~/Workspace/public/emacs.d/irkalla/site-lisp"))
+(defvar irkalla/completion-dir  (concat irkalla/root-dir "/completion"))
 (defvar irkalla/decorations-dir (concat irkalla/root-dir "/decorations"))
-(defvar irkalla/editor-dir     (concat irkalla/root-dir "/editor"))
-(defvar irkalla/keymaps-dir    (concat irkalla/root-dir "/keymaps"))
-(defvar irkalla/utilities-dir  (concat irkalla/root-dir "/utilities"))
-(defvar irkalla/completion-dir (concat irkalla/root-dir "/completion"))
+(defvar irkalla/editor-dir      (concat irkalla/root-dir "/editor"))
+(defvar irkalla/keymaps-dir     (concat irkalla/root-dir "/keymaps"))
+(defvar irkalla/utilities-dir   (concat irkalla/root-dir "/utilities"))
 
 ;; :NOTE| adding our directories to the Emacs load-path
 (defun add-subdirs-to-load-path (dir)
@@ -34,8 +33,8 @@
              (concat irkalla/decorations-dir "/themes"))
 
 ;; Early package modifications
-(require 'init-packages)
 (require 'init-performance)
+(require 'init-packages)
 (require 'init-options)
 
 ;; :NOTE| Changing the behaviour of custom.el
@@ -56,7 +55,7 @@
         (font                 . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
         (height               . 125)
         (mouse-color          . "white")
-        
+
         ;; :NOTE| Disabling unnecessary bloat..
         (fullscreen           . nil)
         (menu-bar-lines       . 0)
@@ -64,8 +63,13 @@
         (vertical-scroll-bars . nil))
       default-frame-alist (copy-alist initial-frame-alist))
 
+;; :NOTE| frame fontification is necessary!
 (set-fontset-font "fontset-default"
-                  'arabic (font-spec :family "Scheherazade New;" :size 25)
-                  (charsetp 'chinese-gb18030) (font-spec :family "Sarasa Gothic SC" :size 25))
+                  'arabic
+                  (font-spec :family "Scheherazade New;" :size 25))
+
+(set-fontset-font "fontset-default"
+                  (charsetp 'chinese-gb18030)
+                  (font-spec :family "Sarasa Gothic SC" :size 25))
 
 ;;; early-init.el ends here
