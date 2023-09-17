@@ -7,6 +7,8 @@
 - [ ] Fix background of Emacs dashboard logo + latex preview images! (:FIXME| Emacs problem -> nothing to be fixed...)
 - [ ] Infinite loading for Haskell babel due to system GHCi configuration..
 - [ ] Treesitter Emacs (Nix issue??)
+- [ ] ~bidi-paragraph-direction nil~ does not work??
+- [ ] ~set-fontset-font~ modifications are not applied on start..???
 
 * Plugins worth checking out!
     - https://github.com/emacs-lsp/dap-mode

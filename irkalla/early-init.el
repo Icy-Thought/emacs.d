@@ -11,9 +11,19 @@
 
 ;;; Code:
 
-;; :NOTE| Defining our custom directories
+;; :NOTE| Specifying the location where Irkalla resides
 (setq user-emacs-directory "~/.config/emacs")
 
+;; :NOTE| appending UI changes early to Emacs
+(setq default-frame-alist
+      '((alpha-background     . 85)
+        (fullscreen           . nil)
+        (menu-bar-lines       . 0)
+        (tool-bar-lines       . 0)
+        (vertical-scroll-bars . nil))
+      initial-frame-alist (copy-alist default-frame-alist))
+
+;; :NOTE| Providing quicker access to Irkalla's directories 
 (defvar irkalla/root-dir        (file-truename "~/Workspace/public/emacs.d/irkalla/site-lisp"))
 (defvar irkalla/completion-dir  (concat irkalla/root-dir "/completion"))
 (defvar irkalla/decorations-dir (concat irkalla/root-dir "/decorations"))
@@ -48,28 +58,5 @@
 ;; Prevent certain buffers from being killed
 (with-current-buffer "*scratch*"  (emacs-lock-mode 'kill))
 (with-current-buffer "*Messages*" (emacs-lock-mode 'kill))
-
-;; :NOTE| appending UI changes early to Emacs
-(setq initial-frame-alist
-      '((alpha-background     . 85)
-        (font                 . "VictorMono Nerd Font-13.5:weight=bold:antialias=true")
-        (height               . 125)
-        (mouse-color          . "white")
-
-        ;; :NOTE| Disabling unnecessary bloat..
-        (fullscreen           . nil)
-        (menu-bar-lines       . 0)
-        (tool-bar-lines       . 0)
-        (vertical-scroll-bars . nil))
-      default-frame-alist (copy-alist initial-frame-alist))
-
-;; :NOTE| frame fontification is necessary!
-(set-fontset-font "fontset-default"
-                  'arabic
-                  (font-spec :family "Scheherazade New;" :size 25))
-
-(set-fontset-font "fontset-default"
-                  (charsetp 'chinese-gb18030)
-                  (font-spec :family "Sarasa Gothic SC" :size 25))
 
 ;;; early-init.el ends here
