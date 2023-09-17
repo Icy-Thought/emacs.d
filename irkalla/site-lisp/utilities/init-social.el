@@ -51,7 +51,9 @@
   :elpaca nil ;; <-^ fetched from Nixpkgs
   :defer 2
   :hook (telega-chat-mode . olivetti-mode)
-  :custom (telega-directory (no-littering-expand-var-file-name "telega/")))
+  :custom
+  (telega-directory (no-littering-expand-var-file-name "telega/"))
+  (telega-chat-bidi-display-reordering t))
 
 (provide 'init-social)
 ;;; init-social.el ends here

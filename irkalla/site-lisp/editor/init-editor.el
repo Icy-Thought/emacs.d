@@ -14,22 +14,13 @@
 (irkalla/enable-modules
  (evil dirvish ligatures memorandum ediff region citar treesitter whitespace))
 
-(use-package auto-revert
-  :elpaca nil
-  :hook ((prog-mode text-mode) . auto-revert-mode)
-  :custom
-  (auto-revert-interval 1)
-  (auto-revert-notify t)
-  (auto-revert-verbose t))
-
-(use-package editorconfig
-  :hook (prog-mode . editorconfig-mode))
 
 (use-package emacs
   :elpaca nil
   :hook ((text-mode . auto-fill-mode)
          (text-mode . visual-line-mode))
-  :custom
+  :custom 
+  (bidi-paragraph-direction nil)
   (confirm-nonexistent-file-or-buffer nil)
   (electric-indent-inhibit t)
   (fill-column 120)
@@ -43,6 +34,17 @@
   (window-combination-resize t)
   (word-wrap nil)
   (x-stretch-cursor t))
+
+(use-package auto-revert
+  :elpaca nil
+  :hook ((prog-mode text-mode) . auto-revert-mode)
+  :custom
+  (auto-revert-interval 1)
+  (auto-revert-notify t)
+  (auto-revert-verbose t))
+
+(use-package editorconfig
+  :hook (prog-mode . editorconfig-mode))
  
 (use-package display-line-numbers
  :elpaca nil
@@ -64,7 +66,7 @@
 (use-package olivetti
   :general
   (irkalla/comma-lead-keydef
-    "q" '(olivetti-mode :which-key "Center Buffer Text!"))
+    "q o" '(olivetti-mode :which-key "Center Buffer Text!"))
   :custom
   (olivetti-body-width 0.7)
   (olivetti-minimum-body-width 115)

@@ -18,6 +18,9 @@
 (use-package alert
   :custom (alert-default-style 'libnotify))
 
+(use-package emacs-everywhere
+  :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
+
 (use-package helpful
   :general
   (irkalla/space-lead-keydef
@@ -36,17 +39,18 @@
   :hook (elpaca-after-init . openwith-mode)
   :config
   (setq openwith-associations
-        (list (list (openwith-make-extension-regexp
-                     '("mpg" "mpeg" "mp3" "mp4" "avi" "wmv" "wav"
-                       "mov" "flv" "ogm" "ogg" "mkv"))
-                    "mpv" '(file)))))
+        `((,(openwith-make-extension-regexp
+             '("mpg" "mpeg" "mp3" "mp4"
+               "avi" "wmv" "wav" "mov" "flv"
+               "ogm" "ogg" "mkv"))
+           "mpv" '(file))
+          (,(openwith-make-extension-regexp
+             '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
+           "libreoffice" (file)))))
 
-(use-package emacs-everywhere
-  :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
-
-(use-package screenshot
-  :elpaca (:host github :repo "tecosaur/screenshot")
-  :defer t)
+ (use-package screenshot
+   :elpaca (:host github :repo "tecosaur/screenshot")
+   :defer t)
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here

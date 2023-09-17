@@ -19,10 +19,9 @@
 
 (use-package faces
   :elpaca nil
-  :config
-  (custom-set-faces
-    '(fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
-    '(variable-pitch ((t (:family irkalla/default-font-family :height 135))))))
+  :custom-face
+  (fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
+  (variable-pitch ((t (:family irkalla/default-font-family :height 135)))))
 
 (use-package font-lock
   :elpaca nil
