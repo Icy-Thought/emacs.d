@@ -11,25 +11,21 @@
 
 ;;; Code:
 
-(defgroup ikralla-emacs nil
+(defgroup ikralla nil
   "Irkalla might as well become a cult at this point."
-  :group 'local
-  :prefix "irkalla-emacs/"
-  :tag "Irkalla")
-
-;; :NOTE| Specifying the location where Irkalla resides
-(setq user-emacs-directory "~/.config/emacs")
+  :link '(url-link "https://github.com/Icy-Thought/emacs.d/tree/main/irkalla")
+  :group 'emacs)
 
 ;; :NOTE| appending UI changes early to Emacs
-(defcustom default-font-family "VictorMono Nerd Font"
+(defcustom irkalla/default-font-family "VictorMono Nerd Font"
   "The default font family of our Irkalla frames."
   :type 'string
-  :group 'irkalla-emacs)
+  :group 'irkalla)
 
 (setq default-frame-alist
       (append (list
                '(alpha-background     . 85)
-               `(font                 . ,(concat default-font-family ":pixelsize=19:weight=semibold"))
+               `(font                 . ,(concat irkalla/default-font-family ":pixelsize=19:weight=semibold"))
                '(fullscreen           . nil)
                '(menu-bar-lines       . 0)
                '(tool-bar-lines       . 0)
@@ -37,16 +33,17 @@
       initial-frame-alist (copy-alist default-frame-alist))
 
 ;; :NOTE| Providing quicker access to Irkalla's directories 
-(defcustom main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
+(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
   "The directory where Irkalla resides in."
   :type 'string
-  :group 'irkalla-emacs)
+  :group 'irkalla)
+(setq-default user-emacs-directory "~/.config/emacs")
 
-(defvar irkalla/completion-dir  (concat main-residence "/site-lisp/completion"))
-(defvar irkalla/decorations-dir (concat main-residence "/site-lisp/decorations"))
-(defvar irkalla/editor-dir      (concat main-residence "/site-lisp/editor"))
-(defvar irkalla/keymaps-dir     (concat main-residence "/site-lisp/keymaps"))
-(defvar irkalla/utilities-dir   (concat main-residence "/site-lisp/utilities"))
+(defvar irkalla/completion-dir  (concat irkalla/main-residence "/site-lisp/completion"))
+(defvar irkalla/decorations-dir (concat irkalla/main-residence "/site-lisp/decorations"))
+(defvar irkalla/editor-dir      (concat irkalla/main-residence "/site-lisp/editor"))
+(defvar irkalla/keymaps-dir     (concat irkalla/main-residence "/site-lisp/keymaps"))
+(defvar irkalla/utilities-dir   (concat irkalla/main-residence "/site-lisp/utilities"))
 
 ;; :NOTE| adding our directories to the Emacs load-path
 (defun add-subdirs-to-load-path (dir)
@@ -54,7 +51,7 @@
   (let ((default-directory (file-name-as-directory dir)))
     (add-to-list 'load-path dir)
     (normal-top-level-add-subdirs-to-load-path)))
-(add-subdirs-to-load-path main-residence)
+(add-subdirs-to-load-path irkalla/main-residence)
 
 (add-to-list 'custom-theme-load-path
              (concat irkalla/decorations-dir "/themes"))

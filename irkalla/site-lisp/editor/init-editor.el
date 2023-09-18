@@ -12,8 +12,7 @@
 ;;; Code:
 
 (irkalla/enable-modules
- (evil dirvish ligatures memorandum ediff region citar treesitter whitespace))
-
+ (evil dirvish ligatures memorandum ediff olivetti region citar treesitter whitespace))
 
 (use-package emacs
   :elpaca nil
@@ -63,15 +62,6 @@
 (use-package hl-line
   :elpaca nil
   :hook (elpaca-after-init . global-hl-line-mode))
-
-(use-package olivetti
-  :general
-  (irkalla/comma-lead-keydef
-    "q o" '(olivetti-mode :which-key "Center Buffer Text!"))
-  :custom
-  (olivetti-body-width 0.7)
-  (olivetti-minimum-body-width 115)
-  (olivetti-recall-visual-line-mode-entry-state t))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

@@ -11,10 +11,6 @@
 
 ;;; Code:
 
-;; :NOTE| Throwaway name? Perhaps. Who am I really?
-(setq user-full-name "Icy-Thought"
-      user-mail-address "icy-thought@pm.me")
-
 ;; NOTE| Time to append our module to Irkalla
 (defmacro irkalla/enable-modules (module-list)
   "Enable `init-' modules specified by the given MODULE-LIST."

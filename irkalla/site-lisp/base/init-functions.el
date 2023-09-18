@@ -29,22 +29,5 @@
           (directory-files base-dir t "^[^.].*"))
     (message "Directories inside ~/Workspace/public added as known projects.")))
 
-;;;###autoload
-(defun irkalla/no-distractions ()
-  "Toggle buffer appearance for a touch of sophistication."
-  (interactive)
-  (cond
-    (buffer-face-mode
-     (display-line-numbers-mode +1)
-     (olivetti-mode -1)
-     (text-scale-increase 0.0)
-     (buffer-face-mode -1))
-    (t (display-line-numbers-mode -1)
-       (olivetti-mode +1)
-       (olivetti-set-width 80)
-       (text-scale-increase 1.5)
-       (setq-local buffer-face-mode-face '(:family "Dancing Script"))
-       (buffer-face-mode +1))))
-
 (provide 'init-functions)
 ;;; init-functions.el ends here

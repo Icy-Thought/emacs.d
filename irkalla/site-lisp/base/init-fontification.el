@@ -1,4 +1,4 @@
-;;; init-font-faces.el --- Font-face Customizations -*- lexical-binding: t -*-
+;;; init-fontification.el --- Font-face Customizations -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -29,7 +29,6 @@
 
 (use-package font-lock
   :elpaca nil
-  :defer t
   :custom-face
   (font-lock-builtin-face       ((t (:slant italic))))
   (font-lock-comment-face       ((t (:slant italic))))
@@ -39,5 +38,5 @@
   (font-lock-preprocessor-face  ((t (:weight bold))))
   (font-lock-string-face        ((t (:slant italic)))))
 
-(provide 'init-font-faces)
-;;; init-font-faces.el ends here
+(provide 'init-fontification)
+;;; init-fontification.el ends here

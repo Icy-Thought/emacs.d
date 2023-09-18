@@ -67,7 +67,6 @@
 
   (irkalla/comma-lead-keydef
     "b"   '(:ignore t               :which-key "Buffer")
-    "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing")
 
     "g"   '(:ignore t               :which-key "Profiling")
     "g s" '(profiler-start          :which-key "Start Profiling")

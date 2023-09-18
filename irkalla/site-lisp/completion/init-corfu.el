@@ -63,7 +63,6 @@
   :after (:any svg-lib corfu)
   :custom
   (kind-icon-default-face 'corfu-default)
-  ;; :NOTE| Changing the color of our icons
   (kind-icon-blend-background nil)
   (kind-icon-blend-frac 0.08)
   :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
