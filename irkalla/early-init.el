@@ -29,7 +29,7 @@
 (setq default-frame-alist
       (append (list
                '(alpha-background     . 85)
-               `(font                 . ,(concat default-font-family "-13:weight=semibold:antialias=true"))
+               `(font                 . ,(concat default-font-family ":pixelsize=19:weight=semibold"))
                '(fullscreen           . nil)
                '(menu-bar-lines       . 0)
                '(tool-bar-lines       . 0)

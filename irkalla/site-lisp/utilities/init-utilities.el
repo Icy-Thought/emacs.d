@@ -46,11 +46,11 @@
            "mpv" '(file))
           (,(openwith-make-extension-regexp
              '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
-           "libreoffice" (file)))))
+           "libreoffice" (file))))
 
  (use-package screenshot
    :elpaca (:host github :repo "tecosaur/screenshot")
-   :defer t)
+   :defer t))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here

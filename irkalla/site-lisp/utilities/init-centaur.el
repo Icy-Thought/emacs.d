@@ -12,10 +12,14 @@
 ;;; Code:
 
 (use-package centaur-tabs
-  :hook (elpaca-after-init . centaur-tabs-mode)
+  :hook ((calendar-mode
+          dashboard-mode
+          org-agenda-mode
+          vterm-mode) . centaur-tabs-local-mode)
   :general (:states 'normal :keymaps 'centaur-tabs-mode-map
              "C-<prior>" #'centaur-tabs-backward
              "C-<next>"  #'centaur-tabs-forward)
+  :config (centaur-tabs-mode t)
   :custom
   (centaur-tabs-enable-key-bindings t)
   (centaur-tabs-height 32)
