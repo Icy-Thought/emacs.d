@@ -15,20 +15,6 @@
 (setq user-full-name "Icy-Thought"
       user-mail-address "icy-thought@pm.me")
 
-;; :NOTE| frame fontification is necessary!
-(defmacro irkalla/set-fontset (charset font-name &rest params)
-  "Define font for CHARSET -> FONT-NAME + PARAMS when == existant."
-  `(when (member ,font-name (font-family-list))
-     (set-fontset-font "fontset-default" ,charset
-                       (font-spec :family ,font-name ,@params) nil 'prepend)))
-
-(irkalla/set-fontset 'arabic "Scheherazade New" :size 19 :weight 'normal)
-(irkalla/set-fontset 'han    "Sarasa Gothic CL" :size 19 :weight 'normal)
-(irkalla/set-fontset 'symbol "Noto Color Emoji")
-
-(add-to-list 'default-frame-alist
-             '(font . "VictorMono Nerd Font:size=17:weight=semibold:antialias=true"))
-
 ;; NOTE| Time to append our module to Irkalla
 (defmacro irkalla/enable-modules (module-list)
   "Enable `init-' modules specified by the given MODULE-LIST."

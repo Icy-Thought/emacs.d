@@ -17,10 +17,11 @@
 
 (use-package emacs
   :elpaca nil
-  :hook ((text-mode . auto-fill-mode)
-         (text-mode . visual-line-mode))
+  :hook (text-mode . (lambda ()
+                       (auto-fill-mode)
+                       (visual-line-mode)
+                       (setq-local bidi-paragraph-direction nil)))
   :custom 
-  (bidi-paragraph-direction nil)
   (confirm-nonexistent-file-or-buffer nil)
   (electric-indent-inhibit t)
   (fill-column 120)

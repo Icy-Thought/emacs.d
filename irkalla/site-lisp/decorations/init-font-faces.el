@@ -11,17 +11,21 @@
 
 ;;; Code:
 
-(use-package face-remap
-  :elpaca nil
-  :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
-         ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
-         ("C--" . (lambda () (interactive) (text-scale-decrease 0.5)))))
-
 (use-package faces
   :elpaca nil
   :custom-face
   (fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
   (variable-pitch ((t (:family irkalla/default-font-family :height 135)))))
+
+(use-package face-remap
+  :elpaca nil
+  :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
+         ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
+         ("C--" . (lambda () (interactive) (text-scale-decrease 0.5))))
+  :config
+  (set-fontset-font t 'arabic (font-spec :family "Scheherazade New") nil 'prepend)
+  (set-fontset-font t 'han    (font-spec :family "Sarasa Mono CL")   nil 'prepend)
+  (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'append))
 
 (use-package font-lock
   :elpaca nil

@@ -99,21 +99,22 @@
                 (svg-tag-make tag :face 'org-cite :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
   
           ;; Org TAGS
-          (":TODO:" . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-todo))))
-          (":WIP:" . ((lambda (tag) (svg-tag-make "WIP" :inverse t :face 'org-cite))))
-          (":DONE:" . ((lambda (tag) (svg-tag-make "DONE" :inverse t :face 'org-done))))
-          (":NOTE:" . ((lambda (tag) (svg-tag-make "NOTE"))))
+          (":TODO:"     . ((lambda (tag) (svg-tag-make "TODO" :inverse t :face 'org-todo))))
+          (":WIP:"      . ((lambda (tag) (svg-tag-make "WIP" :inverse t :face 'org-cite))))
+          (":DONE:"     . ((lambda (tag) (svg-tag-make "DONE" :inverse t :face 'org-done))))
+          (":NOTE:"     . ((lambda (tag) (svg-tag-make "NOTE"))))
           ("SCHEDULED:" . ((lambda (tag) (svg-tag-make "SCHEDULED" :inverse t :face 'org-warning))))
-          ("DEADLINE:" . ((lambda (tag) (svg-tag-make "DEADLINE" :inverse t :face 'org-priority))))
+          ("DEADLINE:"  . ((lambda (tag) (svg-tag-make "DEADLINE" :inverse t :face 'org-priority))))
           ;; ("+BEGIN_SRC" . ((lambda (tag) (svg-tag-make "BEGIN" :inverse t :face 'org-code))))
-          ;; ("+END_SRC" . ((lambda (tag) (svg-tag-make "END" :face 'org-code))))
-          ;; ("+RESULTS:" . ((lambda (tag) (svg-tag-make "RESULTS" :face 'org-cite-key :underline nil))))
-          (":X" . ((lambda (tag) (svg-tag-make "[X]" :inverse t :face 'org-checkbox-statistics-done))))
-          (":-" . ((lambda (tag) (svg-tag-make "[-]" :inverse t :face 'org-checkbox))))
+          ;; ("+END_SRC"   . ((lambda (tag) (svg-tag-make "END" :face 'org-code))))
+          ;; ("+RESULTS:"  . ((lambda (tag) (svg-tag-make "RESULTS" :face 'org-cite-key :underline nil))))
+          (":X"         . ((lambda (tag) (svg-tag-make "[X]" :inverse t :face 'org-checkbox-statistics-done))))
+          (":-"         . ((lambda (tag) (svg-tag-make "[-]" :inverse t :face 'org-checkbox))))
   
           ;; Citation of the form [cite:@Knuth:1984]
           ("\\(\\[cite:@[A-Za-z]+:\\)"
-           . ((lambda (tag) (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
+           . ((lambda (tag)
+                (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
   
           ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)"
            . ((lambda (tag)

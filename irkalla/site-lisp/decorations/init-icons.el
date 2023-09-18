@@ -14,7 +14,7 @@
 (use-package nerd-icons
   :demand t
   :custom
-  (nerd-icons-font-family (face-attribute 'default :family))
+  (nerd-icons-font-family default-font-family)
   (nerd-icons-scale-factors 1.25))
 
 (use-package nerd-icons-completion

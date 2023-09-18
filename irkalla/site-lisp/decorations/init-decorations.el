@@ -12,7 +12,7 @@
 ;;; Code:
 
 (irkalla/enable-modules
- (font-faces icons))
+ (font-faces icons)) ;; svg-tags
 
 (use-package emacs
   :elpaca nil
@@ -27,7 +27,7 @@
       (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
   :general
   (irkalla/comma-lead-keydef
-    "q a" '(irkalla/toggle-frame-transparency :which-key "Toggle Opacity")))
+    "q a" '(irkalla/toggle-frame-transparency :which-key "Toggle Opacity")))  
 
 (use-package autothemer
   :demand t
