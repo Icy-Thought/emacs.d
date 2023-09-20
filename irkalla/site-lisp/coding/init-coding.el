@@ -1,4 +1,4 @@
-;;; init-completion.el --- Completion-related Changes -*- lexical-binding: t -*-
+;;; init-coding.el --- Coding-related Changes -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -7,7 +7,7 @@
 ;; URL: https://icy-thought.github.io/
 
 ;;; Commentary:
-;; Editing within Emacs should become a fluid experience, and completions help us reduce the amount of typing -> more
+;; Editing within Emacs should become a fluid experience, and completions & LSP help us reduce the amount of typing -> more
 ;; fluid experience.
 
 ;;; Code:
@@ -67,5 +67,5 @@
   (:states 'normal :keymaps '(prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 
-(provide 'init-completion)
-;;; init-completion.el ends here
+(provide 'init-coding)
+;;; init-coding.el ends here

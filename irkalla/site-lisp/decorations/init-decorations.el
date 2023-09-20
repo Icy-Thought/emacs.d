@@ -12,7 +12,7 @@
 ;;; Code:
 
 (irkalla/enable-modules
- (icons)) ;; svg-tags
+ (icons svg-tags))
 
 (use-package emacs
   :elpaca nil

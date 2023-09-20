@@ -60,7 +60,7 @@
 
 ;; :NOTE| Providing corfu with icons for better completion menu
 (use-package kind-icon
-  :after (:any svg-lib corfu)
+  :after (svg-lib corfu)
   :custom
   (kind-icon-default-face 'corfu-default)
   (kind-icon-blend-background nil)
