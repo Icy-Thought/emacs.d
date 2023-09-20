@@ -12,9 +12,6 @@
 
 ;;; Code:
 
-(use-package svg-lib
-  :defer t)
-
 (use-package svg-tag-mode
   :after svg-lib
   :hook ((prog-mode text-mode) . svg-tag-mode)

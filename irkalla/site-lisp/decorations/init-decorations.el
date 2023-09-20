@@ -45,5 +45,17 @@
   :hook (emacs-lisp-mode . prettify-symbols-mode)
   :custom (prettify-symbols-unprettify-at-point 'right-edge))
 
+;; :NOTE| SVG-library to enrich the user-experience!
+(use-package svg-lib
+  :defer t
+  :config
+  (defun first-graphical-frame-hook-function ()
+    (remove-hook 'focus-in-hook #'first-graphical-frame-hook-function)
+    (provide 'my-gui))
+  (add-hook 'focus-in-hook #'first-graphical-frame-hook-function)
+
+  (with-eval-after-load 'my-gui
+    (setq svg-lib-style-default (svg-lib-style-compute-default))))
+
 (provide 'init-decorations)
 ;;; init-decorations.el ends here
