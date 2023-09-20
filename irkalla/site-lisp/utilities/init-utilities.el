@@ -11,10 +11,6 @@
 
 ;;; Code:
 
-(irkalla/enable-modules
- (direnv whichkey dashboard readers centaur modeline consult embark vc vertico annotations recentf benchmark social
-  terminals))
-
 (use-package alert
   :custom (alert-default-style 'libnotify))
 
@@ -51,6 +47,11 @@
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot")
   :defer t)
+
+;; :NOTE| Lastly, import our custom modules
+(irkalla/enable-modules
+ (direnv whichkey dashboard readers centaur modeline consult embark vc vertico annotations recentf benchmark social
+  terminals))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here

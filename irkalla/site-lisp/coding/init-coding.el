@@ -12,14 +12,6 @@
 
 ;;; Code:
 
-;; Editing basis
-(irkalla/enable-modules
- (corfu tempel diagnostics apheleia eldoc))
-
-;; Language-specific
-(irkalla/enable-modules
- (babel elisp haskell nixlang markdown orgmode org-roam python rust))
-
 (use-package emacs
   :elpaca nil
   :custom
@@ -66,6 +58,13 @@
   :general
   (:states 'normal :keymaps '(prog-mode-map text-mode-map)
     "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
+
+;; :NOTE| Lastly, import our custom modules
+(irkalla/enable-modules
+ (corfu tempel diagnostics apheleia eldoc))
+
+(irkalla/enable-modules
+ (babel elisp haskell nixlang markdown orgmode org-roam python rust))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

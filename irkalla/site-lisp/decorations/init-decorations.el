@@ -11,9 +11,6 @@
 
 ;;; Code:
 
-(irkalla/enable-modules
- (icons svg-tags))
-
 (use-package emacs
   :elpaca nil
   :preface
@@ -47,7 +44,6 @@
 
 ;; :NOTE| SVG-library to enrich the user-experience!
 (use-package svg-lib
-  :defer t
   :config
   (defun first-graphical-frame-hook-function ()
     (remove-hook 'focus-in-hook #'first-graphical-frame-hook-function)
@@ -55,7 +51,13 @@
   (add-hook 'focus-in-hook #'first-graphical-frame-hook-function)
 
   (with-eval-after-load 'my-gui
-    (setq svg-lib-style-default (svg-lib-style-compute-default))))
+    (setq svg-lib-style-default (svg-lib-style-compute-default))
+    (setq svg-lib-style-default
+          (plist-put svg-lib-style-default :font-size 13))))
+
+;; :NOTE| Lastly, import our custom modules
+(irkalla/enable-modules
+ (icons svg-tags))
 
 (provide 'init-decorations)
 ;;; init-decorations.el ends here

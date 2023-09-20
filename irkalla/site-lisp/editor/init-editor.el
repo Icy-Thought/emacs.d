@@ -11,9 +11,6 @@
 
 ;;; Code:
 
-(irkalla/enable-modules
- (evil dirvish ligatures memorandum ediff olivetti region citar treesitter whitespace))
-
 (use-package emacs
   :elpaca nil
   :hook (text-mode . (lambda ()
@@ -62,6 +59,10 @@
 (use-package hl-line
   :elpaca nil
   :hook (elpaca-after-init . global-hl-line-mode))
+
+;; :NOTE| Lastly, import our custom modules
+(irkalla/enable-modules
+ (evil dirvish ligatures memorandum ediff olivetti region citar treesitter whitespace))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
