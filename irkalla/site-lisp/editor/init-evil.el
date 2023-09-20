@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package evil
-  :hook (elpaca-after-init . evil-mode)
+  :hook ((prog-mode text-mode) . evil-mode)
   :general (:states 'normal
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
@@ -24,27 +24,23 @@
   (evil-vsplit-window-right t))
 
 (use-package evil-collection
-  :after evil
   :hook (evil-mode . evil-collection-init)
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-surround
-  :after evil
-  :hook ((prog-mode text-mode) . evil-surround-mode))
+  :hook (evil-mode . evil-surround-mode))
 
 (use-package evil-escape
-  :after evil
-  :hook (evil-mode . evil-escape-mode)
   :delight (evil-escape-mode)
+  :hook (evil-mode . evil-escape-mode)
   :custom
   (evil-escape-key-sequence "jk")
   (evil-escape-delay 0.1)
   (evil-escape-unodered-key-sequence nil))
 
 (use-package evil-goggles
-  :after evil
   :hook (evil-mode . evil-goggles-mode)
   :custom
   (evil-goggles-enable-delete nil)

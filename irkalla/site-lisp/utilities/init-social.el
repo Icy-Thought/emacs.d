@@ -27,6 +27,7 @@
   (ement-room-send-message-filter #'ement-room-send-org-filter)
   (ement-save-sessions t))
 
+;;;###autoload
 (defun irkalla/connect-to-matrix ()
   "Connect Emacs to the Matrix, unless connection exists."
   (interactive)
