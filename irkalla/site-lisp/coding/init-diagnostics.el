@@ -20,7 +20,6 @@
   (elisp-flymake-byte-compile-load-path load-path))
 
 (use-package flymake-collection
-  :after flymake
   :hook (flymake-mode . flymake-collection-hook-setup))
 
 ;; :NOTE| Appending :flymake-hook to the keywords of use-package!

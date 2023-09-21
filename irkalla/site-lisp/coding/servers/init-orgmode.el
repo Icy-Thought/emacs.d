@@ -86,18 +86,15 @@
 
 ;; :NOTE| Automatic rendering of LaTeX code-blocks
 (use-package org-fragtog
-  :after org
   :hook (org-mode . org-fragtog-mode))
 
 ;; :NOTE| Automatic generation of ToC
 (use-package toc-org
-  :after org
   :hook (org-mode . toc-org-enable)
   :custom (toc-org-max-depth 3))
 
 ;; :NOTE| Modernizing our Org-Mode buffers
 (use-package org-modern
-  :after org
   :hook (org-mode . org-modern-mode)
   :custom-face
   (org-modern-symbol ((t (:family "DejaVu Sans"))))

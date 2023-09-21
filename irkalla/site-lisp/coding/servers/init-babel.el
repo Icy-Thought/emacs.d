@@ -13,7 +13,6 @@
 
 (use-package ob
   :elpaca nil
-  :after org
   :preface
   (defun demand-babel-languages (orig-fun &rest args)
     "Load language if needed before executing a source block."

@@ -33,7 +33,6 @@
 
 (use-package vertico-posframe
   :disabled t
-  :after vertico
   :hook (vertico-mode . vertico-posframe-mode)
   :custom
   (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
@@ -41,7 +40,6 @@
 
 (use-package vertico-mouse
   :elpaca nil
-  :after vertico
   :hook (vertico-mode . vertico-mouse-mode))
 
 (use-package vertico-directory

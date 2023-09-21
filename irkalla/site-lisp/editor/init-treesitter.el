@@ -22,7 +22,7 @@
 
 (use-package ts-fold
   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
-  :hook (prog-mode . ts-fold-mode))
+  :hook (tree-sitter-after-on . ts-fold-mode))
 
 (use-package combobulate
   :elpaca (:host github :repo "mickeynp/combobulate")
