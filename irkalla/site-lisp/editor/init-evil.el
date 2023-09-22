@@ -12,14 +12,13 @@
 ;;; Code:
 
 (use-package evil
-  :hook ((prog-mode text-mode) . evil-mode)
+  :hook (elpaca-after-init . evil-mode)
   :general (:states 'normal
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-redo)
   :custom
   (evil-want-integration t)
-  (evil-want-keybinding nil)
   (evil-split-window-below t)
   (evil-vsplit-window-right t))
 

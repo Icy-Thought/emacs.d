@@ -14,7 +14,6 @@
 (use-package emacs
   :elpaca nil
   :hook (text-mode . (lambda ()
-                       (auto-fill-mode)
                        (visual-line-mode)
                        (setq-local bidi-paragraph-direction nil)))
   :custom 

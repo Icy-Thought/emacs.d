@@ -34,10 +34,7 @@
   (irkalla/comma-lead-keydef
     "q o" '(olivetti-mode           :which-key "Center Buffer Text!")
     "b f" '(irkalla/no-distractions :which-key "Distraction-free reading/writing"))
-  :custom
-  (olivetti-body-width 0.7)
-  (olivetti-minimum-body-width 115)
-  (olivetti-recall-visual-line-mode-entry-state t))
+  :custom (olivetti-body-width 120))
 
 (provide 'init-olivetti)
 ;;; init-olivetti.el ends here

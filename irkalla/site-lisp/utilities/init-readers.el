@@ -45,10 +45,7 @@
 ;; :NOTE| A Customizable EPUB Reader
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . (lambda ()
-                      (olivetti-mode +1)
-                      (visual-line-mode +1)
-                      (visual-fill-column-mode +1)))
+  :hook (nov-mode . olivetti-mode)
   :general (:states 'normal :keymaps 'nov-mode-map
              "H"   '(nov-previous-document   :which-key "Go -> previous doc")
              "L"   '(nov-previous-document   :which-key "Go -> next doc")
@@ -67,9 +64,7 @@
   (shr-h4   ((t (:height 1.12 :slant italic))))
   (shr-h5   ((t (:height 1.09 :slant italic))))
   (shr-h6   ((t (:height 1.06 :slant italic))))
-  :custom
-  (nov-text-width t)
-  (nov-text-width 120))
+  :custom (nov-text-width t))
 
 (use-package nov-xwidget
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
