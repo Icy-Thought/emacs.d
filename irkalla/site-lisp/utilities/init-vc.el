@@ -38,6 +38,9 @@
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
   :defer t
+  :hook (prog-mode . blamer-mode)
+  :custom-face
+  (blamer-face ((t (:background nil :height 125 :italic t))))
   :custom
   (blamer-idle-time 0.5)
   (blamer-min-offset 70)
@@ -46,9 +49,7 @@
   (blamer-max-commit-message-length 70)
   (blamer-force-truncate-long-line nil)
   (blamer-author-formatter " ✎ %s ")
-  (blamer-commit-formatter "● \'%s\' ● ")
-  :custom-face
-  (blamer-face ((t (:background nil :height 125 :italic t)))))
+  (blamer-commit-formatter "● \'%s\' ● "))
 
 ;; :NOTE| Symbols to Highlight Git-related Changes
 (use-package git-gutter

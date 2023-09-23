@@ -20,10 +20,13 @@
   :custom
   (evil-want-integration t)
   (evil-split-window-below t)
+  (evil-want-keybinding nil)
   (evil-vsplit-window-right t))
 
 (use-package evil-collection
-  :hook (evil-mode . evil-collection-init)
+  :hook (evil-mode . (lambda ()
+                        (evil-collection-init)
+                        (setq evil-want-keybinding t)))
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))

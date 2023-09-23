@@ -68,6 +68,7 @@
 
 (use-package nov-xwidget
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
+  :defer t
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :general (:states 'normal :keymaps 'nov-mode-map
              "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
