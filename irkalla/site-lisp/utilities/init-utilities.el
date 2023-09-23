@@ -49,7 +49,7 @@
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (direnv whichkey dashboard readers centaur modeline consult embark vc vertico annotations recentf benchmark social
+ (direnv whichkey dashboard readers centaur modeline consult embark vc vertico annotations recentf social
   terminals))
 
 (provide 'init-utilities)
