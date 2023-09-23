@@ -12,7 +12,6 @@
 ;;; Code:
 
 (use-package ligature
-  :defer t
   :hook ((prog-mode text-mode) . ligature-mode)
   :config
   (ligature-set-ligatures 'prog-mode

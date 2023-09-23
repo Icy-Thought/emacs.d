@@ -12,7 +12,6 @@
 ;;; Code:
 
 (use-package esup
-  :defer t
   :custom (esup-depth 0))
 
 (provide 'init-benchmark)

@@ -31,7 +31,6 @@
   :custom (persp-mode-prefix-key (kbd "C-c M-p")))
 
 (use-package posframe
-  :defer t
   :custom (posframe-mouse-banish '(0 . 5000)))
 
 (use-package winner

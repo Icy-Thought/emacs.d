@@ -45,8 +45,7 @@
            "libreoffice" (file)))))
 
 (use-package screenshot
-  :elpaca (:host github :repo "tecosaur/screenshot")
-  :defer t)
+  :elpaca (:host github :repo "tecosaur/screenshot"))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules

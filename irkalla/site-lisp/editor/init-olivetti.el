@@ -13,7 +13,6 @@
 ;;; Code:
 
 (use-package olivetti
-  :defer t
   :preface
   (defun irkalla/no-distractions ()
     "Toggle buffer appearance for a touch of sophistication."

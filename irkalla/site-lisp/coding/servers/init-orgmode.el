@@ -14,7 +14,6 @@
 
 (use-package org
   :elpaca nil
-  :defer t
   :preface
   (defun irkalla/org-electric-dollar ()
     "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."

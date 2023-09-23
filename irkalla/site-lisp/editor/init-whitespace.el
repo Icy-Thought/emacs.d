@@ -13,7 +13,6 @@
 
 (use-package whitespace
   :elpaca nil
-  :defer t
   ;; :hook (prog-mode . whitespace-mode)
   :custom
   (whitespace-action '(cleanup auto-cleanup))

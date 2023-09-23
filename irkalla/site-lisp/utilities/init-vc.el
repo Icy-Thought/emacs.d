@@ -13,7 +13,6 @@
 
 ;; :NOTE| A Magic Wand for Git
 (use-package magit
-  :defer t
   :if (executable-find "git")
   :general
   (irkalla/space-lead-keydef
@@ -37,7 +36,6 @@
 
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
-  :defer t
   :hook (prog-mode . blamer-mode)
   :custom-face
   (blamer-face ((t (:background nil :height 125 :italic t))))
