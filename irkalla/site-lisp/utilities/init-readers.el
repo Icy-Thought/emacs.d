@@ -14,11 +14,10 @@
 ;; :NOTE| PDF-Viewer for readers out there!
 (use-package pdf-tools
   :elpaca nil ;; <-^ fetched from Nixpkgs
-  :config (push 'pdf-tools elpaca-ignored-dependencies))
+  :init (push 'pdf-tools elpaca-ignored-dependencies)) ;; Allows proper detection of ~epdfinfo~
 
 (use-package pdf-view
   :elpaca nil
-  :after pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
