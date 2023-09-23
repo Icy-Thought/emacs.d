@@ -54,12 +54,14 @@
 
 ;; :NOTE| Completion at point through Cape
 (use-package cape
+  :after corfu
   :config
   (dolist (fn '(cape-file cape-dabbrev cape-symbol cape-tex cape-keyword))
     (add-to-list 'completion-at-point-functions fn)))
 
 ;; :NOTE| Providing corfu with icons for better completion menu
 (use-package kind-icon
+  :demand t
   :after (svg-lib corfu)
   :custom
   (kind-icon-default-face 'corfu-default)

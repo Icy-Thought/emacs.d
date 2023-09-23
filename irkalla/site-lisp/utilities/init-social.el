@@ -44,13 +44,15 @@
           :uri-prefix "http://localhost:8009")))))
 
 ;; :NOTE| Code-block syntax highlighting
-(use-package htmlize
-  :defer t)
+(use-package htmlize)
 
 ;; :NOTE| Emacs Telegram client
 (use-package telega
   :elpaca nil ;; <-^ fetched from Nixpkgs
-  :hook (telega-chat-mode . olivetti-mode)
+  :commands telega
+  :hook (telega-chat-mode . (lambda ()
+                              (olivetti-mode)
+                              (visual-line-mode -1)))
   :custom
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t))
