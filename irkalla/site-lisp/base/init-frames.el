@@ -38,10 +38,10 @@
   :hook (elpaca-after-init . winner-mode)
   :general
   (irkalla/comma-lead-keydef
-   "z"   '(:ignore t            :which-key "Winner Mode")
-   "z p" '(delete-other-windows :which-key "Win -> Zoom-in")
-   "z u" '(winner-undo          :which-key "Undo Winner")
-   "z r" '(winner-undo          :which-key "Redo Winner")))
+   "w"   '(:ignore t            :which-key "Winner Mode")
+   "w p" '(delete-other-windows :which-key "Win -> Zoom-in")
+   "w u" '(winner-undo          :which-key "Undo Winner")
+   "w r" '(winner-redo          :which-key "Redo Winner")))
 
 (provide 'init-frames)
 ;;; init-frames.el ends here
