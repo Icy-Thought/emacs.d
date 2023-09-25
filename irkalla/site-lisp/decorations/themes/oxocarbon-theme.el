@@ -481,7 +481,11 @@
 
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
   (tab-line                                          (:background base :foreground text))
-  (tab-bar-tab-inactive                              (:background base :foreground text))
+
+  ;; https://www.emacswiki.org/emacs/TabBarMode
+  (tab-bar                                           (:background base    :foreground text))
+  (tab-bar-tab                                       (:background surface :foreground pink :bold t))
+  (tab-bar-tab-inactive                              (:background base    :foreground text))
 
   ;; https://github.com/ema2159/centaur-tabs
   (centaur-tabs-active-bar-face                      (:background base :foreground text))

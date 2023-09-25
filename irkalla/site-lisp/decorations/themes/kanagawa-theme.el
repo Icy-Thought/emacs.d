@@ -544,7 +544,11 @@
 
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
   (tab-line                                      (:background sumiInk-0))
-  (tab-bar-tab-inactive                          (:background sumiInk-1 :foreground fujiWhite))
+
+  ;; https://www.emacswiki.org/emacs/TabBarMode
+  (tab-bar                                       (:background sumiInk-0  :foreground sumiInk-4))
+  (tab-bar-tab                                   (:background sumiInk-1b :foreground waveAqua1 :bold t))
+  (tab-bar-tab-inactive                          (:background sumiInk-0  :foreground sumiInk-4))
 
   ;; https://github.com/ema2159/centaur-tabs
   (centaur-tabs-active-bar-face                  (:background springBlue :foreground fujiWhite))
