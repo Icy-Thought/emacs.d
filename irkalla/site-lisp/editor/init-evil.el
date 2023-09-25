@@ -16,7 +16,7 @@
   :general (:states 'normal
              "M-j" #'pixel-scroll-up
              "M-k" #'pixel-scroll-down)
-  :config (evil-set-undo-system 'undo-redo)
+  :config (evil-set-undo-system 'undo-fu)
   :custom
   (evil-want-integration t)
   (evil-split-window-below t)

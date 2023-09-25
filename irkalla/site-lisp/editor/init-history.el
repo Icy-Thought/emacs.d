@@ -1,4 +1,4 @@
-;;; init-memorandum.el --- Recalling Auto-Saved Information -*- lexical-binding: t -*-
+;;; init-history.el --- Recalling Auto-Saved Information -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -23,10 +23,7 @@
   (history-length 1000)
   (kept-new-versions 7)
   (kept-old-versions 3)
-  (make-backup-files t)
-  (undo-limit 6710886400) ;; 64mb
-  (undo-outer-limit 1006632960) ;; x 10 (960mb), (Emacs uses x100), but this seems too high.
-  (undo-strong-limit 100663296)) ;; x 1.5 (96mb)
+  (make-backup-files t))
 
 (use-package savehist
   :elpaca nil
@@ -44,6 +41,21 @@
   (save-place-file (no-littering-expand-var-file-name "saveplace"))
   (save-place-forget-unreadable-files t))
 
+(use-package undo-fu
+  :demand t
+  :config
+  (setq-default undo-limit 400000           ; 400kb (default is 160kb)
+                undo-outer-limit 48000000   ; 48mb  (default is 24mb)
+                undo-strong-limit 3000000)) ; 3mb   (default is 240kb)
+
+(use-package undo-fu-session
+  :after undo-fu
+  :hook ((prog-mode text-mode) . global-undo-fu-session-mode)
+  :custom
+  (undo-fu-session-directory (no-littering-expand-var-file-name "undo-fu-session/"))
+  (undo-fu-session-compression (if (executable-find "zstd") 'zst 'gz))
+  (undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
+
 (use-package vundo
   :general
   (irkalla/comma-lead-keydef
@@ -52,5 +64,5 @@
   (vundo-compact-display t)
   (vundo-glyph-alist vundo-unicode-symbols))
 
-(provide 'init-memorandum)
-;;; init-memorandum.el ends here
+(provide 'init-history)
+;;; init-history.el ends here
