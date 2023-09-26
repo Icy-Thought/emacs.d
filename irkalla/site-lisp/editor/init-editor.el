@@ -59,6 +59,14 @@
   :elpaca nil
   :hook (elpaca-after-init . global-hl-line-mode))
 
+(use-package frames
+  :elpaca nil
+  :hook ((prog-mode text-mode) . window-divider-mode)
+  :custom
+  (window-divider-default-places t)
+  (window-divider-default-right-width 2)
+  (window-divider-default-bottom-width 2))
+
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
  (evil dirvish ligatures history ediff olivetti region citar treesitter whitespace))

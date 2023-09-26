@@ -85,7 +85,6 @@
   (internal-border                               (:background sumiInk-1b))
   (line-number                                   (:foreground sumiInk-4))
   (line-number-current-line                      (:foreground springViolet2 :background sumiInk-2 :bold t))
-  (lv-separator                                  (:foreground waveBlue-2 :background sumiInk-2))
   (match                                         (:background carpYellow :foreground sumiInk-0))
   (menu                                          (:background sumiInk-0 :foreground fujiWhite))
   (mode-line                                     (:background sumiInk-0))
@@ -98,11 +97,10 @@
   (separator-line                                (:background sumiInk-0))
   (shadow                                        (:background sumiInk-0))
   (success                                       (:foreground waveAqua2))
-  (vertical-border                               (:foreground sumiInk-4))
+  (vertical-border                               (:foreground nil))
   (warning                                       (:foreground roninYellow))
   (window-border                                 (:background sumiInk-1b))
   (window-divider                                (:foreground sumiInk-2))
-  (hi-yellow                                     (:background carpYellow :foreground sumiInk-1b))
 
   ;; https://www.emacswiki.org/emacs/WhiteSpace
   (whitespace-newline                            (:foreground sumiInk-2))

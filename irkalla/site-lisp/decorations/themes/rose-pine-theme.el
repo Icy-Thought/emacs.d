@@ -71,9 +71,10 @@
   (numbers                                           (:background gold))
   (region                                            (:background text :foreground highlight-med))
   (tooltip                                           (:background muted :foreground base))
+  (separator-line                                    (:background base)) 
   (shadow                                            (:foreground muted))
   (success                                           (:foreground pine))
-  (vertical-border                                   (:foreground overlay))
+  (vertical-border                                   (:foreground nil))
   (warning                                           (:foreground gold))
   (window-divider                                    (:foreground surface :distant-foreground base))
 
