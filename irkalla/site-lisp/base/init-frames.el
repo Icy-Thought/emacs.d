@@ -31,7 +31,9 @@
   :hook (elpaca-after-init . tab-bar-mode)
   :bind (("C-<next>" . tab-next)
          ("C-<prior>" . tab-previous))
-  :custom (tab-bar-tab-hints t))
+  :custom
+  (tab-bar-tab-hints t)
+  (tab-bar-new-tab-choice "*dashboard*"))
 
 (use-package tabspaces
   :hook (tab-bar-mode . tabspaces-mode)

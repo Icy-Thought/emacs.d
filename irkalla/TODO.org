@@ -13,6 +13,9 @@
 - [ ] Infinite loading for Haskell babel due to system GHCi configuration..
 - [ ] Treesitter Emacs (Nix issue??)
 - [ ] ~bidi-paragraph-direction nil~ does not work??
+- [ ] Ement, telega -> open in new individual tab. (or maybe even make frames have different tabbing system??)
+- [ ] Headerline instead of mode-line. (recognizes evil state + simple)
+- [ ] Rewire =C-c p= -> =SPC p=
 
 * Plugins worth checking out!
     - https://github.com/emacs-lsp/dap-mode
