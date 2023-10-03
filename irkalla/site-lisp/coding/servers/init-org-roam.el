@@ -14,15 +14,15 @@
 (use-package org-roam
   :after org
   :general
-  (irkalla/comma-lead-keydef org-mode-map
+  (irkalla/comma-lead-keydef
     "o r"   '(:ignore t               :which-key "Org-Roam")
     "o r l" '(org-roam-buffer-toggle  :which-key "Org-Roam -> buffer")
-    "o r n" '(org-roam-node-find      :which-key "Open node -> title/alias")
+    "o r f" '(org-roam-node-find      :which-key "Open node -> title/alias")
     "o r g" '(org-roam-graph          :which-key "Build -> show node of graph")
     "o r i" '(org-roam-node-insert    :which-key "Find node -> insert `:id` org-link")
     "o r c" '(org-roam-capture        :which-key "Open org-capture of node"))
   :custom
-  (org-roam-directory (file-truename "~/org/org-roam"))
+  (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    `(("d" "default" plain "%?"

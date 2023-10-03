@@ -324,6 +324,14 @@
   ;; https://jblevins.org/projects/markdown-mode/
   (markdown-hr-face                              (:foreground sumiInk-2))
   
+;; https://joaotavora.github.io/eglot/
+  (eglot-diagnostic-tag-unnecessary-face         (:foreground sumiInk-4))
+  ;; (eglot-type-hint-face)
+  ;; (eglot-inlay-hint-face)
+  ;; (eglot-parameter-hint-face)
+  ;; (eglot-highlight-symbol-face)
+  (eglot-diagnostic-tag-deprecated-face          (:foreground peachRed))
+  
   ;; https://www.emacswiki.org/emacs/FlyMake
   (flymake-errline                               (:foreground peachRed))
   (flymake-error                                 (:foreground peachRed))
