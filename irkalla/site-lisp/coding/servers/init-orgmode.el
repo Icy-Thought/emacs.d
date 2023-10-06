@@ -30,7 +30,7 @@
   (:states 'insert :keymaps 'org-mode-map
     "$" #'irkalla/org-electric-dollar)
 
-  (irkalla/comma-lead-keydef
+  (irkalla/comma-lead-keydef org-mode-map
     "o"   '(:ignore t        :which-key "Org-Mode")
     "o e" '(org-edit-special :which-key "Edit -> special buffer")
     "o t" '(org-babel-tangle :which-key "Tangle buffer"))
