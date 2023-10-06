@@ -55,7 +55,8 @@
                               (visual-line-mode -1)))
   :custom
   (telega-directory (no-littering-expand-var-file-name "telega/"))
-  (telega-chat-bidi-display-reordering t))
+  (telega-chat-bidi-display-reordering t)
+  (telega-notifications-mode t))
 
 (provide 'init-social)
 ;;; init-social.el ends here
