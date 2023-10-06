@@ -71,5 +71,29 @@
   :general (:states 'normal :keymaps 'nov-mode-map
              "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 
+;; :NOTE| A RSS-reader for our curious minds
+(use-package elfeed
+  :preface
+  (defun elfeed-mark-feed-read ()
+    (mark-whole-buffer)
+    (elfeed-search-untag-all-unread))
+  :hook ((elfeed-show-mode . olivetti-mode)
+         (elfeed-new-entry . (lambda ()
+                               (elfeed-make-tagger :before "4 weeks ago" :remove 'unread))))
+  :general
+  (irkalla/comma-lead-keydef
+    "r"   '(:ignore t             :which-key "Elfeed")
+    "r o" '(elfeed                :which-key "Open Elfeed")
+    "r a" '(elfeed-mark-feed-read :which-key "Mark feed as read"))
+  :custom
+  (elfeed-feeds '("https://sachachua.com/blog/feed/"
+                  "https://www.reddit.com/r/emacs/.rss"
+                  ;; ---[ Mathematics ]---
+                  "https://terrytao.wordpress.com/feed/"
+                  "https://writings.stephenwolfram.com/feed/"
+                  ;; ---[ Physics ]---
+                  "https://phys.org/rss-feed/physics-news/"
+                  "https://phys.org/rss-feed/breaking/physics-news/")))
+
 (provide 'init-readers)
 ;;; init-readers.el ends here
