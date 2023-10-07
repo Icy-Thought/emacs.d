@@ -14,8 +14,8 @@
 (eval-when-compile
   (setq-default package-user-dir (expand-file-name "var/elpa" user-emacs-directory)
                 package-archives
-                '(("elpa"   . "https://elpa.gnu.org/devel/")
-                  ("nongnu" . "https://elpa.nongnu.org/nongnu-devel/")
+                '(("elpa"   . "https://elpa.gnu.org/")
+                  ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                   ("melpa" . "https://melpa.org/packages/")
                   ("org" . "https://orgmode.org/elpa/"))
                 package-archive-priorities
