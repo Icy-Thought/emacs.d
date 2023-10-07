@@ -11,7 +11,18 @@
 
 ;;; Code:
 
+(use-package doom-modeline
+  :hook (elpaca-after-init . doom-modeline-mode)
+  :custom
+  (doom-modeline-bar-width 4)
+  (doom-modeline-buffer-file-name 'relative-to-project)
+  (doom-modeline-github t)
+  (doom-modeline-github-interval (* 30 60))
+  (doom-modeline-height 35)
+  (if (display-graphic-p) (doom-modeline-hud t)))
+
 (use-package telephone-line
+  :disabled t
   :hook ((prog-mode text-mode) . telephone-line-mode)
   :custom
   (telephone-line-height 26)

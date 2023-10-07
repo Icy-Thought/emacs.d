@@ -15,7 +15,7 @@
   :demand t
   :custom
   (nerd-icons-font-family irkalla/default-font-family)
-  (nerd-icons-scale-factors 1.25))
+  (nerd-icons-scale-factor 1.05))
 
 (use-package nerd-icons-completion
   :after (nerd-icons vertico)
