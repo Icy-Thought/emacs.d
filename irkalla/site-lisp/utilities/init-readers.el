@@ -72,28 +72,29 @@
              "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 
 ;; :NOTE| A RSS-reader for our curious minds
-(use-package elfeed
-  :preface
-  (defun elfeed-mark-feed-read ()
-    (mark-whole-buffer)
-    (elfeed-search-untag-all-unread))
-  :hook ((elfeed-show-mode . olivetti-mode)
-         (elfeed-new-entry . (lambda ()
-                               (elfeed-make-tagger :before "4 weeks ago" :remove 'unread))))
+(use-package newsticker
+  :elpaca nil
+  :hook (newsticker-treeview-item-mode . olivetti-mode)
   :general
   (irkalla/comma-lead-keydef
-    "r"   '(:ignore t             :which-key "Elfeed")
-    "r o" '(elfeed                :which-key "Open Elfeed")
-    "r a" '(elfeed-mark-feed-read :which-key "Mark feed as read"))
+    "r"   '(:ignore t                :which-key "RSS Reader")
+    "r o" '(newsticker-treeview      :which-key "Open Treeview")
+    "r q" '(newsticker-treeview-quit :which-key "Quit Treeview"))
   :custom
-  (elfeed-feeds '("https://sachachua.com/blog/feed/"
-                  "https://www.reddit.com/r/emacs/.rss"
-                  ;; ---[ Mathematics ]---
-                  "https://terrytao.wordpress.com/feed/"
-                  "https://writings.stephenwolfram.com/feed/"
-                  ;; ---[ Physics ]---
-                  "https://phys.org/rss-feed/physics-news/"
-                  "https://phys.org/rss-feed/breaking/physics-news/")))
+  (newsticker-url-list
+   '(("Planet Emacslife"            "https://planet.emacslife.com/atom.xml")
+     ("Sacha Chua"                  "https://sachachua.com/blog/feed/")
+     ("Mastering Emacs"             "http://www.masteringemacs.org/feed/")
+     ;; ---[ Mathematics ]---
+     ("Arxiv: Mathematics"          "http://arxiv.org/rss/math")
+     ("Arxiv: Mathematical Physics" "http://arxiv.org/rss/math-ph")
+     ("Terrence Tao (Blog)"         "https://terrytao.wordpress.com/feed/")
+     ("Stephen Wolfram (Blog)"      "https://writings.stephenwolfram.com/feed/")
+     ;; ---[ Computer Science ]---
+     ("Arxiv: Computer Science"     "http://arxiv.org/rss/cs")
+     ;; ---[ Physics ]---
+     ("Arxiv: Physics"              "http://arxiv.org/rss/physics")
+     ("Phys.org: Physics"               "https://phys.org/rss-feed/physics-news/"))))
 
 (provide 'init-readers)
 ;;; init-readers.el ends here
