@@ -74,13 +74,42 @@
 ;; :NOTE| A RSS-reader for our curious minds
 (use-package newsticker
   :elpaca nil
+  :preface 
+  (defun irkalla/newsticker-start-newTab ()
+    "Launch NewsTicker (TreeView) in a new tab."
+    (interactive)
+    (let (success)
+      (unwind-protect
+          (progn
+            (tab-bar-new-tab)
+            (call-interactively #'newsticker-treeview)
+            (tab-bar-rename-tab "newsticker")
+            (setq success t))
+        (unless success
+          (tab-bar-close-tab)))))
+
+  (defun irkalla/newsticker-quit-newTab ()
+    "Quit NewsTicker (TreeView) -> stop NewsTicker -> close tab."
+    (interactive)
+    (newsticker-treeview-quit)
+    (newsticker-stop)
+    (tab-close))
   :hook (newsticker-treeview-item-mode . olivetti-mode)
   :general
+  (:states 'normal :keymaps 'newsticker-treeview-mode-map
+    "q"   'irkalla/newsticker-quit-newTab)
+
   (irkalla/comma-lead-keydef
-    "r"   '(:ignore t                :which-key "RSS Reader")
-    "r o" '(newsticker-treeview      :which-key "Open Treeview")
-    "r q" '(newsticker-treeview-quit :which-key "Quit Treeview"))
+    "r"   '(:ignore t                       :which-key "RSS Reader")
+    "r o" '(irkalla/newsticker-start-newTab :which-key "Open Treeview"))
   :custom
+  (newsticker-automatically-mark-items-as-old nil)
+  (newsticker-automatically-mark-visited-items-as-old t)
+  (newsticker-obsolete-item-max-age 259200) ;; 3 days
+  (newsticker-retrieval-method 'extern)
+  (newsticker-treeview-automatically-mark-displayed-items-as-old nil)
+
+  (newsticker-url-list-defaults nil)
   (newsticker-url-list
    '(("Planet Emacslife"            "https://planet.emacslife.com/atom.xml")
      ("Sacha Chua"                  "https://sachachua.com/blog/feed/")
@@ -94,7 +123,9 @@
      ("Arxiv: Computer Science"     "http://arxiv.org/rss/cs")
      ;; ---[ Physics ]---
      ("Arxiv: Physics"              "http://arxiv.org/rss/physics")
-     ("Phys.org: Physics"               "https://phys.org/rss-feed/physics-news/"))))
+     ("Phys.org: Physics"               "https://phys.org/rss-feed/physics-news/")))
+  (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8"))
+  (newsticker-wget-name "curl"))
 
 (provide 'init-readers)
 ;;; init-readers.el ends here
