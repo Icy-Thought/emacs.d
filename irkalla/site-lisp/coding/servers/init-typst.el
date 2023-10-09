@@ -13,7 +13,7 @@
 
 (use-package typst-mode
   :elpaca (:host sourcehut :repo "meow_king/typst-ts-mode")
-  :mode ("\\.typ\\'" . typst-mode)
+  :mode ("\\.typ\\'" . typst-ts-mode)
   :custom (typst-ts-mode-watch-options "--open")
   :config
   (with-eval-after-load 'consult

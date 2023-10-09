@@ -97,7 +97,8 @@
   :hook (newsticker-treeview-item-mode . olivetti-mode)
   :general
   (:states 'normal :keymaps 'newsticker-treeview-mode-map
-    "q"   'irkalla/newsticker-quit-newTab)
+    "o" 'newsticker-treeview-browse-url
+    "q" 'irkalla/newsticker-quit-newTab)
 
   (irkalla/comma-lead-keydef
     "r"   '(:ignore t                       :which-key "RSS Reader")
@@ -114,6 +115,9 @@
    '(("Planet Emacslife"            "https://planet.emacslife.com/atom.xml")
      ("Sacha Chua"                  "https://sachachua.com/blog/feed/")
      ("Mastering Emacs"             "http://www.masteringemacs.org/feed/")
+     ;; ---[ Science & Technology ]---
+     ("Phys.org: Physics"           "https://phys.org/rss-feed/")
+     ("Quanta Magazine"             "https://api.quantamagazine.org/feed/")
      ;; ---[ Mathematics ]---
      ("Arxiv: Mathematics"          "http://arxiv.org/rss/math")
      ("Arxiv: Mathematical Physics" "http://arxiv.org/rss/math-ph")
@@ -122,8 +126,8 @@
      ;; ---[ Computer Science ]---
      ("Arxiv: Computer Science"     "http://arxiv.org/rss/cs")
      ;; ---[ Physics ]---
-     ("Arxiv: Physics"              "http://arxiv.org/rss/physics")
-     ("Phys.org: Physics"               "https://phys.org/rss-feed/physics-news/")))
+     ("Arxiv: Physics"              "http://arxiv.org/rss/physics")))
+
   (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8"))
   (newsticker-wget-name "curl"))
 
