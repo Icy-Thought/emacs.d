@@ -14,16 +14,14 @@
 (use-package corfu
   :elpaca (:files (:defaults "extensions/*.el"))
   :preface
-  (defun corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active)
-                (bound-and-true-p vertico--input)
-                (eq (current-local-map) read-passwd-map))
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
       (setq-local corfu-echo-delay nil
                   corfu-popupinfo-delay nil)
       (corfu-mode 1)))
   :hook ((elpaca-after-init . global-corfu-mode)
-         (minibuffer-setup . corfu-enable-always-in-minibuffer))
+         (minibuffer-setup . corfu-enable-in-minibuffer))
   :general (:states 'insert :keymaps 'corfu-map
             "TAB"   #'corfu-next
             [tab]   #'corfu-next
