@@ -17,7 +17,7 @@
   :group 'emacs)
 
 ;; :NOTE| appending UI changes early to Emacs
-(defcustom irkalla/default-font-family "VictorMono Nerd Font"
+(defcustom irkalla/default-font-family "VictorMono Nerd Font Mono"
   "The default font family of our Irkalla frames."
   :type 'string
   :group 'irkalla)
