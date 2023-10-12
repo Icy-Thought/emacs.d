@@ -17,12 +17,13 @@
 
 (use-package tree-sitter
   :elpaca nil
-  :hook ((prog-mode . turn-on-tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode)))
+  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :config (global-tree-sitter-mode))
 
 (use-package tree-sitter-langs
-  :diminish tree-sitter-mode
-  :after tree-sitter)
+  :elpaca nil
+  :after tree-sitter
+  :diminish tree-sitter-mode)
 
 (use-package ts-fold
   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")

@@ -128,8 +128,8 @@
      ;; ---[ Physics ]---
      ("Arxiv: Physics"              "http://arxiv.org/rss/physics")))
 
-  (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8"))
-  (newsticker-wget-name "curl"))
+  (newsticker-wget-name "curl")
+  (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8")))
 
 (provide 'init-readers)
 ;;; init-readers.el ends here
