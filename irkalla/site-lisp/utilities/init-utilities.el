@@ -31,25 +31,12 @@
     "h"   '(:ignore t        :which-key "Helpful")
     "h p" '(helpful-at-point :which-key "Show help for SYMB")))
 
-(use-package openwith
-  :hook (elpaca-after-init . openwith-mode)
-  :config
-  (setq openwith-associations
-        `((,(openwith-make-extension-regexp
-             '("mpg" "mpeg" "mp3" "mp4"
-               "avi" "wmv" "wav" "mov" "flv"
-               "ogm" "ogg" "mkv"))
-           "mpv" '(file))
-          (,(openwith-make-extension-regexp
-             '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
-           "libreoffice" (file)))))
-
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot"))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (direnv whichkey dashboard readers modeline consult embark vc vertico annotations recentf social
+ (direnv dired whichkey dashboard readers modeline consult embark vc vertico annotations recentf social
   terminals))
 
 (provide 'init-utilities)

@@ -1,4 +1,4 @@
-;;; init-dirvish.el --- Dirvish: A Dired Frontend -*- lexical-binding: t -*-
+;;; init-dired.el --- Dired-related Configurations -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -7,10 +7,33 @@
 ;; URL: https://icy-thought.github.io/
 
 ;;; Commentary:
-;; Having a different navigation UI for dired would've been useful and that we have dired to thank for!
+;; Dired is not perfect, but it's wonderful! Thus we ought to expand its horizons!!
 
 ;;; Code:
 
+(use-package dired-x
+  :elpaca nil
+  :after dired
+  :preface
+  (defun dired-external-launch (application extensions)
+    "External `APPLICATION' used for launching specific file-extensions."
+    (let ((pattern (concat "\\." (regexp-opt extensions t) "$")))
+      (push (list pattern application) dired-guess-shell-alist-user)))
+  :config
+  (dired-external-launch
+   (if (eq system-type 'gnu/linux) "mpv" "xdg-open")
+   '("avi" "flv" "mkv" "mov" "mp3" "mp4" "mpeg" "mpg" "ogg" "ogm" "wav" "wmv"))
+
+  (dired-external-launch
+   (if (eq system-type 'gnu/linux) "libreoffice" "xdg-open") 
+   '("doc" "docx"  "odt" "xls" "xlsx")))
+
+;; Different syntax highlighting for directories
+(use-package diredfl
+  :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
+  :custom-face (diredfl-dir-name ((t :bold t))))
+
+;; Alternative frontend for dired
 (use-package dirvish
   :hook (dired-mode . dirvish-side-follow-mode)
   :general
@@ -51,10 +74,5 @@
   (dirvish-attributes '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
   (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
 
-;; Different syntax highlighting for directories
-(use-package diredfl
-  :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
-  :custom-face (diredfl-dir-name ((t :bold t))))
-
-(provide 'init-dirvish)
-;;; init-dirvish.el ends here
+(provide 'init-dired)
+;;; init-dired.el ends here

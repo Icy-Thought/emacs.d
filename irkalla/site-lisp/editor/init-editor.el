@@ -69,7 +69,7 @@
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (evil dirvish ligatures history ediff olivetti region citar whitespace))
+ (evil ligatures history ediff olivetti region citar whitespace))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
