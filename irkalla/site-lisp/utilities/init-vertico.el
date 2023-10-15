@@ -63,8 +63,7 @@
   :hook (minibuffer-setup . cursor-intangible-mode)
   :config
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt)))
+  (setopt minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)))
 
 (provide 'init-vertico)
 ;;; init-vertico.el ends here

@@ -12,6 +12,7 @@
 ;;; Code:
 
 (use-package doom-modeline
+  :after nerd-icons
   :hook (elpaca-after-init . doom-modeline-mode)
   :custom
   (doom-modeline-bar-width 4)

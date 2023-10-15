@@ -26,7 +26,7 @@
 (use-package evil-collection
   :hook (evil-mode . (lambda ()
                         (evil-collection-init)
-                        (setq-default evil-want-keybinding t)))
+                        (setopt evil-want-keybinding t)))
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))

@@ -18,7 +18,7 @@
 (use-package citar-embark
   :after (citar embark)
   :hook (org-mode . citar-embark-mode)
-  :config (setq citar-at-point-function 'embark-act))
+  :config (setopt citar-at-point-function 'embark-act))
 
 (provide 'init-citar)
 ;;; init-citar.el ends here

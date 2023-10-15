@@ -52,9 +52,8 @@
   (add-hook 'focus-in-hook #'first-graphical-frame-hook-function)
 
   (with-eval-after-load 'my-gui
-    (setq svg-lib-style-default (svg-lib-style-compute-default))
-    (setq svg-lib-style-default
-          (plist-put svg-lib-style-default :font-size 13))))
+    (setopt svg-lib-style-default (svg-lib-style-compute-default)
+            svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules

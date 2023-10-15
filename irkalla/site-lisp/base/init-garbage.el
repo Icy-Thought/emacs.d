@@ -23,17 +23,15 @@
 (use-package no-littering
   :demand t
   :config
-  (setq no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
-        no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
+  (setopt no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
+          no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
 
   (with-eval-after-load 'recentf
     (add-to-list 'recentf-exclude no-littering-etc-directory)
     (add-to-list 'recentf-exclude no-littering-var-directory))
 
-  (setq-default auto-save-file-name-transforms
-                `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
-                backup-directory-alist
-                `((".*" . ,(no-littering-expand-var-file-name "backups/")))))
+  (setopt auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
+          backup-directory-alist `((".*" . ,(no-littering-expand-var-file-name "backups/")))))
 
 (provide 'init-garbage)
 ;;; init-garbage.el ends here

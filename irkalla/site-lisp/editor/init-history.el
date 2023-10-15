@@ -44,9 +44,9 @@
 (use-package undo-fu
   :demand t
   :config
-  (setq-default undo-limit 400000           ; 400kb (default is 160kb)
-                undo-outer-limit 48000000   ; 48mb  (default is 24mb)
-                undo-strong-limit 3000000)) ; 3mb   (default is 240kb)
+  (setopt undo-limit 400000           ; 400kb (default is 160kb)
+          undo-outer-limit 48000000   ; 48mb  (default is 24mb)
+          undo-strong-limit 3000000)) ; 3mb   (default is 240kb)
 
 (use-package undo-fu-session
   :after undo-fu

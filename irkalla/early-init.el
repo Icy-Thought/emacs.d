@@ -17,27 +17,28 @@
   :group 'emacs)
 
 ;; :NOTE| appending UI changes early to Emacs
-(defcustom irkalla/default-font-family "VictorMono Nerd Font Mono"
+(defcustom irkalla/default-font-family "VictorMono Nerd Font"
   "The default font family of our Irkalla frames."
   :type 'string
   :group 'irkalla)
 
-(setq default-frame-alist
-      (append (list
-               '(alpha-background     . 85)
-               `(font                 . ,(concat irkalla/default-font-family ":pixelsize=19:weight=semibold"))
-               '(fullscreen           . nil)
-               '(menu-bar-lines       . 0)
-               '(tool-bar-lines       . 0)
-               '(vertical-scroll-bars . nil)))
-      initial-frame-alist (copy-alist default-frame-alist))
+(setopt default-frame-alist
+        (append (list
+                 '(alpha-background     . 85)
+                 `(font                 . ,(concat irkalla/default-font-family ":pixelsize=19:weight=semibold"))
+                 '(fullscreen           . nil)
+                 '(menu-bar-lines       . 0)
+                 '(tool-bar-lines       . 0)
+                 '(vertical-scroll-bars . nil)))
+        initial-frame-alist (copy-alist default-frame-alist))
 
 ;; :NOTE| Providing quicker access to Irkalla's directories 
 (defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
   "The directory where Irkalla resides in."
   :type 'string
   :group 'irkalla)
-(setq-default user-emacs-directory "~/.config/emacs")
+
+(setopt user-emacs-directory "~/.config/emacs")
 
 (defvar irkalla/completion-dir  (concat irkalla/main-residence "/site-lisp/completion"))
 (defvar irkalla/decorations-dir (concat irkalla/main-residence "/site-lisp/decorations"))
@@ -62,8 +63,8 @@
 (require 'init-options)
 
 ;; :NOTE| Changing the behaviour of custom.el
-(setq-default custom-file
-              (expand-file-name "etc/custom.el" user-emacs-directory))
+(setopt custom-file
+        (expand-file-name "etc/custom.el" user-emacs-directory))
 
 (if (file-exists-p custom-file)
     (load custom-file 'noerror 'nomessage)

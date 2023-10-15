@@ -45,13 +45,13 @@
     "c S-<return>" '(consult-complex-command     :which-key "Evaluate CMD from hist.")
     "c w"          '(consult-buffer-other-window :which-key "Frame buffer switch"))
   :config
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
+  (setopt register-preview-delay 0.5
+          register-preview-function #'consult-register-format)
   (advice-add #'register-preview :override #'consult-register-window)
 
     ;; Consult -> select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+  (setopt xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
   :custom
   (consult-narrow-key "<") ;; "C-+"
   (consult-customize consult-theme :preview-key '(:debounce 0.2 any)

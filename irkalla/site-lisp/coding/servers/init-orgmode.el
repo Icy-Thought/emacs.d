@@ -42,19 +42,19 @@
   (org-level-4        ((t (:inherit outline-4 :height 1.09))))
   (org-level-5        ((t (:inherit outline-5 :height 1.06))))
   :config
-  (setq org-directory "~/Workspace/memorandum/org-mode")
-  
+  (setopt org-directory "~/Workspace/memorandum/org-mode")
+
   ;; :NOTE| Move our LaTeX previews to cache dir
   (let ((latex-dir (no-littering-expand-var-file-name "latex-preview/")))
     (unless (file-directory-p latex-dir)
       (mkdir latex-dir t))
-    (setq org-preview-latex-image-directory latex-dir))
+    (setopt org-preview-latex-image-directory latex-dir))
 
   ;; :NOTE| Change the aesthetics of our LaTeX previews
-  (setq org-latex-preview-options
-        (progn (plist-put org-format-latex-options :background "Transparent")
-               (plist-put org-format-latex-options :scale 2.5)
-               (plist-put org-format-latex-options :zoom 1.15)))
+  (setopt org-latex-preview-options
+          (progn (plist-put org-format-latex-options :background "Transparent")
+                 (plist-put org-format-latex-options :scale 2.5)
+                 (plist-put org-format-latex-options :zoom 1.15)))
   :custom
   (org-agenda-files '("~/Workspace/memorandum/org-mode/agenda/init.org"))
   (org-catch-invisible-edits 'show-and-error)
@@ -96,8 +96,7 @@
 ;; :NOTE| Modernizing our Org-Mode buffers
 (use-package org-modern
   :hook (org-mode . org-modern-mode)
-  :custom-face
-  (org-modern-symbol ((t (:family "DejaVu Sans"))))
+  :custom-face (org-modern-symbol ((t (:family "DejaVu Sans"))))
   :custom
   ;; :NOTE| Settings replaced by svg-tag-mode
   (org-modern-tag nil)

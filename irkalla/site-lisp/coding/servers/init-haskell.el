@@ -14,9 +14,8 @@
 (use-package haskell-mode
   :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
-  :config
-  (setq eglot-workspace-configuration
-        '((haskell (formattingProvider "stylish-haskell")))))
+  :config (setopt eglot-workspace-configuration 
+                  '((haskell (formattingProvider "stylish-haskell")))))
 
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia

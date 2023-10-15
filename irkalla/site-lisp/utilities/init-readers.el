@@ -84,9 +84,8 @@
             (tab-bar-new-tab)
             (call-interactively #'newsticker-treeview)
             (tab-bar-rename-tab "newsticker")
-            (setq success t))
-        (unless success
-          (tab-bar-close-tab)))))
+            (setopt success t))
+        (unless success (tab-bar-close-tab)))))
 
   (defun irkalla/newsticker-quit-newTab ()
     "Quit NewsTicker (TreeView) -> stop NewsTicker -> close tab."

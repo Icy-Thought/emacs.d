@@ -55,13 +55,13 @@
 
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
-  (setq-default elpaca-use-package-by-default t))
+  (setopt elpaca-use-package-by-default t))
 
 ;; Verify code evaluation before proceeding
 (elpaca-wait)
 
 ;; :NOTE| Deferring packages should be automated
-(setq-default use-package-always-defer t)
+(setopt use-package-always-defer t)
 
 (provide 'init-elpaca)
 ;;; init-elpaca.el ends here
