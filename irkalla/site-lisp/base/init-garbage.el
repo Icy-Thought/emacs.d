@@ -15,7 +15,8 @@
 (use-package gcmh
   :demand t
   :delight " Ⓖ"
-  :custom (gcmh-mode 1)
+  :custom
+  (gcmh-mode 1)
   (gcmh-idle-delay 'auto)
   (gcmh-auto-idle-delay-factor 10)
   (gcmh-high-cons-threshold (* 16 1024 1024))) ; 16MB
@@ -30,8 +31,11 @@
     (add-to-list 'recentf-exclude no-littering-etc-directory)
     (add-to-list 'recentf-exclude no-littering-var-directory))
 
-  (setopt auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
-          backup-directory-alist `((".*" . ,(no-littering-expand-var-file-name "backups/")))))
+  (with-eval-after-load 'files
+    (setopt auto-save-file-name-transforms
+            `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
+            backup-directory-alist
+            `((".*" . ,(no-littering-expand-var-file-name "backups/"))))))
 
 (provide 'init-garbage)
 ;;; init-garbage.el ends here

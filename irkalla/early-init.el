@@ -22,15 +22,15 @@
   :type 'string
   :group 'irkalla)
 
-(setopt default-frame-alist
-        (append (list
-                 '(alpha-background     . 85)
-                 `(font                 . ,(concat irkalla/default-font-family ":pixelsize=19:weight=semibold"))
-                 '(fullscreen           . nil)
-                 '(menu-bar-lines       . 0)
-                 '(tool-bar-lines       . 0)
-                 '(vertical-scroll-bars . nil)))
-        initial-frame-alist (copy-alist default-frame-alist))
+(setq-default default-frame-alist
+              (append (list
+                       '(alpha-background     . 85)
+                       `(font                 . ,(concat irkalla/default-font-family ":pixelsize=19:weight=semibold"))
+                       '(fullscreen           . nil)
+                       '(menu-bar-lines       . 0)
+                       '(tool-bar-lines       . 0)
+                       '(vertical-scroll-bars . nil)))
+              initial-frame-alist (copy-alist default-frame-alist))
 
 ;; :NOTE| Providing quicker access to Irkalla's directories 
 (defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
@@ -38,7 +38,7 @@
   :type 'string
   :group 'irkalla)
 
-(setopt user-emacs-directory "~/.config/emacs")
+(setq-default user-emacs-directory "~/.config/emacs")
 
 (defvar irkalla/completion-dir  (concat irkalla/main-residence "/site-lisp/completion"))
 (defvar irkalla/decorations-dir (concat irkalla/main-residence "/site-lisp/decorations"))
@@ -63,8 +63,8 @@
 (require 'init-options)
 
 ;; :NOTE| Changing the behaviour of custom.el
-(setopt custom-file
-        (expand-file-name "etc/custom.el" user-emacs-directory))
+(setq-default custom-file
+              (expand-file-name "etc/custom.el" user-emacs-directory))
 
 (if (file-exists-p custom-file)
     (load custom-file 'noerror 'nomessage)
