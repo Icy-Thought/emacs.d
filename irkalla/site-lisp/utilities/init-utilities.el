@@ -37,7 +37,7 @@
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
  (direnv dired whichkey dashboard readers modeline consult embark vc vertico annotations recentf social
-  terminals))
+  terminal))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here

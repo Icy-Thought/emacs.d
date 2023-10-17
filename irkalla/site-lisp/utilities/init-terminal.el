@@ -1,4 +1,4 @@
-;;; init-terminals.el --- Terminal Emulator for Emacs -*- lexical-binding: t -*-
+;;; init-terminal.el --- Terminal Emulator for Emacs -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -13,7 +13,7 @@
 
 (use-package vterm
   :elpaca nil
-  :hook (vterm-mode . (lambda () (setq-local global-hl-line-mode nil)))
+  :hook (vterm-mode . (evil-emacs-state))
   :general
   (:states 'insert :keymaps 'vterm-mode-map
    "<S-prior>" #'scroll-down-command
@@ -38,5 +38,5 @@
   (vterm-toggle-fullscreen-p nil)
   (vterm-toggle-use-dedicated-buffer t))
 
-(provide 'init-terminals)
-;;; init-terminals.el ends here
+(provide 'init-terminal)
+;;; init-terminal.el ends here

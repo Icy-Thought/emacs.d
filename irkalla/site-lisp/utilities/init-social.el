@@ -30,14 +30,15 @@
 ;;;###autoload
 (defun irkalla/connect-to-matrix ()
   "Connect Emacs to the Matrix, unless connection exists."
-  (interactive)
+  (interactive "p")
   (require 'ement)
   (let* ((matrix-username "@gilganix:matrix.org"))
     (cond
       ((map-elt ement-sessions matrix-username)
        (ement-room-list))
       ((ement--read-sessions)
-       (call-interactively #'ement-connect))
+       (call-interactively #'ement-connect)
+       (message "Connecting to known Ement session..."))
       (t (ement-connect
           :user-id matrix-username
           :password (irkalla/read-secret-file "ement")

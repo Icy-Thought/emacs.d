@@ -57,7 +57,7 @@
 
 (use-package hl-line
   :elpaca nil
-  :hook (elpaca-after-init . global-hl-line-mode))
+  :hook ((prog-mode text-mode) . hl-line-mode))
 
 (use-package frames
   :elpaca nil
