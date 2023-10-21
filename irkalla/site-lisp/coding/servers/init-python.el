@@ -13,11 +13,10 @@
 
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
-  :hook (python-mode . eglot-ensure)
+  :hook ((python-mode python-ts-mode) . eglot-ensure)
   :flymake-hook
   (python-mode flymake-collection-mypy
-               flymake-collection-ruff)
-  :interpreter ("/usr/bin/env python3" . python-mode))
+               flymake-collection-ruff))
 
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia

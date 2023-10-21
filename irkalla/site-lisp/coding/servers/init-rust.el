@@ -18,10 +18,10 @@
     "Locate the missing Rust project Cargo.toml."
     (if-let ((root (locate-dominating-file dir "Cargo.toml")))
         (list 'vc 'Git root)))
-  :hook (rust-mode . (lambda ()
-                       (eglot-ensure)
-                       (indent-tabs-mode -1)
-                       (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
+  :hook ((rust-mode rust-ts-mode) . (lambda ()
+                                      (eglot-ensure)
+                                      (indent-tabs-mode -1)
+                                      (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
   :general
   (irkalla/comma-lead-keydef rust-mode-map
     "r"   '(:ignore t       :which-key "Rust")
