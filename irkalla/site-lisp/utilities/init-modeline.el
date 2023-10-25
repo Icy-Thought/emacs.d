@@ -13,7 +13,8 @@
 
 (use-package doom-modeline
   :after nerd-icons
-  :hook (elpaca-after-init . doom-modeline-mode)
+  :hook ((elpaca-after-init . doom-modeline-mode)
+         (doom-modeline-mode . display-time-mode))
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)

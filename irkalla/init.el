@@ -30,7 +30,8 @@
   :elpaca nil
   :custom
   (display-time-24hr-format t)
-  (display-time-day-and-date t))
+  (display-time-day-and-date t)
+  (display-time-default-load-average nil))
 
 ;; Requiring the remaining modules
 (irkalla/enable-modules
