@@ -49,7 +49,7 @@
 ;; :NOTE| Emacs Telegram client
 (use-package telega
   :elpaca nil ;; <-^ fetched from Nixpkgs
-  :commands telega
+  :commands (telega)
   :hook (telega-chat-mode . (lambda ()
                               (olivetti-mode)
                               (visual-line-mode -1)))

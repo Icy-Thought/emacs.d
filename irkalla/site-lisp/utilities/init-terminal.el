@@ -13,30 +13,28 @@
 
 (use-package vterm
   :elpaca nil
-  :hook (vterm-mode . (evil-emacs-state))
+  :hook (vterm-mode . evil-emacs-state)
   :general
   (:states 'insert :keymaps 'vterm-mode-map
-   "<S-prior>" #'scroll-down-command
-   "<S-next>"  #'scroll-up-command)
+           "<S-prior>" #'scroll-down-command
+           "<S-next>"  #'scroll-up-command)
 
-  (irkalla/space-lead-keydef
-    "t"   '(:ignore t    :which-key "Terminal")
-    "t t" '(vterm-toggle :which-key "Open VTerm"))
-  
   (irkalla/comma-lead-keydef
     "t"   '(:ignore t       :which-key "Terminal")
     "t c" '(vterm-copy-mode :which-key "Terminal -> read-only"))
-
   :custom
   (vterm-timer-delay 0.01)
   (vterm-max-scrollback 10000)
   (vterm-clear-scrollback-when-clearing t))
 
 (use-package vterm-toggle
-  :after vterm
-  :custom
-  (vterm-toggle-fullscreen-p nil)
-  (vterm-toggle-use-dedicated-buffer t))
+  :commands (vterm-toggle vterm-toggle-cd)
+  :general
+  (irkalla/space-lead-keydef
+    "t"   '(:ignore t       :which-key "Terminal")
+    "t t" '(vterm-toggle    :which-key "Open VTerm")
+    "t c" '(vterm-toggle-cd :which-key "Open VTerm"))
+  :custom (vterm-toggle-fullscreen-p t))
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here
