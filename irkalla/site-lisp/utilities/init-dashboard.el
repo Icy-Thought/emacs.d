@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package dashboard
-  :after nerd-icons
+  :requires (nerd-icons)
   :hook ((elpaca-after-init . dashboard-open)
          (dashboard-mode . hl-line-mode))
   :custom-face

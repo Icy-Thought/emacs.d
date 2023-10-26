@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package org-roam
-  :after org
+  :requires (org)
   :general
   (irkalla/comma-lead-keydef
     "o r"   '(:ignore t               :which-key "Org-Roam")
@@ -40,7 +40,7 @@
 
 ;; :NOTE| A GUI for Org-Roam to reduce the burden of browsing
 (use-package org-roam-ui
-  :after org-roam
+  :requires (org-roam)
   :custom
   (org-roam-ui-sync-theme t)
   (org-roam-ui-follow t)

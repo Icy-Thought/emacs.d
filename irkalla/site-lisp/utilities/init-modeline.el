@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package doom-modeline
-  :after nerd-icons
+  :requires (nerd-icons)
   :hook ((elpaca-after-init . doom-modeline-mode)
          (doom-modeline-mode . display-time-mode))
   :custom

@@ -36,13 +36,9 @@
                  `((rust-ts-mode rust-mode)
                    . ("rust-analyzer"
                       ;; https://rust-analyzer.github.io/manual.html
-                      :initializationOptions
-                      (:cargo       (:features "all")
-                       :completion  (;; Completion-related
-                                     :callable (:snippets "fill_arguments"))
-                       :checkOnSave (;; Actions to check upon saving
-                                     :command "clippy"
-                                     :allTargets :json-false)))))))
+                      :initializationOptions ((:cargo       (:features "all"))
+                                              (:completion  (:callable (:snippets "fill_arguments")))
+                                              (:checkOnSave (:command "clippy" :allTargets :json-false))))))))
 
 ;; :NOTE| adding proper cargo support
 (use-package cargo
@@ -56,7 +52,7 @@
 
 ;; :NOTE| adding org-babel support for Rust
 (use-package ob-rust
-  :after ob)
+  :requires (ob))
 
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia

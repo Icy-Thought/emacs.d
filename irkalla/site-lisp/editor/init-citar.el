@@ -16,7 +16,7 @@
   :custom (citar-bibliography '("~/Workspace/memorandum/references.bib")))
 
 (use-package citar-embark
-  :after (citar embark)
+  :requires (citar embark)
   :hook (org-mode . citar-embark-mode)
   :config (setopt citar-at-point-function 'embark-act))
 

@@ -26,14 +26,14 @@
                        embark-isearch-highlight-indicator))
   :config
   (setopt prefix-help-command #'embark-prefix-help-command)
-    ;; Hide the mode line of the Embark live/completions buffers
+  ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :after (embark consult)
+  :requires (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 (provide 'init-embark)

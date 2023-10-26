@@ -26,10 +26,10 @@
      (t unobtrusive)))
 
   (vertico-multiform-commands
-    '((consult-dir reverse)
-      (execute-extended-command flat)
-      (embark-prefix-help-command reverse)
-      (completion-at-point reverse))))
+   '((consult-dir reverse)
+     (execute-extended-command flat)
+     (embark-prefix-help-command reverse)
+     (completion-at-point reverse))))
 
 (use-package vertico-posframe
   :disabled t
@@ -44,12 +44,12 @@
 
 (use-package vertico-directory
   :elpaca nil
-  :after vertico
+  :requires (vertico)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :general (:keymaps 'vertico-map
-             "RET"   #'vertico-directory-enter
-             "DEL"   #'vertico-directory-delete-char
-             "M-DEL" #'vertico-directory-delete-word))
+                     "RET"   #'vertico-directory-enter
+                     "DEL"   #'vertico-directory-delete-char
+                     "M-DEL" #'vertico-directory-delete-word))
 
 ;; :NOTE| Enhances the behavior & appearance of Emacs mini-buffer prompt:
 (use-package emacs

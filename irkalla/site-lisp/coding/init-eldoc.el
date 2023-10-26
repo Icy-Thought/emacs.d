@@ -21,9 +21,9 @@
   (eldoc-idle-delay 1.0))
 
 (use-package eldoc-box
-  :after eldoc
+  :requires (eldoc)
   :general (:states '(normal operator) :keymaps 'prog-mode-map
-             "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
+                    "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
 
 (provide 'init-eldoc)
 ;;; init-eldoc.el ends here

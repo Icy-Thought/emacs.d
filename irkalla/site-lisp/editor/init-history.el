@@ -42,6 +42,7 @@
   (save-place-forget-unreadable-files t))
 
 (use-package undo-fu
+  :if (>= emacs-major-version 29)
   :demand t
   :config
   (setopt undo-limit 400000           ; 400kb (default is 160kb)
@@ -49,7 +50,7 @@
           undo-strong-limit 3000000)) ; 3mb   (default is 240kb)
 
 (use-package undo-fu-session
-  :after undo-fu
+  :requires (undo-fu)
   :hook ((prog-mode text-mode) . global-undo-fu-session-mode)
   :custom
   (undo-fu-session-directory (no-littering-expand-var-file-name "undo-fu-session/"))

@@ -14,8 +14,8 @@
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
   :general (:states 'normal
-             "M-j" #'pixel-scroll-up
-             "M-k" #'pixel-scroll-down)
+                    "M-j" #'pixel-scroll-up
+                    "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-fu)
   :custom
   (evil-want-integration t)
@@ -25,8 +25,8 @@
 
 (use-package evil-collection
   :hook (evil-mode . (lambda ()
-                        (evil-collection-init)
-                        (setopt evil-want-keybinding t)))
+                       (evil-collection-init)
+                       (setopt evil-want-keybinding t)))
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
@@ -51,7 +51,7 @@
   (evil-goggles-use-diff-faces))
 
 (use-package evil-nerd-commenter
-  :after evil
+  :requires (evil)
   :general
   (irkalla/space-lead-keydef
     ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))

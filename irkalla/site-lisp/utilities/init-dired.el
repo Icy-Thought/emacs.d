@@ -13,7 +13,7 @@
 
 (use-package dired-x
   :elpaca nil
-  :after dired
+  :requires (dired)
   :preface
   (defun dired-external-launch (application extensions)
     "External `APPLICATION' used for launching specific file-extensions."

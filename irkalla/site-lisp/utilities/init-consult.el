@@ -49,7 +49,7 @@
           register-preview-function #'consult-register-format)
   (advice-add #'register-preview :override #'consult-register-window)
 
-    ;; Consult -> select xref locations with preview
+  ;; Consult -> select xref locations with preview
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
   :custom
@@ -62,7 +62,7 @@
                      :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-projectile
-  :after projectile
+  :requires (projectile)
   :general
   (irkalla/space-lead-keydef
     "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
