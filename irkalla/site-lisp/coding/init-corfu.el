@@ -62,12 +62,12 @@
 
 ;; :NOTE| Completion at point through Cape
 (use-package cape
-  :requires (corfu)
-  :hook (corfu-mode . setup-cape-extensions)
   :preface
   (defun setup-cape-extensions ()
     (dolist (fn '(cape-file cape-dabbrev cape-symbol cape-tex cape-keyword))
-      (add-to-list 'completion-at-point-functions fn))))
+      (unless (member fn completion-at-point-functions)
+        (push fn completion-at-point-functions))))
+  :hook (corfu-mode . setup-cape-extensions))
 
 (provide 'init-corfu)
 ;;; init-corfu.el ends here
