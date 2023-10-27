@@ -13,6 +13,7 @@
 
 (use-package vertico
   :elpaca (:files (:defaults "extensions/*"))
+  :requires (vertico-directory)
   :hook (elpaca-after-init . vertico-mode)
   :custom
   (vertico-cycle t)
@@ -44,7 +45,6 @@
 
 (use-package vertico-directory
   :elpaca nil
-  :requires (vertico)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :general (:keymaps 'vertico-map
                      "RET"   #'vertico-directory-enter

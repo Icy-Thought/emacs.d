@@ -28,6 +28,7 @@
   (vterm-clear-scrollback-when-clearing t))
 
 (use-package vterm-toggle
+  :requires (vterm)
   :commands (vterm-toggle vterm-toggle-cd)
   :general
   (irkalla/space-lead-keydef
