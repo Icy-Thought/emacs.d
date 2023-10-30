@@ -57,7 +57,7 @@
   :hook (text-mode . jinx-mode)
   :general
   (:states 'normal :keymaps '(prog-mode-map text-mode-map)
-    "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
+           "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules

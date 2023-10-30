@@ -15,8 +15,9 @@
   :mode ("\\.py\\'" . python-mode)
   :hook ((python-mode python-ts-mode) . eglot-ensure)
   :flymake-hook
-  (python-mode flymake-collection-mypy
-               flymake-collection-ruff))
+  ((python-mode python-ts-mode)
+   flymake-collection-mypy
+   flymake-collection-ruff))
 
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia

@@ -15,19 +15,18 @@
   :elpaca nil
   :hook (prog-mode . flymake-mode)
   :custom
-  ;; (flymake-show-diagnostics-at-end-of-line t) <- way to much info..
   (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path))
+  (elisp-flymake-byte-compile-load-path load-path)
+  :config
+  (with-eval-after-load "eglot"
+    (push 'flymake eglot-stay-out-of)))
 
 (use-package flymake-collection
+  :requires (flymake)
   :hook (flymake-mode . flymake-collection-hook-setup))
 
 ;; :NOTE| Appending :flymake-hook to the keywords of use-package!
 (elpaca-wait)
-
-(with-eval-after-load "eglot"
- (add-to-list 'eglot-stay-out-of 'flymake)
- (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend))
 
 ;; :NOTE| Minimal UI for LSP Diagnostics
 (use-package sideline
