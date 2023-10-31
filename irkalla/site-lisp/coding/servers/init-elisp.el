@@ -12,9 +12,7 @@
 ;;; Code:
 
 (use-package parinfer-rust-mode
-  :hook (emacs-lisp-mode . (lambda ()
-                             (electric-pair-mode -1)
-                             (parinfer-rust-mode)))
+  :hook (emacs-lisp-mode . parinfer-rust-mode)
   :custom
   (parinfer-rust-auto-download t)
   (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))

@@ -41,18 +41,20 @@
 
 (use-package editorconfig
   :hook (prog-mode . editorconfig-mode))
- 
+
 (use-package display-line-numbers
- :elpaca nil
- :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
- :custom (display-line-numbers-type 'relative))
+  :elpaca nil
+  :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
+  :custom (display-line-numbers-type 'relative))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
 (use-package elec-pair
   :elpaca nil
-  :hook ((prog-mode text-mode) . electric-pair-mode)
+  :hook ((prog-mode text-mode) . (lambda ()
+                                   (if (not (derived-mode-p 'emacs-lisp-mode 'lisp-mode))
+                                       (electric-pair-local-mode))))
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
 (use-package hl-line

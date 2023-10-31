@@ -24,6 +24,7 @@
   (evil-vsplit-window-right t))
 
 (use-package evil-collection
+  :requires (evil)
   :hook (evil-mode . (lambda ()
                        (evil-collection-init)
                        (setopt evil-want-keybinding t)))
@@ -32,9 +33,11 @@
   (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-surround
-  :hook (evil-mode . evil-surround-mode))
+  :requires (evil)
+  :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-escape
+  :requires (evil)
   :delight (evil-escape-mode)
   :hook (evil-mode . evil-escape-mode)
   :custom
@@ -43,6 +46,7 @@
   (evil-escape-unodered-key-sequence nil))
 
 (use-package evil-goggles
+  :requires (evil)
   :hook (evil-mode . evil-goggles-mode)
   :custom
   (evil-goggles-enable-delete nil)

@@ -25,8 +25,8 @@
 
 (use-package expand-region
   :general (:states 'visual :keymaps '(prog-mode-map text-mode-map)
-             ")" 'er/expand-region
-             "(" 'er/contract-region))
+                    ")" 'er/expand-region
+                    "(" 'er/contract-region))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
