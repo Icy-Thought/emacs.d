@@ -1,4 +1,4 @@
-;;; init-Diagnostics.el --- Language Diagnostics  -*- lexical-binding: t -*-
+;;; init-flymake.el --- On-The-Fly Syntax Checking -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -15,6 +15,7 @@
   :elpaca nil
   :hook (prog-mode . flymake-mode)
   :custom
+  (flymake-no-changes-timeout 0)
   (flymake-fringe-indicator-position 'right-fringe)
   (elisp-flymake-byte-compile-load-path load-path)
   :config
@@ -39,5 +40,5 @@
   :hook (flymake-mode  . sideline-mode)
   :custom (sideline-backends-right '((sideline-flymake  . down))))
 
-(provide 'init-diagnostics)
-;;; init-diagnostics.el ends here
+(provide 'init-flymake)
+;;; init-flymake.el ends here
