@@ -33,7 +33,7 @@
   :config
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
-                 `((rust-ts-mode rust-mode)
+                 `((rust-mode rust-ts-mode)
                    . ("rust-analyzer"
                       ;; https://rust-analyzer.github.io/manual.html
                       :initializationOptions ((:cargo       (:features "all"))

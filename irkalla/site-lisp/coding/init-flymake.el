@@ -15,16 +15,8 @@
   :elpaca nil
   :hook (prog-mode . flymake-mode)
   :custom
-  (flymake-no-changes-timeout 0)
   (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path)
-  :config
-  (with-eval-after-load "eglot"
-    (push 'flymake eglot-stay-out-of)))
-
-(use-package flymake-collection
-  :requires (flymake)
-  :hook (flymake-mode . flymake-collection-hook-setup))
+  (elisp-flymake-byte-compile-load-path load-path))
 
 ;; :NOTE| Appending :flymake-hook to the keywords of use-package!
 (elpaca-wait)

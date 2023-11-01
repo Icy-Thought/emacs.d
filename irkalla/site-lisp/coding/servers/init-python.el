@@ -14,10 +14,12 @@
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
   :hook ((python-mode python-ts-mode) . eglot-ensure)
-  :flymake-hook
-  ((python-mode python-ts-mode)
-   flymake-collection-mypy
-   flymake-collection-ruff))
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((python-mode python-ts-mode)
+                   . ("pyright-langserver" "--stdio"
+                      :initializationOptions ((:pyright (:typeCheckingMode "strict"))))))))
 
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia
