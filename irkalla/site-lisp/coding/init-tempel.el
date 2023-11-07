@@ -15,7 +15,7 @@
   :preface
   (defun setup-capf-tempel ()
     "Temple + Corfu -> display possible snippet completions."
-    (push #'tempel-complete completion-at-point-functions))
+    (add-to-list 'completion-at-point-functions #'tempel-complete))
   :hook ((conf-mode prog-mode text-mode) . setup-capf-tempel)
   :custom
   (tempel-trigger-prefix "<")

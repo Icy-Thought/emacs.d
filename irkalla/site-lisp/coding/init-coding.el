@@ -23,15 +23,16 @@
   (tab-first-completion 'word-or-paren-or-punct))
 
 (use-package orderless
-  :config
-  (setq-default completion-category-defaults nil
-                completion-category-overrides '((file (styles  . (orderless flex))
-                                                      (eglot (styles . (orderless flex)))))
-                completion-styles '(orderless partial-completion basic)
-                completions-detailed t
-                completion-ignore-case t
-                read-buffer-completion-ignore-case t
-                read-file-name-completion-ignore-case t))
+  :demand t
+  :custom
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file  (styles  . (orderless flex)))
+                                   (eglot (styles . (orderless flex)))))
+  (completion-styles '(orderless partial-completion basic))
+  (completions-detailed t)
+  (completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t))
 
 (use-package eglot
   :elpaca nil

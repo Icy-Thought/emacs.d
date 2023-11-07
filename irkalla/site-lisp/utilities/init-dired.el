@@ -17,8 +17,9 @@
   :preface
   (defun dired-external-launch (application extensions)
     "External `APPLICATION' used for launching specific file-extensions."
-    (let ((pattern (concat "\\." (regexp-opt extensions t) "$")))
-      (push (list pattern application) dired-guess-shell-alist-user)))
+    (let ((pattern (concat "\\." (regexp-opt extensions t) "$"))
+          (entry (list pattern application)))
+      (add-to-list 'dired-guess-shell-alist-user entry)))
   :config
   (dired-external-launch
    (if (eq system-type 'gnu/linux) "mpv" "xdg-open")

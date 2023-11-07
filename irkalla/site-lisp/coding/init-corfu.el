@@ -64,11 +64,9 @@
 (use-package cape
   :preface
   (defun setup-cape-extensions ()
-    (dolist (fn '(cape-file cape-dabbrev cape-symbol cape-tex cape-keyword))
-      (unless (member fn completion-at-point-functions)
-        (push fn completion-at-point-functions))))
-  :hook (elpaca-after-init . setup-cape-extensions)
-  :config (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+    (dolist (cape-fn '(file dabbrev symbol tex keyword))
+      (add-to-list 'completion-at-point-functions (intern (format "cape-%s" cape-fn)))))
+  :hook (corfu-mode . setup-cape-extensions))
 
 (provide 'init-corfu)
 ;;; init-corfu.el ends here

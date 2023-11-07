@@ -24,10 +24,10 @@
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia
   (when (executable-find "isort")
-    (push '(isort . ("isort" "--profile" "black" "--stdout" "-"))
-          apheleia-formatters)
-    (setf (alist-get 'python-mode apheleia-mode-alist)
-          '(isort black))))
+    (setf (alist-get 'isort apheleia-mode-alist)
+          '("isort" "--profile" "black" "--stdout" "-"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
 
 (provide 'init-python)
 ;;; init-python.el ends here

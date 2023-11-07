@@ -20,10 +20,9 @@
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia
   (when (executable-find "stylish-haskell")
-    (push '(stylish-haskell . ("stylish-haskell" "-"))
-          apheleia-formatters)
-    (setf (alist-get 'haskell-mode apheleia-mode-alist)
-          '(stylish-haskell))))
+    (setf (alist-get 'stylish-haskell apheleia-mode-alist)
+          '("stylish-haskell" "-"))
+    (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell))))
 
 (provide 'init-haskell)
 ;;; init-haskell.el ends here
