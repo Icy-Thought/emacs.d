@@ -20,7 +20,7 @@
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia
   (when (executable-find "stylish-haskell")
-    (setf (alist-get 'stylish-haskell apheleia-mode-alist)
+    (setf (alist-get 'stylish-haskell apheleia-formatters)
           '("stylish-haskell" "-"))
     (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell))))
 

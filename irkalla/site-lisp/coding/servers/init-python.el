@@ -24,7 +24,7 @@
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia
   (when (executable-find "isort")
-    (setf (alist-get 'isort apheleia-mode-alist)
+    (setf (alist-get 'isort apheleia-formatters)
           '("isort" "--profile" "black" "--stdout" "-"))
     (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort))
     (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))

@@ -57,7 +57,7 @@
 ;; :NOTE| apheleia formatting support
 (with-eval-after-load 'apheleia
   (when (executable-find "rustfmt")
-    (setf (alist-get 'rustfmt apheleia-mode-alist)
+    (setf (alist-get 'rustfmt apheleia-formatters)
           '("rustfmt" "--quiet" "--emit" "stdout"))
     (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . alejandra))))
 
