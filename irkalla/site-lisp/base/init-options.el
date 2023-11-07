@@ -11,34 +11,49 @@
 
 ;;; Code:
 
-(setq-default ad-redefinition-action 'accept
-              auto-mode-case-fold nil
-              auto-save-list-file-prefix nil
-              command-line-x-option-alist nil
-              create-lockfiles nil
-              default-input-method nil
-              fast-but-imprecise-scrolling t
-              ffap-machine-p-known 'reject
-              frame-inhibit-implied-resize t
-              frame-resize-pixelwise t
-              idle-update-delay 1.0
-              inhibit-compacting-font-caches t
-              inhibit-default-init t
-              inhibit-splash-screen t
-              inhibit-startup-buffer-menu t
-              inhibit-startup-echo-area-message user-login-name
-              inhibit-startup-message t
-              inhibit-startup-screen t
-              load-prefer-newer noninteractive
-              mode-line-format nil
-              redisplay-skip-fontification-on-input t
-              select-active-regions 'only
-              use-dialog-box nil
-              use-file-dialog nil
-              use-short-answers t
-              vc-follow-symlinks t)
+;; :NOTE| File handling and version control
+(setq-default
+ auto-save-list-file-prefix nil
+ create-lockfiles nil
+ use-short-answers t
+ vc-follow-symlinks t)
 
-;; :NOTE| Sanner defautlt for Emacs encoding system
+;; :NOTE| Debugging and error handling
+(setq-default
+ ad-redefinition-action 'accept
+ debug-on-error init-file-debug
+ jka-compr-verbose init-file-debug)
+
+;; :NOTE| User interface and startup
+(setq-default
+ auto-mode-case-fold nil
+ echo-keystrokes 0.02
+ fast-but-imprecise-scrolling t
+ inhibit-splash-screen t
+ inhibit-startup-buffer-menu t
+ inhibit-startup-echo-area-message user-login-name
+ inhibit-startup-message t
+ inhibit-startup-screen t
+ use-dialog-box nil
+ use-file-dialog nil)
+
+;; :NOTE| Display and fonts
+(setq-default
+ frame-inhibit-implied-resize t
+ frame-resize-pixelwise t
+ idle-update-delay 1.0
+ inhibit-compacting-font-caches t
+ mode-line-format nil
+ redisplay-skip-fontification-on-input t)
+
+;; :NOTE| Miscellaneous
+(setq-default
+ command-line-x-option-alist nil
+ default-input-method nil
+ ring-bell-function 'ignore
+ select-active-regions 'only
+ load-prefer-newer noninteractive)
+
 (set-default-coding-systems 'utf-8)
 
 (provide 'init-options)

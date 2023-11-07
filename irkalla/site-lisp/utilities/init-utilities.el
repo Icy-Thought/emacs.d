@@ -29,15 +29,15 @@
 
   (irkalla/comma-lead-keydef emacs-lisp-mode-map
     "h"   '(:ignore t        :which-key "Helpful")
-    "h p" '(helpful-at-point :which-key "Show help for SYMB")))
+    "h p" '(helpful-at-point :which-key "Show help for SYMB"))
+  :config (setq-default help-window-select t))
 
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot"))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (direnv dired whichkey dashboard readers modeline consult embark vc vertico annotations recentf social
-  terminal))
+ (direnv dired whichkey dashboard readers modeline consult embark vc vertico annotations recentf social terminal))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here

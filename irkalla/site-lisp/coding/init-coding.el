@@ -19,20 +19,19 @@
   (compilation-ask-about-save nil)
   (compilation-scroll-output t)
   (compilation-scroll-output t)
-
-  (completion-ignore-case t)
-  (completions-detailed t)
-
-  (read-file-name-completion-ignore-case t)
   (tab-always-indent 'completion)
   (tab-first-completion 'word-or-paren-or-punct))
 
 (use-package orderless
-  :custom
-  (completion-styles '(orderless))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles  . (orderless flex)))
-                                   (eglot (styles . (orderless flex))))))
+  :config
+  (setq-default completion-category-defaults nil
+                completion-category-overrides '((file (styles  . (orderless flex))
+                                                      (eglot (styles . (orderless flex)))))
+                completion-styles '(orderless partial-completion basic)
+                completions-detailed t
+                completion-ignore-case t
+                read-buffer-completion-ignore-case t
+                read-file-name-completion-ignore-case t))
 
 (use-package eglot
   :elpaca nil
