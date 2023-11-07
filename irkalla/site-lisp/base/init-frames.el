@@ -48,10 +48,11 @@
             :category 'buffer
             :state    #'consult--buffer-state
             :default  t
-            :items    (lambda () (consult--buffer-query)
-                        :predicate #'tabspaces--local-buffer-p
-                        :sort 'visibility
-                        :as #'buffer-name))
+            :items    (lambda ()
+                        (consult--buffer-query
+                         :predicate #'tabspaces--local-buffer-p
+                         :sort 'visibility
+                         :as #'buffer-name)))
 
       "Set workspace buffer list for consult-buffer.")
     (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
