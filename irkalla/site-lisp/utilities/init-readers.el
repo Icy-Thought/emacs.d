@@ -27,7 +27,7 @@
   :config
   (define-advice pdf-view-enlarge (:after (&rest _args) center-after-enlarge)
     "Center the PDF view in the active PDF window after enlarging it."
-   (pdf-view-center-in-window))
+    (pdf-view-center-in-window))
 
   (define-advice pdf-view-shrink (:after (&rest _args) center-after-shrink)
     "Center the PDF view in the active PDF window after shrinking it."
@@ -44,17 +44,19 @@
 ;; :NOTE| A Customizable EPUB Reader
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . olivetti-mode)
+  :hook (nov-mode . (lambda ()
+                      (olivetti-mode)
+                      (toggle-scroll-bar)))
   :general (:states 'normal :keymaps 'nov-mode-map
-             "H"   '(nov-previous-document   :which-key "Go -> previous doc")
-             "L"   '(nov-previous-document   :which-key "Go -> next doc")
-             "d"   '(nov-scroll-down         :which-key "Scroll downwards")
-             "u"   '(nov-scroll-up           :which-key "Scroll upwards")
-             "gm"  '(nov-display-metadata    :which-key "Show Metadata")
-             "gr"  '(nov-render-document     :which-key "Render document")
-             "o"   '(nov-goto-toc            :which-key "Table of contents")
-             "gv"  '(nov-view-source         :which-key "View source")
-             "gV"  '(nov-view-content-source :which-key "View content source"))
+                    "H"   '(nov-previous-document   :which-key "Go -> previous doc")
+                    "L"   '(nov-previous-document   :which-key "Go -> next doc")
+                    "d"   '(nov-scroll-down         :which-key "Scroll downwards")
+                    "u"   '(nov-scroll-up           :which-key "Scroll upwards")
+                    "gm"  '(nov-display-metadata    :which-key "Show Metadata")
+                    "gr"  '(nov-render-document     :which-key "Render document")
+                    "o"   '(nov-goto-toc            :which-key "Table of contents")
+                    "gv"  '(nov-view-source         :which-key "View source")
+                    "gV"  '(nov-view-content-source :which-key "View content source"))
   :custom-face
   (shr-text ((t (:inherit variable-pitch-face :height 1.05))))
   (shr-h1   ((t (:height 1.54 :slant italic))))
@@ -69,7 +71,7 @@
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :general (:states 'normal :keymaps 'nov-mode-map
-             "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
+                    "x" '(nov-xwidget-view :which-key "Open EPUB -> Nov-Mode")))
 
 ;; :NOTE| A RSS-reader for our curious minds
 (use-package newsticker
@@ -96,8 +98,8 @@
   :hook (newsticker-treeview-item-mode . olivetti-mode)
   :general
   (:states 'normal :keymaps 'newsticker-treeview-mode-map
-    "o" 'newsticker-treeview-browse-url
-    "q" 'irkalla/newsticker-quit-newTab)
+           "o" 'newsticker-treeview-browse-url
+           "q" 'irkalla/newsticker-quit-newTab)
 
   (irkalla/comma-lead-keydef
     "r"   '(:ignore t                       :which-key "RSS Reader")

@@ -18,10 +18,11 @@
                     "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-fu)
   :custom
-  (evil-want-integration t)
+  (evil-respect-visual-line-mode t)
   (evil-split-window-below t)
-  (evil-want-keybinding nil)
-  (evil-vsplit-window-right t))
+  (evil-vsplit-window-right t)
+  (evil-want-integration t)
+  (evil-want-keybinding nil))
 
 (use-package evil-collection
   :requires (evil)
