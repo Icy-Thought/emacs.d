@@ -33,6 +33,19 @@
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
 
+(use-package evil-snipe
+  :requires (evil)
+  :hook (((prog-mode text-mode) . evil-snipe-local-mode)
+         (evil-snipe-local-mode . evil-snipe-override-local-mode))
+  :general (:states 'visual :keymaps 'evil-snipe-local-mode-map
+                    "z" #'evil-snipe-s
+                    "Z" #'evil-snipe-S)
+  :custom
+  (evil-snipe-scope 'visible)
+  (evil-snipe-repeat-scope 'whole-visible)
+  (evil-snipe-spillover-scope nil)
+  :config (push '(?\[ "[[{(]") evil-snipe-aliases))
+
 (use-package evil-surround
   :requires (evil)
   :hook (evil-mode . global-evil-surround-mode))
