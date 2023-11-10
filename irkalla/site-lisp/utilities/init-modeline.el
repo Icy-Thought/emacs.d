@@ -28,7 +28,8 @@
   :hook ((prog-mode text-mode) . telephone-line-mode)
   :custom
   (telephone-line-height 26)
-  (telephone-line-evil-use-short-tag t)
+  (if (featurep 'evil) (telephone-line-evil-use-short-tag t))
+  (if (featurep 'meow) (telephone-line-meow-use-short-tag t))
   ;; Left separator
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
   (telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left)

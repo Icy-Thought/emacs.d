@@ -42,11 +42,11 @@
          (call-interactively #'org-open-at-point))
         (_
          ;; Fallback to evil standard command
-         (call-interactively #'evil-ret)))))
+         (call-interactively #'forward-line)))))
 
   :hook (org-babel-after-execute . org-display-inline-images)
   :general (:states 'normal :keymaps 'org-mode-map
-            "RET" '(irkalla/org-execute-action :which-key "Execute appropriate Org action"))
+                    "RET" '(irkalla/org-execute-action :which-key "Execute appropriate Org action"))
   :custom
   (org-babel-default-header-args
    '((:async   . "yes")

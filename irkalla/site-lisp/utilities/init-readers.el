@@ -21,8 +21,9 @@
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
-                           ;; :NOTE| Set the PDF free from the unnecessary borders
-                           (set (make-local-variable 'evil-normal-state-cursor) (list nil))
+                           (when (featurep 'evil)
+                             ;; :NOTE| Set the PDF free from the unnecessary borders
+                             (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
                            (pdf-view-themed-minor-mode)))
   :config
   (define-advice pdf-view-enlarge (:after (&rest _args) center-after-enlarge)
