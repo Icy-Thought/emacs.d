@@ -14,7 +14,7 @@
 (use-package general
   :demand t
   :config
-  (general-evil-setup)
+  (if (featurep 'evil) (general-evil-setup))
   (general-override-mode)
   (general-auto-unbind-keys)
 
