@@ -13,9 +13,7 @@
 
 (use-package emacs
   :elpaca nil
-  :hook (text-mode . (lambda ()
-                       (visual-line-mode)
-                       (setq-local bidi-paragraph-direction nil)))
+  :hook (text-mode . visual-line-mode)
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)

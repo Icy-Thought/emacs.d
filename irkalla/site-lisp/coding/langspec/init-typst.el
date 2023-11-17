@@ -19,9 +19,9 @@
   (with-eval-after-load 'consult
     (setopt consult-imenu-config
             (append consult-imenu-config '((typst-ts-mode
-                                             :topLevel "Headings"
-                                             :types ((?h "Headings" typst-ts-markup-header-face)
-                                                     (?f "Functions" font-lock-function-name-face))))))))
+                                            :topLevel "Headings"
+                                            :types ((?h "Headings" typst-ts-markup-header-face)
+                                                    (?f "Functions" font-lock-function-name-face))))))))
 
 (provide 'init-typst)
 ;;; init-typst.el ends here
