@@ -15,6 +15,11 @@
   :elpaca nil
   :custom (window-combination-resize t))
 
+(use-package windmove
+  :elpaca nil
+  :hook (elpaca-after-init . windmove-default-keybindings)
+  :config (windmove-default-keybindings 'meta))
+
 (use-package tab-bar
   :elpaca nil
   :hook (elpaca-after-init . tab-bar-mode)

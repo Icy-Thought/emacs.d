@@ -32,15 +32,6 @@
     "h p" '(helpful-at-point :which-key "Show help for SYMB"))
   :config (setq-default help-window-select t))
 
-(use-package fcitx
-  :disabled
-  :if (and (eq system-type 'gnu/linux)
-           (executable-find "fcitx5-remote"))
-  :hook (elpaca-after-init . fcitx-aggressive-setup)
-  :custom
-  (fcitx-use-dbus t)
-  (fcitx-remote-command "fcitx5-remote"))
-
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot"))
 
