@@ -64,7 +64,7 @@
  (corfu tempel flymake apheleia eldoc treesitter))
 
 (irkalla/enable-modules
- (babel elisp haskell nixlang markdown orgmode org-roam python rust typst))
+ (babel elisp haskell nixlang rust markdown orgmode org-roam lua python typst))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

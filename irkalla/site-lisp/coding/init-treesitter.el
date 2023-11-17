@@ -23,8 +23,7 @@
   (advice-add 'org-src-get-lang-mode
               :filter-return (lambda (mode)
                                (pcase (assoc mode major-mode-remap-alist)
-                                 (`(,mode . ,ts-mode) ts-mode)
-                                 (_ mode))))
+                                 (`(,mode . ,ts-mode) ts-mode) (_ mode))))
   (treesit-auto-add-to-auto-mode-alist))
 
 (use-package ts-fold

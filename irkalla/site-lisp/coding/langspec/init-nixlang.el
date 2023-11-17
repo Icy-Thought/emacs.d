@@ -15,12 +15,13 @@
   :mode ("\\.nix\\'" . nix-mode)
   :hook (nix-mode . eglot-ensure)
   :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))))
+  (when (executable-find "nil")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs `(nix-mode . ("nil"))))))
 
 ;; :NOTE| apheleia formatting support
-(with-eval-after-load 'apheleia
-  (when (executable-find "alejandra")
+(when (executable-find "alejandra")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'alejandra apheleia-formatters)
           '("alejandra" "--quiet" "-"))
     (add-to-list 'apheleia-mode-alist '(nix-mode . alejandra))))

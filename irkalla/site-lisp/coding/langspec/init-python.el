@@ -15,15 +15,16 @@
   :mode ("\\.py\\'" . python-mode)
   :hook ((python-mode python-ts-mode) . eglot-ensure)
   :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '((python-mode python-ts-mode)
-                   . ("pyright-langserver" "--stdio"
-                      :initializationOptions ((:pyright (:typeCheckingMode "strict"))))))))
+  (when (executable-find "pyright-langserver")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '((python-mode python-ts-mode)
+                     . ("pyright-langserver" "--stdio"
+                        :initializationOptions ((:pyright (:typeCheckingMode "strict")))))))))
 
 ;; :NOTE| apheleia formatting support
-(with-eval-after-load 'apheleia
-  (when (executable-find "isort")
+(when (and (executable-find "black") (executable-find "isort"))
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'isort apheleia-formatters)
           '("isort" "--profile" "black" "--stdout" "-"))
     (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort))

@@ -31,14 +31,15 @@
     "r r" '(rust-run        :which-key "Run project")
     "r t" '(rust-test       :which-key "Run tests on project"))
   :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 `((rust-mode rust-ts-mode)
-                   . ("rust-analyzer"
-                      ;; https://rust-analyzer.github.io/manual.html
-                      :initializationOptions ((:cargo       (:features "all"))
-                                              (:completion  (:callable (:snippets "fill_arguments")))
-                                              (:checkOnSave (:command "clippy" :allTargets :json-false))))))))
+  (when (executable-find "rust-analyzer")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   `((rust-mode rust-ts-mode)
+                     . ("rust-analyzer"
+                        ;; https://rust-analyzer.github.io/manual.html
+                        :initializationOptions ((:cargo       (:features "all"))
+                                                (:completion  (:callable (:snippets "fill_arguments")))
+                                                (:checkOnSave (:command "clippy" :allTargets :json-false)))))))))
 
 ;; :NOTE| adding proper cargo support
 (use-package cargo
@@ -55,8 +56,8 @@
   :requires (ob))
 
 ;; :NOTE| apheleia formatting support
-(with-eval-after-load 'apheleia
-  (when (executable-find "rustfmt")
+(when (executable-find "rustfmt")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'rustfmt apheleia-formatters)
           '("rustfmt" "--quiet" "--emit" "stdout"))
     (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . alejandra))))
