@@ -30,9 +30,7 @@
                           (eat-eshell-visual-command-mode +1))))
   :general
   (irkalla/space-lead-keydef
-    "t"   '(:ignore t :which-key "Terminal")
-    "t t" '(eat       :which-key "Open EAT")
-    "t e" '(eshell    :which-key "Open Eshell"))
+    "t t" '(eat       :which-key "Open EAT"))
   :custom (eat-kill-buffer-on-exit t))
 
 (irkalla/enable-modules (eshell))

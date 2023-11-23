@@ -37,7 +37,17 @@
        (propertize (if (string= envrc--status 'none)
                        "" "   " 'face 'font-lock-string-face)))
      (propertize (concat "   " (format-time-string "%H:%M" (current-time))) 'face 'font-lock-variable-name-face) 
-     (propertize "\n └─➤ 𝝺 " 'face 'font-lock-type-face))) 
+     (propertize "\n └─➤ 𝝺 " 'face 'font-lock-type-face)))
+
+  (defun irkalla/rename-eshell-buf ()
+    "A simlpe solution which allow the user to spawn multilpe eshells."
+    (let ((directory-name (file-name-nondirectory (eshell/pwd))))
+      (rename-buffer (concat "*eshell-" directory-name "*") t)))
+  :hook (eshell-mode . irkalla/rename-eshell-buf)
+  :general
+  (irkalla/space-lead-keydef
+    "t"   '(:ignore t :which-key "Terminal")
+    "t e" '(eshell    :which-key "Open Eshell"))
   :custom
   (eshell-error-if-no-glob t)
   (eshell-hist-ignoredups t)
