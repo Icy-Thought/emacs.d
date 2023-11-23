@@ -1,4 +1,4 @@
-;;; init-terminal.el --- Terminal Emulator for Emacs -*- lexical-binding: t -*-
+;;; init-terminal.el --- Terminal-related Configurations -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -7,7 +7,7 @@
 ;; URL: https://icy-thought.github.io/
 
 ;;; Commentary:
-;; Reducing navigation between windows by providing Emcaas with a terminal eumlator.
+;; Terminals are essential and sometimes we want Emacs to behave in a certain way, hence the config!
 
 ;;; Code:
 
@@ -17,23 +17,7 @@
   (tramp-default-method "ssh")
   (remote-file-name-inhibit-cache nil))
 
-(use-package eat
-  :elpaca (:host codeberg :repo "akib/emacs-eat"
-                 :files ("*.el" ("term" "term/*.el") "*.texi"
-                         "*.ti" ("terminfo/e" "terminfo/e/*")
-                         ("terminfo/65" "terminfo/65/*")
-                         ("integration" "integration/*")
-                         (:exclude ".dir-locals.el" "*-tests.el")))
-  :hook ((eshell-mode . (lambda ()
-                          (eat-eshell-mode +1)
-                          (setopt eshell-visual-commands nil)
-                          (eat-eshell-visual-command-mode +1))))
-  :general
-  (irkalla/space-lead-keydef
-    "t t" '(eat       :which-key "Open EAT"))
-  :custom (eat-kill-buffer-on-exit t))
-
-(irkalla/enable-modules (eshell))
+(irkalla/enable-modules (vterm))
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here
