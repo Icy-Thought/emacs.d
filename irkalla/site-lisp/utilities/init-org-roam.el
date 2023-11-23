@@ -14,7 +14,7 @@
 (use-package org-roam
   :requires (org)
   :general
-  (irkalla/comma-lead-keydef
+  (irkalla/comma-lead-keydef org-mode-map
     "o r"   '(:ignore t               :which-key "Org-Roam")
     "o r l" '(org-roam-buffer-toggle  :which-key "Org-Roam -> buffer")
     "o r f" '(org-roam-node-find      :which-key "Open node -> title/alias")
