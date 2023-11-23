@@ -57,7 +57,7 @@
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (icons svg-tags))
+ (icons svg-tags modeline))
 
 (provide 'init-decorations)
 ;;; init-decorations.el ends here
