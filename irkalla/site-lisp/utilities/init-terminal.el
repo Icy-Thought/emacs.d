@@ -35,7 +35,7 @@
     "t e" '(eshell    :which-key "Open Eshell"))
   :custom (eat-kill-buffer-on-exit t))
 
-(irkalla/enable-modules eshell)
+(irkalla/enable-modules (eshell))
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here
