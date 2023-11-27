@@ -4,7 +4,7 @@
 #+description:  Welcome to my very first personal Emacs configuration!
 
 #+CAPTION: Irkalla Dashboard
-[[../.github/assets/png/irkalla.png]]
+[[../.github/assets/themes/catppuccin/irkalla.png]]
 
 * Introduction
 
@@ -27,7 +27,7 @@ mastery of Emacs.
 
 - [x] The obvious and step which remains to be mentinoned, ricing!
     - [x] Font-related adjustments to acclimate the user with the editor for long-term usage!
-    - [x] Custom theme def. through =auto-themer=! (=rose-pine=, =oxocarbon= and =kanagawa=)
+    - [x] Custom theme def. through =auto-themer=! (=catppuccin=, =rose-pine=, =oxocarbon= and =kanagawa=)
     - [x] =Olivetti=       -> center alignment of the displayed content in the active buffer.
     - [x] =Dirvish=        -> UI-frontend for the wonderful =dired.el=!
     - [x] =Telephone-Line= -> a minimal, yet a fancy status-bar!
