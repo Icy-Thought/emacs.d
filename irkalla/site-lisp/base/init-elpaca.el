@@ -1,4 +1,4 @@
-;;; init-elpaca.el --- Elpaca: Package Manager -*- lexical-binding: t -*-
+;;; init-elpaca.el --- Elpaca: Package Manager -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

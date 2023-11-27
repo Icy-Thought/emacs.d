@@ -1,4 +1,4 @@
-;;; init-modeline.el --- An Emacs Modeline -*- lexical-binding: t -*-
+;;; init-modeline.el --- An Emacs Modeline -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

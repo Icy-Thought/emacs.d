@@ -1,4 +1,4 @@
-;;; init-utilities.el --- Utilities-related Changes -*- lexical-binding: t -*-
+;;; init-utilities.el --- Utilities-related Changes -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

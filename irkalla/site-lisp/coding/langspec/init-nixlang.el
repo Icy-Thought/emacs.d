@@ -1,4 +1,4 @@
-;;; init-nixlang.el --- Langserv: Nix -*- lexical-binding: t -*-
+;;; init-nixlang.el --- Langserv: Nix -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

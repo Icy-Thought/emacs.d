@@ -1,4 +1,4 @@
-;;; init-treesitter.el --- Treesitter: Quick Syntax Highlight -*- lexical-binding: t -*-
+;;; init-treesitter.el --- Treesitter: Quick Syntax Highlight -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

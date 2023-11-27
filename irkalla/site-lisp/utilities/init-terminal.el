@@ -1,4 +1,4 @@
-;;; init-terminal.el --- Terminal-related Configurations -*- lexical-binding: t -*-
+;;; init-terminal.el --- Terminal-related Configurations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

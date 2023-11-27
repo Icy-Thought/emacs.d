@@ -1,4 +1,4 @@
-;;; init-embark.el --- Embark: Mini-Buffer Actions -*- lexical-binding: t -*-
+;;; init-embark.el --- Embark: Mini-Buffer Actions -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

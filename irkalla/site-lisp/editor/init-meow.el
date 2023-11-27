@@ -1,4 +1,4 @@
-;;; init-meow.el --- Meow: Modular Bindings in Emacs -*- lexical-binding: t -*-
+;;; init-meow.el --- Meow: Modular Bindings in Emacs -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

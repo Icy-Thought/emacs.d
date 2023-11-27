@@ -1,4 +1,4 @@
-;;; init-direnv.el --- Direnv: Local Environment Variables -*- lexical-binding: t -*-
+;;; init-direnv.el --- Direnv: Local Environment Variables -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-svg-tags.el --- SVG-Tags: Button-related Tagging -*- lexical-binding: t -*-
+;;; init-svg-tags.el --- SVG-Tags: Button-related Tagging -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

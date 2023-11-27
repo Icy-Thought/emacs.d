@@ -1,4 +1,4 @@
-;;; init-whitespace.el --- Whitespace: Empty Spaces Recognition -*- lexical-binding: t -*-
+;;; init-whitespace.el --- Whitespace: Empty Spaces Recognition -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

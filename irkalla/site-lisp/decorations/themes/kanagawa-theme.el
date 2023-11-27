@@ -1,4 +1,4 @@
-;;; package: --- A theme inspired by the colors of the famous painting by Katsushika Hokusa
+;;; package: --- A theme inspired by the colors of the famous painting by Katsushika Hokusa! -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; [1]: https://github.com/rebelot/kanagawa.nvim

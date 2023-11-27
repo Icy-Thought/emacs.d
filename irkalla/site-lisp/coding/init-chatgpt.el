@@ -1,4 +1,4 @@
-;;; init-chatgpt.el --- ChatGPT: Probabilistic Generated Answers  -*- lexical-binding: t -*-
+;;; init-chatgpt.el --- ChatGPT: Probabilistic Generated Answers  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

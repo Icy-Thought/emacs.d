@@ -1,4 +1,4 @@
-;;; init-haskell.el --- Markdown -*- lexical-binding: t -*-
+;;; init-haskell.el --- Markdown -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-garbage.el --- Garbage Collection & Littering -*- lexical-binding: t -*-
+;;; init-garbage.el --- Garbage Collection & Littering -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

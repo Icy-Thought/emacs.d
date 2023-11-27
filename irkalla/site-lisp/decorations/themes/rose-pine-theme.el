@@ -1,4 +1,4 @@
-;;; rose-pine.el --- All natural pine, faux fur and a bit of soho vibes
+;;; rose-pine.el --- All natural pine, faux fur and a bit of soho vibes! -*- lexical-binding: t; -*-
 
 ;;; Commentary
 ;;; [1]: https://rosepinetheme.com/

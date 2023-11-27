@@ -1,4 +1,4 @@
-;;; init-vterm.el --- Terminal Emulator for Emacs -*- lexical-binding: t -*-
+;;; init-vterm.el --- Terminal Emulator for Emacs -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

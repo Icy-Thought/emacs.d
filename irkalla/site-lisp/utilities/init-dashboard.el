@@ -1,4 +1,4 @@
-;;; init-dashboard.el --- Dashboard: An Emacs Dashboard -*- lexical-binding: t -*-
+;;; init-dashboard.el --- Dashboard: An Emacs Dashboard -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-eldoc.el --- Eldoc: $SYMB Documentation -*- lexical-binding: t -*-
+;;; init-eldoc.el --- Eldoc: $SYMB Documentation -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

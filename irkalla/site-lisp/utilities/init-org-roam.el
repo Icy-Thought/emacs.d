@@ -1,4 +1,4 @@
-;;; init-org-roam.el --- Org-Roam: Knowledge Management -*- lexical-binding: t -*-
+;;; init-org-roam.el --- Org-Roam: Knowledge Management -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

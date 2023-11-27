@@ -1,4 +1,4 @@
-;;; init-typst.el --- Langserv: Typst -*- lexical-binding: t -*-
+;;; init-typst.el --- Langserv: Typst -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

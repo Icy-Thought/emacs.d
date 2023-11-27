@@ -1,4 +1,4 @@
-;;; init-consult.el --- Consult: Consulting completing-read -*- lexical-binding: t -*-
+;;; init-consult.el --- Consult: Consulting completing-read -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

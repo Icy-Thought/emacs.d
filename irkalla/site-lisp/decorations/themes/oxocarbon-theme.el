@@ -1,4 +1,4 @@
-;;; oxocarbon.el --- All natural pine, faux fur and a bit of soho vibes
+;;; oxocarbon.el --- All natural pine, faux fur and a bit of soho vibes! -*- lexical-binding: t; -*-
 
 ;;; Commentary
 ;;; [1]: https://github.com/nyoom-engineering/oxocarbon

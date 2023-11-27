@@ -1,4 +1,4 @@
-;;; init-elisp.el --- Langserv: Emacs-Lisp -*- lexical-binding: t -*-
+;;; init-elisp.el --- Langserv: Emacs-Lisp -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

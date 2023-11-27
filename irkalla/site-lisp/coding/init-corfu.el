@@ -1,4 +1,4 @@
-;;; init-corfu.el --- Corfu: COmpletion in Region FUnction  -*- lexical-binding: t -*-
+;;; init-corfu.el --- Corfu: COmpletion in Region FUnction  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

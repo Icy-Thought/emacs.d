@@ -1,4 +1,4 @@
-;;; init-olivetti.el --- Olivetti: Center Displayed Text -*- lexical-binding: t -*-
+;;; init-olivetti.el --- Olivetti: Center Displayed Text -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

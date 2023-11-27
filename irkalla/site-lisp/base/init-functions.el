@@ -1,4 +1,4 @@
-;;; init-functions.el --- Useful Emacs Functions -*- lexical-binding: t -*-
+;;; init-functions.el --- Useful Emacs Functions -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

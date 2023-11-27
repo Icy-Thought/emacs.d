@@ -1,4 +1,4 @@
-;;; init-options.el --- Opinionated Configurations -*- lexical-binding: t -*-
+;;; init-options.el --- Opinionated Configurations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

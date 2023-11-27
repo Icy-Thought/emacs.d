@@ -1,4 +1,4 @@
-;;; init-haskell.el --- Langserv: Haskell -*- lexical-binding: t -*-
+;;; init-haskell.el --- Langserv: Haskell -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

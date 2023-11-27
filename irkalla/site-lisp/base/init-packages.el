@@ -1,4 +1,4 @@
-;;; init-packages.el --- Packages & Management Configurations -*- lexical-binding: t -*-
+;;; init-packages.el --- Packages & Management Configurations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

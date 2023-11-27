@@ -1,4 +1,4 @@
-;;; init-frames.el --- Manipulation of Emacs Frames -*- lexical-binding: t -*-
+;;; init-frames.el --- Manipulation of Emacs Frames -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

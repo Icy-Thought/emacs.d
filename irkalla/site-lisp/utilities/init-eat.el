@@ -1,4 +1,4 @@
-;;; init-eat.el --- Emacs Native Terminal Emulator -*- lexical-binding: t -*-
+;;; init-eat.el --- Emacs Native Terminal Emulator -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

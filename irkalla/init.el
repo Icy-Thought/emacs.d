@@ -1,4 +1,4 @@
-;;; init.el --- Initialization: Where It All Begins -*- lexical-binding: t -*-
+;;; init.el --- Initialization: Where It All Begins -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

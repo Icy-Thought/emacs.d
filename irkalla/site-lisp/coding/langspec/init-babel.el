@@ -1,4 +1,4 @@
-;;; init-babel.el --- Org-Babel: Language Suppoert for Org-Mode -*- lexical-binding: t -*-
+;;; init-babel.el --- Org-Babel: Language Suppoert for Org-Mode -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

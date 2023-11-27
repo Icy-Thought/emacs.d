@@ -1,4 +1,4 @@
-;;; init-reader.el --- Readers: Emacs Document Readers -*- lexical-binding: t -*-
+;;; init-reader.el --- Readers: Emacs Document Readers -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

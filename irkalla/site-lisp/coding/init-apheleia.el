@@ -1,4 +1,4 @@
-;;; init-apheleia.el --- Apheleia: Buffer Formatting -*- lexical-binding: t -*-
+;;; init-apheleia.el --- Apheleia: Buffer Formatting -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-general.el --- General: Sane Binding Management -*- lexical-binding: t -*-
+;;; init-general.el --- General: Sane Binding Management -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-ediff.el --- Ediff: Differentiate Versions -*- lexical-binding: t -*-
+;;; init-ediff.el --- Ediff: Differentiate Versions -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

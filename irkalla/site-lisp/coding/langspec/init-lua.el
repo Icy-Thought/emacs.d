@@ -1,4 +1,4 @@
-;;; init-lua.el --- Language Enviornment for Lua -*- lexical-binding: t -*-
+;;; init-lua.el --- Language Enviornment for Lua -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

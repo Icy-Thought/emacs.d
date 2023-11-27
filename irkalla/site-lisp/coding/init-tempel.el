@@ -1,4 +1,4 @@
-;;; init-tempel.el --- Tempel: Snippet Management -*- lexical-binding: t -*-
+;;; init-tempel.el --- Tempel: Snippet Management -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

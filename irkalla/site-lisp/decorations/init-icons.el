@@ -1,4 +1,4 @@
-;;; init-icons.el --- Fontification & Icons -*- lexical-binding: t -*-
+;;; init-icons.el --- Fontification & Icons -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

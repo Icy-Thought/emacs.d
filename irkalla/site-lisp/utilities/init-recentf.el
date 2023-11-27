@@ -1,4 +1,4 @@
-;;; init-recentf.el --- Recentf Configuration -*- lexical-binding: t -*-
+;;; init-recentf.el --- Recentf Configuration -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-evil.el --- Evil-Mode: VIM Bindings in Emacs -*- lexical-binding: t -*-
+;;; init-evil.el --- Evil-Mode: VIM Bindings in Emacs -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-whichkey.el --- WhichKey: Menu For The Lost User -*- lexical-binding: t -*-
+;;; init-whichkey.el --- WhichKey: Menu For The Lost User -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

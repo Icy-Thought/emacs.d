@@ -1,4 +1,4 @@
-;;; init-vertico.el --- Vertico: VERTical Interactive COmpletion -*- lexical-binding: t -*-
+;;; init-vertico.el --- Vertico: VERTical Interactive COmpletion -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

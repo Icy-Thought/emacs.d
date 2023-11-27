@@ -1,4 +1,4 @@
-;;; init-python.el --- Langserv: Python -*- lexical-binding: t -*-
+;;; init-python.el --- Langserv: Python -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

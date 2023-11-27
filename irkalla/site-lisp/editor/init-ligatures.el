@@ -1,4 +1,4 @@
-;;; init-ligatures.el --- Ligatures: Prettifying Symbols -*- lexical-binding: t -*-
+;;; init-ligatures.el --- Ligatures: Prettifying Symbols -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

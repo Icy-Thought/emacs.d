@@ -1,4 +1,4 @@
-;;; init-vc.el --- Version Control -*- lexical-binding: t -*-
+;;; init-vc.el --- Version Control -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

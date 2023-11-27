@@ -1,4 +1,4 @@
-;;; init-decorations.el --- Decoration-related Configurations -*- lexical-binding: t -*-
+;;; init-decorations.el --- Decoration-related Configurations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

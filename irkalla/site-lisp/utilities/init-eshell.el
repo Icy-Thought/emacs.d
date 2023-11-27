@@ -1,4 +1,4 @@
-;;; init-eshell.el --- Emacs SHell -*- lexical-binding: t -*-
+;;; init-eshell.el --- Emacs SHell -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-fontification.el --- Font-face Customizations -*- lexical-binding: t -*-
+;;; init-fontification.el --- Font-face Customizations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

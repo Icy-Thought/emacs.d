@@ -1,4 +1,4 @@
-;;; init-dired.el --- Dired-related Configurations -*- lexical-binding: t -*-
+;;; init-dired.el --- Dired-related Configurations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

@@ -1,4 +1,4 @@
-;;; init-flymake.el --- On-The-Fly Syntax Checking -*- lexical-binding: t -*-
+;;; init-flymake.el --- On-The-Fly Syntax Checking -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

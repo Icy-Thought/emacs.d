@@ -1,4 +1,4 @@
-;;; init-annotations.el --- Annotations For the Lost -*- lexical-binding: t -*-
+;;; init-annotations.el --- Annotations For the Lost -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

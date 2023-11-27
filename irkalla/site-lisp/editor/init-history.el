@@ -1,4 +1,4 @@
-;;; init-history.el --- Recalling Auto-Saved Information -*- lexical-binding: t -*-
+;;; init-history.el --- Recalling Auto-Saved Information -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

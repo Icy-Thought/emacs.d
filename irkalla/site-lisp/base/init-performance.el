@@ -1,4 +1,4 @@
-;;; init-performance.el --- Performance-related Configurations -*- lexical-binding: t -*-
+;;; init-performance.el --- Performance-related Configurations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

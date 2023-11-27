@@ -1,4 +1,4 @@
-;;; init-citar.el --- Citar: Bibliographical References -*- lexical-binding: t -*-
+;;; init-citar.el --- Citar: Bibliographical References -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

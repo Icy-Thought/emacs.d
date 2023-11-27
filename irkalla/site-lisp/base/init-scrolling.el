@@ -1,4 +1,4 @@
-;;; init-scrolling.el --- Re-defining Scrolling Behaviour -*- lexical-binding: t -*-
+;;; init-scrolling.el --- Re-defining Scrolling Behaviour -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

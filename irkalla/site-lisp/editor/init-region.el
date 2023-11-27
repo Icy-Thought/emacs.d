@@ -1,4 +1,4 @@
-;;; init-region.el --- Regional-related Customizations -*- lexical-binding: t -*-
+;;; init-region.el --- Regional-related Customizations -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

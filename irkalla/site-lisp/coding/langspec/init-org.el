@@ -1,4 +1,4 @@
-;;; init-org.el --- Org-Mode: The Superior Document Format -*- lexical-binding: t -*-
+;;; init-org.el --- Org-Mode: The Superior Document Format -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 

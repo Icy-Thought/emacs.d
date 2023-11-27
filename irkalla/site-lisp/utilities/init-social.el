@@ -1,4 +1,4 @@
-;;; init-socials.el --- Socializing Inside Emacs -*- lexical-binding: t -*-
+;;; init-socials.el --- Socializing Inside Emacs -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
