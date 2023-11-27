@@ -63,5 +63,7 @@
   :config
   (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
 
+(use-package ob-async)
+
 (provide 'init-babel)
 ;;; init-babel.el ends here
