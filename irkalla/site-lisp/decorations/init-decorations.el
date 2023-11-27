@@ -34,7 +34,7 @@
     (if (custom-theme-p palette)
         (enable-theme palette)
       (load-theme palette :no-confirm)))
-  :config (irkalla/apply-theme 'kanagawa))
+  :config (irkalla/apply-theme 'catppuccin-mocha))
 
 ;; :NOTE| Replace several symbols with prettier alternatives
 (use-package prettify-symbols

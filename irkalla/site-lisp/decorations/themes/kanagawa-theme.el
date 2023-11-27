@@ -87,7 +87,7 @@
   (line-number-current-line                      (:foreground springViolet2 :background sumiInk-2 :bold t))
   (match                                         (:background carpYellow :foreground sumiInk-0))
   (menu                                          (:background sumiInk-0 :foreground fujiWhite))
-  (mode-line                                     (:background sumiInk-0))
+  (mode-line                                     (:background sumiInk-0 :foreground fujiWhite :bold t))
   (mode-line-inactive                            (:background nil :foreground sumiInk-4 :bold nil))
   (mode-line-active                              (:background sumiInk-0 :foreground old-white :bold nil))
   (mode-line-highlight                           (:foreground boatYellow2))
@@ -106,6 +106,9 @@
   (whitespace-newline                            (:foreground sumiInk-2))
   (whitespace-space                              (:foreground sumiInk-2))
   (whitespace-trailing                           (:foreground sumiInk-1b :background autumnGreen))
+
+  (trailing-whitespace                           (:background comet))
+  (trailing-rosewaterspace                       (:background comet))
 
   ;; https://www.emacswiki.org/emacs/FontLockMode
   (elisp-shorthand-font-lock-face                (:foreground fujiWhite))
@@ -132,7 +135,6 @@
 
   (epa-mark                                      (:foreground waveRed))
   (info-xref                                     (:foreground carpYellow))
-  (mode-line                                     (:background sumiInk-0 :foreground fujiWhite :bold t))
 
   ;; https://www.emacswiki.org/emacs/DiredMode
   (dired-mark                                    (:foreground waveRed))
@@ -162,9 +164,6 @@
   ;; https://www.emacswiki.org/emacs/Iedit
   (iedit-occurrence                              (:background springBlue :foreground sumiInk-1))
   (iedit-read-only-occurrence                    (:background carpYellow :foreground sumiInk-1))
-
-  (trailing-whitespace                           (:background comet))
-  (trailing-rosewaterspace                       (:background comet))
 
   ;; https://github.com/seagle0128/doom-modeline
   (doom-modeline-battery-charging                (:foreground fujiGray))
@@ -197,11 +196,12 @@
   ;; https://github.com/dbordak/telephone-line
   (telephone-line-accent-active                  (:background sumiInk-1 :foreground dragonBlue :weight 'bold :italic t))
   (telephone-line-accent-inactive                (:background sumiInk-1 :foreground comet))
+  (telephone-line-projectile                     (:foreground springGreen :weight 'bold :italic t))
+
   (telephone-line-evil-normal                    (:background autumnGreen :foreground sumiInk-1 :bold t))
   (telephone-line-evil-visual                    (:background crystalBlue :foreground sumiInk-1 :bold t))
   (telephone-line-evil-motion                    (:background oniViolet :foreground sumiInk-1 :bold t))
   (telephone-line-evil-insert                    (:background autumnYellow :foreground sumiInk-1 :bold t))
-  (telephone-line-projectile                     (:foreground springGreen :weight 'bold :italic t))
 
   ;;https://github.com/skeeto/elfeed
   (elfeed-search-feed-face                       (:foreground springViolet1))
@@ -324,7 +324,7 @@
   ;; https://jblevins.org/projects/markdown-mode/
   (markdown-hr-face                              (:foreground sumiInk-2))
   
-;; https://joaotavora.github.io/eglot/
+  ;; https://joaotavora.github.io/eglot/
   (eglot-diagnostic-tag-unnecessary-face         (:foreground sumiInk-4))
   ;; (eglot-type-hint-face)
   ;; (eglot-inlay-hint-face)
@@ -386,6 +386,11 @@
   (ivy-posframe                                  (:background sumiInk-2))
   (ivy-posframe-border                           (:background sumiInk-3))
 
+  ;; https://www.emacswiki.org/emacs/IncrementalSearch
+  (isearch                                       (:background waveBlue-2 :foreground carpYellow :italic t))
+  (isearch-group-1                               (:background waveRed :foreground carpYellow :italic t))
+  (isearch-group-2                               (:background springGreen :foreground carpYellow :italic t))
+
   ;; https://github.com/minad/vertico
   (vertico-current                               (:background waveBlue-1 :foreground carpYellow :distant-foreground fujiWhite :bold t))
   (vertico-group-separator                       (:background winterBlue :foreground lightBlue :strike-through t))
@@ -395,25 +400,6 @@
   (vertico-posframe                              (:background sumiInk-2))
   (vertico-posframe-border                       (:background sumiInk-3))
 
-  ;; https://github.com/Alexander-Miller/treemacs
-  (treemacs-directory-collapsed-face             (:foreground fujiWhite))
-  (treemacs-directory-face                       (:foreground fujiWhite))
-  (treemacs-file-face                            (:foreground fujiWhite))
-
-  (treemacs-git-added-face                       (:foreground surimiOrange))
-  (treemacs-git-ignored-face                     (:foreground sumiInk-4))
-  (treemacs-git-modified-face                    (:foreground springGreen))
-  (treemacs-git-renamed-face                     (:foreground fujiWhite))
-  (treemacs-git-renamed-face                     (:foreground fujiWhite))
-  (treemacs-git-unmodified-face                  (:foreground fujiWhite))
-
-  ;; https://github.com/hlissner/emacs-solaire-mode
-  (solaire-default-face                          (:background sumiInk-1))
-
-  ;; https://www.emacswiki.org/emacs/EdiffMode
-  (diff-added                                    (:background autumnGreen :foreground fujiWhite))
-  (diff-changed                                  (:background autumnYellow :foreground sumiInk-1))
-  
   ;; https://github.com/minad/corfu
   (corfu-annotations                             (:foreground comet))
   (corfu-current                                 (:inherit 'vertico-current))
@@ -429,16 +415,13 @@
   (orderless-match-face-3                        (:foreground sakuraPink :weight 'semi-bold))
   (comint-highlight-prompt                       (:background springViolet2 :foreground sumiInk-1))
 
-  ;; https://www.emacswiki.org/emacs/IncrementalSearch
-  (isearch                                       (:background waveBlue-2 :foreground carpYellow :italic t))
-  (isearch-group-1                               (:background waveRed :foreground carpYellow :italic t))
-  (isearch-group-2                               (:background springGreen :foreground carpYellow :italic t))
-
   ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion-Variables.html
   (completions-annotations                       (:background nil :foreground dragonBlue :italic t))
   (completions-highlight                         (:foreground springViolet1 :italic t))
   (completions-common-part                       (:foreground boatYellow2 :distant-foreground sumiInk-1 :distant-background autumnGreen :bold t :italic t))
   (completions-first-difference                  (:foreground waveRed :strike-through t))
+
+  ;; https://github.com/minad/consult
   (consult-file                                  (:foreground comet :distant-foreground sumiInk-1))
 
   ;; https://emacs-lsp.github.io/lsp-mode/page/settings/headerline/
@@ -464,15 +447,34 @@
   (dashboard-banner-logo-title                   (:foreground boatYellow2 :height 200 :weight 'thin :italic t))
   (dashboard-navigator                           (:foreground waveAqua1 :weight 'semi-bold :italic nil))
   (dashboard-items-face                          (:weight 'semi-bold))
-  (dashboard-heading                             (:foreground springViolet2  :height 150 :weight 'thin))
-  (dashboard-footer                              (:foreground dragonBlue :height 135 :weight 'bold :italic t))
+  (dashboard-heading                             (:foreground springViolet2 :height 150 :weight 'thin))
+  (dashboard-footer-face                         (:foreground dragonBlue :height 135 :weight 'bold :italic t))
   (dashboard-no-items-face                       (:foreground sumiInk-4))
 
-  ;; all-the-icons
+  ;; https://github.com/domtronn/all-the-icons.el
   (all-the-icons-dgreen                          (:foreground waveAqua2))
   (all-the-icons-green                           (:foreground waveAqua2))
   (all-the-icons-dpurple                         (:foreground springViolet2))
   (all-the-icons-purple                          (:foreground springViolet2))
+
+  ;; https://github.com/Alexander-Miller/treemacs
+  (treemacs-directory-collapsed-face             (:foreground fujiWhite))
+  (treemacs-directory-face                       (:foreground fujiWhite))
+  (treemacs-file-face                            (:foreground fujiWhite))
+
+  (treemacs-git-added-face                       (:foreground surimiOrange))
+  (treemacs-git-ignored-face                     (:foreground sumiInk-4))
+  (treemacs-git-modified-face                    (:foreground springGreen))
+  (treemacs-git-renamed-face                     (:foreground fujiWhite))
+  (treemacs-git-renamed-face                     (:foreground fujiWhite))
+  (treemacs-git-unmodified-face                  (:foreground fujiWhite))
+
+  ;; https://github.com/hlissner/emacs-solaire-mode
+  (solaire-default-face                          (:background sumiInk-1))
+
+  ;; https://www.emacswiki.org/emacs/EdiffMode
+  (diff-added                                    (:background autumnGreen :foreground fujiWhite))
+  (diff-changed                                  (:background autumnYellow :foreground sumiInk-1))
 
   ;; (related) https://github.com/emacs-evil/evil
   (evil-ex-lazy-highlight                        (:foreground winterGreen :background autumnGreen :bold t))
@@ -521,6 +523,17 @@
   (vterm-color-red                               (:background peachRed :foreground peachRed))
   (vterm-color-crust                             (:background sumiInk-1 :foreground sumiInk-1))
   (vterm-color-rosewater                         (:background fujiWhite :foreground fujiWhite))
+
+  ;; https://www.emacswiki.org/emacs/AnsiColor
+  (ansi-color-green                              (:foreground springGreen))
+  (ansi-color-black                              (:background sumiInk-0))
+  (ansi-color-cyan                               (:foreground waveAqua2))
+  (ansi-color-magenta                            (:foreground sakuraPink))
+  (ansi-color-blue                               (:foreground crystalBlue))
+  (ansi-color-red                                (:foreground peachRed))
+  (ansi-color-white                              (:foreground fujiWhite))
+  (ansi-color-yellow                             (:foreground autumnYellow))
+  (ansi-color-bright-white                       (:foreground old-white))
 
   ;; https://github.com/auto-complete/popup-el
   (popup-face                                    (:inherit 'tooltip))
@@ -597,18 +610,6 @@
   ;; https://github.com/joodland/bm
   (bm-fringe-face                                (:background peachRed :foreground sumiInk-3))
   (bm-fringe-persistent-face                     (:background peachRed :foreground sumiInk-3))
-
-  ;; https://www.emacswiki.org/emacs/AnsiColor
-  (ansi-color-green                              (:foreground springGreen))
-  (ansi-color-black                              (:background sumiInk-0))
-  (ansi-color-cyan                               (:foreground waveAqua2))
-  (ansi-color-magenta                            (:foreground sakuraPink))
-  (ansi-color-blue                               (:foreground crystalBlue))
-  (ansi-color-red                                (:foreground peachRed))
-  (ansi-color-white                              (:foreground fujiWhite))
-  (ansi-color-yellow                             (:foreground autumnYellow))
-  (ansi-color-bright-white                       (:foreground old-white))
-  (ansi-color-bright-white                       (:foreground old-white))
 
   ;; https://tree-sitter.github.io/tree-sitter
   (tree-sitter-hl-face:attribute                 (:foreground surimiOrange))
