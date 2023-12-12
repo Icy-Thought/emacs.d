@@ -33,9 +33,7 @@
   (centaur-tabs-show-count nil)
   (centaur-tabs-left-edge-margin nil)
   (centaur-tabs-headline-match)
-  :config
-  (tab-bar-mode -1)
-  (setq x-underline-at-descent-line t))
+  :config (setq x-underline-at-descent-line t))
 
 (provide 'init-centaur-tabs)
 ;;; init-centaur-tabs.el ends here

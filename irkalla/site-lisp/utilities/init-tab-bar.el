@@ -1,4 +1,4 @@
-;;; init-tabbar.el --- Built-in Emacs Tab-bar -*- lexical-binding: t; -*-
+;;; init-tab-bar.el --- Built-in Emacs Tab-bar -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -17,6 +17,7 @@
   :bind (("C-<next>" . tab-next)
          ("C-<prior>" . tab-previous))
   :custom
+  (tab-bar-show 1)
   (tab-bar-tab-hints t)
   (tab-bar-new-tab-choice "*dashboard*"))
 
@@ -53,5 +54,5 @@
       "Set workspace buffer list for consult-buffer.")
     (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
 
-(provide 'init-tabbar)
-;;; init-tabbar.el ends here
+(provide 'init-tab-bar)
+;;; init-tab-bar.el ends here
