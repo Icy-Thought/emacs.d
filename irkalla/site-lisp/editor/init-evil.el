@@ -13,9 +13,6 @@
 
 (use-package evil
   :hook (elpaca-after-init . evil-mode)
-  :general (:states 'normal
-                    "M-j" #'pixel-scroll-up
-                    "M-k" #'pixel-scroll-down)
   :config (evil-set-undo-system 'undo-fu)
   :custom
   (evil-respect-visual-line-mode t)

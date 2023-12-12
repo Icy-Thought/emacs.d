@@ -59,6 +59,5 @@
   (telega-notifications-mode t)
   (telega-emoji-use-images nil)) ;; recent libsvg issue..
 
-
 (provide 'init-social)
 ;;; init-social.el ends here

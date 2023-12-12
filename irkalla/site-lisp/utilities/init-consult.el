@@ -15,22 +15,20 @@
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :general
   (irkalla/space-lead-keydef
-    "/"          '(consult-ripgrep        :which-key "Quick RegExp grep")
-    "b b"        '(consult-buffer         :which-key "Switch -> buffer")
-
-    "p b"        '(consult-project-buffer :which-key "Switch -> project buffer")
-    "p /"        '(consult-git-grep       :which-key "Grep .git repostiory")
-
-    "f f"        '(consult-find           :which-key "File in Project")
-    "f r"        '(consult-recent-file    :which-key "Recent files")
+    "/"          '(consult-ripgrep              :which-key "Quick RegExp grep")
+    "b b"        '(consult-buffer               :which-key "Switch -> buffer")
+    "f r"        '(consult-recent-file          :which-key "Recent files")
+    "p b"        '(consult-project-buffer       :which-key "Switch -> project buffer")
+    "p f"        '(consult-projectile-find-file :which-key "Locate File in Project")
+    "p /"        '(consult-line                 :which-key "Jump -> Searched Line")
 
     ;; LSP-related
-    "l"          '(:ignore t              :which-key "LSP & Editing")
-    "l m"        '(consult-mark           :which-key "Jump -> marker")
-    "l M"        '(consult-global-mark    :which-key "Glob. jump -> marker")
-    "l o"        '(consult-outline        :which-key "Jump -> buffer outlines")
-    "l ["        '(consult-flymake        :which-key "Jump -> Flymake diagnostics")
-    "l ]"        '(consult-compile-error  :which-key "Jump -> compile-error in buffer"))
+    "l"          '(:ignore t                    :which-key "LSP & Editing")
+    "l m"        '(consult-mark                 :which-key "Jump -> marker")
+    "l M"        '(consult-global-mark          :which-key "Glob. jump -> marker")
+    "l o"        '(consult-outline              :which-key "Jump -> buffer outlines")
+    "l ["        '(consult-flymake              :which-key "Jump -> Flymake diagnostics")
+    "l ]"        '(consult-compile-error        :which-key "Jump -> compile-error in buffer"))
 
   (irkalla/comma-lead-keydef
     "c"            '(:ignore t                   :which-key "Consult")
