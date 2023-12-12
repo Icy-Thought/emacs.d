@@ -570,10 +570,10 @@
   (tab-bar-tab-inactive                              (:foreground overlay0))
 
   ;; https://github.com/ema2159/centaur-tabs
-  (centaur-tabs-active-bar-face                      (:background crust :foreground text))
-  (centaur-tabs-selected                             (:background crust :foreground text :bold t))
-  (centaur-tabs-selected-modified                    (:background crust :foreground text))
-  (centaur-tabs-modified-marker-selected             (:background crust :foreground text))
+  (centaur-tabs-active-bar-face                      (:background mantle :foreground text))
+  (centaur-tabs-selected                             (:background base :foreground pink :underline (:color maroon)))
+  (centaur-tabs-selected-modified                    (:background mantle :foreground text))
+  (centaur-tabs-modified-marker-selected             (:background mantle :foreground text))
   (centaur-tabs-close-selected                       (:inherit 'centaur-tabs-selected))
 
   (centaur-tabs-unselected                           (:background mantle :foreground overlay2))
