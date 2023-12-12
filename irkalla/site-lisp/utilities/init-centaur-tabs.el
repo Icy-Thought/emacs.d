@@ -28,6 +28,7 @@
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-headline-match)
+  (centaur-tabs-cycle-scope 'tabs)
   (centaur-tabs-buffer-groups-function 'centaur-tabs-projectile-buffer-groups)
   (centaur-tabs-enable-key-bindings t)
   (centaur-tabs-height 32)
