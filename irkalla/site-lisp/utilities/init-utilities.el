@@ -37,7 +37,7 @@
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (direnv dired whichkey dashboard readers consult embark vc vertico org-roam annotations recentf social terminal))
+ (centaur-tabs direnv dired whichkey dashboard readers consult embark vc vertico org-roam annotations recentf social terminal))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here
