@@ -36,6 +36,7 @@
 
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
+  :commands (blamer-mode)
   :hook (prog-mode . blamer-mode)
   :custom-face
   (blamer-face ((t (:background nil :height 125 :italic t))))

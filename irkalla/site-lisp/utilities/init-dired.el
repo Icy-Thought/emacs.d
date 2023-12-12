@@ -36,6 +36,7 @@
 
 ;; Alternative frontend for dired
 (use-package dirvish
+  :commands (dirivish-side)
   :hook (dired-mode . dirvish-side-follow-mode)
   :general
   (irkalla/comma-lead-keydef
