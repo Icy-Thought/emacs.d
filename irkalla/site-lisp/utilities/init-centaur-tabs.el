@@ -15,21 +15,16 @@
   :hook (((calendar-mode org-agenda-mode) . centaur-tabs-local-mode)
          ((dashboard-mode vterm-mode) . centaur-tabs-local-mode) 
          ((Ement-Room Ement-Room-List) . centaur-tabs-local-mode)) 
-  :general (:states 'normal :keymaps 'centaur-tabs-mode-map
+  :general (:states '(normal insert) :keymaps 'centaur-tabs-mode-map
                     "C-<prior>" #'centaur-tabs-backward-group
                     "C-<next>"  #'centaur-tabs-forward-group
                     "M-<prior>" #'centaur-tabs-backward
                     "M-<next>"  #'centaur-tabs-forward
                     "M-S-<prior>" #'centaur-tabs-move-current-tab-to-left
                     "M-S-<next>"  #'centaur-tabs-move-current-tab-to-right)
-  :config
-  (centaur-tabs-mode t)
-  (setq x-underline-at-descent-line t)
   :custom
   (centaur-tabs-set-icons t)
-  (centaur-tabs-headline-match)
   (centaur-tabs-cycle-scope 'tabs)
-  (centaur-tabs-buffer-groups-function 'centaur-tabs-projectile-buffer-groups)
   (centaur-tabs-enable-key-bindings t)
   (centaur-tabs-height 32)
   (centaur-tabs-left-edge-margin nil)
@@ -37,7 +32,14 @@
   (centaur-tabs-show-count nil)
   (centaur-tabs-set-modified-marker t)
   (centaur-tabs-show-navigation-buttons t)
-  (centaur-tabs-show-new-tab-button t))
+  (centaur-tabs-show-new-tab-button t)
+  (centaur-tabs-adjust-buffer-order t)
+  :config
+  (centaur-tabs-mode t)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-enable-buffer-reordering)
+  (centaur-tabs-group-by-projectile-project)
+  (setq x-underline-at-descent-line t))
 
 (provide 'init-centaur-tabs)
 ;;; init-centaur-tabs.el ends here
