@@ -29,12 +29,14 @@
 (use-package autothemer
   :demand t
   :preface
-  (defun irkalla/apply-theme (palette)
-    "A quicker way to apply our installed themes."
-    (if (custom-theme-p palette)
-        (enable-theme palette)
-      (load-theme palette :no-confirm)))
-  :config (irkalla/apply-theme 'catppuccin-mocha))
+  (defun irkalla/setup-appearance ()
+    (let ((theme-name 'catppuccin-mocha))
+      (if (daemonp)
+          (add-hook 'after-make-frame-functions (lambda (frame)
+                                                  (select-frame frame)
+                                                  (load-theme theme-name :no-confirm))))
+      (load-theme theme-name :no-confirm)))
+  :config (irkalla/setup-appearance))
 
 ;; :NOTE| Replace several symbols with prettier alternatives
 (use-package prettify-symbols
