@@ -68,6 +68,8 @@
   (internal-border                                   (:background base :foreground base))
   (line-number                                       (:foreground surface1 :background nil))
   (line-number-current-line                          (:foreground mauve :background surface0 :bold t))
+  (link                                              (:foreground maroon :underline t))
+  (custom-link                                       (:foreground maroon :underline t))
   (lv-separator                                      (:foreground overlay2 :background base))
   (match                                             (:background yellow :foreground crust))
   (menu                                              (:background base :foreground rosewater))
@@ -199,8 +201,6 @@
   (message-header-to                                 (:foreground rosewater))
   (message-header-cc                                 (:foreground green))
   (message-header-xheader                            (:foreground rosewater))
-  (custom-link                                       (:foreground blue))
-  (link                                              (:foreground blue))
 
   ;; https://github.com/alphapapa/ement.el
   (ement-room-mention                                (:foreground red))
