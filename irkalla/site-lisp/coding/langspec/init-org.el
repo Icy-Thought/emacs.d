@@ -103,7 +103,8 @@
   :custom
   ;; :NOTE| Settings replaced by svg-tag-mode
   (org-modern-tag nil)
-  (org-modern-todo nil))
+  (org-modern-todo nil)
+  (org-modern-block-name nil))
 
 (use-package org-ql
   :requires (org)

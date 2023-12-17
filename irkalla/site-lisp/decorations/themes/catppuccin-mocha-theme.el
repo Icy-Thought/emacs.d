@@ -218,9 +218,9 @@
 
   ;; https://orgmode.org/org.html
   (org-block                                         (:background mantle))
-  (org-block-begin-line                              (:background base :foreground overlay2))
-  (org-block-end-line                                (:background base :foreground overlay2))
-  (org-code                                          (:background mantle :foreground maroon))
+  (org-block-begin-line                              (:background base :foreground rosewater))
+  (org-block-end-line                                (:background base :foreground maroon))
+  (org-code                                          (:background mantle :foreground teal))
   (org-date                                          (:foreground pink))
   (org-done                                          (:foreground green))
   (org-ellipsis                                      (:foreground overlay2 :bold t))
@@ -230,7 +230,7 @@
   (org-hide                                          (:background base :foreground base))
   (org-indent                                        (:background base :foreground base))
   (org-meta-line                                     (:foreground blue :bold t))
-  (org-todo                                          (:foreground green :bold t))
+  (org-todo                                          (:foreground yellow :bold t))
   (org-verbatim                                      (:foreground sky))
   (org-upcoming-deadline                             (:foreground red))
 
