@@ -16,8 +16,10 @@
   :if (executable-find "git")
   :general
   (irkalla/space-lead-keydef
-    "g"   '(:ignore t :which-key "Magit")
-    "g g" '(magit :which-key "Open Magit!"))
+    "g"   '(:ignore t                 :which-key "Magit")
+    "g g" '(magit                     :which-key "Open Magit")
+    "g s" '(magit-stage-buffer-file   :which-key "Stage current file")
+    "g u" '(magit-unstage-buffer-file :which-key "Unstage current file"))
   :custom
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
