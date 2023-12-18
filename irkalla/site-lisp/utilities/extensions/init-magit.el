@@ -1,4 +1,4 @@
-;;; init-vc.el --- Version Control -*- lexical-binding: t; -*-
+;;; init-magit.el --- Magit: Version Control -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -62,5 +62,5 @@
   (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
 
-(provide 'init-vc)
-;;; init-vc.el ends here
+(provide 'init-magit)
+;;; init-magit.el ends here

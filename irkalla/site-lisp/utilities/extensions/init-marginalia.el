@@ -1,4 +1,4 @@
-;;; init-annotations.el --- Annotations For the Lost -*- lexical-binding: t; -*-
+;;; init-marginalia.el --- Marginalia: Annotations For the Lost -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -17,5 +17,5 @@
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))
 
-(provide 'init-annotations)
-;;; init-annotations.el ends here
+(provide 'init-marginalia)
+;;; init-marginalia.el ends here

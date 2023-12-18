@@ -17,7 +17,7 @@
   (tramp-default-method "ssh")
   (remote-file-name-inhibit-cache nil))
 
-(irkalla/enable-modules (eshell vterm))
+(irkalla/enable-modules (eshell eat vterm))
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here

@@ -54,8 +54,7 @@
     (normal-top-level-add-subdirs-to-load-path)))
 (add-subdirs-to-load-path irkalla/main-residence)
 
-(add-to-list 'custom-theme-load-path
-             (concat irkalla/decorations-dir "/themes"))
+(add-to-list 'custom-theme-load-path (concat irkalla/decorations-dir "/themes"))
 
 ;; Early package modifications
 (require 'init-performance)
@@ -63,8 +62,7 @@
 (require 'init-options)
 
 ;; :NOTE| Changing the behaviour of custom.el
-(setq-default custom-file
-              (expand-file-name "etc/custom.el" user-emacs-directory))
+(setq-default custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
 
 (if (file-exists-p custom-file)
     (load custom-file 'noerror 'nomessage)
