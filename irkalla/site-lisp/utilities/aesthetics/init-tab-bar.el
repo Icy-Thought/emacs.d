@@ -22,7 +22,7 @@
   (tab-bar-new-tab-choice "*dashboard*"))
 
 (use-package tabspaces
-  :hook (tab-bar-mode . tabspaces-mode)
+  :hook (elpaca-after-init . tabspaces-mode)
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
   :custom
