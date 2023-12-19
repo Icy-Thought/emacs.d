@@ -37,7 +37,8 @@
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (tab-bar direnv dired whichkey dashboard readers consult embark magit vertico org-roam marginalia recentf social terminal browser))
+ (popper tabspaces tab-bar direnv dired whichkey dashboard readers consult embark magit vertico org-roam marginalia
+         recentf social terminal browser))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here
