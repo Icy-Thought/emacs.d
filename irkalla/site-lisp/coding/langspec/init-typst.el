@@ -14,12 +14,19 @@
 (use-package typst-mode
   :elpaca (:host sourcehut :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
-  :hook (tyspt-ts-mode . eglot-ensure)
+  :hook (typst-ts-mode . eglot-ensure)
   :custom (typst-ts-mode-watch-options "--open")
   :config
-  (when (executable-find "typst-lsp")
-    (with-eval-after-load 'eglot
+  (with-eval-after-load 'eglot
+    (when (executable-find "typst-lsp")
       (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst-lsp")))))
+
+  ;; :NOTE| apheleia formatting support
+  (with-eval-after-load 'apheleia
+    (when (executable-find "typstfmt")
+      (setf (alist-get 'typstfmt apheleia-formatters) '("typstfmt" "-"))
+      (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstfmt))))
+
 
   (with-eval-after-load 'consult
     (setopt consult-imenu-config
