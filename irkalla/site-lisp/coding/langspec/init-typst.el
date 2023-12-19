@@ -27,7 +27,6 @@
       (setf (alist-get 'typstfmt apheleia-formatters) '("typstfmt" "-"))
       (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstfmt))))
 
-
   (with-eval-after-load 'consult
     (setopt consult-imenu-config
             (append consult-imenu-config '((typst-ts-mode

@@ -66,16 +66,18 @@
     "e r"   '(eval-region        :which-key "Eval highlighted"))
 
   (irkalla/comma-lead-keydef
-    "b"   '(:ignore t               :which-key "Buffer")
+    "b"   '(:ignore t            :which-key "Buffer")
 
-    "g"   '(:ignore t               :which-key "Profiling")
-    "g s" '(profiler-start          :which-key "Start Profiling")
-    "g k" '(profiler-stop           :which-key "Stop Profiling")
+    "g"   '(:ignore t            :which-key "Profiling")
+    "g s" '(profiler-start       :which-key "Start Profiling")
+    "g k" '(profiler-stop        :which-key "Stop Profiling")
 
-    "p"   '(:ignore t               :which-key "Package Manager")
-    "p p" '(elpaca-manager          :which-key "Open Elpaca")
-    "p f" '(elpaca-fetch-all        :which-key "Fetch package commits")
-    "p u" '(elpaca-update-all       :which-key "Update all packages")))
+    "o"   '(:ignore t            :which-key "Open")
+
+    "p"   '(:ignore t            :which-key "Package Manager")
+    "p p" '(elpaca-manager       :which-key "Open Elpaca")
+    "p f" '(elpaca-fetch-all     :which-key "Fetch package commits")
+    "p u" '(elpaca-merge-all     :which-key "Update all packages")))
 
 (provide 'init-general)
 ;;; init-general.el ends here
