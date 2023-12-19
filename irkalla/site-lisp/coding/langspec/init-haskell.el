@@ -13,14 +13,14 @@
 
 (use-package haskell-mode
   :mode ("\\.hs\\'" . haskell-mode)
-  :hook (haskell-mode . eglot-ensure))
-
-;; :NOTE| apheleia formatting support
-(when (executable-find "stylish-haskell")
+  :hook (haskell-mode . eglot-ensure)
+  :conifg
+  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'stylish-haskell apheleia-formatters)
-          '("stylish-haskell" "-"))
-    (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell))))
+    (when (executable-find "stylish-haskell")
+      (setf (alist-get 'stylish-haskell apheleia-formatters)
+            '("stylish-haskell" "-"))
+      (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell)))))
 
 (provide 'init-haskell)
 ;;; init-haskell.el ends here

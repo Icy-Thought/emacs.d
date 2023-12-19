@@ -15,20 +15,23 @@
   :mode ("\\.py\\'" . python-mode)
   :hook ((python-mode python-ts-mode) . eglot-ensure)
   :config
-  (when (executable-find "pyright-langserver")
-    (with-eval-after-load 'eglot
+  (with-eval-after-load 'eglot
+    (when (executable-find "pyright-langserver")
       (add-to-list 'eglot-server-programs
-                   '((python-mode python-ts-mode)
-                     . ("pyright-langserver" "--stdio"
-                        :initializationOptions ((:pyright (:typeCheckingMode "strict")))))))))
+                   `((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"
+                                                     :initializationOptions ((:pyright (:typeCheckingMode "strict"))))))))
 
-;; :NOTE| apheleia formatting support
-(when (and (executable-find "black") (executable-find "isort"))
+  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'isort apheleia-formatters)
-          '("isort" "--profile" "black" "--stdout" "-"))
-    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort))
-    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
+    (when (executable-find "isort")
+      (setf (alist-get 'isort apheleia-formatters)
+            '("isort" "--profile"))
+      (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
+
+    (when (executable-find "isort")
+      (setf (alist-get 'black apheleia-formatters)
+            '("black" "--stdout" "-"))
+      (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black)))))
 
 (provide 'init-python)
 ;;; init-python.el ends here

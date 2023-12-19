@@ -15,16 +15,16 @@
   :mode ("\\.lua\\'" . lua-mode)
   :hook (lua-mode . eglot-ensure)
   :config
-  (when (executable-find "lua-language-server")
-    (with-eval-after-load 'eglot
-      (add-to-list 'eglot-server-programs `(lua-mode . ("lua-language-server"))))))
+  (with-eval-after-load 'eglot
+    (when (executable-find "lua-language-server")
+      (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))))
 
-;; :NOTE| apheleia formatting support
-(when (executable-find "stylua")
+  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'stylua apheleia-formatters)
-          '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
-    (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
+    (when (executable-find "stylua")
+      (setf (alist-get 'stylua apheleia-formatters)
+            '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
+      (add-to-list 'apheleia-mode-alist '(lua-mode . stylua)))))
 
 (provide 'init-lua)
 ;;; init-lua.el ends here

@@ -15,16 +15,16 @@
   :mode ("\\.nix\\'" . nix-mode)
   :hook (nix-mode . eglot-ensure)
   :config
-  (when (executable-find "nil")
-    (with-eval-after-load 'eglot
-      (add-to-list 'eglot-server-programs `(nix-mode . ("nil"))))))
+  (with-eval-after-load 'eglot
+    (when (executable-find "nil")
+      (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))))
 
-;; :NOTE| apheleia formatting support
-(when (executable-find "alejandra")
+  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'alejandra apheleia-formatters)
-          '("alejandra" "--quiet" "-"))
-    (add-to-list 'apheleia-mode-alist '(nix-mode . alejandra))))
+    (when (executable-find "alejandra")
+      (setf (alist-get 'alejandra apheleia-formatters)
+            '("alejandra" "--quiet" "-"))
+      (add-to-list 'apheleia-mode-alist '(nix-mode . alejandra)))))
 
 (provide 'init-nixlang)
 ;;; init-nixlang.el ends here

@@ -31,15 +31,21 @@
     "r r" '(rust-run        :which-key "Run project")
     "r t" '(rust-test       :which-key "Run tests on project"))
   :config
-  (when (executable-find "rust-analyzer")
-    (with-eval-after-load 'eglot
+  (with-eval-after-load 'eglot
+    (when (executable-find "rust-analyzer")
       (add-to-list 'eglot-server-programs
-                   `((rust-mode rust-ts-mode)
-                     . ("rust-analyzer"
-                        ;; https://rust-analyzer.github.io/manual.html
-                        :initializationOptions ((:cargo       (:features "all"))
-                                                (:completion  (:callable (:snippets "fill_arguments")))
-                                                (:checkOnSave (:command "clippy" :allTargets :json-false)))))))))
+                   `((rust-mode rust-ts-mode) . ("rust-analyzer"
+                                                 ;; https://rust-analyzer.github.io/manual.html
+                                                 :initializationOptions ((:cargo       (:features "all"))
+                                                                         (:completion  (:callable (:snippets "fill_arguments")))
+                                                                         (:checkOnSave (:command "clippy" :allTargets :json-false))))))))
+
+  ;; :NOTE| apheleia formatting support
+  (with-eval-after-load 'apheleia
+    (when (executable-find "rustfmt")
+      (setf (alist-get 'rustfmt apheleia-formatters)
+            '("rustfmt" "--quiet" "--emit" "stdout"))
+      (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . alejandra)))))
 
 ;; :NOTE| adding proper cargo support
 (use-package cargo
@@ -54,13 +60,6 @@
 ;; :NOTE| adding org-babel support for Rust
 (use-package ob-rust
   :requires (ob))
-
-;; :NOTE| apheleia formatting support
-(when (executable-find "rustfmt")
-  (with-eval-after-load 'apheleia
-    (setf (alist-get 'rustfmt apheleia-formatters)
-          '("rustfmt" "--quiet" "--emit" "stdout"))
-    (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . alejandra))))
 
 (provide 'init-rust)
 ;;; init-rust.el ends here
