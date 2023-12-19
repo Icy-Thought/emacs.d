@@ -14,7 +14,7 @@
 (use-package haskell-mode
   :mode ("\\.hs\\'" . haskell-mode)
   :hook (haskell-mode . eglot-ensure)
-  :conifg
+  :config
   ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia
     (when (executable-find "stylish-haskell")
