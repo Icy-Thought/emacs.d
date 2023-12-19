@@ -64,7 +64,7 @@
 (use-package cape
   :preface
   (defun setup-cape-extensions ()
-    (dolist (cape-fn '(file dabbrev symbol tex keyword))
+    (dolist (cape-fn '(file dabbrev elisp-symbol tex keyword emoji))
       (add-to-list 'completion-at-point-functions (intern (format "cape-%s" cape-fn)))))
   :hook (corfu-mode . setup-cape-extensions))
 
