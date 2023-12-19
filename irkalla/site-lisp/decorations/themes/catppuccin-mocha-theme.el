@@ -521,15 +521,21 @@
   (vterm-color-rosewater                             (:background text :foreground text))
 
   ;; https://www.emacswiki.org/emacs/AnsiColor
-  (ansi-color-crust                                  (:background crust))
-  (ansi-color-black                                  (:background mantle))
+  (ansi-color-black                                  (:foreground overlay1))
+  (ansi-color-bright-black                           (:foreground overlay1))
   (ansi-color-green                                  (:foreground green))
+  (ansi-color-bright-green                           (:foreground green))
   (ansi-color-cyan                                   (:foreground sky))
+  (ansi-color-bright-cyan                            (:foreground sky))
   (ansi-color-magenta                                (:foreground mauve))
+  (ansi-color-bright-magenta                         (:foreground mauve))
   (ansi-color-blue                                   (:foreground blue))
+  (ansi-color-bright-blue                            (:foreground blue))
   (ansi-color-red                                    (:foreground red))
+  (ansi-color-bright-red                             (:foreground red))
   (ansi-color-yellow                                 (:foreground yellow))
-  (ansi-color-white                                  (:foreground rosewater))
+  (ansi-color-bright-yellow                          (:foreground yellow))
+  (ansi-color-white                                  (:foreground text))
   (ansi-color-bright-white                           (:foreground text))
 
   ;; https://github.com/auto-complete/popup-el

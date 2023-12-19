@@ -18,20 +18,13 @@
                          ("terminfo/65" "terminfo/65/*")
                          ("integration" "integration/*")
                          (:exclude ".dir-locals.el" "*-tests.el")))
-  :preface
-  (defun irkalla/rename-eat-buf ()
-    "A simlpe solution which allow the user to spawn multilpe eshells."
-    (let ((directory-name (file-name-nondirectory (eshell/pwd))))
-      (rename-buffer (concat "*eat-" directory-name "*") t)))
-  :hook (eshell-mode . irkalla/rename-eshell-buf)
-  :hook ((eat-mode . irkalla/rename-eat-buf)
-         (eshell-mode . (lambda ()
+  :hook ((eshell-mode . (lambda ()
                           (eat-eshell-mode +1)
                           (setopt eshell-visual-commands nil)
                           (eat-eshell-visual-command-mode +1))))
   :general
-  (irkalla/space-lead-keydef
-    "t t" '(eat       :which-key "Open EAT"))
+  (irkalla/comma-lead-keydef
+    "o t" '(eat-project :which-key "EAT (Project)"))
   :custom (eat-kill-buffer-on-exit t))
 
 (provide 'init-eat)
