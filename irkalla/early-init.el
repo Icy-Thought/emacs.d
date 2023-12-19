@@ -58,7 +58,6 @@
 
 ;; Early package modifications
 (require 'init-performance)
-(require 'init-packages)
 (require 'init-options)
 
 ;; :NOTE| Changing the behaviour of custom.el

@@ -61,7 +61,8 @@
 (elpaca-wait)
 
 ;; :NOTE| Deferring packages should be automated
-(setopt use-package-always-defer t)
+(setopt use-package-always-defer t
+        use-package-compute-statistics t)
 
 (provide 'init-elpaca)
 ;;; init-elpaca.el ends here

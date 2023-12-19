@@ -15,6 +15,7 @@
 (setq-default
  auto-save-list-file-prefix nil
  create-lockfiles nil
+ package-enable-at-startup nil
  use-short-answers t
  vc-follow-symlinks t)
 
