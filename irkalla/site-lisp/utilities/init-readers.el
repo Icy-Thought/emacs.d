@@ -14,7 +14,11 @@
 ;; :NOTE| PDF-Viewer for readers out there!
 (use-package pdf-tools
   :elpaca nil ;; <-^ fetched from Nixpkgs
-  :init (push 'pdf-tools elpaca-ignored-dependencies)) ;; Allows proper detection of ~epdfinfo~
+  :init (push 'pdf-tools elpaca-ignored-dependencies) ;; Allows proper detection of ~epdfinfo~
+  :config
+  (require 'pdf-annot)
+  (require 'pdf-occur)
+  (require 'pdf-outline))
 
 (use-package pdf-view
   :elpaca nil
@@ -26,13 +30,8 @@
                              (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
                            (pdf-view-themed-minor-mode)))
   :config
-  (define-advice pdf-view-enlarge (:after (&rest _args) center-after-enlarge)
-    "Center the PDF view in the active PDF window after enlarging it."
-    (pdf-view-center-in-window))
-
-  (define-advice pdf-view-shrink (:after (&rest _args) center-after-shrink)
-    "Center the PDF view in the active PDF window after shrinking it."
-    (pdf-view-center-in-window))
+  (advice-add 'pdf-view-enlarge :after (lambda (&rest _args) (pdf-view-center-in-window)))
+  (advice-add 'pdf-view-shrink :after (lambda (&rest _args) (pdf-view-center-in-window)))
   :custom
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
