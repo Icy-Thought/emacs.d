@@ -230,6 +230,7 @@
   (org-hide                                          (:background base :foreground base))
   (org-indent                                        (:background base :foreground base))
   (org-meta-line                                     (:foreground blue :bold t))
+  (org-quote                                         (:foreground lavender :italic t))
   (org-todo                                          (:foreground yellow :bold t))
   (org-verbatim                                      (:foreground sky))
   (org-upcoming-deadline                             (:foreground red))
