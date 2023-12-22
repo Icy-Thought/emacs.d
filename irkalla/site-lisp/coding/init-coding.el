@@ -52,6 +52,14 @@
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-menu-string "LSP"))
 
+(use-package apheleia
+  :diminish apheleia-mode
+  :hook (elpaca-after-init . apheleia-global-mode)
+  :general
+  (irkalla/comma-lead-keydef
+    "l"   '(:ignore t     :which-key "LSP")
+    "l d" '(apheleia-mode :which-key "Toggle fmt on-save")))
+
 (use-package jinx
   :elpaca nil
   :hook (text-mode . jinx-mode)
@@ -61,7 +69,7 @@
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
- (corfu tempel flymake apheleia eldoc treesitter))
+ (corfu tempel flymake eldoc treesitter))
 
 (irkalla/enable-modules
  (babel elisp haskell nixlang rust markdown org lua python typst))
