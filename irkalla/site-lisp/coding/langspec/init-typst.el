@@ -11,7 +11,7 @@
 
 ;;; Code:
 
-(use-package typst-mode
+(use-package typst-ts-mode
   :elpaca (:host sourcehut :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
   :hook (typst-ts-mode . eglot-ensure)
