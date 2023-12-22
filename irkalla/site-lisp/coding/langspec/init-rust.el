@@ -41,11 +41,11 @@
                                                                          (:checkOnSave (:command "clippy" :allTargets :json-false))))))))
 
   ;; :NOTE| apheleia formatting support
-  (with-eval-after-load 'apheleia
+  (with-eval-after-load 'apheleia-formatters
     (when (executable-find "rustfmt")
       (setf (alist-get 'rustfmt apheleia-formatters)
             '("rustfmt" "--quiet" "--emit" "stdout"))
-      (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . alejandra)))))
+      (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt)))))
 
 ;; :NOTE| adding proper cargo support
 (use-package cargo

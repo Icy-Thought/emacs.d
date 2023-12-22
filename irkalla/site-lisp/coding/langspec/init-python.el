@@ -22,7 +22,7 @@
                                                      :initializationOptions ((:pyright (:typeCheckingMode "strict"))))))))
 
   ;; :NOTE| apheleia formatting support
-  (with-eval-after-load 'apheleia
+  (with-eval-after-load 'apheleia-formatters
     (when (executable-find "isort")
       (setf (alist-get 'isort apheleia-formatters)
             '("isort" "--profile"))

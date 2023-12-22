@@ -20,7 +20,7 @@
       (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))))
 
   ;; :NOTE| apheleia formatting support
-  (with-eval-after-load 'apheleia
+  (with-eval-after-load 'apheleia-formatters
     (when (executable-find "alejandra")
       (setf (alist-get 'alejandra apheleia-formatters)
             '("alejandra" "--quiet" "-"))

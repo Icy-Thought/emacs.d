@@ -16,7 +16,7 @@
   :hook (haskell-mode . eglot-ensure)
   :config
   ;; :NOTE| apheleia formatting support
-  (with-eval-after-load 'apheleia
+  (with-eval-after-load 'apheleia-formatters
     (when (executable-find "stylish-haskell")
       (setf (alist-get 'stylish-haskell apheleia-formatters)
             '("stylish-haskell" "-"))

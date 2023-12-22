@@ -22,12 +22,12 @@
       (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst-lsp")))))
 
   ;; :NOTE| apheleia formatting support
-  (with-eval-after-load 'apheleia
+  (with-eval-after-load 'apheleia-formatters
     (when (executable-find "typstfmt")
-      (setf (alist-get 'typstfmt apheleia-formatters) '("typstfmt" "-"))
+      (setf (alist-get 'typstfmt apheleia-formatters) '("typstfmt"))
       (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstfmt))))
 
-  (with-eval-after-load 'consult
+  (with-eval-after-load 'consult-imenu
     (setopt consult-imenu-config
             (append consult-imenu-config '((typst-ts-mode
                                             :topLevel "Headings"

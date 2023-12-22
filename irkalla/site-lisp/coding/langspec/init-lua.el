@@ -20,7 +20,7 @@
       (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))))
 
   ;; :NOTE| apheleia formatting support
-  (with-eval-after-load 'apheleia
+  (with-eval-after-load 'apheleia-formatters
     (when (executable-find "stylua")
       (setf (alist-get 'stylua apheleia-formatters)
             '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
