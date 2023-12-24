@@ -20,7 +20,7 @@
     "t"   '(:ignore t          :which-key "Popper")
     "t t" '(popper-toggle      :which-key "Un/Toggle Popup")
     "t j" '(popper-cycle       :which-key "Cycle Between Popup(s)")
-    "t-s" '(popper-toggle-type :which-key "Add Buf. To Popup"))
+    "t s" '(popper-toggle-type :which-key "Add Buf. To Popup"))
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
