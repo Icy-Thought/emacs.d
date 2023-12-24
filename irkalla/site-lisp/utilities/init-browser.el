@@ -29,6 +29,8 @@
   (shrface-href-versatile t)
   (shrface-bullets-bullet-list (when (featurep 'org-modern) org-modern-star))
   :config
+  (require 'shr-tag-pre-highlight)
+
   (shrface-basic)
   (shrface-trial)
   (shrface-default-keybindings)

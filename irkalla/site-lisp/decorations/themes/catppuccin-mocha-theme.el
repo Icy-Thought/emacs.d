@@ -190,6 +190,16 @@
   (telephone-line-evil-motion                        (:background teal :foreground mantle :bold t))
   (telephone-line-evil-insert                        (:background mauve :foreground mantle :bold t))
 
+  ;; https://www.emacswiki.org/emacs/eww
+  (eww-form-file                                     (:background mantle :foreground maroon)) 
+  (eww-form-text                                     (:background mantle :foreground text))
+  (eww-form-select                                   (:background mantle :foreground pink))
+  (eww-form-submit                                   (:background mantle :foreground yellow))
+  (eww-form-checkbox                                 (:background mantle :foreground teal))
+  (eww-form-textarea                                 (:background mantle :foreground text))
+  (eww-valid-certificate                             (:foreground blue :italic t))
+  (eww-invalid-certificate                           (:foreground red  :italic t))
+
   ;;https://github.com/skeeto/elfeed
   (elfeed-search-feed-face                           (:foreground lavender))
   (elfeed-search-tag-face                            (:foreground green))
