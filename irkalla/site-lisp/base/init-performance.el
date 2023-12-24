@@ -13,7 +13,8 @@
 
 ;; Increase the CPU processing restrictions
 (when (boundp 'read-process-output-max)
-  (setq-default read-process-output-max (* 24 1024 1024)))
+  (setq-default process-adaptive-read-buffering nil
+                read-process-output-max (* 24 1024 1024)))
 
 ;; Native compilation -> quicker Emacs through byte-compilations
 (when (featurep 'native-compile)
