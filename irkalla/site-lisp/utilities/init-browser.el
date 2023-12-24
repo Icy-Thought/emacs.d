@@ -13,12 +13,18 @@
 
 (use-package eww
   :elpaca nil
-  :requires (shrface)
-  :hook (eww-after-render . shrface-mode))
+  :preface
+  (defun auto-readable-wikipedia ()
+    "Run `eww-readable' if the current buffer is a Wikipedia article."
+    (when (and (eq major-mode 'eww-mode)
+               (string-match-p "\\bwikipedia\\.org\\b" (eww-current-url)))
+      (eww-readable)))
+  :hook (eww-after-render . auto-readable-wikipedia))
 
 (use-package shrface
   :requires (shr)
-  :hook (shrface-mode . olivetti-mode)
+  :hook ((shrface-mode . olivetti-mode)
+         (eww-after-render . shrface-mode))
   :custom
   (shrface-href-versatile t)
   (shrface-bullets-bullet-list (when (featurep 'org-modern) org-modern-star))
