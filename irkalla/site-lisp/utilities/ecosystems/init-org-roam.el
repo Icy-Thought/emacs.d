@@ -13,14 +13,16 @@
 
 (use-package org-roam
   :requires (org)
-  :general
-  (irkalla/comma-lead-keydef org-mode-map
-    "o r"   '(:ignore t               :which-key "Org-Roam")
-    "o r l" '(org-roam-buffer-toggle  :which-key "Org-Roam -> buffer")
-    "o r f" '(org-roam-node-find      :which-key "Open node -> title/alias")
-    "o r g" '(org-roam-graph          :which-key "Build -> show node of graph")
-    "o r i" '(org-roam-node-insert    :which-key "Find node -> insert `:id` org-link")
-    "o r c" '(org-roam-capture        :which-key "Open org-capture of node"))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Ecosystem: Org-Roam ｣──" 'sucicon "nf-custom-orgmode")
+           :color teal :quit-key "q")
+   ("Interactive"
+    (("l" org-roam-buffer-toggle "Toggle -> buffer"))
+    "Node(s)"
+    (("g" org-roam-graph       "Display graph")
+     ("f" org-roam-node-find   "Find")
+     ("i" org-roam-node-insert "insert `:id` org-link")
+     ("c" org-roam-capture       "Org-capture on node"))))
   :custom
   (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
   (org-roam-completion-everywhere t)

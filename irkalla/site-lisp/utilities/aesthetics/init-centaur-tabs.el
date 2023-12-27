@@ -15,13 +15,13 @@
   :hook (((calendar-mode org-agenda-mode) . centaur-tabs-local-mode)
          ((dashboard-mode vterm-mode) . centaur-tabs-local-mode) 
          ((Ement-Room Ement-Room-List) . centaur-tabs-local-mode)) 
-  :general (:states '(normal insert) :keymaps 'centaur-tabs-mode-map
-                    "C-<prior>" #'centaur-tabs-backward-group
-                    "C-<next>"  #'centaur-tabs-forward-group
-                    "M-<prior>" #'centaur-tabs-backward
-                    "M-<next>"  #'centaur-tabs-forward
-                    "M-S-<prior>" #'centaur-tabs-move-current-tab-to-left
-                    "M-S-<next>"  #'centaur-tabs-move-current-tab-to-right)
+  :bind (:map centaur-tabs-mode-map
+              ("C-<prior>"   . #'centaur-tabs-backward-group)
+              ("C-<next>"    . #'centaur-tabs-forward-group)
+              ("M-<prior>"   . #'centaur-tabs-backward)
+              ("M-<next>"    . #'centaur-tabs-forward)
+              ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
+              ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-cycle-scope 'tabs)

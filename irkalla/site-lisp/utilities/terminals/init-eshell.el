@@ -38,10 +38,6 @@
                        "" "   " 'face 'font-lock-string-face)))
      (propertize (concat "   " (format-time-string "%H:%M" (current-time))) 'face 'font-lock-variable-name-face) 
      (propertize "\n └─➤ 𝝺 " 'face 'font-lock-type-face)))
-  :general
-  (irkalla/space-lead-keydef
-    "t"   '(:ignore t      :which-key "Terminal")
-    "t e" '(project-eshell :which-key "Open Eshell (Project)"))
   :custom
   (eshell-error-if-no-glob t)
   (eshell-hist-ignoredups t)

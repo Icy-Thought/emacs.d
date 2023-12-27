@@ -46,10 +46,10 @@
 (use-package vertico-directory
   :elpaca nil
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  :general (:keymaps 'vertico-map
-                     "RET"   #'vertico-directory-enter
-                     "DEL"   #'vertico-directory-delete-char
-                     "M-DEL" #'vertico-directory-delete-word))
+  :bind (:map vertico-map
+              ("RET"   . vertico-directory-enter)
+              ("DEL"   . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word)))
 
 ;; :NOTE| Enhances the behavior & appearance of Emacs mini-buffer prompt:
 (use-package emacs

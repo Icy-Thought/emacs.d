@@ -15,12 +15,13 @@
   :hook (elpaca-after-init . (lambda ()
                                (popper-mode +1)
                                (popper-echo-mode +1)))
-  :general
-  (irkalla/space-lead-keydef
-    "t"   '(:ignore t          :which-key "Popper")
-    "t t" '(popper-toggle      :which-key "Un/Toggle Popup")
-    "t j" '(popper-cycle       :which-key "Cycle Between Popup(s)")
-    "t s" '(popper-toggle-type :which-key "Add Buf. To Popup"))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Extensions: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+           :color teal :quit-key "q")
+   ("Action(s)"
+    (("t" popper-toggle      "Un/Toggle Popup")
+     ("j" popper-cycle       "Cycle Between Popup(s)")
+     ("s" popper-toggle-type "Add Buf. To Popup"))))
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"

@@ -13,12 +13,14 @@
 
 (use-package embark
   :hook (eldoc-documentation-functions . embark-eldoc-first-target)
-  :general
-  (irkalla/comma-lead-keydef
-    "e"   '(:ignore t       :which-key "Embark")
-    "e a" '(embark-act      :which-key "Prompt for action -> perform")
-    "e d" '(embark-dwim     :which-key "Run default action -> buffer")
-    "e h" '(embark-bindings :which-key "Explore Emacs bindings"))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Extensions: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+           :color teal :quit-key "q")
+   ("Action(s)"
+    (("a" embark-act      "Prompt -> perform")
+     ("d" embark-dwim     "Run default on buffer"))
+    "Documentation"
+    (("h" embark-bindings "Explore Emacs bindings"))))
   :custom
   (embark-prompter #'embark-completing-read-prompter)
   (embark-indicators '(embark-minimal-indicator

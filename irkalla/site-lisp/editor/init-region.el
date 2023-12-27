@@ -12,11 +12,7 @@
 ;;; Code:
 
 (use-package ialign
-  :general
-  (irkalla/comma-lead-keydef
-    :states 'visual :keymaps '(prog-mode-map text-mode-map)
-    "a"   '(:ignore t :which-key "Alignment Control")
-    "a r" '(ialign    :which-key "Align -> RegExp")))
+  :commands (ialign))
 
 (use-package indent-bars
   :elpaca (:host github :repo "jdtsmith/indent-bars")
@@ -24,9 +20,7 @@
   :custom (indent-bars-zigzag nil))
 
 (use-package expand-region
-  :general (:states 'visual :keymaps '(prog-mode-map text-mode-map)
-                    ")" 'er/expand-region
-                    "(" 'er/contract-region))
+  :commands (er/expand-region er/contract-region))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -42,6 +36,16 @@
 (use-package subword
   :elpaca nil
   :hook ((prog-mode text-mode) . subword-mode))
+
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define visual-region-hydra
+    (:title (pretty-hydra-title "──｢ Editor: Region (Visual) ｣──" 'mdicon "nf-md-vector_rectangle")
+            :color teal :quit-key "q")
+    ("Alignment"
+     (("r" ialign "Align with REGEXP"))
+     "Selection"
+     ((")" er/expand-region   "Increase by semantic units")
+      ("(" er/contract-region "Contract to PREV size")))))
 
 (provide 'init-region)
 ;;; init-region.el ends here

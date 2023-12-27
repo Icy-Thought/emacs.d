@@ -12,10 +12,13 @@
 ;;; Code:
 
 (use-package chatgpt-shell
-  :general
-  (irkalla/comma-lead-keydef
-    "o c" '(chatgpt-shell :which-key "Open ChatGPT")
-    "o d" '(dall-e-shell  :which-key "Open DALL-E"))
+  :commands (chatgpt-shell dall-e-shell)
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: ChatGPT ｣──" 'devicon "nf-dev-code")
+           :color teal :quit-key "q")
+   ("Interactive"
+    (("c" chatgpt-shell "ChatGPT")
+     ("d" dall-e-shell  "Dall-E"))))
   :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "closedAI"))))
 
 (provide 'init-chatgpt)

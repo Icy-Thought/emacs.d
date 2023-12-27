@@ -1,4 +1,4 @@
-;;; init-nixlang.el --- Langserv: Nix -*- lexical-binding: t; -*-
+;;; init-nix.el --- Langserv: Nix -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -26,5 +26,5 @@
             '("alejandra" "--quiet" "-"))
       (add-to-list 'apheleia-mode-alist '(nix-mode . alejandra)))))
 
-(provide 'init-nixlang)
-;;; init-nixlang.el ends here
+(provide 'init-nix)
+;;; init-nix.el ends here

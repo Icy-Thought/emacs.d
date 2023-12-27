@@ -22,14 +22,6 @@
                                       (eglot-ensure)
                                       (indent-tabs-mode -1)
                                       (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
-  :general
-  (irkalla/comma-lead-keydef rust-mode-map
-    "r"   '(:ignore t       :which-key "Rust")
-    "r b" '(rust-compile    :which-key "Compile project")
-    "r c" '(rust-check      :which-key "Compile + cargo check")
-    "r l" '(rust-run-clippy :which-key "Run cargo clippy")
-    "r r" '(rust-run        :which-key "Run project")
-    "r t" '(rust-test       :which-key "Run tests on project"))
   :config
   (with-eval-after-load 'eglot
     (when (executable-find "rust-analyzer")
@@ -47,19 +39,29 @@
             '("rustfmt" "--quiet" "--emit" "stdout"))
       (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt)))))
 
-;; :NOTE| adding proper cargo support
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode)
-  :general
-  (irkalla/comma-lead-keydef rust-mode-map
-    "r p"   '(:ignore t           :which-key "Cargo")
-    "r p a" '(cargo-process-add   :which-key "Cargo Add")
-    "r p c" '(cargo-process-clean :which-key "Cargo Clean"))
   :custom (cargo-process--command-clippy "clippy"))
 
 ;; :NOTE| adding org-babel support for Rust
 (use-package ob-rust
   :requires (ob))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define rust-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
+            :color teal :quit-key "q")
+    ("Interactive"
+     (("l" rust-run-clippy     "cargo clippy")
+      ("r" rust-run            "project")
+      ("t" rust-test           "tests on project"))
+     "Build"
+     (("c" rust-compile        "Compile project")
+      ("d" rust-check          "Compile & Check"))
+     "Process"
+     (("a" cargo-process-add   "Add")
+      ("c" cargo-process-clean "Clean")))))
 
 (provide 'init-rust)
 ;;; init-rust.el ends here

@@ -33,9 +33,11 @@
 (use-package combobulate
   :elpaca (:host github :repo "mickeynp/combobulate")
   :hook (tree-sitter-after-on . combobulate-mode)
-  :general
-  (irkalla/space-lead-keydef
-    "l c" '(combobulate :which-key "Combobulate")))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: Combobulate ｣──" 'devicon "nf-dev-code")
+           :color teal :quit-key "q")
+   ("Interactive"
+     (("o" combobulate "Combobulate")))))
 
 (provide 'init-treesitter)
 ;;; init-treesitter.el ends here

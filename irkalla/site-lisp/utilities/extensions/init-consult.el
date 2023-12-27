@@ -13,35 +13,6 @@
 
 (use-package consult
   :hook (completion-list-mode . consult-preview-at-point-mode)
-  :general
-  (irkalla/space-lead-keydef
-    "/"          '(consult-ripgrep              :which-key "Quick RegExp grep")
-    "b b"        '(consult-buffer               :which-key "Switch -> buffer")
-    "f r"        '(consult-recent-file          :which-key "Recent files")
-    "p b"        '(consult-project-buffer       :which-key "Switch -> project buffer")
-    "p f"        '(consult-projectile-find-file :which-key "Locate File in Project")
-    "p /"        '(consult-line                 :which-key "Jump -> Searched Line")
-
-    ;; LSP-related
-    "l"          '(:ignore t                    :which-key "LSP & Editing")
-    "l m"        '(consult-mark                 :which-key "Jump -> marker")
-    "l M"        '(consult-global-mark          :which-key "Glob. jump -> marker")
-    "l o"        '(consult-outline              :which-key "Jump -> buffer outlines")
-    "l ["        '(consult-flymake              :which-key "Jump -> Flymake diagnostics")
-    "l ]"        '(consult-compile-error        :which-key "Jump -> compile-error in buffer"))
-
-  (irkalla/comma-lead-keydef
-    "c"            '(:ignore t                   :which-key "Consult")
-    "c b"          '(consult-bookmark            :which-key "Open named bookmark")
-    "c h"          '(consult-history             :which-key "Insert string from hist.")
-    "c k"          '(consult-kmacro              :which-key "Run KBD macro")
-    "c ?"          '(consult-man                 :which-key "MAN-page str search")
-    "c /"          '(consult-info                :which-key "MANUALS text search")
-    "c p"          '(consult-yank-pop            :which-key "Paste yanks -> cursor")
-    "c t"          '(consult-theme               :which-key "Select available themes")
-    "c <return>"   '(consult-mode-command        :which-key "Run command")
-    "c S-<return>" '(consult-complex-command     :which-key "Evaluate CMD from hist.")
-    "c w"          '(consult-buffer-other-window :which-key "Frame buffer switch"))
   :config
   (setopt register-preview-delay 0.5
           register-preview-function #'consult-register-format)
@@ -60,10 +31,37 @@
                      :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-projectile
-  :requires (projectile)
-  :general
-  (irkalla/space-lead-keydef
-    "p p" '(consult-projectile-switch-project :which-key "Switch Project")))
+  :requires (projectile))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define consult-hydra
+    (:title (pretty-hydra-title "──｢ Extensions: Consult ｣──" 'mdicon "nf-md-console")
+            :color teal :quit-key "q")
+    ("Action(s)"
+     (("j" consult-line                      "Jump -> Searched Line")
+      ("r" consult-recent-file               "Recent files")
+      ("b" consult-buffer                    "Switch buffer")
+      ("B" consult-projectile-buffer         "Switch -> project buffer")
+      ("p" consult-projectile-switch-project "Switch Project")
+      ("/" consult-ripgrep                   "REGEXP grep"))
+     "Language Server"
+     (("m" consult-mark                      "Jump -> marker")
+      ("M" consult-global-mark               "Glob. jump -> marker")
+      ("o" consult-outline                   "Jump -> buffer outlines")
+      ("[" consult-flymake                   "Jump -> Flymake diagnostics")
+      ("]" consult-compile-error             "Jump -> compile-error in buffer"))
+     "Emacs"
+     (("B" consult-bookmark                  "Open named bookmark")
+      ("h" consult-history                   "Insert string from hist.")
+      ("k" consult-kmacro                    "Run KBD macro")
+      ("?" consult-man                       "MAN-page str search")
+      ("i" consult-info                      "MANUALS text search")
+      ("y" consult-yank-pop                  "Paste yanks -> cursor")
+      ("t" consult-theme                     "Select available themes")
+      ("c" consult-mode-command              "Run command")
+      ("C" consult-complex-command           "Evaluate CMD from hist.")
+      ("w" consult-buffer-other-window       "Frame buffer switch")))))
 
 (provide 'init-consult)
 ;;; init-consult.el ends here

@@ -23,7 +23,7 @@
 
 ;; Requiring `Base' modules to prevent config collision
 (irkalla/enable-modules
- (elpaca functions garbage general frames scrolling))
+ (elpaca functions garbage hydra frames scrolling))
 
 ;; :NOTE| Time of the day shall be in the superiour format
 (use-package time

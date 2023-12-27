@@ -36,15 +36,18 @@
 
 (use-package eglot
   :elpaca nil
-  :general
-  (irkalla/space-lead-keydef
-    :states 'normal :keymaps 'eglot-mode-map
-    "l a"    '(eglot-code-actions    :which-key "Perform code-actions")
-    "l r"    '(eglot-rename          :which-key "Rename $SYMB")
-    "l f"    '(eglot-format          :which-key "Format buffer")
-    "l ?"    '(xref-find-references  :which-key "Find -> references")
-    "l d"    '(xref-find-definitions :which-key "Find -> definition")
-    "l /"    '(xref-find-apropos     :which-key "Find $SYMB <- pattern"))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'devicon "nf-dev-code")
+           :color teal :quit-key "q")
+   ("Actions"
+    (("a" eglot-code-actions    "Perform code-actions")
+     ("r" eglot-rename          "Rename $SYMB")
+     ("f" eglot-format          "Format buffer"))
+    "Look-up"
+    (("?" xref-find-references  "Find -> references")
+     ("d" xref-find-definitions "Find -> definition")
+     ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
+  ;; :bind (:map eglot-mode-map (:map evil-normal-state-map))
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
@@ -55,24 +58,35 @@
 (use-package apheleia
   :diminish apheleia-mode
   :hook (elpaca-after-init . apheleia-global-mode)
-  :general
-  (irkalla/comma-lead-keydef
-    "l"   '(:ignore t     :which-key "LSP")
-    "l d" '(apheleia-mode :which-key "Toggle fmt on-save")))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: Apheleia ｣──" 'mdicon "nf-md-broom")
+           :color teal :quit-key "q")
+   ("Main"
+    (("d" apheleia-mode "Toggle fmt on-save")))))
 
 (use-package jinx
   :elpaca nil
   :hook (text-mode . jinx-mode)
-  :general
-  (:states 'normal :keymaps '(prog-mode-map text-mode-map)
-           "z =" '(jinx-correct :which-key "Correct damned misspellings...")))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: Spelling ｣──" 'mdicon "nf-md-broom")
+           :color teal :quit-key "q")
+   ("Main"
+    (("=" jinx-correct "Correct speling...")))))
+;; :bind (:map (prog-mode-map text-mode-map (:map evil-normal-state-map))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
  (corfu tempel flymake eldoc treesitter))
 
 (irkalla/enable-modules
- (babel elisp haskell nixlang rust markdown org lua python typst))
+ (babel elisp haskell nix rust markdown org lua python typst))
+
+;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define editor-hydra
+    (:title (pretty-hydra-title "──｢ Editor Hydra ｣──" 'codicon "nf-cod-code")
+            :color teal :quit-key "q")
+    ("Coding")))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

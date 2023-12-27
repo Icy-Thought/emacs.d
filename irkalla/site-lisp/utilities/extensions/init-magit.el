@@ -14,12 +14,14 @@
 ;; :NOTE| A Magic Wand for Git
 (use-package magit
   :if (executable-find "git")
-  :general
-  (irkalla/space-lead-keydef
-    "g"   '(:ignore t                 :which-key "Magit")
-    "g g" '(magit                     :which-key "Open Magit")
-    "g s" '(magit-stage-buffer-file   :which-key "Stage current file")
-    "g u" '(magit-unstage-buffer-file :which-key "Unstage current file"))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Extensions: Magit ｣──" 'mdicon "nf-md-git")
+           :color teal :quit-key "q")
+   ("Git"
+    (("g" magit "Magit"))
+    "Buffer"
+    (("s" '(magit-stage-buffer-file   "Stage file"))
+     ("u" '(magit-unstage-buffer-file "Unstage file")))))
   :custom
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))

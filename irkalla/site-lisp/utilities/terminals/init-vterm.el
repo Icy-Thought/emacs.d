@@ -14,10 +14,10 @@
 (use-package vterm
   :elpaca nil
   :hook (vterm-mode . evil-emacs-state)
-  :general
-  (:states 'insert :keymaps 'vterm-mode-map
-           "<S-prior>" #'scroll-down-command
-           "<S-next>"  #'scroll-up-command)
+  :bind (:map vterm-mode-map
+              (:map evil-visual-state-map
+                    ("<S-prior>" . #'scroll-down-command)
+                    ("<S-next>"  . #'scroll-up-command)))
   :custom
   (vterm-timer-delay 0.01)
   (vterm-max-scrollback 10000)
