@@ -47,7 +47,6 @@
     (("?" xref-find-references  "Find -> references")
      ("d" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
-  ;; :bind (:map eglot-mode-map (:map evil-normal-state-map))
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
@@ -72,7 +71,6 @@
            :color teal :quit-key "q")
    ("Main"
     (("=" jinx-correct "Correct speling...")))))
-;; :bind (:map (prog-mode-map text-mode-map (:map evil-normal-state-map))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
