@@ -47,8 +47,7 @@
    (("b" buffer-hydra/body "Buffer")
     ("f" finder-hydra/body "Finder")
     ("o" launcher-hydra/body "Launcher")
-    ("p" elpaca-hydra/body "Elpaca")
-    ("q" emacs-hydra/body "Emacs"))))
+    ("p" elpaca-hydra/body "Elpaca"))))
 
 (pretty-hydra-define visual-main-hydra
   (:title (pretty-hydra-title "──｢ (Visual) Phylum Cnidaria ｣──" 'mdicon "nf-md-graph_outline")
@@ -102,13 +101,6 @@
      "Update"
      (("m" elpaca-merge     "Specific Package")
       ("a" elpaca-merge-all "All Packages")))))
-
-(pretty-hydra-define emacs-hydra
-  (:title (pretty-hydra-title "──｢ Main: GNU Emacs ｣──" 'devicon "nf-dev-gnu")
-          :color teal :quit-key "q")
-  ("Emacs"
-   (("r" restart-emacs "Restart")
-    ("q" kill-emacs    "再见..."))))
 
 (provide 'init-hydra)
 ;;; init-hydra.el ends here
