@@ -35,7 +35,7 @@
   ;; :NOTE| Helpful bindings ought to be quick-access.
   (with-eval-after-load 'pretty-hydra
     (pretty-hydra-define+ main-hydra ()
-      ("Main"
+      ("Extension"
        (("h" helpful-hydra/body "Helpful"))))))
 
 (use-package screenshot

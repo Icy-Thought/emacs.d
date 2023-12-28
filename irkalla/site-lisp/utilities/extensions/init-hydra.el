@@ -45,7 +45,6 @@
           :color teal :quit-key "q")
   ("Main"
    (("b" buffer-hydra/body "Buffer")
-    ("f" finder-hydra/body "Finder")
     ("o" launcher-hydra/body "Launcher")
     ("p" elpaca-hydra/body "Elpaca"))))
 
@@ -73,14 +72,6 @@
    (("b" eval-buffer     "Buffer")
     ("e" eval-expression "Expression")
     ("f" eval-defun      "Function"))))
-
-(pretty-hydra-define finder-hydra
-  (:title (pretty-hydra-title "──｢ Main: Finder(s) ｣──" 'mdicon "nf-md-file_tree")
-          :color teal :quit-key "q")
-  ("File"
-   (("d" find-file "File (dir)"))
-   "Project"
-   (("r" projectile-replace "Search & Replace"))))
 
 (pretty-hydra-define launcher-hydra
   (:title (pretty-hydra-title "──｢ Main: Launcher(s) ｣──" 'codicon "nf-cod-rocket")

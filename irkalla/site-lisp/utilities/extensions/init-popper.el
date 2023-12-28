@@ -44,8 +44,8 @@
       ("s" popper-toggle-type "Add Buf. To Popup"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension(s)"
-     (("<" popper-hydra/body "Embark")))))
+    ("Extension"
+     (("<" popper-hydra/body "Popper")))))
 
 (provide 'init-popper)
 ;;; init-popper.el ends here

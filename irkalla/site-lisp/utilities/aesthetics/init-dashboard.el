@@ -13,6 +13,7 @@
 
 (use-package dashboard
   :requires (nerd-icons)
+  :commands (dashboard-refresh-buffer)
   :hook ((elpaca-after-init . dashboard-open)
          (dashboard-mode . hl-line-mode))
   :custom-face

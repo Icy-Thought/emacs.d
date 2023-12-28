@@ -20,6 +20,7 @@
 
 (use-package magit-todos
   :requires (magit)
+  :if (executable-find "rg")
   :hook (magit-mode . magit-todos-mode)
   :custom
   (magit-todos-recursive t)
@@ -34,7 +35,6 @@
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
   :if (executable-find "git")
-  :commands (blamer-mode)
   :hook (prog-mode . blamer-mode)
   :custom-face
   (blamer-face ((t (:background nil :height 125 :italic t))))

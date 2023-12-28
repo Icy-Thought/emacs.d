@@ -42,7 +42,7 @@
      (("h" embark-bindings "Explore Emacs bindings"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension(s)"
+    ("Extension"
      (("a" embark-hydra/body "Embark")))))
 
 (provide 'init-embark)

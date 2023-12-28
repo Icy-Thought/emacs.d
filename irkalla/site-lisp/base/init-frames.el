@@ -38,15 +38,19 @@
 
 ;; :NOTE| Finally, it's time for us to define our Hydra
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define reader-hydra
-    (:title (pretty-hydra-title "──｢ Base: Frame Management ｣──" 'sucicon "nf-custom-windows")
+  (pretty-hydra-define window-hydra
+    (:title (pretty-hydra-title "──｢ Base: Frame Management ｣──" 'mdicon "nf-md-dock_window")
             :color teal :quit-key "q")
     ("Main"
      (("o" irkalla/toggle-frame-transparency "Toggle Transparency"))
      "Windows"
      (("f" delete-other-windows "Focus Window")
       ("u" winner-undo          "Restore Old Windows")
-      ("r" winner-redo          "Redo Window Change")))))
+      ("r" winner-redo          "Redo Window Change"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Extension"
+     (("w" window-hydra/body "Window Control")))))
 
 (provide 'init-frames)
 ;;; init-frames.el ends here

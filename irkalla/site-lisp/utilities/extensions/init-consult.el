@@ -39,12 +39,13 @@
     (:title (pretty-hydra-title "──｢ Extensions: Consult ｣──" 'mdicon "nf-md-console")
             :color teal :quit-key "q")
     ("Action(s)"
-     (("j" consult-line                      "Jump -> Searched Line")
+     (("j" consult-line                      "Jump -> searched line")
+      ("f" consult-fd                        "Find files by NAME")
       ("r" consult-recent-file               "Recent files")
       ("b" consult-buffer                    "Switch buffer")
       ("B" consult-projectile-buffer         "Switch -> project buffer")
-      ("p" consult-projectile-switch-project "Switch Project")
-      ("/" consult-ripgrep                   "REGEXP grep"))
+      ("p" consult-projectile-switch-project "Switch project")
+      ("/" consult-ripgrep                   "Grep <- REGEXP"))
      "Language Server"
      (("m" consult-mark                      "Jump -> marker")
       ("M" consult-global-mark               "Glob. jump -> marker")
@@ -53,19 +54,16 @@
       ("]" consult-compile-error             "Jump -> compile-error in buffer"))
      "Emacs"
      (("B" consult-bookmark                  "Open named bookmark")
-      ("h" consult-history                   "Insert string from hist.")
-      ("k" consult-kmacro                    "Run KBD macro")
-      ("?" consult-man                       "MAN-page str search")
-      ("i" consult-info                      "MANUALS text search")
-      ("y" consult-yank-pop                  "Paste yanks -> cursor")
-      ("t" consult-theme                     "Select available themes")
-      ("c" consult-mode-command              "Run command")
-      ("C" consult-complex-command           "Evaluate CMD from hist.")
-      ("w" consult-buffer-other-window       "Frame buffer switch"))))
+      ("h" consult-history                   "Insert STR from hist.")
+      ("?" consult-man                       "'MAN'-page search")
+      ("i" consult-info                      "'MANUAL' search")
+      ("y" consult-yank-pop                  "Paste yank <- reg.")
+      ("t" consult-theme                     "Tmp. theme switch")
+      ("w" consult-buffer-other-window       "Buf. switch -> Split"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension(s)"
-     (("c" consult-hydra/body "Consult")))))
+    ("Extension"
+     (("f" consult-hydra/body "Consult")))))
 
 (provide 'init-consult)
 ;;; init-consult.el ends here
