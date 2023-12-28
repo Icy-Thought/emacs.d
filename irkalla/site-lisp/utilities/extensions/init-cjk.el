@@ -12,8 +12,8 @@
 ;;; Code:
 
 (use-package pyim
-  :general (:states 'normal :keymaps 'text-mode
-                    "M-j" '(pyim-convert-string-at-point :which-key "Force convert PREV to Chinese"))
+  :bind (:map text-mode-map
+              ("M-j" pyim-convert-string-at-point))
   :custom
   (pyim-default-scheme 'quanpin)
   (pyim-page-tooltip 'posframe)
@@ -27,8 +27,7 @@
 
 (use-package youdao-dictionary
   :commands (youdao-dictionary-search-at-point-posframe)
-  :general (:states 'normal :keymaps text-mode-map
-                    "C-M-y" '(youdao-dictionary-search-at-point-posframe :which-key "Dict lookup on point")))
+  :bind (("C-c y" youdao-dictionary-search-at-point-posframe)))
 
 (provide 'init-cjk)
 ;;; init-cjk.el ends here

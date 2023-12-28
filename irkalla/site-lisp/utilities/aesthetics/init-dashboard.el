@@ -66,5 +66,11 @@
                           ("Agenda for today:" . "Today's agenda:")
                           ("Agenda for the coming week:" . "Agenda:"))))
 
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Application"
+     (("RET" dashboard-open "Dashboard")))))
+
 (provide 'init-dashboard)
 ;;; init-dashboard.el ends here

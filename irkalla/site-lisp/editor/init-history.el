@@ -58,9 +58,8 @@
   (undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
 
 (use-package vundo
-  :general
-  (irkalla/comma-lead-keydef
-    "u" '(vundo :which-key "Visualize Undo"))
+  :commands (vundo)
+  :bind (("C-c u" . vundo))
   :custom
   (vundo-compact-display t)
   (vundo-glyph-alist vundo-unicode-symbols))

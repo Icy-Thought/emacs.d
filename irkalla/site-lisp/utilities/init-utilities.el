@@ -18,19 +18,25 @@
   :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
 
 (use-package helpful
-  :general
-  (irkalla/space-lead-keydef
-    "h"   '(:ignore t        :which-key "Helpful")
-    "h k" '(helpful-key      :which-key "Key")
-    "h f" '(helpful-callable :which-key "Function")
-    "h v" '(helpful-variable :which-key "Variable")
-    "h C" '(helpful-command  :which-key "Command")
-    "h F" '(helpful-function :which-key "Interactive functions"))
+  :demand t
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Utilities: Helpful ｣──" 'mdicon "nf-md-help_network")
+           :color teal :quit-key "q")
+   ("Help"
+    (("k" helpful-key      "Key(s)")
+     ("f" helpful-function "Function(s)")
+     ("F" helpful-callable "Interactive function(s)")
+     ("v" helpful-variable "Variable(s)")
+     ("c" helpful-command  "Command(s)")
+     ("p" helpful-at-point "SYMB at point"))))
+  :config
+  (setq-default help-window-select t)
 
-  (irkalla/comma-lead-keydef emacs-lisp-mode-map
-    "h"   '(:ignore t        :which-key "Helpful")
-    "h p" '(helpful-at-point :which-key "Show help for SYMB"))
-  :config (setq-default help-window-select t))
+  ;; :NOTE| Helpful bindings ought to be quick-access.
+  (with-eval-after-load 'pretty-hydra
+    (pretty-hydra-define+ main-hydra ()
+      ("Main"
+       (("h" helpful-hydra/body "Helpful"))))))
 
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot"))

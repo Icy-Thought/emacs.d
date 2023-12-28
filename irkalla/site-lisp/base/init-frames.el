@@ -13,7 +13,16 @@
 
 (use-package emacs
   :elpaca nil
-  :custom (window-combination-resize t))
+  :custom (window-combination-resize t)
+  :config
+  (defun irkalla/toggle-frame-transparency ()
+    "Toggle (on/off) Emacs frame transparency on demand!"
+    (interactive)
+    (let ((alpha-value
+           (if (equal (frame-parameter nil 'alpha-background) 100)
+               85 100)))
+      (set-frame-parameter nil 'alpha-background alpha-value)
+      (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value)))))
 
 (use-package windmove
   :elpaca nil
@@ -25,13 +34,19 @@
 
 (use-package winner
   :elpaca nil
-  :hook (elpaca-after-init . winner-mode)
-  :general
-  (irkalla/comma-lead-keydef
-    "w"   '(:ignore t            :which-key "Winner Mode")
-    "w p" '(delete-other-windows :which-key "Win -> Zoom-in")
-    "w u" '(winner-undo          :which-key "Undo Winner")
-    "w r" '(winner-redo          :which-key "Redo Winner")))
+  :hook (elpaca-after-init . winner-mode))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define reader-hydra
+    (:title (pretty-hydra-title "──｢ Base: Frame Management ｣──" 'sucicon "nf-custom-windows")
+            :color teal :quit-key "q")
+    ("Main"
+     (("o" irkalla/toggle-frame-transparency "Toggle Transparency"))
+     "Windows"
+     (("f" delete-other-windows "Focus Window")
+      ("u" winner-undo          "Restore Old Windows")
+      ("r" winner-redo          "Redo Window Change")))))
 
 (provide 'init-frames)
 ;;; init-frames.el ends here

@@ -13,14 +13,6 @@
 
 (use-package org-roam
   :requires (org)
-  :general
-  (irkalla/comma-lead-keydef org-mode-map
-    "o r"   '(:ignore t               :which-key "Org-Roam")
-    "o r l" '(org-roam-buffer-toggle  :which-key "Org-Roam -> buffer")
-    "o r f" '(org-roam-node-find      :which-key "Open node -> title/alias")
-    "o r g" '(org-roam-graph          :which-key "Build -> show node of graph")
-    "o r i" '(org-roam-node-insert    :which-key "Find node -> insert `:id` org-link")
-    "o r c" '(org-roam-capture        :which-key "Open org-capture of node"))
   :custom
   (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
   (org-roam-completion-everywhere t)
@@ -46,6 +38,16 @@
   (org-roam-ui-follow t)
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start nil))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ org-hydra ()
+    ("Org-Roam"
+     (("l" org-roam-buffer-toggle "Toggle -> buffer")
+      ("g" org-roam-graph         "Node <- display graph")
+      ("f" org-roam-node-find     "Node <- find")
+      ("i" org-roam-node-insert   "Node <- insert ':id' link")
+      ("C" org-roam-capture       "Node <- Capture")))))
 
 (provide 'init-org-roam)
 ;;; init-org-roam.el ends here

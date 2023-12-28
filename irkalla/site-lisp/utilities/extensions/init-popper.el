@@ -15,12 +15,6 @@
   :hook (elpaca-after-init . (lambda ()
                                (popper-mode +1)
                                (popper-echo-mode +1)))
-  :general
-  (irkalla/space-lead-keydef
-    "t"   '(:ignore t          :which-key "Popper")
-    "t t" '(popper-toggle      :which-key "Un/Toggle Popup")
-    "t j" '(popper-cycle       :which-key "Cycle Between Popup(s)")
-    "t s" '(popper-toggle-type :which-key "Add Buf. To Popup"))
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
@@ -38,6 +32,20 @@
 
   (popper-group-function #'popper-group-by-projectile)
   (popper-display-function #'display-buffer-full-frame))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define popper-hydra
+    (:title (pretty-hydra-title "──｢ Extensions: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+            :color teal :quit-key "q")
+    ("Action(s)"
+     (("t" popper-toggle      "Un/Toggle Popup")
+      ("j" popper-cycle       "Cycle Between Popup(s)")
+      ("s" popper-toggle-type "Add Buf. To Popup"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Extension(s)"
+     (("<" popper-hydra/body "Embark")))))
 
 (provide 'init-popper)
 ;;; init-popper.el ends here

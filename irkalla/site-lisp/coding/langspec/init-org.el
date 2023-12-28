@@ -26,14 +26,6 @@
       (insert "\\(\\)")
       (backward-char 2)))
   :hook (org-mode . org-display-inline-images)
-  :general
-  (:states 'insert :keymaps 'org-mode-map
-           "$" #'irkalla/org-electric-dollar)
-
-  (irkalla/comma-lead-keydef org-mode-map
-    "o"   '(:ignore t        :which-key "Org-Mode")
-    "o e" '(org-edit-special :which-key "Edit -> special buffer")
-    "o t" '(org-babel-tangle :which-key "Tangle buffer"))
   :custom-face
   (org-document-title ((t (:height 1.50))))
   (org-level-1        ((t (:inherit outline-1 :height 1.25))))
@@ -43,6 +35,9 @@
   (org-level-5        ((t (:inherit outline-5 :height 1.06))))
   :config
   (setopt org-directory "~/Workspace/memorandum/org-mode")
+
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert org-mode-map (kbd "$") #'irkalla/org-electric-dollar))
 
   ;; :NOTE| Move our LaTeX previews to cache dir
   (let ((latex-dir (no-littering-expand-var-file-name "latex-preview/")))
@@ -108,10 +103,19 @@
 
 (use-package org-ql
   :requires (org)
-  :commands (org-ql-search)
-  :general
-  (irkalla/comma-lead-keydef org-mode-map
-    "o /" '(org-ql-search :which-key "Search Org Files")))
+  :commands (org-ql-search))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define org-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Org-Mode ｣──" 'sucicon "nf-custom-orgmode")
+            :color teal :quit-key "q")
+    ("Buffer"
+     (("e" org-edit-special "Specialized Edit")
+      ("o" org-babel-tangle "Tangle")
+      ("c" org-capture      "Capture"))
+     "Project"
+     (("/" org-ql-search    "Search TAG Org Files")))))
 
 (provide 'init-org)
 ;;; init-org.el ends here

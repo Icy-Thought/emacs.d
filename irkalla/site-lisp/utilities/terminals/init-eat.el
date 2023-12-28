@@ -22,9 +22,6 @@
                           (eat-eshell-mode +1)
                           (setopt eshell-visual-commands nil)
                           (eat-eshell-visual-command-mode +1))))
-  :general
-  (irkalla/comma-lead-keydef
-    "o t" '(eat-project :which-key "EAT (Project)"))
   :custom (eat-kill-buffer-on-exit t))
 
 (provide 'init-eat)

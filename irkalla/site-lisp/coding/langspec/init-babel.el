@@ -45,8 +45,6 @@
          (call-interactively #'forward-line)))))
 
   :hook (org-babel-after-execute . org-display-inline-images)
-  :general (:states 'normal :keymaps 'org-mode-map
-                    "RET" '(irkalla/org-execute-action :which-key "Execute appropriate Org action"))
   :custom
   (org-babel-default-header-args
    '((:async   . "yes")
@@ -61,6 +59,8 @@
   (org-export-use-babel nil)
   (org-confirm-babel-evaluate nil)
   :config
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal org-mode-map (kbd "<return>") #'irkalla/org-execute-action))
   (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
 
 (use-package ob-async)

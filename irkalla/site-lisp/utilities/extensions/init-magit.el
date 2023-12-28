@@ -14,17 +14,12 @@
 ;; :NOTE| A Magic Wand for Git
 (use-package magit
   :if (executable-find "git")
-  :general
-  (irkalla/space-lead-keydef
-    "g"   '(:ignore t                 :which-key "Magit")
-    "g g" '(magit                     :which-key "Open Magit")
-    "g s" '(magit-stage-buffer-file   :which-key "Stage current file")
-    "g u" '(magit-unstage-buffer-file :which-key "Unstage current file"))
   :custom
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 
 (use-package magit-todos
+  :requires (magit)
   :hook (magit-mode . magit-todos-mode)
   :custom
   (magit-todos-recursive t)
@@ -38,6 +33,7 @@
 
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
+  :if (executable-find "git")
   :commands (blamer-mode)
   :hook (prog-mode . blamer-mode)
   :custom-face
@@ -54,15 +50,37 @@
 
 ;; :NOTE| Symbols to Highlight Git-related Changes
 (use-package git-gutter
+  :if (executable-find "git")
   :diminish git-gutter-mode
   :hook (prog-mode . git-gutter-mode)
   :custom (git-gutter:update-interval 0.05))
 
 (use-package git-gutter-fringe
+  :requires (git-gutter)
   :config
   (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define vc-hydra
+    (:title (pretty-hydra-title "──｢ Extensions: Version Control ｣──" 'mdicon "nf-md-git")
+            :color teal :quit-key "q")
+    ("Magit"
+     (("g" magit "Magit")
+      ("s" magit-stage-buffer-file   "Stage file")
+      ("u" magit-unstage-buffer-file "Unstage file"))
+     "Git-Gutter"
+     (("m" git-gutter:mark-hunk      "Mark hunk")
+      ("k" git-gutter:previous-hunk  "Previous hunk")
+      ("j" git-gutter:next-hunk      "Next hunk")
+      ("u" git-gutter:revert-hunk    "Revert hunk")
+      ("i" git-gutter:statistic      "Stats of Buf."))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Editor"
+     (("g" vc-hydra/body "Version Control")))))
 
 (provide 'init-magit)
 ;;; init-magit.el ends here

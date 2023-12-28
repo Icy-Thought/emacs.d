@@ -17,6 +17,13 @@
   (tramp-default-method "ssh")
   (remote-file-name-inhibit-cache nil))
 
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal(s)"
+     (("p" eat-project    "EAT (Project)")
+      ("e" project-eshell "Eshell -> Project")
+      ("n" nix-shell      "Eshell -> Nix")))))
+
 (irkalla/enable-modules (eshell eat))
 
 (provide 'init-terminal)

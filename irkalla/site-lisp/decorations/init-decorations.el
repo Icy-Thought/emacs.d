@@ -11,21 +11,6 @@
 
 ;;; Code:
 
-(use-package emacs
-  :elpaca nil
-  :preface
-  (defun irkalla/toggle-frame-transparency ()
-    "Toggle (on/off) Emacs frame transparency on demand!"
-    (interactive)
-    (let ((alpha-value
-           (if (equal (frame-parameter nil 'alpha-background) 100)
-               85 100)))
-      (set-frame-parameter nil 'alpha-background alpha-value)
-      (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
-  :general
-  (irkalla/comma-lead-keydef
-    "q a" '(irkalla/toggle-frame-transparency :which-key "Toggle Opacity")))  
-
 (use-package autothemer
   :demand t
   :preface

@@ -23,11 +23,6 @@
       (corfu-mode 1)))
   :hook ((elpaca-after-init . global-corfu-mode)
          (minibuffer-setup . corfu-enable-in-minibuffer))
-  :general (:states 'insert :keymaps 'corfu-map
-                    "TAB"   #'corfu-next
-                    [tab]   #'corfu-next
-                    "S-TAB" #'corfu-previous
-                    [backtab] #'corfu-previous)
   :custom
   (corfu-auto t)
   (corfu-cycle t)
@@ -40,7 +35,14 @@
   (corfu-on-exact-match nil)
   (corfu-preview-current 'insert)
   (corfu-quit-no-match 'separator)
-  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  :config
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert corfu-mode-map
+      (kbd "TAB")       #'corfu-next
+      (kbd "<tab>")     #'corfu-next
+      (kbd "S-TAB")     #'corfu-previous
+      (kbd "<backtab>") #'corfu-previous))
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package corfu-terminal
   :unless window-system

@@ -22,8 +22,10 @@
 
 (use-package eldoc-box
   :requires (eldoc)
-  :general (:states '(normal operator) :keymaps 'prog-mode-map
-                    "TAB" '(eldoc-box-help-at-point :which-key "LSP info at point")))
+  :commands (eldoc-box-help-at-point)
+  :config
+  (with-eval-after-load 'evil
+    (evil-define-key '(normal operator) prog-mode-map (kbd "TAB") #'eldoc-box-help-at-point)))
 
 (provide 'init-eldoc)
 ;;; init-eldoc.el ends here

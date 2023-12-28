@@ -67,9 +67,41 @@
   (window-divider-default-right-width 2)
   (window-divider-default-bottom-width 2))
 
-;; :NOTE| Lastly, import our custom modules
+(use-package olivetti
+  :commands (olivetti-mode)
+  :custom (olivetti-body-width 120)
+  :config
+  (defun irkalla/zen-mode ()
+    "Toggle buffer appearance for a touch of sophistication."
+    (interactive)
+    (cond
+     (buffer-face-mode
+      (display-line-numbers-mode +1)
+      (olivetti-mode -1)
+      (text-scale-increase 0.0)
+      (buffer-face-mode -1))
+     (t (display-line-numbers-mode -1)
+        (olivetti-mode +1)
+        (olivetti-set-width 80)
+        (text-scale-increase 1.5)
+        (setq-local buffer-face-mode-face '(:family "Dancing Script"))
+        (buffer-face-mode +1)))))
+
+;; :NOTE| now we import our custom modules
 (irkalla/enable-modules
- (evil ligatures history ediff olivetti region citar whitespace))
+ (evil ligatures history ediff region citar whitespace))
+
+;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ main-hydra ()
+    ("Editor"
+     (("e" evil-hydra/body   "Evil")
+      ("C" olivetti-mode     "Center Text")
+      ("z" irkalla/zen-mode  "Zen-Mode"))))
+
+  (pretty-hydra-define+ visual-main-hydra ()
+    ("Editor"
+     (("r" region-hydra/body "Region")))))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

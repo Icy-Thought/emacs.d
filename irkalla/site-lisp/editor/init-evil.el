@@ -34,9 +34,6 @@
   :requires (evil)
   :hook (((prog-mode text-mode) . evil-snipe-local-mode)
          (evil-snipe-local-mode . evil-snipe-override-local-mode))
-  :general (:states 'visual :keymaps 'evil-snipe-local-mode-map
-                    "z" #'evil-snipe-s
-                    "Z" #'evil-snipe-S)
   :custom
   (evil-snipe-scope 'visible)
   (evil-snipe-repeat-scope 'whole-visible)
@@ -67,11 +64,19 @@
 
 (use-package evil-nerd-commenter
   :requires (evil)
-  :general
-  (irkalla/space-lead-keydef
-    ";" '(evilnc-comment-operator           :which-key "Un/Comment -> code-block"))
-  (irkalla/comma-lead-keydef
-    ";" '(evilnc-comment-or-uncomment-lines :which-key "Un/Comment -> line")))
+  :commands (evilnc-comment-or-uncomment-lines
+             evilnc-comment-or-uncomment-paragraphs))
+
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define evil-hydra
+    (:title (pretty-hydra-title "──｢ Editor: Evil ｣──" 'mdicon "nf-md-emoticon_devil")
+            :color teal :quit-key "q")
+    ("Comment"
+     (("l" evilnc-comment-or-uncomment-lines "Line(s)")
+      ("p" evilnc-comment-or-uncomment-paragraphs "Paragraph(s)"))
+     "Snipe (Jump)"
+     (("z" evil-snipe-s "2 CHAR match")
+      ("Z" evil-snipe-S "Reverse 2 CHAR match")))))
 
 (provide 'init-evil)
 ;;; init-evil.el ends here
