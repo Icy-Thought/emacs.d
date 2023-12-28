@@ -93,15 +93,15 @@
 
 ;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define editor-hydra
-    (:title (pretty-hydra-title "──｢ Editor Hydra ｣──" 'codicon "nf-cod-wand")
-            :color teal :quit-key "q")
+  (pretty-hydra-define+ main-hydra ()
     ("Editor"
      (("e" evil-hydra/body   "Evil")
-      ("r" region-hydra/body "Region"))
-     "Reading"
-     (("o" olivetti-mode     "Centered")
-      ("z" irkalla/zen-mode  "Zen-Mode")))))
+      ("C" olivetti-mode     "Center Text")
+      ("z" irkalla/zen-mode  "Zen-Mode"))))
+
+  (pretty-hydra-define+ visual-main-hydra ()
+    ("Editor"
+     (("r" region-hydra/body "Region")))))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

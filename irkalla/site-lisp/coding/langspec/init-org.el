@@ -107,7 +107,7 @@
 
 ;; :NOTE| Finally, it's time for us to define our Hydra
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define org-hdyra
+  (pretty-hydra-define org-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Org-Mode ｣──" 'sucicon "nf-custom-orgmode")
             :color teal :quit-key "q")
     ("Buffer"

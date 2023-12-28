@@ -81,10 +81,21 @@
 
 ;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define editor-hydra
-    (:title (pretty-hydra-title "──｢ Editor Hydra ｣──" 'codicon "nf-cod-code")
-            :color teal :quit-key "q")
-    ("Coding")))
+  (pretty-hydra-define+ main-hydra ()
+    ("Coding"
+     (("l" (if (eglot-managed-p)
+               eglot-hydra/body "Eglot (LSP)"))
+      ("c" combobulate-hydra/body "Combobulate")
+      ("r" (if (memq major-mode '(rust-mode rust-ts-mode))
+               rust-hydra/body "Rust"))
+      ("o" (if (eq major-mode 'org-mode)
+               org-hydra/body "Org-Mode"))
+      ("m" (if (eq major-mode 'markdown-mode)
+               markdown-hydra/body "Markdown"))
+      ("t" (if (eq major-mode 'typst-ts-mode)
+               typst-hydra/body "Typst"))
+      ("f" apheleia-hydra/body "Format Buf.")
+      ("j" jinx-hydra/body "Spell Check")))))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

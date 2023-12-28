@@ -42,7 +42,7 @@
     (:title (pretty-hydra-title "──｢ Editor: Region (Visual) ｣──" 'mdicon "nf-md-vector_rectangle")
             :color teal :quit-key "q")
     ("Alignment"
-     (("r" ialign "Align with REGEXP"))
+     (("a" ialign "Align with REGEXP"))
      "Selection"
      ((")" er/expand-region   "Increase by semantic units")
       ("(" er/contract-region "Contract to PREV size")))))

@@ -17,6 +17,5 @@
   (parinfer-rust-auto-download t)
   (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
 
-
 (provide 'init-elisp)
 ;;; init-elisp.el ends here

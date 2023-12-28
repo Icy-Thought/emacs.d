@@ -45,23 +45,8 @@
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
   :hook (nov-mode . (lambda ()
-                      (olivetti-mode)
-                      (toggle-scroll-bar)))
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ EPUB Reader ｣──" 'faicon "nf-fa-book")
-           :color teal :quit-key "q")
-   ("Navigation"
-    (("h"  nov-previous-document   "Go -> previous doc")
-     ("l"  nov-previous-document   "Go -> next doc")
-     ("d"  nov-scroll-down         "Scroll downwards")
-     ("u"  nov-scroll-up           "Scroll upwards")
-     ("o"  nov-goto-toc            "Table of contents"))
-
-    "Content"
-    (("m" nov-display-metadata    "Show Metadata")
-     ("r" nov-render-document     "Render document")
-     ("v" nov-view-source         "View source")
-     ("V" nov-view-content-source "View content source"))))
+                      (olivetti-mode +1)
+                      (toggle-scroll-bar +1)))
   :custom-face
   (shr-text ((t (:inherit variable-pitch-face :height 1.05))))
   (shr-h1   ((t (:height 1.54 :slant italic))))
@@ -75,13 +60,30 @@
 (use-package nov-xwidget
   :elpaca (:host github :repo "chenyanming/nov-xwidget")
   :hook (nov-mode . nov-xwidget-inject-all-files)
-  :config
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal nov-mode-map (kbd "x") #'nov-xwidget-view)))
+  :bind (:map nov-mode-map
+              ("o" . #'nov-xwdiget-view)))
 
 ;; :NOTE| A RSS-reader for our curious minds
 (use-package newsticker
   :elpaca nil
+  :preface
+  (defun irkalla/newsticker-start-newTab ()
+    "Launch NewsTicker (TreeView) in a new tab."
+    (interactive)
+    (let (success)
+      (unwind-protect (progn
+                        (tab-bar-new-tab)
+                        (call-interactively #'newsticker-treeview)
+                        (tab-bar-rename-tab "newsticker")
+                        (setq success t))
+        (unless success (tab-bar-close-tab)))))
+  
+  (defun irkalla/newsticker-quit-newTab ()
+    "Quit NewsTicker (TreeView) -> stop NewsTicker -> close tab."
+    (interactive)
+    (newsticker-treeview-quit)
+    (newsticker-stop)
+    (tab-close))
   :hook (newsticker-treeview-item-mode . olivetti-mode)
   :bind (:map newsticker-treeview-mode-map
               ("o" . newsticker-treeview-browse-url)
@@ -112,37 +114,13 @@
      ("Arxiv: Physics"              "http://arxiv.org/rss/physics")))
 
   (newsticker-wget-name "curl")
-  (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8"))
-  :config
-  (defun irkalla/newsticker-start-newTab ()
-    "Launch NewsTicker (TreeView) in a new tab."
-    (interactive)
-    (let (success)
-      (unwind-protect
-          (progn
-            (tab-bar-new-tab)
-            (call-interactively #'newsticker-treeview)
-            (tab-bar-rename-tab "newsticker")
-            (setq success t))
-        (unless success (tab-bar-close-tab)))))
-
-  (defun irkalla/newsticker-quit-newTab ()
-    "Quit NewsTicker (TreeView) -> stop NewsTicker -> close tab."
-    (interactive)
-    (newsticker-treeview-quit)
-    (newsticker-stop)
-    (tab-close)))
+  (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8")))
 
 ;; :NOTE| Finally, it's time for us to define our Hydra
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define reader-hydra
-    (:title (pretty-hydra-title "──｢ Utilities: Reader(s) ｣──" 'faicon "nf-fa-book")
-            :color teal :quit-key "q")
-    ("EPUB"
-     (("n" nov-mode-hydra/body "Open Nov"))
-     "RSS"
-     (("t" irkalla/newsticker-start-newTab "RSS Reader: TreeView")
-      ("k" irkalla/newsticker-start-newTab "RSS Reader: TreeView")))))
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Reader(s)"
+     (("n" irkalla/newsticker-start-newTab "Newsticker (TreeView)")))))
 
 (provide 'init-readers)
 ;;; init-readers.el ends here
