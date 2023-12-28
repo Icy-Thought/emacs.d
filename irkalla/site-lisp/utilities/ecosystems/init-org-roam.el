@@ -13,16 +13,6 @@
 
 (use-package org-roam
   :requires (org)
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Ecosystem: Org-Roam ｣──" 'sucicon "nf-custom-orgmode")
-           :color teal :quit-key "q")
-   ("Interactive"
-    (("l" org-roam-buffer-toggle "Toggle -> buffer"))
-    "Node(s)"
-    (("g" org-roam-graph       "Display graph")
-     ("f" org-roam-node-find   "Find")
-     ("i" org-roam-node-insert "insert `:id` org-link")
-     ("c" org-roam-capture       "Org-capture on node"))))
   :custom
   (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
   (org-roam-completion-everywhere t)
@@ -48,6 +38,16 @@
   (org-roam-ui-follow t)
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start nil))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ org-hydra ()
+    ("Org-Roam"
+     (("l" org-roam-buffer-toggle "Toggle -> buffer")
+      ("g" org-roam-graph         "Node <- display graph")
+      ("f" org-roam-node-find     "Node <- find")
+      ("i" org-roam-node-insert   "Node <- insert ':id' link")
+      ("C" org-roam-capture       "Node <- Capture")))))
 
 (provide 'init-org-roam)
 ;;; init-org-roam.el ends here

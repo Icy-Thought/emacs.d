@@ -72,7 +72,15 @@
       ("s" magit-stage-buffer-file   "Stage file")
       ("u" magit-unstage-buffer-file "Unstage file"))
      "Git-Gutter"
-     (("m" git-gutter:mark-hunk "Mark Hunk")))))
+     (("m" git-gutter:mark-hunk      "Mark hunk")
+      ("k" git-gutter:previous-hunk  "Previous hunk")
+      ("j" git-gutter:next-hunk      "Next hunk")
+      ("u" git-gutter:revert-hunk    "Revert hunk")
+      ("i" git-gutter:statistic      "Stats of Buf."))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Editor"
+     (("g" vc-hydra/body "Version Control")))))
 
 (provide 'init-magit)
 ;;; init-magit.el ends here

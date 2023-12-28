@@ -13,14 +13,6 @@
 
 (use-package embark
   :hook (eldoc-documentation-functions . embark-eldoc-first-target)
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Extensions: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")
-           :color teal :quit-key "q")
-   ("Action(s)"
-    (("a" embark-act      "Prompt -> perform")
-     ("d" embark-dwim     "Run default on buffer"))
-    "Documentation"
-    (("h" embark-bindings "Explore Emacs bindings"))))
   :custom
   (embark-prompter #'embark-completing-read-prompter)
   (embark-indicators '(embark-minimal-indicator
@@ -37,6 +29,21 @@
 (use-package embark-consult
   :requires (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
+
+;; :NOTE| Finally, it's time for us to define our Hydra
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define embark-hydra
+    (:title (pretty-hydra-title "──｢ Extensions: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+            :color teal :quit-key "q")
+    ("Action(s)"
+     (("a" embark-act      "Prompt -> perform")
+      ("d" embark-dwim     "Run default on buffer"))
+     "Documentation"
+     (("h" embark-bindings "Explore Emacs bindings"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Extension(s)"
+     (("a" embark-hydra/body "Embark")))))
 
 (provide 'init-embark)
 ;;; init-embark.el ends here

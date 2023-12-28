@@ -75,7 +75,7 @@
     ("Coding"
      (("l" (if (eglot-managed-p)
                eglot-hydra/body "Eglot (LSP)"))
-      ("c" combobulate-hydra/body "Combobulate")
+      ("t" combobulate-hydra/body "Combobulate (TS)")
       ("r" (if (memq major-mode '(rust-mode rust-ts-mode))
                rust-hydra/body "Rust"))
       ("o" (if (eq major-mode 'org-mode)

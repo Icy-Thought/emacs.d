@@ -61,7 +61,11 @@
       ("t" consult-theme                     "Select available themes")
       ("c" consult-mode-command              "Run command")
       ("C" consult-complex-command           "Evaluate CMD from hist.")
-      ("w" consult-buffer-other-window       "Frame buffer switch")))))
+      ("w" consult-buffer-other-window       "Frame buffer switch"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Extension(s)"
+     (("c" consult-hydra/body "Consult")))))
 
 (provide 'init-consult)
 ;;; init-consult.el ends here

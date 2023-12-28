@@ -112,9 +112,10 @@
             :color teal :quit-key "q")
     ("Buffer"
      (("e" org-edit-special "Specialized Edit")
-      ("o" org-babel-tangle "Tangle"))
+      ("o" org-babel-tangle "Tangle")
+      ("c" org-capture      "Capture"))
      "Project"
-     (("/" org-ql-search "Search TAG Org Files")))))
+     (("/" org-ql-search    "Search TAG Org Files")))))
 
 (provide 'init-org)
 ;;; init-org.el ends here
