@@ -56,21 +56,11 @@
 
 (use-package apheleia
   :diminish apheleia-mode
-  :hook (elpaca-after-init . apheleia-global-mode)
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Coding: Apheleia ｣──" 'mdicon "nf-md-broom")
-           :color teal :quit-key "q")
-   ("Main"
-    (("d" apheleia-mode "Toggle fmt on-save")))))
+  :hook (elpaca-after-init . apheleia-global-mode))
 
 (use-package jinx
   :elpaca nil
-  :hook (text-mode . jinx-mode)
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Coding: Spelling ｣──" 'mdicon "nf-md-broom")
-           :color teal :quit-key "q")
-   ("Main"
-    (("=" jinx-correct "Correct speling...")))))
+  :hook (text-mode . jinx-mode))
 
 ;; :NOTE| Lastly, import our custom modules
 (irkalla/enable-modules
@@ -94,8 +84,7 @@
                markdown-hydra/body "Markdown"))
       ("t" (if (eq major-mode 'typst-ts-mode)
                typst-hydra/body "Typst"))
-      ("f" apheleia-hydra/body "Format Buf.")
-      ("j" jinx-hydra/body "Spell Check")))))
+      ("=" jinx-correct "Spell-Check")))))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here
