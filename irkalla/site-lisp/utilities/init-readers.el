@@ -119,7 +119,7 @@
 ;; :NOTE| Finally, it's time for us to define our Hydra
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
-    ("Reader(s)"
+    ("Reader"
      (("n" irkalla/newsticker-start-newTab "Newsticker (TreeView)")))))
 
 (provide 'init-readers)

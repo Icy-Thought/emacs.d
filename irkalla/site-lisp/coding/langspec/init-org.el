@@ -115,7 +115,12 @@
       ("o" org-babel-tangle "Tangle")
       ("c" org-capture      "Capture"))
      "Project"
-     (("/" org-ql-search    "Search TAG Org Files")))))
+     (("/" org-ql-search    "Search TAG Org Files"))))
+
+  (pretty-hydra-define+ langspec-hydra ()
+    ("Language"
+     (("o" (if (eq major-mode 'org-mode)
+               org-hydra/body "Org-Mode"))))))
 
 (provide 'init-org)
 ;;; init-org.el ends here

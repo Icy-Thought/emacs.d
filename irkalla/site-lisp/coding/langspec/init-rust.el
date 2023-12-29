@@ -61,7 +61,12 @@
       ("d" rust-check          "Compile & Check"))
      "Process"
      (("a" cargo-process-add   "Add")
-      ("c" cargo-process-clean "Clean")))))
+      ("c" cargo-process-clean "Clean"))))
+
+  (pretty-hydra-define+ langspec-hydra ()
+    ("Language"
+     (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
+               rust-hydra/body "Rust"))))))
 
 (provide 'init-rust)
 ;;; init-rust.el ends here

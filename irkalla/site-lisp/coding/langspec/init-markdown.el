@@ -28,7 +28,12 @@
     (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
             :color teal :quit-key "q")
     ("Interactive"
-     (("d" markdown-do "Perform -> action")))))
+     (("d" markdown-do "Perform -> action"))))
+
+  (pretty-hydra-define+ langspec-hydra ()
+    ("Language"
+     (("m" (if (eq major-mode 'markdown-mode)
+               markdown-hydra/body "Markdown"))))))
 
 (provide 'init-markdown)
 ;;; init-markdown.el ends here

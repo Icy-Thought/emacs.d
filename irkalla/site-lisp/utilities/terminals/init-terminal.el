@@ -19,7 +19,7 @@
 
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
-    ("Terminal(s)"
+    ("Terminal"
      (("p" eat-project    "EAT (Project)")
       ("e" project-eshell "Eshell -> Project")
       ("n" nix-shell      "Eshell -> Nix")))))

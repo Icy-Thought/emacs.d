@@ -76,7 +76,11 @@
       ("p" evilnc-comment-or-uncomment-paragraphs "Paragraph(s)"))
      "Snipe (Jump)"
      (("z" evil-snipe-s "2 CHAR match")
-      ("Z" evil-snipe-S "Reverse 2 CHAR match")))))
+      ("Z" evil-snipe-S "Reverse 2 CHAR match"))))
+
+  (pretty-hydra-define+ visual-main-hydra ()
+    ("Editor"
+     ((";" evilnc-comment-or-uncomment-lines "Comment Lines")))))
 
 (provide 'init-evil)
 ;;; init-evil.el ends here

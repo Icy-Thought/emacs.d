@@ -42,7 +42,12 @@
     ("Build"
      (("c" typst-ts-mode-compile "Compile")
       ("p" typst-ts-mode-preview "Preview")
-      ("u" typst-ts-mode-compile-and-preview "Run & Preview")))))
+      ("u" typst-ts-mode-compile-and-preview "Run & Preview"))))
+
+  (pretty-hydra-define+ langspec-hydra ()
+    ("Language"
+     (("t" (if (eq major-mode 'typst-ts-mode)
+               typst-hydra/body "Typst"))))))
 
 (provide 'init-typst)
 ;;; init-typst.el ends here

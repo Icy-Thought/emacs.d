@@ -14,6 +14,11 @@
 
 (use-package emacs
   :elpaca nil
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Langspec: Emacs Lisp ｣──" 'sucicon "nf-custom-emacs")
+           :color teal :quit-key "q")
+   ("Actions"
+    (("a" apropos "Show $SYMB == pattern"))))
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -37,7 +42,7 @@
 (use-package eglot
   :elpaca nil
   :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'devicon "nf-dev-code")
+  ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
            :color teal :quit-key "q")
    ("Actions"
     (("a" eglot-code-actions    "Perform code-actions")
@@ -75,16 +80,14 @@
     ("Coding"
      (("l" (if (eglot-managed-p)
                eglot-hydra/body "Eglot (LSP)"))
-      ("t" combobulate-hydra/body "Combobulate (TS)")
-      ("r" (if (memq major-mode '(rust-mode rust-ts-mode))
-               rust-hydra/body "Rust"))
-      ("o" (if (eq major-mode 'org-mode)
-               org-hydra/body "Org-Mode"))
-      ("m" (if (eq major-mode 'markdown-mode)
-               markdown-hydra/body "Markdown"))
-      ("t" (if (eq major-mode 'typst-ts-mode)
-               typst-hydra/body "Typst"))
-      ("=" jinx-correct "Spell-Check")))))
+      ("]" langspec-hydra/body "Language Specific")
+      ("=" jinx-correct "Spell-Check"))))
+
+  (pretty-hydra-define langspec-hydra
+    (:title (pretty-hydra-title "──｢ Coding: Language Specific ｣──" 'faicon "nf-fa-code")
+            :color teal :quit-key "q")
+    ("Language"
+     (("e" emacs-lisp/hydra "Emacs Lisp")))))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

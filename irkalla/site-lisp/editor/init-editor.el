@@ -101,7 +101,7 @@
 
   (pretty-hydra-define+ visual-main-hydra ()
     ("Editor"
-     (("r" region-hydra/body "Region")))))
+     (("r" visual-region-hydra/body "Region")))))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
