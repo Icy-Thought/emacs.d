@@ -64,7 +64,7 @@
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define vc-hydra
-    (:title (pretty-hydra-title "──｢ Extensions: Version Control ｣──" 'mdicon "nf-md-git")
+    (:title (pretty-hydra-title "──｢ Editor: Version Control ｣──" 'mdicon "nf-md-git")
             :color teal :quit-key "q")
     ("Magit"
      (("g" magit "Magit")
@@ -77,8 +77,8 @@
       ("u" git-gutter:revert-hunk    "Revert hunk")
       ("i" git-gutter:statistic      "Stats of Buf."))))
 
-  (pretty-hydra-define+ main-hydra ()
-    ("Editor"
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
      (("g" vc-hydra/body "Version Control")))))
 
 (provide 'init-magit)
