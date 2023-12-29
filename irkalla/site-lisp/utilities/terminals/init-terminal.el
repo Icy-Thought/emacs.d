@@ -17,6 +17,7 @@
   (tramp-default-method "ssh")
   (remote-file-name-inhibit-cache nil))
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Terminal"

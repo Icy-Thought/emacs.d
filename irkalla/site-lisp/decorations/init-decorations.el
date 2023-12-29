@@ -42,7 +42,7 @@
     (setopt svg-lib-style-default (svg-lib-style-compute-default)
             svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))))
 
-;; :NOTE| Lastly, import our custom modules
+;; :NOTE| Import the custom modules
 (irkalla/enable-modules
  (icons svg-tags modeline))
 

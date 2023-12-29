@@ -116,7 +116,7 @@
   (newsticker-wget-name "curl")
   (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8")))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Reader"

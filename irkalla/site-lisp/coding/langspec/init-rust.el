@@ -47,7 +47,7 @@
 (use-package ob-rust
   :requires (ob))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define rust-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
@@ -64,9 +64,10 @@
       ("c" cargo-process-clean "Clean"))))
 
   (pretty-hydra-define+ langspec-hydra ()
-    ("Language"
+    ("Programming"
      (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
-               rust-hydra/body "Rust"))))))
+               (rust-hydra/body)
+             (message "You are not in a rust buffer.")) "Rust")))))
 
 (provide 'init-rust)
 ;;; init-rust.el ends here

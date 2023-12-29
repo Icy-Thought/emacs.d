@@ -39,7 +39,7 @@
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start nil))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ org-hydra ()
     ("Org-Roam"

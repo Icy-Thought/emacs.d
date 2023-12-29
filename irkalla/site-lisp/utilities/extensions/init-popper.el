@@ -33,7 +33,7 @@
   (popper-group-function #'popper-group-by-projectile)
   (popper-display-function #'display-buffer-full-frame))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define popper-hydra
     (:title (pretty-hydra-title "──｢ Extensions: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
@@ -45,7 +45,7 @@
 
   (pretty-hydra-define+ main-hydra ()
     ("Extension"
-     (("<" popper-hydra/body "Popper")))))
+     (("t" popper-hydra/body "Popper")))))
 
 (provide 'init-popper)
 ;;; init-popper.el ends here

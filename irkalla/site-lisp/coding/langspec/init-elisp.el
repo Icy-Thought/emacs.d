@@ -17,5 +17,17 @@
   (parinfer-rust-auto-download t)
   (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define emacs-lisp-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Emacs Lisp ｣──" 'sucicon "nf-custom-emacs")
+            :color teal :quit-key "q")
+    ("Actions"
+     (("a" apropos "Show $SYMB == pattern"))))
+
+  (pretty-hydra-define+ langspec-hydra ()
+    ("Programming"
+     (("e" emacs-lisp-hydra/body "Emacs Lisp")))))
+
 (provide 'init-elisp)
 ;;; init-elisp.el ends here

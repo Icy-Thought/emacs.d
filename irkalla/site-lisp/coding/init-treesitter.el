@@ -34,7 +34,7 @@
   :elpaca (:host github :repo "mickeynp/combobulate")
   :hook (tree-sitter-after-on . combobulate-mode))
 
-;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ main-hydra ()
     ("Coding"

@@ -14,11 +14,6 @@
 
 (use-package emacs
   :elpaca nil
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Langspec: Emacs Lisp ｣──" 'sucicon "nf-custom-emacs")
-           :color teal :quit-key "q")
-   ("Actions"
-    (("a" apropos "Show $SYMB == pattern"))))
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -67,27 +62,29 @@
   :elpaca nil
   :hook (text-mode . jinx-mode))
 
-;; :NOTE| Lastly, import our custom modules
-(irkalla/enable-modules
- (corfu tempel flymake eldoc treesitter))
-
-(irkalla/enable-modules
- (babel elisp haskell nix rust markdown org lua python typst))
-
-;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ main-hydra ()
     ("Coding"
      (("l" (if (eglot-managed-p)
-               eglot-hydra/body "Eglot (LSP)"))
+               (eglot-hydra/body)
+             (message "You are not in an Eglot buffer.")) "Eglot (LSP)")
       ("]" langspec-hydra/body "Language Specific")
       ("=" jinx-correct "Spell-Check"))))
 
   (pretty-hydra-define langspec-hydra
     (:title (pretty-hydra-title "──｢ Coding: Language Specific ｣──" 'faicon "nf-fa-code")
             :color teal :quit-key "q")
-    ("Language"
-     (("e" emacs-lisp/hydra "Emacs Lisp")))))
+    ("Main"
+     (("?" language-detection-buffer "Buf. lang?")
+      ("!" set-language-environment  "Set lang Env.")))))
+
+;; :NOTE| Import the custom modules
+(irkalla/enable-modules
+ (corfu tempel flymake eldoc treesitter))
+
+(irkalla/enable-modules
+ (babel elisp haskell nix rust markdown org lua python typst))
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

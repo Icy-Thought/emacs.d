@@ -32,7 +32,7 @@
   :config
   (setq-default help-window-select t)
 
-  ;; :NOTE| Helpful bindings ought to be quick-access.
+  ;; :NOTE| Setup hydra's for the ever-growing bindings
   (with-eval-after-load 'pretty-hydra
     (pretty-hydra-define+ main-hydra ()
       ("Extension"
@@ -41,7 +41,7 @@
 (use-package screenshot
   :elpaca (:host github :repo "tecosaur/screenshot"))
 
-;; :NOTE| Lastly, import our custom modules
+;; :NOTE| Import the custom modules
 (irkalla/enable-modules
  (popper tabspaces tab-bar direnv dired whichkey dashboard readers consult embark magit vertico org-roam marginalia
          recentf social terminal browser))

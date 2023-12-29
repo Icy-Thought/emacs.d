@@ -87,11 +87,7 @@
         (setq-local buffer-face-mode-face '(:family "Dancing Script"))
         (buffer-face-mode +1)))))
 
-;; :NOTE| now we import our custom modules
-(irkalla/enable-modules
- (evil ligatures history ediff region citar whitespace))
-
-;; :NOTE| Lastly, setup hydra's for our ever-growing bindings
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ main-hydra ()
     ("Editor"
@@ -102,6 +98,10 @@
   (pretty-hydra-define+ visual-main-hydra ()
     ("Editor"
      (("r" visual-region-hydra/body "Region")))))
+
+;; :NOTE| Import the custom modules
+(irkalla/enable-modules
+ (evil ligatures history ediff region citar whitespace))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

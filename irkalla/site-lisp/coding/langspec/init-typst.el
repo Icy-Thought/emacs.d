@@ -34,7 +34,7 @@
                                             :types ((?h "Headings" typst-ts-markup-header-face)
                                                     (?f "Functions" font-lock-function-name-face))))))))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define typst-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Typst ｣──" 'mdicon "nf-md-math_compass")
@@ -45,9 +45,10 @@
       ("u" typst-ts-mode-compile-and-preview "Run & Preview"))))
 
   (pretty-hydra-define+ langspec-hydra ()
-    ("Language"
+    ("Markup"
      (("t" (if (eq major-mode 'typst-ts-mode)
-               typst-hydra/body "Typst"))))))
+               (typst-hydra/body)
+             (message "You are not in a typst buffer."))  "Typst")))))
 
 (provide 'init-typst)
 ;;; init-typst.el ends here

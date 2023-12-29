@@ -22,7 +22,7 @@
   (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
   :custom (markdown-command "multimarkdown"))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define markdown-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
@@ -31,9 +31,10 @@
      (("d" markdown-do "Perform -> action"))))
 
   (pretty-hydra-define+ langspec-hydra ()
-    ("Language"
+    ("Markup"
      (("m" (if (eq major-mode 'markdown-mode)
-               markdown-hydra/body "Markdown"))))))
+               (markdown-hydra/body)
+             (message "You are not in a markdown buffer.")) "Markdown")))))
 
 (provide 'init-markdown)
 ;;; init-markdown.el ends here

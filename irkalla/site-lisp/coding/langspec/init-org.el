@@ -105,7 +105,7 @@
   :requires (org)
   :commands (org-ql-search))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define org-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Org-Mode ｣──" 'sucicon "nf-custom-orgmode")
@@ -118,9 +118,10 @@
      (("/" org-ql-search    "Search TAG Org Files"))))
 
   (pretty-hydra-define+ langspec-hydra ()
-    ("Language"
+    ("Markup"
      (("o" (if (eq major-mode 'org-mode)
-               org-hydra/body "Org-Mode"))))))
+               (org-hydra/body)
+             (message "You are not in an Org buffer.")) "Org-Mode")))))
 
 (provide 'init-org)
 ;;; init-org.el ends here

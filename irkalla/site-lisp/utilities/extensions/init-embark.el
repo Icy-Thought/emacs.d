@@ -30,7 +30,7 @@
   :requires (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define embark-hydra
     (:title (pretty-hydra-title "──｢ Extensions: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")

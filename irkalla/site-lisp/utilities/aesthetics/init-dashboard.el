@@ -67,7 +67,7 @@
                           ("Agenda for today:" . "Today's agenda:")
                           ("Agenda for the coming week:" . "Agenda:"))))
 
-;; :NOTE| Finally, it's time for us to define our Hydra
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Application"

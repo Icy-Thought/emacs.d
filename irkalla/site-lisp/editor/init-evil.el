@@ -67,6 +67,7 @@
   :commands (evilnc-comment-or-uncomment-lines
              evilnc-comment-or-uncomment-paragraphs))
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define evil-hydra
     (:title (pretty-hydra-title "──｢ Editor: Evil ｣──" 'mdicon "nf-md-emoticon_devil")

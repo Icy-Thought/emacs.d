@@ -37,6 +37,7 @@
   :elpaca nil
   :hook ((prog-mode text-mode) . subword-mode))
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define visual-region-hydra
     (:title (pretty-hydra-title "──｢ Editor: Region (Visual) ｣──" 'mdicon "nf-md-vector_rectangle")
