@@ -29,10 +29,7 @@
   (magit-todos-depth 10)
   (magit-todos-exclude-globs '(".git/" "*.html"))
   (magit-todos-nice (if (executable-find "nice") t nil))
-  (magit-todos-scanner #'magit-todos--scan-with-rg)
-  :config
-  (custom-set-variables
-   '(magit-todos-keywords (list "TODO" "FIXME" "HACK"))))
+  (magit-todos-scanner #'magit-todos--scan-with-rg))
 
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
