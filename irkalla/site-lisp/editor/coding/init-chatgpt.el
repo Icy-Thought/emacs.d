@@ -13,13 +13,14 @@
 
 (use-package chatgpt-shell
   :commands (chatgpt-shell dall-e-shell)
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Coding: ChatGPT ｣──" 'devicon "nf-dev-code")
-           :color teal :quit-key "q")
-   ("Interactive"
-    (("c" chatgpt-shell "ChatGPT")
-     ("d" dall-e-shell  "Dall-E"))))
   :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "closedAI"))))
+
+;; :NOTE| Setup hydra's for the ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("ChatGPT"
+     (("c" chatgpt-shell "Shell")
+      ("d" dall-e-shell  "Dall-E")))))
 
 (provide 'init-chatgpt)
 ;;; init-chatgpt.el ends here

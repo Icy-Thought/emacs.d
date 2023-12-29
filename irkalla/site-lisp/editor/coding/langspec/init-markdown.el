@@ -30,7 +30,7 @@
     ("Interactive"
      (("d" markdown-do "Perform -> action"))))
 
-  (pretty-hydra-define+ langspec-hydra ()
+  (pretty-hydra-define+ editor-hydra ()
     ("Markup"
      (("m" (if (eq major-mode 'markdown-mode)
                (markdown-hydra/body)

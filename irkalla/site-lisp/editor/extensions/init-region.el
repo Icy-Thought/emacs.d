@@ -39,14 +39,12 @@
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define visual-region-hydra
-    (:title (pretty-hydra-title "──｢ Editor: Region (Visual) ｣──" 'mdicon "nf-md-vector_rectangle")
-            :color teal :quit-key "q")
-    ("Alignment"
-     (("a" ialign "Align with REGEXP"))
-     "Selection"
-     ((")" er/expand-region   "Increase by semantic units")
-      ("(" er/contract-region "Contract to PREV size")))))
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     (("a" ialign "Align -> REGEXP"))
+     "Navigation"
+     ((")" er/expand-region   "Increase -> semantic units")
+      ("(" er/contract-region "Contract -> PREV size")))))
 
 (provide 'init-region)
 ;;; init-region.el ends here

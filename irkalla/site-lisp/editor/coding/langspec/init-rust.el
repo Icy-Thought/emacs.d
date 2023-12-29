@@ -63,7 +63,7 @@
      (("a" cargo-process-add   "Add")
       ("c" cargo-process-clean "Clean"))))
 
-  (pretty-hydra-define+ langspec-hydra ()
+  (pretty-hydra-define+ editor-hydra ()
     ("Programming"
      (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
                (rust-hydra/body)

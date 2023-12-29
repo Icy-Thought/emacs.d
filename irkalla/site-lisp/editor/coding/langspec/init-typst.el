@@ -44,7 +44,7 @@
       ("p" typst-ts-mode-preview "Preview")
       ("u" typst-ts-mode-compile-and-preview "Run & Preview"))))
 
-  (pretty-hydra-define+ langspec-hydra ()
+  (pretty-hydra-define+ editor-hydra ()
     ("Markup"
      (("t" (if (eq major-mode 'typst-ts-mode)
                (typst-hydra/body)

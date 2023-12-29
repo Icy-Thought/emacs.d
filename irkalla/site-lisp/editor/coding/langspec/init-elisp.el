@@ -25,7 +25,7 @@
     ("Actions"
      (("a" apropos "Show $SYMB == pattern"))))
 
-  (pretty-hydra-define+ langspec-hydra ()
+  (pretty-hydra-define+ editor-hydra ()
     ("Programming"
      (("e" emacs-lisp-hydra/body "Emacs Lisp")))))
 

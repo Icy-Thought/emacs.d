@@ -69,19 +69,14 @@
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define evil-hydra
-    (:title (pretty-hydra-title "──｢ Editor: Evil ｣──" 'mdicon "nf-md-emoticon_devil")
-            :color teal :quit-key "q")
-    ("Comment"
-     (("l" evilnc-comment-or-uncomment-lines "Line(s)")
-      ("p" evilnc-comment-or-uncomment-paragraphs "Paragraph(s)"))
-     "Snipe (Jump)"
-     (("z" evil-snipe-s "2 CHAR match")
-      ("Z" evil-snipe-S "Reverse 2 CHAR match"))))
+  (pretty-hydra-define+ editor-hydra ()
+    ("Action"
+     ((";" evilnc-comment-or-uncomment-lines      "Comment line")
+      ("]" evilnc-comment-or-uncomment-paragraphs "Comment Par."))))
 
-  (pretty-hydra-define+ visual-main-hydra ()
-    ("Editor"
-     ((";" evilnc-comment-or-uncomment-lines "Comment Lines")))))
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     ((";" evilnc-comment-or-uncomment-lines "Comment Line(s)")))))
 
 (provide 'init-evil)
 ;;; init-evil.el ends here

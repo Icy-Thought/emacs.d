@@ -117,7 +117,7 @@
      "Project"
      (("/" org-ql-search    "Search TAG Org Files"))))
 
-  (pretty-hydra-define+ langspec-hydra ()
+  (pretty-hydra-define+ editor-hydra ()
     ("Markup"
      (("o" (if (eq major-mode 'org-mode)
                (org-hydra/body)

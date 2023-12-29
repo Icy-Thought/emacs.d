@@ -64,20 +64,12 @@
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ main-hydra ()
-    ("Coding"
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
      (("l" (if (eglot-managed-p)
                (eglot-hydra/body)
              (message "You are not in an Eglot buffer.")) "Eglot (LSP)")
-      ("]" langspec-hydra/body "Language Specific")
-      ("=" jinx-correct "Spell-Check"))))
-
-  (pretty-hydra-define langspec-hydra
-    (:title (pretty-hydra-title "──｢ Coding: Language Specific ｣──" 'faicon "nf-fa-code")
-            :color teal :quit-key "q")
-    ("Main"
-     (("?" language-detection-buffer "Buf. lang?")
-      ("!" set-language-environment  "Set lang Env.")))))
+      ("=" jinx-correct "Spell-Check")))))
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules

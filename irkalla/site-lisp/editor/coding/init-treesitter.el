@@ -36,8 +36,8 @@
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ main-hydra ()
-    ("Coding"
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
      (("c" combobulate "Combobulate")))))
 
 (provide 'init-treesitter)
