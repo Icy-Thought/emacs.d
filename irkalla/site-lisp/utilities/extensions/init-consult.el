@@ -36,33 +36,46 @@
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define consult-hydra
-    (:title (pretty-hydra-title "──｢ Extensions: Consult ｣──" 'mdicon "nf-md-console")
+    (:title (pretty-hydra-title "──｢ Utilities: Consult ｣──" 'mdicon "nf-md-console")
             :color teal :quit-key "q")
-    ("Action(s)"
-     (("j" consult-line                      "Jump -> searched line")
-      ("f" consult-fd                        "Find files by NAME")
+    ("Main"
+     (("f" consult-fd                        "Find files by NAME")
       ("r" consult-recent-file               "Recent files")
-      ("b" consult-buffer                    "Switch buffer")
-      ("B" consult-projectile-buffer         "Switch -> project buffer")
       ("p" consult-projectile-switch-project "Switch project")
       ("/" consult-ripgrep                   "Grep <- REGEXP"))
-     "Language Server"
+     "Action"
+     (("B" consult-bookmark                  "Open named bookmark")
+      ("h" consult-history                   "Insert STR from hist.")
+      ("y" consult-yank-pop                  "Paste yank <- reg.")
+      ("t" consult-theme                     "Switch Theme"))))
+
+  (pretty-hydra-define editor-consult-hydra
+    (:title (pretty-hydra-title "──｢ Utilities: Consult ｣──" 'mdicon "nf-md-console")
+            :color teal :quit-key "q")
+    ("Language Server"
      (("m" consult-mark                      "Jump -> marker")
       ("M" consult-global-mark               "Glob. jump -> marker")
       ("o" consult-outline                   "Jump -> buffer outlines")
       ("[" consult-flymake                   "Jump -> Flymake diagnostics")
-      ("]" consult-compile-error             "Jump -> compile-error in buffer"))
-     "Emacs"
-     (("B" consult-bookmark                  "Open named bookmark")
-      ("h" consult-history                   "Insert STR from hist.")
-      ("?" consult-man                       "'MAN'-page search")
-      ("i" consult-info                      "'MANUAL' search")
-      ("y" consult-yank-pop                  "Paste yank <- reg.")
-      ("t" consult-theme                     "Tmp. theme switch")
-      ("w" consult-buffer-other-window       "Buf. switch -> Split"))))
+      ("]" consult-compile-error             "Jump -> compile-error in buffer"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension"
+    ("Action"
+     (("f" consult-hydra/body "Consult"))))
+
+  (pretty-hydra-define+ buffer-hydra ()
+    ("Consult"
+     (("b" consult-buffer                    "Switch buffer")
+      ("B" consult-projectile-buffer         "Switch -> project buffer")
+      ("w" consult-buffer-other-window       "Buf. switch -> Split"))))
+
+  (pretty-hydra-define+ helpful-hydra ()
+    ("Action"
+     (("?" consult-man                       "Consult 'MAN'-page(s)")
+      ("i" consult-info                      "Consult 'MANUAL'"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Action"
      (("f" consult-hydra/body "Consult")))))
 
 (provide 'init-consult)

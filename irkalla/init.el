@@ -35,7 +35,7 @@
 
 ;; Requiring the remaining modules
 (irkalla/enable-modules
- (decorations utilities editor coding))
+ (decorations utilities editor))
 
 (provide 'init)
 ;;; init.el ends here

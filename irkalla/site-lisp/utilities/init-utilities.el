@@ -22,20 +22,21 @@
   :pretty-hydra
   ((:title (pretty-hydra-title "──｢ Utilities: Helpful ｣──" 'mdicon "nf-md-help_network")
            :color teal :quit-key "q")
-   ("Help"
+   ("Describe"
     (("k" helpful-key      "Key(s)")
      ("f" helpful-function "Function(s)")
      ("F" helpful-callable "Interactive function(s)")
      ("v" helpful-variable "Variable(s)")
-     ("c" helpful-command  "Command(s)")
-     ("p" helpful-at-point "SYMB at point"))))
+     ("c" helpful-command  "Command(s)"))
+    "Action"
+    (("p" helpful-at-point "SYMB at point"))))
   :config
   (setq-default help-window-select t)
 
   ;; :NOTE| Setup hydra's for the ever-growing bindings
   (with-eval-after-load 'pretty-hydra
     (pretty-hydra-define+ main-hydra ()
-      ("Extension"
+      ("Main"
        (("h" helpful-hydra/body "Helpful"))))))
 
 (use-package screenshot
@@ -43,7 +44,7 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (popper tabspaces tab-bar direnv dired whichkey dashboard readers consult embark magit vertico org-roam marginalia
+ (popper tabspaces tab-bar direnv dired whichkey dashboard readers consult embark vertico org-roam marginalia
          recentf social terminal browser))
 
 (provide 'init-utilities)

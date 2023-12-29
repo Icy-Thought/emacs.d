@@ -44,19 +44,13 @@
   (:title (pretty-hydra-title "──｢ Phylum Cnidaria ｣──" 'mdicon "nf-md-graph")
           :color teal :quit-key "q")
   ("Main"
-   (("b" buffer-hydra/body "Buffer")
-    ("o" launcher-hydra/body "Launcher")
-    ("p" elpaca-hydra/body "Elpaca"))))
-
-(pretty-hydra-define visual-main-hydra
-  (:title (pretty-hydra-title "──｢ (Visual) Phylum Cnidaria ｣──" 'mdicon "nf-md-graph_outline")
-          :color teal :quit-key "q")
-  ("Main"
-   (("e" eval-region "Eval Expression(s)"))))
+   (("o" launcher-hydra/body "Launcher")
+    ("p" elpaca-hydra/body "Elpaca"))
+   "Control"
+   (("b" buffer-hydra/body "Buffer"))))
 
 (with-eval-after-load 'evil
-  (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body)
-  (evil-global-set-key 'visual (kbd "SPC") 'visual-main-hydra/body))
+  (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body))
 
 ;; :NOTE| My custom hydras are located below.
 
@@ -66,12 +60,7 @@
   ("Buffer"
    (("s" scratch-buffer   "Scratch")
     ("j" next-buffer      "Next")
-    ("k" previous-buffer  "Previous")
-    ("d" kill-this-buffer "Exit"))
-   "Evaluate"
-   (("b" eval-buffer     "Buffer")
-    ("e" eval-expression "Expression")
-    ("f" eval-defun      "Function"))))
+    ("k" previous-buffer  "Previous"))))
 
 (pretty-hydra-define launcher-hydra
   (:title (pretty-hydra-title "──｢ Main: Launcher(s) ｣──" 'codicon "nf-cod-rocket")
@@ -84,14 +73,15 @@
     (:title (pretty-hydra-title "──｢ Main: Elpaca ｣──" 'pomicon "nf-pom-clean_code")
             :color teal :quit-key "q")
     ("Main"
-     (("p" elpaca-manager   "Elpaca Manager")
-      ("r" elpaca-rebuild   "Rebuild Package"))
+     (("p" elpaca-manager   "Elpaca manager")
+      ("r" elpaca-rebuild   "Rebuild package")
+      ("i" elpaca-info      "Package info"))
      "Fetch"
-     (("f" elpaca-fetch     "Specific Package")
-      ("e" elpaca-fetch-all "All Packages"))
+     (("f" elpaca-fetch     "Specific package")
+      ("e" elpaca-fetch-all "All packages"))
      "Update"
-     (("m" elpaca-merge     "Specific Package")
-      ("a" elpaca-merge-all "All Packages")))))
+     (("m" elpaca-merge     "Specific package")
+      ("a" elpaca-merge-all "All packages")))))
 
 (provide 'init-hydra)
 ;;; init-hydra.el ends here

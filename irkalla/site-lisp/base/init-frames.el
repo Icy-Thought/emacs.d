@@ -49,7 +49,7 @@
       ("r" winner-redo          "Redo Window Change"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension"
+    ("Control"
      (("w" window-hydra/body "Window Control")))))
 
 (provide 'init-frames)

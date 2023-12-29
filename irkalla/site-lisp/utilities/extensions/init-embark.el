@@ -33,7 +33,7 @@
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define embark-hydra
-    (:title (pretty-hydra-title "──｢ Extensions: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+    (:title (pretty-hydra-title "──｢ Utilities: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")
             :color teal :quit-key "q")
     ("Action(s)"
      (("a" embark-act      "Prompt -> perform")
@@ -42,7 +42,7 @@
      (("h" embark-bindings "Explore Emacs bindings"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension"
+    ("Action"
      (("a" embark-hydra/body "Embark")))))
 
 (provide 'init-embark)

@@ -36,7 +36,7 @@
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define popper-hydra
-    (:title (pretty-hydra-title "──｢ Extensions: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+    (:title (pretty-hydra-title "──｢ Utilities: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
             :color teal :quit-key "q")
     ("Action(s)"
      (("t" popper-toggle      "Un/Toggle Popup")
@@ -44,7 +44,7 @@
       ("s" popper-toggle-type "Add Buf. To Popup"))))
 
   (pretty-hydra-define+ main-hydra ()
-    ("Extension"
+    ("Action"
      (("t" popper-hydra/body "Popper")))))
 
 (provide 'init-popper)

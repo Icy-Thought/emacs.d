@@ -89,19 +89,28 @@
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ main-hydra ()
-    ("Editor"
-     (("e" evil-hydra/body   "Evil")
-      ("C" olivetti-mode     "Center Text")
-      ("z" irkalla/zen-mode  "Zen-Mode"))))
+  (pretty-hydra-define editor-hydra
+    (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
+            :color teal :quit-key "q")
+    ("Action"
+     (("o" olivetti-mode     "Center Text")
+      ("z" irkalla/zen-mode  "Zen-Mode")
+      ("b" eval-buffer       "Eval Buf.")
+      ("e" eval-expression   "Eval Expr."))))
 
-  (pretty-hydra-define+ visual-main-hydra ()
-    ("Editor"
-     (("r" visual-region-hydra/body "Region")))))
+  (pretty-hydra-define visual-editor-hydra
+    (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
+            :color teal :quit-key "q")
+    ("Action"
+     (("e" eval-region "Eval Region"))))
+
+  (with-eval-after-load 'evil
+    (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
+    (evil-global-set-key 'visual (kbd "SPC") 'visual-editor-hydra/body)))
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (evil ligatures history ediff region citar whitespace))
+ (evil ligatures history ediff magit region citar whitespace coding))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
