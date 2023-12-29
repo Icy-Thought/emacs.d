@@ -11,13 +11,13 @@
 
 ;;; Code:
 
-(use-package nix-mode
-  :mode ("\\.nix\\'" . nix-mode)
-  :hook (nix-mode . eglot-ensure)
+(use-package nix-ts-mode
+  :mode ("\\.nix\\'" . nix-ts-mode)
+  :hook (nix-ts-mode . eglot-ensure)
   :config
   (with-eval-after-load 'eglot
     (when (executable-find "nil")
-      (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))))
+      (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil")))))
 
   ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia-formatters
