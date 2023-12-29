@@ -18,9 +18,11 @@
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 
+(use-package hl-todo
+  :elpaca (hl-todo :version (lambda (_) "3.6.0")))
+
 (use-package magit-todos
   :requires (magit)
-  :if (executable-find "rg")
   :hook (magit-mode . magit-todos-mode)
   :custom
   (magit-todos-recursive t)
