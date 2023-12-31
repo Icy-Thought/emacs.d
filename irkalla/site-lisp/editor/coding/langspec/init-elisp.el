@@ -27,7 +27,7 @@
 
   (pretty-hydra-define+ editor-hydra ()
     ("Programming"
-     (("e" emacs-lisp-hydra/body "Emacs Lisp")))))
+     (("x" emacs-lisp-hydra/body "Emacs Lisp")))))
 
 (provide 'init-elisp)
 ;;; init-elisp.el ends here

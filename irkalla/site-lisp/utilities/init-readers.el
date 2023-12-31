@@ -119,8 +119,8 @@
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
-    ("Reader"
-     (("n" irkalla/newsticker-start-newTab "Newsticker (TreeView)")))))
+    ("Application"
+     (("n" irkalla/newsticker-start-newTab "Newsticker (RSS)")))))
 
 (provide 'init-readers)
 ;;; init-readers.el ends here
