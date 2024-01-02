@@ -54,6 +54,15 @@
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-menu-string "LSP"))
 
+(use-package which-func
+  :elpaca nil
+  :hook (prog-mode . which-function-mode)
+  :custom
+  (which-func-display 'header)
+  (which-func-format `(" " (:propertize which-func-current
+                                        face (which-func :slant italic))
+                       " ")))
+
 (use-package apheleia
   :diminish apheleia-mode
   :hook (elpaca-after-init . apheleia-global-mode))
