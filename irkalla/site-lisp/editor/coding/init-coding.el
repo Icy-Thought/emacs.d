@@ -54,14 +54,9 @@
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-menu-string "LSP"))
 
-(use-package which-func
-  :elpaca nil
-  :hook (prog-mode . which-function-mode)
-  :custom
-  (which-func-display 'header)
-  (which-func-format `(" " (:propertize which-func-current
-                                        face (which-func :slant italic))
-                       " ")))
+(use-package breadcrumb
+  :hook (prog-mode . breadcrumb-local-mode)
+  :custom (breadcrumb-project-max-length -1))
 
 (use-package apheleia
   :diminish apheleia-mode
