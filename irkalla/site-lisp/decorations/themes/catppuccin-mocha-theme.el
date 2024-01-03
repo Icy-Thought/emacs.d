@@ -58,7 +58,7 @@
   (child-frame-border                                (:background base :foreground mantle))
   (cursor                                            (:background mauve :foreground base))
   (error                                             (:foreground red))
-  (fringe                                            (:background base :foreground overlay2))
+  (fringe                                            (:foreground mantle))
   (glyph-face                                        (:background red))
   (glyphless-char                                    (:foreground overlay2))
   (header-line                                       (:background base))
@@ -322,7 +322,7 @@
   (company-tooltip-search                            (:background peach))
   (company-tooltip-selection                         (:background surface1 :foreground text :distant-foreground text :bold t))
 
-  ;; https://www.emacswiki.org/emacs/ElDoc
+  ;; https://github.com/casouri/eldoc-box
   (eldoc-box-body                                    (:background mantle :foreground text))
   (eldoc-box-border                                  (:background pink :foreground nil))
 
@@ -573,6 +573,10 @@
   (hydra-face-pink                                   (:foreground pink))
   (hydra-face-red                                    (:foreground red))
   (hydra-face-teal                                   (:foreground teal))
+
+  ;; https://github.com/Ladicle/hydra-posframe
+  (hydra-posframe-face                               (:background mantle))
+  (hydra-posframe-border-face                        (:background pink))
 
   ;; Bookmarks
   (bm-fringe-face                                    (:background red :foreground crust))

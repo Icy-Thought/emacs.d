@@ -35,7 +35,7 @@
   :elpaca (:host github :repo "Ladicle/hydra-posframe")
   :hook (elpaca-after-init . hydra-posframe-mode)
   :custom
-  (hydra-posframe-border-width 1)
+  (hydra-posframe-border-width 2)
   (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))
 
 ;; :NOTE| Defining several hydra bodies
