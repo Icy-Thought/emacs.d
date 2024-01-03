@@ -323,7 +323,7 @@
   (company-tooltip-selection                         (:background surface1 :foreground text :distant-foreground text :bold t))
 
   ;; https://www.emacswiki.org/emacs/ElDoc
-  (eldoc-box-body                                    (:background surface0 :foreground peach))
+  (eldoc-box-body                                    (:background mantle :foreground text))
   (eldoc-box-border                                  (:background pink :foreground nil))
 
   ;; https://jblevins.org/projects/markdown-mode/
