@@ -24,7 +24,7 @@
     (when (executable-find "alejandra")
       (setf (alist-get 'alejandra apheleia-formatters)
             '("alejandra" "--quiet" "-"))
-      (add-to-list 'apheleia-mode-alist '(nix-mode . alejandra)))))
+      (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra)))))
 
 (provide 'init-nix)
 ;;; init-nix.el ends here
