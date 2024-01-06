@@ -31,14 +31,13 @@
 
 ;; :NOTE| SVG-library to enrich the user-experience!
 (use-package svg-lib
-  :demand t
-  :config
-  (defun first-graphical-frame-hook-function ()
+  :preface
+  (defun first-graphical-frame ()
     (remove-hook 'focus-in-hook #'first-graphical-frame-hook-function)
-    (provide 'my-gui))
-  (add-hook 'focus-in-hook #'first-graphical-frame-hook-function)
-
-  (with-eval-after-load 'my-gui
+    (provide 'irkalla/frame-gui))
+  :hook (focus-in . first-graphical-frame)
+  :config
+  (with-eval-after-load 'irkalla/frame-gui
     (setopt svg-lib-style-default (svg-lib-style-compute-default)
             svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))))
 
