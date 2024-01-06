@@ -323,7 +323,7 @@
   (company-tooltip-selection                         (:background surface1 :foreground text :distant-foreground text :bold t))
 
   ;; https://github.com/casouri/eldoc-box
-  (eldoc-box-body                                    (:background mantle :foreground text))
+  (eldoc-box-body                                    (:background mantle :foreground lavender :italic t))
   (eldoc-box-border                                  (:background pink :foreground nil))
 
   ;; https://jblevins.org/projects/markdown-mode/

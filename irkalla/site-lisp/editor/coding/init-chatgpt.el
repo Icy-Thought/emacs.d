@@ -13,7 +13,7 @@
 
 (use-package chatgpt-shell
   :commands (chatgpt-shell dall-e-shell)
-  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "closedAI"))))
+  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "ClosedAI"))))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra

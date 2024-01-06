@@ -39,7 +39,7 @@
       (message "Connecting to known Ement session..."))
      (t (ement-connect
          :user-id matrix-username
-         :password (irkalla/read-secret-file "ement")
+         :password (irkalla/read-secret-file "Ement")
          :uri-prefix "http://localhost:8009")))))
 
 ;; :NOTE| Code-block syntax highlighting
