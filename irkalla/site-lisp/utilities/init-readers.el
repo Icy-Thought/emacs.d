@@ -44,17 +44,7 @@
 ;; :NOTE| A Customizable EPUB Reader
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . (lambda ()
-                      (olivetti-mode +1)
-                      (toggle-scroll-bar +1)))
-  :custom-face
-  (shr-text ((t (:inherit variable-pitch-face :height 1.05))))
-  (shr-h1   ((t (:height 1.54 :slant italic))))
-  (shr-h2   ((t (:height 1.25 :slant italic))))
-  (shr-h3   ((t (:height 1.15 :slant italic))))
-  (shr-h4   ((t (:height 1.12 :slant italic))))
-  (shr-h5   ((t (:height 1.09 :slant italic))))
-  (shr-h6   ((t (:height 1.06 :slant italic))))
+  :hook (nov-mode . (lambda () (toggle-scroll-bar +1)))
   :custom (nov-text-width t))
 
 (use-package nov-xwidget

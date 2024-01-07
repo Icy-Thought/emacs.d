@@ -21,30 +21,42 @@
       (eww-readable)))
   :hook (eww-after-render . auto-readable-wikipedia))
 
+(use-package shr
+  :elpaca nil
+  :demand t
+  :custom-face
+  (shr-text ((t (:inherit variable-pitch-face :height 1.05))))
+  (shr-h1   ((t (:height 1.54 :slant italic))))
+  (shr-h2   ((t (:height 1.25 :slant italic))))
+  (shr-h3   ((t (:height 1.15 :slant italic))))
+  (shr-h4   ((t (:height 1.12 :slant italic))))
+  (shr-h5   ((t (:height 1.09 :slant italic))))
+  (shr-h6   ((t (:height 1.06 :slant italic)))))
+
 (use-package shrface
   :requires (shr)
   :hook ((shrface-mode . olivetti-mode)
-         (eww-after-render . shrface-mode))
+         (eww-after-render . shrface-mode)
+         (nov-mode . (lambda ()
+                       (setopt nov-shr-rendering-functions '((img . nov-render-img)
+                                                             (title . nov-render-title)))
+                       (setq nov-shr-rendering-functions
+                             (append nov-shr-rendering-functions shr-external-rendering-functions))
+                       (shrface-mode +1))))
   :custom
   (shrface-href-versatile t)
   (shrface-bullets-bullet-list (when (featurep 'org-modern) org-modern-star))
   :config
-  (require 'shr-tag-pre-highlight)
-
   (shrface-basic)
   (shrface-trial)
-  (shrface-default-keybindings)
-
-  (when (featurep 'nov)
-    (add-hook 'nov-mode-hook #'shrface-mode)
-    (setq nov-shr-rendering-functions '((img . nov-render-img)
-                                        (title . nov-render-title)))
-    (setq nov-shr-rendering-functions
-          (append nov-shr-rendering-functions shr-external-rendering-functions))))
+  (shrface-default-keybindings))
 
 (use-package shr-tag-pre-highlight
   :requires (shr)
-  :config (add-to-list 'shr-external-rendering-functions '(pre . shr-tag-pre-highlight)))
+  :hook (eww-after-render . (lambda ()
+                              (require 'shr-tag-pre-highlight)
+                              (add-to-list 'shr-external-rendering-functions
+                                           '(pre . shr-tag-pre-highlight)))))
 
 (provide 'init-browser)
 ;;; init-browser.el ends here

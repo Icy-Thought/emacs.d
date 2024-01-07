@@ -52,6 +52,9 @@
 (with-eval-after-load 'evil
   (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body))
 
+(with-eval-after-load 'meow
+  (meow-normal-define-key '("S-SPC" . main-hydra/body)))
+
 ;; :NOTE| My custom hydras are located below.
 
 (pretty-hydra-define buffer-hydra

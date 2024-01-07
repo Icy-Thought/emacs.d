@@ -106,7 +106,10 @@
 
   (with-eval-after-load 'evil
     (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
-    (evil-global-set-key 'visual (kbd "SPC") 'visual-editor-hydra/body)))
+    (evil-global-set-key 'visual (kbd ",") 'visual-editor-hydra/body))
+
+  (with-eval-after-load 'meow
+    (meow-normal-define-key '("," . editor-hydra/body))))
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules

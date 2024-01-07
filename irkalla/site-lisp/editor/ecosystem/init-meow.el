@@ -53,7 +53,7 @@
    '("2" . meow-expand-2)
    '("1" . meow-expand-1)
 
-   '("~" . irkalla/toggle-case)
+   '("~" . upcase-char)
    '("-" . negative-argument)
    '("=" . indent-region)
    '(":" . recenter-top-bottom)
