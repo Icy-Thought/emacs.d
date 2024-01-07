@@ -16,10 +16,12 @@
   :hook ((python-mode python-ts-mode) . eglot-ensure)
   :config
   (with-eval-after-load 'eglot
-    (when (executable-find "pyright-langserver")
+    (when (executable-find "pylyzer")
       (add-to-list 'eglot-server-programs
-                   `((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"
-                                                     :initializationOptions ((:pyright (:typeCheckingMode "strict"))))))))
+                   `((python-mode python-ts-mode) . ("pylyzer" "--server"
+                                                     :initializationOptions ((:pylyzer (:diagnostics t
+                                                                                        :inlineHints t
+                                                                                        :smartCompletion t))))))))
 
   ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia-formatters
