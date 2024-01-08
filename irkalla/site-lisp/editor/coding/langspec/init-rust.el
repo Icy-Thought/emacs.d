@@ -32,13 +32,13 @@
   :hook ((rust-mode rust-ts-mode) . (lambda ()
                                       (eglot-rust-setup)
                                       (indent-tabs-mode -1)
-                                      (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
-  :config
-  (with-eval-after-load 'apheleia-formatters
-    (when (executable-find "rustfmt")
-      (setf (alist-get 'rustfmt apheleia-formatters)
-            '("rustfmt" "--quiet" "--emit" "stdout"))
-      (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt)))))
+                                      (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+
+(with-eval-after-load 'apheleia
+  (when (executable-find "rustfmt")
+    (setf (alist-get 'rustfmt apheleia-formatters)
+          '("rustfmt" "--quiet" "--emit" "stdout"))
+    (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt))))
 
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode)

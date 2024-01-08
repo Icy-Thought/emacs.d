@@ -19,13 +19,13 @@
       (when (executable-find "nil")
         (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil")))))
     (eglot-ensure))
-  :hook (nix-ts-mode . eglot-nix-setup)
-  :config
-  (with-eval-after-load 'apheleia-formatters
-    (when (executable-find "alejandra")
-      (setf (alist-get 'alejandra apheleia-formatters)
-            '("alejandra" "--quiet" "-"))
-      (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra)))))
+  :hook (nix-ts-mode . eglot-nix-setup))
+
+(with-eval-after-load 'apheleia
+  (when (executable-find "alejandra")
+    (setf (alist-get 'alejandra apheleia-formatters)
+          '("alejandra" "--quiet" "-"))
+    (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra))))
 
 (provide 'init-nix)
 ;;; init-nix.el ends here

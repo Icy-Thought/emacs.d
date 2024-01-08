@@ -23,18 +23,18 @@
                                                                                 :inlineHints t
                                                                                 :smartCompletion t))))))
     (eglot-ensure))
-  :hook ((python-mode python-ts-mode) . eglot-python-setup)
-  :config
-  (with-eval-after-load 'apheleia-formatters
-    (when (executable-find "isort")
-      (setf (alist-get 'isort apheleia-formatters)
-            '("isort" "--profile"))
-      (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
+  :hook ((python-mode python-ts-mode) . eglot-python-setup))
 
-    (when (executable-find "isort")
-      (setf (alist-get 'black apheleia-formatters)
-            '("black" "--stdout" "-"))
-      (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black)))))
+(with-eval-after-load 'apheleia
+  (when (executable-find "isort")
+    (setf (alist-get 'isort apheleia-formatters)
+          '("isort" "--profile"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
+
+  (when (executable-find "isort")
+    (setf (alist-get 'black apheleia-formatters)
+          '("black" "--stdout" "-"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
 
 (provide 'init-python)
 ;;; init-python.el ends here
