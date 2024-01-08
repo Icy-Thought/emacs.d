@@ -13,13 +13,14 @@
 
 (use-package lua-mode
   :mode ("\\.lua\\'" . lua-mode)
-  :hook (lua-mode . eglot-ensure)
+  :preface
+  (defun eglot-lua-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "lua-language-server")
+        (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))))
+    (eglot-ensure))
+  :hook (lua-mode . eglot-lua-setup)
   :config
-  (with-eval-after-load 'eglot
-    (when (executable-find "lua-language-server")
-      (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))))
-
-  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia-formatters
     (when (executable-find "stylua")
       (setf (alist-get 'stylua apheleia-formatters)

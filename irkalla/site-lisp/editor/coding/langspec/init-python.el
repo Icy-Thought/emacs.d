@@ -13,17 +13,18 @@
 
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
-  :hook ((python-mode python-ts-mode) . eglot-ensure)
+  :preface
+  (defun eglot-python-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "pylyzer")
+        (add-to-list 'eglot-server-programs
+                     `((python-mode python-ts-mode) . ("pylyzer" "--server"
+                                                       :initializationOptions ( :diagnostics t ;; " " fixes broken formatting
+                                                                                :inlineHints t
+                                                                                :smartCompletion t))))))
+    (eglot-ensure))
+  :hook ((python-mode python-ts-mode) . eglot-python-setup)
   :config
-  (with-eval-after-load 'eglot
-    (when (executable-find "pylyzer")
-      (add-to-list 'eglot-server-programs
-                   `((python-mode python-ts-mode) . ("pylyzer" "--server"
-                                                     :initializationOptions ((:pylyzer (:diagnostics t
-                                                                                        :inlineHints t
-                                                                                        :smartCompletion t))))))))
-
-  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia-formatters
     (when (executable-find "isort")
       (setf (alist-get 'isort apheleia-formatters)

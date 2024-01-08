@@ -18,21 +18,22 @@
     "Locate the missing Rust project Cargo.toml."
     (if-let ((root (locate-dominating-file dir "Cargo.toml")))
         (list 'vc 'Git root)))
+
+  (defun eglot-rust-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "rust-analyzer")
+        (add-to-list 'eglot-server-programs
+                     `((rust-mode rust-ts-mode) . ("rust-analyzer"
+                                                   ;; https://rust-analyzer.github.io/manual.html
+                                                   :initializationOptions ( :cargo       (:features "all") ;; " " fixes broken formatting
+                                                                            :completion  (:callable (:snippets "fill_arguments"))
+                                                                            :checkOnSave (:command "clippy" :allTargets :json-false)))))))
+    (eglot-ensure))
   :hook ((rust-mode rust-ts-mode) . (lambda ()
-                                      (eglot-ensure)
+                                      (eglot-rust-setup)
                                       (indent-tabs-mode -1)
                                       (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
   :config
-  (with-eval-after-load 'eglot
-    (when (executable-find "rust-analyzer")
-      (add-to-list 'eglot-server-programs
-                   `((rust-mode rust-ts-mode) . ("rust-analyzer"
-                                                 ;; https://rust-analyzer.github.io/manual.html
-                                                 :initializationOptions ((:cargo       (:features "all"))
-                                                                         (:completion  (:callable (:snippets "fill_arguments")))
-                                                                         (:checkOnSave (:command "clippy" :allTargets :json-false))))))))
-
-  ;; :NOTE| apheleia formatting support
   (with-eval-after-load 'apheleia-formatters
     (when (executable-find "rustfmt")
       (setf (alist-get 'rustfmt apheleia-formatters)

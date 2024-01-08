@@ -19,6 +19,7 @@
                      eshell-mode eat-mode vterm-mode)
           . (lambda ()
               (setq-local composition-function-table composition-ligature-table))))
+  ;; :custom (composition-break-at-point t)
   :config
   (when (version<= "27.0" emacs-version)
     (let ((alist
@@ -55,6 +56,25 @@
         (set-char-table-range composition-ligature-table (car char-regexp)
                               `([,(cdr char-regexp) 0 font-shape-gstring])))))
   (set-char-table-parent composition-ligature-table composition-function-table))
+
+;; (use-package prettify-symbols
+;;   :elpaca nil
+;;   :preface
+;;   (defconst irkalla/prettify-symbols-alist
+;;     '("->"  "->>"  "<-"  "<->"  "<="  ">="  "<="  "<=>"  "!="  "/="  "===" "/=="
+;;       "==>" "<==" "&&"  "||"  "<<"  ">>"  ">>>"  "<<<"  "=="  "!="  "<>"  "<>"
+;;       "===" "/=="  "!=="  "/===" "!!"  "%%"  "&&"  "||"  "<<"  ">>"  "<|"  "<|>"
+;;       "|>"  "<*>" "<$>" "<*>"  "<*>"  "<$>"  "<*>"  "<*>"  "<*>"  "<*>"  "<*>" "<*>"
+;;       "##"  "##"  "###"  "####" "#####" "#####" "###"  "#####" "#####" "#####" "####"))
+;; 
+;;   (defun irkalla/prettify-symbols ()
+;;     (setq prettify-symbols-alist
+;;           (mapcar (lambda (pair)
+;;                     (apply 'prettify-symbols-start (concat (car pair) " ")(cdr pair)))
+;;                   irkalla/prettify-symbols-alist)
+;;     (prettify-symbols-mode +1))) 
+;;   :hook ((prog-mode text-mode) . irkalla/prettify-symbols)
+;;   :custom (prettify-symbols-unprettify-at-point t))
 
 (provide 'init-ligatures)
 ;;; init-ligatures.el ends here
