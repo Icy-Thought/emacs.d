@@ -64,7 +64,8 @@
 
 (use-package jinx
   :elpaca nil
-  :hook (text-mode . jinx-mode))
+  :hook (text-mode . jinx-mode)
+  :bind ([remap ispell-word] . jinx-correct))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
@@ -72,8 +73,7 @@
     ("Control"
      (("l" (if (eglot-managed-p)
                (eglot-hydra/body)
-             (message "You are not in an Eglot buffer.")) "Eglot (LSP)")
-      ("=" jinx-correct "Spell-Check")))))
+             (message "You are not in an Eglot buffer.")) "Eglot (LSP)")))))
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
