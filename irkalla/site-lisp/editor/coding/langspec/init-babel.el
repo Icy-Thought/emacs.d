@@ -14,6 +14,7 @@
 (use-package ob
   :elpaca nil
   :preface
+  ;; :NOTE| https://emacs.stackexchange.com/a/20618
   (defun demand-babel-languages (orig-fun &rest args)
     "Load language if needed before executing a source block."
     (let ((language (org-element-property :language (org-element-at-point))))
