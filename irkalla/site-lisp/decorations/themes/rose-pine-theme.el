@@ -6,12 +6,20 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl-lib))
+(eval-when-compile
+  (require 'cl-lib))
 
 (require 'autothemer)
 
 (unless (>= emacs-major-version 24)
   (error "Requires Emacs 24 or later"))
+
+;;;###autoload
+(and load-file-name
+     (boundp 'custom-theme-load-path)
+     (add-to-list 'custom-theme-load-path
+                  (file-name-as-directory
+                   (file-name-directory load-file-name))))
 
 (autothemer-deftheme
  rose-pine "All natural pine, faux fur and a bit of soho vibes for the classy minimalist."
@@ -599,19 +607,7 @@
   (swift-mode:builtin-enum-case-face                 (:foreground foam))
   (swift-mode:builtin-method-trailing-closure-face   (:foreground foam))
   (swift-mode:builtin-function-trailing-closure-face (:foreground foam))
-  (swift-mode:function-call-face                     (:foreground love)))
-
- ;; https://github.com/brotzeit/rustic
- (customize-set-variable 'rustic-ansi-faces
-                         (vconcat (list base love foam gold pine rose iris text))))
-
-;;;###autoload
-(and load-file-name
-     (boundp 'custom-theme-load-path)
-     (add-to-list 'custom-theme-load-path
-                  (file-name-as-directory
-                   (file-name-directory load-file-name))))
+  (swift-mode:function-call-face                     (:foreground love))))
 
 (provide 'rose-pine-theme)
-
 ;;; rose-pine-theme.el ends here

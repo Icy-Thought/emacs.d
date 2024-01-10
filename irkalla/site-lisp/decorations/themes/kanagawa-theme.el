@@ -14,6 +14,13 @@
 (unless (>= emacs-major-version 24)
   (error "Requires Emacs 24 or later"))
 
+;;;###autoload
+(and load-file-name
+     (boundp 'custom-theme-load-path)
+     (add-to-list 'custom-theme-load-path
+                  (file-name-as-directory
+                   (file-name-directory load-file-name))))
+
 (autothemer-deftheme
  kanagawa "A theme inspired by the colors of the famous painting by Katsushika Hokusa"
 
@@ -660,18 +667,7 @@
   (tree-sitter-hl-face:variable.synthesized      (:foreground waveRed))
   (tree-sitter-hl-face:keyword.compiler          (:foreground peachRed :bold t :italic t))
 
-  (focus-unfocused (:foreground sumiInk-4)))
-
- ;; https://github.com/brotzeit/rustic
- (customize-set-variable 'rustic-ansi-faces
-                         (vconcat (list sumiInk-1 peachRed springGreen carpYellow waveAqua1 autumnGreen oniViolet fujiWhite))))
-
-;;;###autoload
-(and load-file-name
-     (boundp 'custom-theme-load-path)
-     (add-to-list 'custom-theme-load-path
-                  (file-name-as-directory
-                   (file-name-directory load-file-name))))
+  (focus-unfocused (:foreground sumiInk-4))))
 
 (provide-theme 'kanagawa)
 ;;; kanagawa-theme.el ends here
