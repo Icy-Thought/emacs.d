@@ -54,6 +54,12 @@
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-menu-string "LSP"))
 
+(use-package eglot-booster
+  :elpaca (:host github :repo "jdtsmith/eglot-booster")
+  :after (eglot)
+  :if (executable-find "emacs-lsp-booster")
+  :config (eglot-booster-mode +1))
+
 (use-package breadcrumb
   :hook (prog-mode . breadcrumb-local-mode)
   :custom (breadcrumb-project-max-length -1))
