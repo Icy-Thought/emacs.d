@@ -77,7 +77,7 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (corfu tempel flymake eldoc treesitter))
+ (corfu tempel diagnostics eldoc treesitter))
 
 (irkalla/enable-modules
  (babel elisp haskell nix rust markdown org lua python typst))

@@ -1,4 +1,4 @@
-;;; init-flymake.el --- On-The-Fly Syntax Checking -*- lexical-binding: t; -*-
+;;; init-diagnostics.el --- On-The-Fly Syntax Checking -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -16,7 +16,12 @@
   :hook (prog-mode . flymake-mode)
   :custom
   (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path))
+  (elisp-flymake-byte-compile-load-path load-path)
+
+  ;; :NOTE| Change of heart for our bitmaps
+  (flymake-error-bitmap   '("" compilation-error))
+  (flymake-note-bitmap    '("" compilation-info))
+  (flymake-warning-bitmap '("" compilation-warning)))
 
 ;; :NOTE| Appending :flymake-hook to the keywords of use-package!
 (elpaca-wait)
@@ -32,5 +37,5 @@
   :hook (flymake-mode  . sideline-mode)
   :custom (sideline-backends-right '((sideline-flymake  . down))))
 
-(provide 'init-flymake)
-;;; init-flymake.el ends here
+(provide 'init-diagnostics)
+;;; init-diagnostics.el ends here
