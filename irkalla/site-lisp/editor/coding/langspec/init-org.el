@@ -105,6 +105,10 @@
   :requires (org)
   :commands (org-ql-search))
 
+(use-package org-timeblock
+  :requires (org)
+  :commands (org-timeblock))
+
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define org-hydra
