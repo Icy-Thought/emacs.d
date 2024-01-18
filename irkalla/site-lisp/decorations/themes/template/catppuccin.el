@@ -26,27 +26,27 @@
     ,description
     ,palette
     (;; Built-in Emacs faces
-     (default                                           (:foreground text :background base))
+     (default                                           (:background base :foreground text))
      (border                                            (:background base :foreground base))
-     (bookmark-face                                     (:foreground red :background base))
+     (bookmark-face                                     (:background base :foreground red))
      (button                                            (:foreground green))
      (child-frame                                       (:background base :foreground mantle))
      (child-frame-border                                (:background base :foreground mantle))
-     (cursor                                            (:background mauve :foreground base))
+     (cursor                                            (:background flamingo :foreground base))
      (error                                             (:foreground red))
      (fringe                                            (:foreground mantle))
      (glyph-face                                        (:background red))
      (glyphless-char                                    (:foreground overlay2))
      (header-line                                       (:background base))
-     (highlight                                         (:background surface1 :foreground lavender))
+     (highlight                                         (:background lavender :foreground crust))
      (hl-line                                           (:background surface0))
      (homoglyph                                         (:foreground teal))
      (internal-border                                   (:background base :foreground base))
-     (line-number                                       (:foreground surface1 :background nil))
-     (line-number-current-line                          (:foreground mauve :background surface0 :bold t))
+     (line-number                                       (:background base :foreground surface1))
+     (line-number-current-line                          (:background flamingo :foreground base :bold t))
      (link                                              (:foreground maroon :underline t))
      (custom-link                                       (:foreground maroon :underline t))
-     (lv-separator                                      (:foreground overlay2 :background base))
+     (lv-separator                                      (:background base :foreground overlay2))
      (match                                             (:background yellow :foreground crust))
      (menu                                              (:background base :foreground rosewater))
      (fill-column-indicator                             (:foreground surface0))
@@ -56,11 +56,11 @@
      (mode-line-highlight                               (:foreground flamingo))
      (mode-line-buffer-id                               (:foreground green :bold t))
      (numbers                                           (:background green :foreground base))
-     (region                                            (:background flamingo :distant-foreground mantle))
+     (region                                            (:inherit 'highlight :italic t))
      (separator-line                                    (:background base))
      (shadow                                            (:background crust))
      (success                                           (:foreground green))
-     (vertical-border                                   (:foreground surface0 :background nil))
+     (vertical-border                                   (:background nil :foreground surface0))
      (warning                                           (:foreground yellow))
      (window-border                                     (:foreground peach))
      (window-divider                                    (:foreground surface0))
@@ -143,7 +143,7 @@
      (doom-modeline-evil-normal-state                   (:foreground pink))
      (doom-modeline-evil-operator-state                 (:foreground blue))
      (doom-modeline-evil-replace-state                  (:foreground yellow))
-     (doom-modeline-evil-visual-state                   (:foreground sky))
+     (doom-modeline-evil-visual-state                   (:foreground lavender))
 
      (doom-modeline-bar                                 (:background lavender :bold t))
      (doom-modeline-buffer-file                         (:foreground pink :bold t))
@@ -162,7 +162,7 @@
      (telephone-line-projectile                         (:foreground peach :weight 'bold :italic t))
 
      (telephone-line-evil-normal                        (:background pink :foreground mantle :bold t))
-     (telephone-line-evil-visual                        (:background sky :foreground mantle :bold t))
+     (telephone-line-evil-visual                        (:background lavender :foreground mantle :bold t))
      (telephone-line-evil-motion                        (:background teal :foreground mantle :bold t))
      (telephone-line-evil-insert                        (:background mauve :foreground mantle :bold t))
 
@@ -458,6 +458,12 @@
      ;; https://www.emacswiki.org/emacs/EdiffMode
      (diff-added                                        (:background green :foreground mantle))
      (diff-changed                                      (:background yellow :foreground mantle))
+     (diff-removed                                      (:background red :foreground mantle))
+     (diff-error                                        (:background base :foreground red))
+
+     (diff-hl-margin-change                             (:background blue :foreground mantle))
+     (diff-hl-margin-delete                             (:background red  :foreground mantle))
+     (diff-hl-margin-insert                             (:background yellow :foreground mantle))
 
      ;; (related) https://github.com/emacs-evil/evil
      (evil-ex-lazy-highlight                            (:foreground yellow :bold t))
@@ -470,13 +476,13 @@
      (evil-quickscope-second-face                       (:foreground peach :underline t))
 
      ;; https://github.com/edkolev/evil-goggles
-     (evil-goggles-default-face                         (:background nil))
-     (evil-goggles-join-face                            (:background blue))
+     (evil-goggles-default-face                         (:foreground crust))
+     (evil-goggles-join-face                            (:background yellow))
      (evil-goggles-delete-face                          (:background red))
-     (evil-goggles-paste-face                           (:background yellow :foreground mantle))
-     (evil-goggles-indent-face                          (:background green))
-     (evil-goggles-set-marker-face                      (:background red :foreground maroon))
-     (evil-goggles-yank-face                            (:background rosewater :foreground mantle))
+     (evil-goggles-paste-face                           (:background green))
+     (evil-goggles-indent-face                          (:background lavender))
+     (evil-goggles-set-marker-face                      (:background maroon))
+     (evil-goggles-yank-face                            (:background rosewater))
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Term-Mode.html
      (term                                              (:background crust :foreground text))
@@ -592,11 +598,6 @@
      (git-gutter:added                                  (:foreground green))
      (git-gutter:deleted                                (:foreground red))
      (git-gutter:modified                               (:foreground blue))
-
-     ;; https://www.emacswiki.org/emacs/EdiffMode
-     (diff-hl-margin-change                             (:background blue :foreground mantle))
-     (diff-hl-margin-delete                             (:background red  :foreground mantle))
-     (diff-hl-margin-insert                             (:background yellow :foreground mantle))
 
      ;; https://github.com/minad/goggles
      (goggles-added                                     (:background green))

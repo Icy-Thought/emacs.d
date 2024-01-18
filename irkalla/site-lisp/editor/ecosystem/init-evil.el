@@ -56,11 +56,7 @@
 (use-package evil-goggles
   :requires (evil)
   :hook (evil-mode . evil-goggles-mode)
-  :custom
-  (evil-goggles-enable-delete nil)
-  (evil-goggles-duration 0.100)
-  (evil-goggles-async-duration 0.900)
-  (evil-goggles-use-diff-faces))
+  :custom (evil-goggles-duration 0.2))
 
 (use-package evil-nerd-commenter
   :requires (evil)
