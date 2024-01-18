@@ -13,7 +13,7 @@
 
 ;; :NOTE| Matrix Emacs client
 (use-package ement
-  :hook (ement-room-mode . olivetti-mode)
+  :hook (ement-room-mode . visual-line-mode)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
               ([remap pixel-scroll-interpolate-down] . ement-room-scroll-up-mark-read))
