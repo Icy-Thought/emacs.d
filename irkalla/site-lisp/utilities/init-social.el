@@ -49,9 +49,7 @@
 (use-package telega
   :elpaca nil ;; <-^ fetched from Nixpkgs
   :commands (telega)
-  :hook (telega-chat-mode . (lambda ()
-                              (visual-fill-column-mode -1)
-                              (olivetti-mode)))
+  :hook (telega-chat-mode . visual-line-mode)
   :custom
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t)

@@ -13,11 +13,9 @@
 
 (use-package emacs
   :elpaca nil
-  :hook (text-mode . visual-line-mode)
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
-  (word-wrap nil)
   (fill-column 120)
   (truncate-lines t)
   (truncate-string-ellipsis "↴")
@@ -28,6 +26,29 @@
   (find-file-suppress-same-file-warnings t)
   (remote-file-name-inhibit-locks t)
   (x-stretch-cursor t))
+
+(use-package visual-fill-column
+  :elpaca nil
+  :when (version< "29.2" emacs-version)
+  :hook ((visual-line-mode . visual-fill-column-mode)
+         (text-mode . visual-line-mode)) 
+  :custom (visual-fill-column-center-text t)
+  :config
+  (defun irkalla/zen-mode ()
+    "Toggle buffer appearance for a touch of sophistication."
+    (interactive)
+    (if (bound-and-true-p buffer-face-mode)
+        (progn
+          (visual-line-mode -1)
+          (visual-fill-column-mode -1)
+          (text-scale-increase 0.0)
+          (buffer-face-mode -1)
+          (setq-local fill-column 120))
+      (visual-line-mode +1)
+      (setq-local fill-column 80
+                  buffer-face-mode-face '(:family "Dancing Script"))
+      (buffer-face-mode +1)
+      (text-scale-increase 1.5))))
 
 (use-package auto-revert
   :elpaca nil
@@ -67,36 +88,15 @@
   (window-divider-default-right-width 2)
   (window-divider-default-bottom-width 2))
 
-(use-package olivetti
-  :commands (olivetti-mode)
-  :custom (olivetti-body-width 120)
-  :config
-  (defun irkalla/zen-mode ()
-    "Toggle buffer appearance for a touch of sophistication."
-    (interactive)
-    (cond
-     (buffer-face-mode
-      (display-line-numbers-mode +1)
-      (olivetti-mode -1)
-      (text-scale-increase 0.0)
-      (buffer-face-mode -1))
-     (t (display-line-numbers-mode -1)
-        (olivetti-mode +1)
-        (olivetti-set-width 80)
-        (text-scale-increase 1.5)
-        (setq-local buffer-face-mode-face '(:family "Dancing Script"))
-        (buffer-face-mode +1)))))
-
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define editor-hydra
     (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
             :color teal :quit-key "q")
     ("Action"
-     (("o" olivetti-mode     "Center Text")
-      ("z" irkalla/zen-mode  "Zen-Mode")
-      ("b" eval-buffer       "Eval Buf.")
-      ("e" eval-expression   "Eval Expr."))))
+     (("z" irkalla/zen-mode    "Zen-Mode" :toggle t)
+      ("b" eval-buffer         "Eval Buf.")
+      ("e" eval-expression     "Eval Expr."))))
 
   (pretty-hydra-define visual-editor-hydra
     (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")

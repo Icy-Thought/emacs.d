@@ -35,7 +35,7 @@
 
 (use-package shrface
   :requires (shr)
-  :hook ((shrface-mode . olivetti-mode)
+  :hook ((shrface-mode . visual-line-mode)
          (eww-after-render . shrface-mode)
          (nov-mode . (lambda ()
                        (setopt nov-shr-rendering-functions '((img . nov-render-img)

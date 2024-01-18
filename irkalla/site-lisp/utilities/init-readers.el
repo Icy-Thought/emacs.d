@@ -74,7 +74,7 @@
     (newsticker-treeview-quit)
     (newsticker-stop)
     (tab-close))
-  :hook (newsticker-treeview-item-mode . olivetti-mode)
+  :hook (newsticker-treeview-item-mode . visual-line-mode)
   :bind (:map newsticker-treeview-mode-map
               ("o" . newsticker-treeview-browse-url)
               ("q" . irkalla/newsticker-quit-newTab))
