@@ -28,6 +28,7 @@
 ;; :NOTE| User interface and startup
 (setq-default
  auto-mode-case-fold nil
+ blink-cursor-mode nil
  echo-keystrokes 0.02
  fast-but-imprecise-scrolling t
  inhibit-splash-screen t
