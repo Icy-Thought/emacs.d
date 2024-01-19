@@ -8,10 +8,7 @@
 
 * Introduction
 
-The primary purpose behind the creation of this directory is to embark on the journey of crafting my inaugural Emacs
-configuration without relying on any pre-existing Emacs frameworks. This endeavor signifies my intention to construct a
-bespoke configuration tailored specifically to my needs and preferences, thereby fostering a deeper understanding and
-mastery of Emacs.
+The primary purpose behind the creation of this directory is to embark on the journey of crafting my inaugural Emacs configuration without relying on any pre-existing Emacs frameworks. This endeavor signifies my intention to construct a bespoke configuration tailored specifically to my needs and preferences, thereby fostering a deeper understanding and mastery of Emacs.
 
 * Supported Features
 
@@ -33,12 +30,9 @@ mastery of Emacs.
     - [x] =Telephone-Line= -> a minimal, yet a fancy status-bar!
     - [x] =Centaur-Tabs=   -> a Tab-bar to remind us about the forgotten buffers.
 
-In addition to the aforementioned alterations, it is important to note that there are numerous other modifications that
-have not been enumerated within this succinct compilation. Hence, I would like to extend a cordial invitation to explore
-the intricacies of this configuration and kindly bring to my attention any oversights or errors that you may come
-across. I must humbly confess that I am still an amateur in the realm of crafting one's own configuration, and thus
-value your insights and guidance in this process. Your assistance in rectifying any mistakes would be greatly
-appreciated. 😅
+In addition to the aforementioned alterations, it is important to note that there are numerous other modifications that have not been enumerated within this succinct compilation. Hence, I would like to extend a cordial invitation to explore the intricacies of this configuration and kindly bring to my attention any oversights or errors that you may come across.
+
+I must humbly confess that I am still an amateur in the realm of crafting one's own configuration, and thus value your insights and guidance in this process. Your assistance in rectifying any mistakes would be greatly appreciated. 😅
 
 * Credits
 
