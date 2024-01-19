@@ -62,7 +62,6 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
   (org-highlight-latex-and-related '(native))
-  (org-image-actual-width (truncate (* (window-pixel-width) 0.8)))
   (org-insert-heading-respect-content t)
   (org-latex-tables-centered t)
   (org-special-ctrl-a/e t)
