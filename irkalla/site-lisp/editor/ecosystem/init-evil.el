@@ -56,7 +56,7 @@
 (use-package evil-goggles
   :requires (evil)
   :hook (evil-mode . evil-goggles-mode)
-  :custom (evil-goggles-duration 0.2))
+  :custom (evil-goggles-duration 0.1))
 
 (use-package evil-nerd-commenter
   :requires (evil)
