@@ -16,12 +16,12 @@
   :hook (prog-mode . flymake-mode)
   :custom
   (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path)
+  (elisp-flymake-byte-compile-load-path load-path))
 
-  ;; :NOTE| Change of heart for our bitmaps
-  (flymake-error-bitmap   '("" compilation-error))
-  (flymake-note-bitmap    '("" compilation-info))
-  (flymake-warning-bitmap '("" compilation-warning)))
+;; :NOTE| Change of heart for our bitmaps
+;; (flymake-error-bitmap   '("" compilation-error))
+;; (flymake-note-bitmap    '("" compilation-info))
+;; (flymake-warning-bitmap '("" compilation-warning)))
 
 ;; :NOTE| Appending :flymake-hook to the keywords of use-package!
 (elpaca-wait)
