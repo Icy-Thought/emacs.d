@@ -28,12 +28,12 @@
 (with-eval-after-load 'apheleia
   (when (executable-find "isort")
     (setf (alist-get 'isort apheleia-formatters)
-          '("isort" "--profile"))
+          '("isort" "--profile black" "--stdout"))
     (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
 
-  (when (executable-find "isort")
+  (when (executable-find "black")
     (setf (alist-get 'black apheleia-formatters)
-          '("black" "--stdout" "-"))
+          '("black" "-"))
     (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
 
 (provide 'init-python)
