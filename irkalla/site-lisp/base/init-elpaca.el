@@ -55,8 +55,7 @@
 
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
-  (setopt elpaca-use-package-by-default t
-          elpaca-core-date '(20231211)))
+  (setopt elpaca-use-package-by-default t))
 
 ;; Verify code evaluation before proceeding
 (elpaca-wait)
