@@ -83,7 +83,7 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (corfu tempel diagnostics eldoc treesitter))
+ (corfu tempel diagnostics debugger eldoc treesitter))
 
 (irkalla/enable-modules
  (babel elisp haskell nix rust markdown org lua python typst))
