@@ -29,7 +29,6 @@
 
 (use-package visual-fill-column
   :elpaca nil
-  :when (version< "29.2" emacs-version)
   :hook ((visual-line-mode . visual-fill-column-mode)
          (text-mode . visual-line-mode)) 
   :custom (visual-fill-column-center-text t)
