@@ -21,7 +21,10 @@
         (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst-lsp")))))
     (eglot-ensure))
   :hook (typst-ts-mode . eglot-typst-setup)
-  :custom (typst-ts-mode-watch-options "--open")
+  :custom
+  (typst-ts-mode-watch-options "--open")
+  (typst-ts-mode-enable-raw-blocks-highlight t)
+  (typst-ts-mode-highlight-raw-blocks-at-startup t)
   :config
   (with-eval-after-load 'consult-imenu
     (setopt consult-imenu-config
