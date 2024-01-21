@@ -47,6 +47,7 @@
     (("?" xref-find-references  "Find -> references")
      ("d" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
+  :config (fset #'jsonrpc--log-event #'ignore)
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
