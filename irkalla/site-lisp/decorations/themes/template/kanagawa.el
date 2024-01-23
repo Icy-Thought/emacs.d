@@ -549,7 +549,7 @@
      (blamer-pretty-border-face                     (:foreground dragonBlue))
      (blamer-pretty-meta-data-face                  (:foreground carpYellow)) 
      (blamer-pretty-meta-keywords-face              (:foreground autumnRed))
-     (blamer-pretty-commit-message-face             (:foreground autumnGreen))
+     (blamer-pretty-commit-message-face             (:foreground autumnGreen :italic t))
      
      ;; https://github.com/magit/magit
      (magit-section-heading                         (:foreground waveAqua2))

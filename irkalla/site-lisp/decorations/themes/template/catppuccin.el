@@ -593,7 +593,7 @@
      (blamer-pretty-border-face                         (:foreground pink))
      (blamer-pretty-meta-data-face                      (:foreground peach)) 
      (blamer-pretty-meta-keywords-face                  (:foreground blue))
-     (blamer-pretty-commit-message-face                 (:foreground green))
+     (blamer-pretty-commit-message-face                 (:foreground green :italic t))
 
      ;; https://github.com/magit/magit
      (magit-section-heading                             (:foreground pink))

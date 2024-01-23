@@ -512,7 +512,7 @@
      (blamer-pretty-border-face                         (:foreground iris))
      (blamer-pretty-meta-data-face                      (:foreground rose)) 
      (blamer-pretty-meta-keywords-face                  (:foreground pine))
-     (blamer-pretty-commit-message-face                 (:foreground gold))
+     (blamer-pretty-commit-message-face                 (:foreground gold :italic t))
      
      ;; https://github.com/emacsorphanage/git-gutter
      (git-gutter:added                                  (:foreground rose))
