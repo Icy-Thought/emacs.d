@@ -590,6 +590,10 @@
 
      ;; https://github.com/Artawower/blamer.el
      (blamer-face                                       (:foreground mauve :italic t))
+     (blamer-pretty-border-face                         (:foreground pink))
+     (blamer-pretty-meta-data-face                      (:foreground peach)) 
+     (blamer-pretty-meta-keywords-face                  (:foreground blue))
+     (blamer-pretty-commit-message-face                 (:foreground green))
 
      ;; https://github.com/magit/magit
      (magit-section-heading                             (:foreground pink))

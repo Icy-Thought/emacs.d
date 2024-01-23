@@ -4,6 +4,7 @@
 ;;; [1]: https://github.com/NamesCode/.Dotfiles/blob/9b702d91df512b94993f4db8b53acbf447e6fe27/ext/doom/themes/catppuccin-mocha-theme.el#L15
 
 ;;; Code:
+
 (eval-when-compile
   (require 'cl-lib))
 
