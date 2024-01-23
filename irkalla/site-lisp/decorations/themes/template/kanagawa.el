@@ -546,10 +546,10 @@
      
      ;; https://github.com/Artawower/blamer.el
      (blamer-face                                   (:foreground dragonBlue :italic t))
-     (blamer-pretty-border-face                     (:foreground pink))
-     (blamer-pretty-meta-data-face                  (:foreground peach)) 
-     (blamer-pretty-meta-keywords-face              (:foreground blue))
-     (blamer-pretty-commit-message-face             (:foreground green))
+     (blamer-pretty-border-face                     (:foreground dragonBlue))
+     (blamer-pretty-meta-data-face                  (:foreground carpYellow)) 
+     (blamer-pretty-meta-keywords-face              (:foreground autumnRed))
+     (blamer-pretty-commit-message-face             (:foreground autumnGreen))
      
      ;; https://github.com/magit/magit
      (magit-section-heading                         (:foreground waveAqua2))

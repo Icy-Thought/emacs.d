@@ -486,6 +486,16 @@
      (centaur-tabs-default                              (:background base))
      (centaur-tabs-name-mouse-face                      (:foreground foam :bold t))
 
+     ;; https://github.com/Artawower/blamer.el
+     (blamer-face                                       (:foreground pink :italic t))
+     (blamer-pretty-border-face                         (:foreground foam))
+     (blamer-pretty-meta-data-face                      (:foreground love))
+     (blamer-pretty-meta-keywords-face                  (:foreground pine))
+     (blamer-pretty-commit-message-face                 (:foreground green :italic t))
+     
+     ;; https://github.com/magit/magit
+     (magit-section-heading                             (:foreground pink))
+
      ;; https://github.com/emacsorphanage/git-gutter
      (git-gutter:added                                  (:foreground pine))
      (git-gutter:deleted                                (:foreground love))
