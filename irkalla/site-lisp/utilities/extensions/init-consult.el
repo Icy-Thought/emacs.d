@@ -31,7 +31,7 @@
                      :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-projectile
-  :requires (projectile))
+  :requires (consult projectile))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
@@ -49,6 +49,10 @@
       ("y" consult-yank-pop                  "Paste yank <- reg.")
       ("t" consult-theme                     "Switch Theme"))))
 
+  (pretty-hydra-define+ main-hydra ()
+    ("Action"
+     (("f" consult-hydra/body "Consult"))))
+  
   (pretty-hydra-define editor-consult-hydra
     (:title (pretty-hydra-title "──｢ Utilities: Consult ｣──" 'mdicon "nf-md-console")
             :color teal :quit-key "q")
@@ -59,9 +63,9 @@
       ("[" consult-flymake                   "Jump -> Flymake diagnostics")
       ("]" consult-compile-error             "Jump -> compile-error in buffer"))))
 
-  (pretty-hydra-define+ main-hydra ()
-    ("Action"
-     (("f" consult-hydra/body "Consult"))))
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("f" editor-consult-hydra/body "Consult"))))
 
   (pretty-hydra-define+ buffer-hydra ()
     ("Consult"
@@ -72,11 +76,7 @@
   (pretty-hydra-define+ helpful-hydra ()
     ("Action"
      (("?" consult-man                       "Consult 'MAN'-page(s)")
-      ("i" consult-info                      "Consult 'MANUAL'"))))
-
-  (pretty-hydra-define+ editor-hydra ()
-    ("Action"
-     (("f" consult-hydra/body "Consult")))))
+      ("i" consult-info                      "Consult 'MANUAL'")))))
 
 (provide 'init-consult)
 ;;; init-consult.el ends here

@@ -67,8 +67,7 @@
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
     ("Action"
-     ((";" evilnc-comment-or-uncomment-lines      "Comment line")
-      ("]" evilnc-comment-or-uncomment-paragraphs "Comment Par."))))
+     ((";" evilnc-comment-or-uncomment-lines      "Comment line"))))
 
   (pretty-hydra-define+ visual-editor-hydra ()
     ("Action"

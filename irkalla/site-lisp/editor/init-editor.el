@@ -94,8 +94,7 @@
             :color teal :quit-key "q")
     ("Action"
      (("z" irkalla/zen-mode    "Zen-Mode" :toggle t)
-      ("b" eval-buffer         "Eval Buf.")
-      ("e" eval-expression     "Eval Expr."))))
+      ("b" eval-buffer         "Eval Buf."))))
 
   (pretty-hydra-define visual-editor-hydra
     (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")

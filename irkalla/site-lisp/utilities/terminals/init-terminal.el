@@ -21,8 +21,9 @@
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Terminal"
-     (("p" eat-project    "EAT (Project)")
-      ("e" project-eshell "Eshell -> Project")
+     (("e" eat            "EAT")
+      ("p" eat-project    "EAT -> Project")
+      ("l" project-eshell "Eshell -> Project")
       ("n" nix-shell      "Eshell -> Nix")))))
 
 (irkalla/enable-modules (eshell eat))

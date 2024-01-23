@@ -41,16 +41,16 @@
            :color teal :quit-key "q")
    ("Actions"
     (("a" eglot-code-actions    "Perform code-actions")
-     ("r" eglot-rename          "Rename $SYMB")
-     ("f" eglot-format          "Format buffer"))
+     ("r" eglot-rename          "Rename $SYMB"))
     "Look-up"
     (("?" xref-find-references  "Find -> references")
-     ("d" xref-find-definitions "Find -> definition")
+     ("f" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
   :config (fset #'jsonrpc--log-event #'ignore)
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
+  (eglot-events-buffer-size 0)
   (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-menu-string "LSP"))
@@ -77,7 +77,9 @@
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
-    ("Control"
+    ("Action"
+     (("=" apheleia-format-buffer "Buf. Format"))
+     "Control"
      (("l" (if (eglot-managed-p)
                (eglot-hydra/body)
              (message "You are not in an Eglot buffer.")) "Eglot (LSP)")))))
