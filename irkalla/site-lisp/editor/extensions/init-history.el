@@ -45,9 +45,9 @@
   :if (>= emacs-major-version 29)
   :demand t
   :config
-  (setopt undo-limit 400000           ; 400kb (default is 160kb)
-          undo-outer-limit 48000000   ; 48mb  (default is 24mb)
-          undo-strong-limit 3000000)) ; 3mb   (default is 240kb)
+  (setopt undo-limit        (* 128 1024 1024)
+          undo-outer-limit  (* 128 1024 1024)
+          undo-strong-limit (* 256 1024 1024)))
 
 (use-package undo-fu-session
   :requires (undo-fu)
