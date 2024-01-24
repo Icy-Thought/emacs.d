@@ -17,7 +17,7 @@
   :hook ((elpaca-after-init . dashboard-open)
          (dashboard-mode . hl-line-mode))
   :custom-face
-  (dashboard-heading ((t (:weight regular))))
+  (dashboard-heading           ((t (:weight regular))))
   (dashboard-banner-logo-title ((t (:weight regular))))
   :custom
   (initial-buffer-choice (lambda ()

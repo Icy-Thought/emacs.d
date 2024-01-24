@@ -26,7 +26,7 @@
   :demand t
   :custom
   (completion-category-defaults nil)
-  (completion-category-overrides '((file  (styles  . (orderless flex)))
+  (completion-category-overrides '((file  (styles . (orderless flex)))
                                    (eglot (styles . (orderless flex)))))
   (completion-styles '(orderless partial-completion basic))
   (completions-detailed t)
