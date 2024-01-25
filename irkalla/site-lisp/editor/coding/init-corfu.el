@@ -68,9 +68,25 @@
 (use-package cape
   :preface
   (defun setup-cape-extensions ()
-    (dolist (cape-fn '(file dabbrev elisp-symbol tex keyword emoji))
-      (add-to-list 'completion-at-point-functions (intern (format "cape-%s" cape-fn)))))
-  :hook (corfu-mode . setup-cape-extensions))
+    (add-to-list 'completion-at-point-functions #'cape-dict)
+
+    (add-hook 'prog-mode-hook
+              (lambda ()
+                (add-hook 'completion-at-point-functions #'cape-file nil t)
+                (add-hook 'completion-at-point-functions #'cape-keyword nil t)))
+
+    (add-hook 'text-mode-hook
+              (lambda ()
+                (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))
+
+    (add-hook 'emacs-lisp-mode-hook
+              (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
+
+    (add-hook 'LaTeX-mode-hook
+              (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t))))
+  :hook (corfu-mode . setup-cape-extensions)
+  :custom (cape-dict-file (getenv "WORDLIST")))
 
 (provide 'init-corfu)
 ;;; init-corfu.el ends here
