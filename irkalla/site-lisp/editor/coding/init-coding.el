@@ -52,8 +52,9 @@
   (eglot-confirm-server-initiated-edits nil)
   (eglot-events-buffer-size 0)
   (eglot-extend-to-xref t)
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (eglot-menu-string "LSP"))
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider
+                                       :inlayHintProvider))
+  (eglot-menu-string (if (featurep 'nerd-icons) (nerd-icons-faicon "nf-fa-code") "LSP")))
 
 (use-package eglot-booster
   :elpaca (:host github :repo "jdtsmith/eglot-booster")
