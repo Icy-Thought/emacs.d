@@ -34,7 +34,7 @@
 ;; :NOTE| Blame our Git Repository
 (use-package blamer
   :if (executable-find "git")
-  :hook (prog-mode . blamer-mode)
+  :commands (blamer-show-posframe-commit-info)
   :custom-face
   (blamer-face ((t (:background nil :height 125 :italic t))))
   :custom
@@ -67,15 +67,16 @@
     (:title (pretty-hydra-title "──｢ Editor: Version Control ｣──" 'mdicon "nf-md-git")
             :color teal :quit-key "q")
     ("Magit"
-     (("g" magit "Magit")
-      ("s" magit-stage-buffer-file   "Stage file")
-      ("u" magit-unstage-buffer-file "Unstage file"))
+     (("g" magit                            "Open Magit")
+      ("s" magit-stage-buffer-file          "Stage file")
+      ("u" magit-unstage-buffer-file        "Unstage file"))
      "Git-Gutter"
-     (("m" git-gutter:mark-hunk      "Mark hunk")
-      ("k" git-gutter:previous-hunk  "Previous hunk")
-      ("j" git-gutter:next-hunk      "Next hunk")
-      ("u" git-gutter:revert-hunk    "Revert hunk")
-      ("i" git-gutter:statistic      "Stats of Buf."))))
+     (("m" git-gutter:mark-hunk             "Mark hunk")
+      ("k" git-gutter:previous-hunk         "Previous hunk")
+      ("j" git-gutter:next-hunk             "Next hunk")
+      ("u" git-gutter:revert-hunk           "Revert hunk"))
+     "Blamer"
+     (("i" blamer-show-posframe-commit-info "Commit Info"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Control"
