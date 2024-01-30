@@ -13,6 +13,7 @@
 
 ;; :NOTE| Matrix Emacs client
 (use-package ement
+  :commands (ement-connect)
   :hook (ement-room-mode . visual-line-mode)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
@@ -24,7 +25,13 @@
   (ement-room-images t)
   (ement-room-message-format-spec "%S>%L %B%r%R[%t]")
   (ement-room-send-message-filter #'ement-room-send-org-filter)
-  (ement-save-sessions t))
+  (ement-save-sessions t)
+  :config
+  (if (featurep 'cape)
+      (add-hook 'ement-room-read-string-setup-hook
+                (lambda ()
+                  (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                  (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
 
 ;;;###autoload
 (defun irkalla/connect-to-matrix ()
@@ -54,7 +61,13 @@
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t)
   (telega-notifications-mode t)
-  (telega-emoji-use-images nil)) ;; recent libsvg issue..
+  (telega-emoji-use-images nil) ;; recent libsvg issue..
+  :config
+  (if (featurep 'cape)
+      (add-hook 'telega-chat-mode-hook
+                (lambda ()
+                  (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                  (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
 
 (provide 'init-social)
 ;;; init-social.el ends here

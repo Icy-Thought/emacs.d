@@ -48,11 +48,13 @@
 
 (use-package corfu-terminal
   :unless window-system
+  :requires (corfu)
   :hook (corfu-mode . corfu-terminal-mode))
 
 ;; :NOTE| Posframe like completion menu
 (use-package corfu-popupinfo
   :elpaca nil
+  :requires (corfu)
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 
@@ -68,23 +70,19 @@
 (use-package cape
   :preface
   (defun setup-cape-extensions ()
-    (add-to-list 'completion-at-point-functions #'cape-dict)
-
     (add-hook 'prog-mode-hook
               (lambda ()
                 (add-hook 'completion-at-point-functions #'cape-file nil t)
                 (add-hook 'completion-at-point-functions #'cape-keyword nil t)))
-
+    (add-hook 'emacs-lisp-mode-hook
+              (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
+    (add-hook 'LaTeX-mode-hook
+              (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t)))
     (add-hook 'text-mode-hook
               (lambda ()
                 (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)
-                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))
-
-    (add-hook 'emacs-lisp-mode-hook
-              (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
-
-    (add-hook 'LaTeX-mode-hook
-              (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t))))
+                (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :hook (corfu-mode . setup-cape-extensions)
   :custom (cape-dict-file (getenv "WORDLIST")))
 
