@@ -18,10 +18,10 @@
                          ("terminfo/65" "terminfo/65/*")
                          ("integration" "integration/*")
                          (:exclude ".dir-locals.el" "*-tests.el")))
-  :hook ((eat-exec . (lambda (&rest _) (turn-off-evil-mode)))
-         (eshell-mode . (lambda ()
+  :hook ((eshell-mode . (lambda ()
                           (eat-eshell-mode) 
-                          (eat-eshell-visual-command-mode))))
+                          (eat-eshell-visual-command-mode)))
+         (eat-exec . (lambda (&rest _) (turn-off-evil-mode))))
   :custom (eat-kill-buffer-on-exit t))
 
 (provide 'init-eat)
