@@ -27,11 +27,13 @@
   (ement-room-send-message-filter #'ement-room-send-org-filter)
   (ement-save-sessions t)
   :config
-  (if (featurep 'cape)
-      (add-hook 'ement-room-read-string-setup-hook
-                (lambda ()
-                  (add-hook 'completion-at-point-functions #'cape-dict nil t)
-                  (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
+  ;; |FIXME: fix does not work when replying... somehow
+  (add-hook 'ement-room-read-string-setup-hook
+            (lambda ()
+              (when visual-fill-column-mode (visual-fill-column-mode -1))
+              (when (featurep 'cape)
+                (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
 
 ;;;###autoload
 (defun irkalla/connect-to-matrix ()
@@ -63,11 +65,11 @@
   (telega-notifications-mode t)
   (telega-emoji-use-images nil) ;; recent libsvg issue..
   :config
-  (if (featurep 'cape)
-      (add-hook 'telega-chat-mode-hook
-                (lambda ()
-                  (add-hook 'completion-at-point-functions #'cape-dict nil t)
-                  (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
+  (when (featurep 'cape)
+    (add-hook 'telega-chat-mode-hook
+              (lambda ()
+                (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
 
 (provide 'init-social)
 ;;; init-social.el ends here
