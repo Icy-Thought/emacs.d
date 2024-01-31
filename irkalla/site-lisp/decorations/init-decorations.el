@@ -16,10 +16,10 @@
   :preface
   (defun irkalla/setup-appearance ()
     (let ((theme-name 'catppuccin-mocha))
-      (if (daemonp)
-          (add-hook 'after-make-frame-functions (lambda (frame)
-                                                  (select-frame frame)
-                                                  (load-theme theme-name :no-confirm))))
+      (when (daemonp)
+        (add-hook 'after-make-frame-functions (lambda (frame)
+                                                (select-frame frame)
+                                                (load-theme theme-name :no-confirm))))
       (load-theme theme-name :no-confirm)))
   :config (irkalla/setup-appearance))
 

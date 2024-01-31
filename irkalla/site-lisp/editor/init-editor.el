@@ -71,8 +71,8 @@
 (use-package elec-pair
   :elpaca nil
   :hook ((prog-mode text-mode) . (lambda ()
-                                   (if (not (derived-mode-p 'emacs-lisp-mode 'lisp-mode))
-                                       (electric-pair-local-mode))))
+                                   (when (not (derived-mode-p 'emacs-lisp-mode 'lisp-mode))
+                                     (electric-pair-local-mode))))
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
 (use-package hl-line

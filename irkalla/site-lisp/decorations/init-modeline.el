@@ -21,15 +21,15 @@
   (doom-modeline-github t)
   (doom-modeline-github-interval (* 30 60))
   (doom-modeline-height 35)
-  (if (display-graphic-p) (doom-modeline-hud t)))
+  (when (display-graphic-p) (doom-modeline-hud t)))
 
 (use-package telephone-line
   :disabled t
   :hook ((prog-mode text-mode) . telephone-line-mode)
   :custom
   (telephone-line-height 26)
-  (if (featurep 'evil) (telephone-line-evil-use-short-tag t))
-  (if (featurep 'meow) (telephone-line-meow-use-short-tag t))
+  (when (featurep 'evil) (telephone-line-evil-use-short-tag t))
+  (when (featurep 'meow) (telephone-line-meow-use-short-tag t))
   ;; Left separator
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
   (telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left)
