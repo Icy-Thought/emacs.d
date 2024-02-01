@@ -17,15 +17,9 @@
   :group 'emacs)
 
 ;; :NOTE| appending UI changes early to Emacs
-(defcustom irkalla/default-font-family "VictorMono Nerd Font"
-  "The default font family of our Irkalla frames."
-  :type 'string
-  :group 'irkalla)
-
 (setq-default default-frame-alist
               (append (list
                        '(alpha-background     . 85)
-                       `(font                 . ,(concat irkalla/default-font-family ":pixelsize=19:weight=semibold"))
                        '(fullscreen           . nil)
                        '(menu-bar-lines       . 0)
                        '(tool-bar-lines       . 0)

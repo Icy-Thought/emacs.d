@@ -11,12 +11,6 @@
 
 ;;; Code:
 
-(use-package faces
-  :elpaca nil
-  :custom-face
-  (fixed-pitch    ((t (:family irkalla/default-font-family :height 125))))
-  (variable-pitch ((t (:family irkalla/default-font-family :height 135)))))
-
 (use-package face-remap
   :elpaca nil
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))

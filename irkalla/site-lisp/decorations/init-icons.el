@@ -14,7 +14,7 @@
 (use-package nerd-icons
   :demand t
   :custom
-  (nerd-icons-font-family irkalla/default-font-family)
+  (nerd-icons-font-family (face-attribute 'default :family))
   (nerd-icons-scale-factor 1.05))
 
 (use-package nerd-icons-completion
