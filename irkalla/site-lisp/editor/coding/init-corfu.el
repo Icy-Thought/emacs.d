@@ -68,7 +68,7 @@
 
 ;; :NOTE| Completion at point through Cape
 (use-package cape
-  :after (corfu)
+  :demand t
   :custom (cape-dict-file (getenv "WORDLIST"))
   :config
   (add-hook 'prog-mode-hook
