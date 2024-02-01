@@ -75,6 +75,13 @@
   :hook (text-mode . jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 
+(use-package leetcode
+  :commands (leetcode)
+  :custom
+  (leetcode-save-solutions t)
+  (leetcode-prefer-language "python3")
+  (leetcode-directory (no-littering-expand-var-file-name "leetcode/")))
+
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
