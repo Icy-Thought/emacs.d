@@ -44,8 +44,9 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (popper tabspaces tab-bar direnv dired whichkey dashboard readers consult embark vertico org-roam marginalia
-         recentf social terminal browser))
+ (popper activities centaur-tabs direnv dired recentf 
+         whichkey dashboard readers consult embark vertico org-roam marginalia
+         social terminal browser notmuch))
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here
