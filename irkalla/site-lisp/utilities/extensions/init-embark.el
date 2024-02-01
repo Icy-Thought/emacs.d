@@ -43,7 +43,7 @@
 
   (pretty-hydra-define+ main-hydra ()
     ("Action"
-     (("a" embark-hydra/body "Embark")))))
+     (("e" embark-hydra/body "Embark")))))
 
 (provide 'init-embark)
 ;;; init-embark.el ends here
