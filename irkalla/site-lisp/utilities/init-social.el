@@ -27,10 +27,8 @@
   (ement-room-send-message-filter #'ement-room-send-org-filter)
   (ement-save-sessions t)
   :config
-  ;; |FIXME: fix does not work when replying... somehow
   (add-hook 'ement-room-read-string-setup-hook
             (lambda ()
-              (when visual-fill-column-mode (visual-fill-column-mode -1))
               (when (featurep 'cape)
                 (add-hook 'completion-at-point-functions #'cape-dict nil t)
                 (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))

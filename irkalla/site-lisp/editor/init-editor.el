@@ -13,6 +13,7 @@
 
 (use-package emacs
   :elpaca nil
+  :hook (text-mode . visual-line-mode)
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
@@ -29,11 +30,12 @@
 
 (use-package visual-fill-column
   :elpaca nil
-  :hook ((visual-line-mode . visual-fill-column-mode)
-         (text-mode . visual-line-mode)) 
+  :commands (visual-fill-column-mode)
+  :hook (visual-line-mode . (lambda ()
+                              (unless (minibufferp) (visual-fill-column-mode))))
   :custom (visual-fill-column-center-text t)
   :config
-  (defun irkalla/zen-mode ()
+  (defun irkalla/manuscript-mode ()
     "Toggle buffer appearance for a touch of sophistication."
     (interactive)
     (if (bound-and-true-p buffer-face-mode)
@@ -93,8 +95,8 @@
     (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
             :color teal :quit-key "q")
     ("Action"
-     (("z" irkalla/zen-mode    "Zen-Mode" :toggle t)
-      ("b" eval-buffer         "Eval Buf."))))
+     (("z" irkalla/manuscript-mode "Manuscript Mode" :toggle t)
+      ("b" eval-buffer             "Eval Buf."))))
 
   (pretty-hydra-define visual-editor-hydra
     (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
