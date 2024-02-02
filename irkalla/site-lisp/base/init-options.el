@@ -11,14 +11,6 @@
 
 ;;; Code:
 
-;; :NOTE| File handling and version control
-(setq-default
- auto-save-list-file-prefix nil
- create-lockfiles nil
- package-enable-at-startup nil
- use-short-answers t
- vc-follow-symlinks t)
-
 ;; :NOTE| Debugging and error handling
 (setq-default
  ad-redefinition-action 'accept
@@ -47,6 +39,14 @@
  inhibit-compacting-font-caches t
  mode-line-format nil
  redisplay-skip-fontification-on-input t)
+
+;; :NOTE| File handling and version control
+(setq-default
+ auto-save-list-file-prefix nil
+ create-lockfiles nil
+ package-enable-at-startup nil
+ use-short-answers t
+ vc-follow-symlinks t)
 
 ;; :NOTE| Miscellaneous
 (setq-default
