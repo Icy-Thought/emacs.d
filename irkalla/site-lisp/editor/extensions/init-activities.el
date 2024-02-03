@@ -32,7 +32,7 @@
       ("r"   activities-resume  "Resume"))))
 
   (pretty-hydra-define+ editor-hydra ()
-    ("Action"
+    ("Control"
      (("a" activities-hydra/body "Activities")))))
 
 (provide 'init-activities)

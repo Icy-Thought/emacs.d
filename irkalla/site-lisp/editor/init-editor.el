@@ -110,7 +110,8 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (evil fill-column ligatures history ediff magit region citar whitespace coding))
+ (evil fill-column ligatures history ediff region citar whitespace
+       magit activities coding))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

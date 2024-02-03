@@ -44,7 +44,7 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (popper activities centaur-tabs direnv dired recentf 
+ (popper centaur-tabs direnv dired recentf 
          whichkey dashboard readers consult embark vertico org-roam marginalia
          social terminal browser notmuch))
 
