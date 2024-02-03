@@ -50,6 +50,7 @@
 
 ;; :NOTE| Miscellaneous
 (setq-default
+ select-enable-clipboard nil
  command-line-x-option-alist nil
  default-input-method nil
  ring-bell-function 'ignore

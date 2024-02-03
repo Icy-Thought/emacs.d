@@ -45,9 +45,11 @@
           :color teal :quit-key "q")
   ("Main"
    (("o" launcher-hydra/body "Launcher")
-    ("p" elpaca-hydra/body "Elpaca"))
+    ("m" elpaca-hydra/body "Elpaca"))
    "Control"
-   (("b" buffer-hydra/body "Buffer"))))
+   (("b" buffer-hydra/body "Buffer"))
+   "Action"
+   (("z" zone "Zooning out..."))))
 
 (with-eval-after-load 'evil
   (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body))

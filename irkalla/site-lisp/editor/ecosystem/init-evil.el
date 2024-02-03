@@ -20,7 +20,7 @@
   (evil-vsplit-window-right t)
   (evil-want-integration t)
   (evil-want-keybinding nil))
-
+  
 (use-package evil-collection
   :requires (evil)
   :hook (evil-mode . (lambda ()

@@ -89,20 +89,44 @@
   (window-divider-default-right-width 2)
   (window-divider-default-bottom-width 2))
 
+;; :NOTE| Custom functions for future Hydra usage
+
+;;;###autoload
+(defun irkalla/copy-to-sysclip ()
+  "Copy contents to the system clipboard."
+  (interactive)
+  (setopt x-select-enable-clipboard t)
+  (if (featurep 'evil)
+      (call-interactively #'evil-yank)
+    (kill-ring-save (region-beginning) (region-end)))
+  (setopt x-select-enable-clipboard nil))
+
+;;;###autoload
+(defun irkalla/paste-from-sysclip ()
+  "Paste contents to the system clipboard."
+  (interactive)
+  (setopt x-select-enable-clipboard t)
+  (if (featurep 'evil)
+      (call-interactively #'evil-yank)
+    (yank))
+  (setopt x-select-enable-clipboard nil))
+
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define editor-hydra
     (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
             :color teal :quit-key "q")
     ("Action"
-     (("z" irkalla/manuscript-mode "Manuscript Mode" :toggle t)
-      ("b" eval-buffer             "Eval Buf."))))
+     (("b" eval-buffer "Eval Buf.")
+      ("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
+      ("p" irkalla/paste-from-sysclip "Paste <- Sys-Clip"))))
 
   (pretty-hydra-define visual-editor-hydra
     (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
             :color teal :quit-key "q")
     ("Action"
-     (("e" eval-region "Eval Region"))))
+     (("e" eval-region "Eval Region")
+      ("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip"))))
 
   (with-eval-after-load 'evil
     (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
