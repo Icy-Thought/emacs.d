@@ -12,9 +12,7 @@
 ;;; Code:
 
 (use-package centaur-tabs
-  :hook (((calendar-mode org-agenda-mode) . centaur-tabs-local-mode)
-         ((dashboard-mode vterm-mode) . centaur-tabs-local-mode) 
-         ((Ement-Room Ement-Room-List) . centaur-tabs-local-mode)) 
+  :hook (elpaca-after-init . centaur-tabs-mode)
   :bind (:map centaur-tabs-mode-map
               ("C-<prior>"   . #'centaur-tabs-backward-group)
               ("C-<next>"    . #'centaur-tabs-forward-group)
@@ -35,11 +33,25 @@
   (centaur-tabs-show-new-tab-button t)
   (centaur-tabs-adjust-buffer-order t)
   :config
-  (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
   (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-group-by-projectile-project)
-  (setq x-underline-at-descent-line t))
+  (setq x-underline-at-descent-line t)
+
+  ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
+  (dolist (prefix '("*Async-native-compile-log*"
+                    "*Calendar*"
+                    "*Flymake log*"
+                    "*Warnings*"
+                    "*Agenda Commands*"
+                    "*dashboard*"
+                    "*direnv*"
+                    "*eat*"
+                    "*eldoc-box*"
+                    "Ement"
+                    "magit"
+                    "*vterm*"))
+    (add-to-list 'centaur-tabs-excluded-prefixes prefix)))
 
 (provide 'init-centaur-tabs)
 ;;; init-centaur-tabs.el ends here
