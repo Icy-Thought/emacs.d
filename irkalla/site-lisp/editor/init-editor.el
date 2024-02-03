@@ -13,13 +13,9 @@
 
 (use-package emacs
   :elpaca nil
-  :hook (text-mode . visual-line-mode)
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
-  (fill-column 120)
-  (truncate-lines t)
-  (truncate-string-ellipsis "↴")
   (electric-indent-inhibit t)
   (indent-tabs-mode nil)
   (standard-indent 4)
@@ -27,29 +23,6 @@
   (find-file-suppress-same-file-warnings t)
   (remote-file-name-inhibit-locks t)
   (x-stretch-cursor t))
-
-(use-package visual-fill-column
-  :elpaca nil
-  :commands (visual-fill-column-mode)
-  :hook (visual-line-mode . (lambda ()
-                              (unless (minibufferp) (visual-fill-column-mode))))
-  :custom (visual-fill-column-center-text t)
-  :config
-  (defun irkalla/manuscript-mode ()
-    "Toggle buffer appearance for a touch of sophistication."
-    (interactive)
-    (if (bound-and-true-p buffer-face-mode)
-        (progn
-          (visual-line-mode -1)
-          (visual-fill-column-mode -1)
-          (text-scale-increase 0.0)
-          (buffer-face-mode -1)
-          (setq-local fill-column 120))
-      (visual-line-mode +1)
-      (setq-local fill-column 80
-                  buffer-face-mode-face '(:family "Dancing Script"))
-      (buffer-face-mode +1)
-      (text-scale-increase 1.5))))
 
 (use-package auto-revert
   :elpaca nil
@@ -137,7 +110,7 @@
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules
- (evil ligatures history ediff magit region citar whitespace coding))
+ (evil fill-column ligatures history ediff magit region citar whitespace coding))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
