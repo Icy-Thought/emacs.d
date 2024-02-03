@@ -39,18 +39,9 @@
   (setq x-underline-at-descent-line t)
 
   ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
-  (dolist (prefix '("*Async-native-compile-log*"
-                    "*Calendar*"
-                    "*Flymake log*"
-                    "*Warnings*"
-                    "*Agenda Commands*"
-                    "*dashboard*"
-                    "*direnv*"
-                    "*eat*"
-                    "*eldoc-box*"
+  (dolist (prefix '("*" " *" ;; all temporary buffers
                     "Ement"
-                    "magit"
-                    "*vterm*"))
+                    "magit"))
     (add-to-list 'centaur-tabs-excluded-prefixes prefix)))
 
 (provide 'init-centaur-tabs)
