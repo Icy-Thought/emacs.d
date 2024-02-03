@@ -73,7 +73,7 @@
 (use-package elec-pair
   :elpaca nil
   :hook ((prog-mode text-mode) . (lambda ()
-                                   (when (not (derived-mode-p 'emacs-lisp-mode 'lisp-mode))
+                                   (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
                                      (electric-pair-local-mode))))
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 

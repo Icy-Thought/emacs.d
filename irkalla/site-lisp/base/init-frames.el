@@ -50,7 +50,7 @@
 
   (pretty-hydra-define+ main-hydra ()
     ("Control"
-     (("w" window-hydra/body "Window Control")))))
+     (("w" window-hydra/body "Window")))))
 
 (provide 'init-frames)
 ;;; init-frames.el ends here
