@@ -68,21 +68,21 @@
 (defun irkalla/copy-to-sysclip ()
   "Copy contents to the system clipboard."
   (interactive)
-  (setopt x-select-enable-clipboard t)
+  (setopt select-enable-clipboard t)
   (if (featurep 'evil)
       (call-interactively #'evil-yank)
     (kill-ring-save (region-beginning) (region-end)))
-  (setopt x-select-enable-clipboard nil))
+  (setopt select-enable-clipboard nil))
 
 ;;;###autoload
 (defun irkalla/paste-from-sysclip ()
   "Paste contents to the system clipboard."
   (interactive)
-  (setopt x-select-enable-clipboard t)
+  (setopt select-enable-clipboard t)
   (if (featurep 'evil)
-      (call-interactively #'evil-yank)
+      (call-interactively #'evil-paste-after)
     (yank))
-  (setopt x-select-enable-clipboard nil))
+  (setopt select-enable-clipboard nil))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
