@@ -16,7 +16,6 @@
   :config
   (cl-defun pretty-hydra-title (title &optional icon-type icon-name
                                       &key face height v-adjust)
-    "Add an icon to our pretty-hydra title(s)."
     (let ((face (or face `(:inherit hydra-face-pink :height 1.2 :slant italic)))
           (height (or height 1.2))
           (v-adjust (or v-adjust 0.0)))
@@ -24,9 +23,8 @@
        (when (and (display-graphic-p) icon-type icon-name)
          (let ((f (intern (format "nerd-icons-%s" icon-type))))
            (when (fboundp f)
-             (concat
-              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
-              "  "))))
+             (concat (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+                     "  "))))
        (propertize title 'face face)))))
 
 (elpaca-wait)
