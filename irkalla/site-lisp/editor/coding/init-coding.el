@@ -18,9 +18,7 @@
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
   (compilation-scroll-output t)
-  (compilation-scroll-output t)
-  (tab-always-indent 'completion)
-  (tab-first-completion 'word-or-paren-or-punct))
+  (compilation-scroll-output t))
 
 (use-package orderless
   :demand t
