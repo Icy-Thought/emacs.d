@@ -21,7 +21,7 @@
   :hook ((eshell-mode . (lambda ()
                           (eat-eshell-mode) 
                           (eat-eshell-visual-command-mode)))
-         (eat-exec . (lambda (&rest _) (turn-off-evil-mode))))
+         (eat-exec . (lambda (&rest _) (eat-line-mode))))
   :custom (eat-kill-buffer-on-exit t))
 
 (provide 'init-eat)
