@@ -20,9 +20,10 @@
                          (:exclude ".dir-locals.el" "*-tests.el")))
   :hook ((eshell-mode . (lambda ()
                           (eat-eshell-mode) 
-                          (eat-eshell-visual-command-mode)))
-         (eat-exec . (lambda (&rest _) (eat-line-mode))))
-  :custom (eat-kill-buffer-on-exit t))
+                          (eat-eshell-visual-command-mode))))
+  :custom
+  (eat-kill-buffer-on-exit t)
+  (eat-enable-auto-line-mode t))
 
 (provide 'init-eat)
 ;;; init-eat.el ends here
