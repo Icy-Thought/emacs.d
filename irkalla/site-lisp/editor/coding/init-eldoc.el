@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package eldoc
-  :elpaca nil
+  :ensure nil
   :hook (eglot-managed-mode . eldoc-mode)
   :custom
   (eldoc-idle-delay 1.0)

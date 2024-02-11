@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package tab-bar
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init . tab-bar-mode)
   :bind (("C-<next>" . tab-next)
          ("C-<prior>" . tab-previous))

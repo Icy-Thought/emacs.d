@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :hook (text-mode . visual-line-mode)
   :custom
   (fill-column 120)
@@ -20,7 +20,7 @@
   (truncate-string-ellipsis "↴"))
 
 (use-package visual-fill-column
-  :elpaca nil
+  :ensure nil
   :commands (visual-fill-column-mode)
   :preface
   (defun irkalla/manuscript-toggle ()

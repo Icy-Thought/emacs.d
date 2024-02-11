@@ -13,7 +13,7 @@
 ;;; Code:
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -33,7 +33,7 @@
   (read-file-name-completion-ignore-case t))
 
 (use-package eglot
-  :elpaca nil
+  :ensure nil
   :pretty-hydra
   ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
            :color teal :quit-key "q")
@@ -55,7 +55,7 @@
   (eglot-menu-string (if (featurep 'nerd-icons) (nerd-icons-faicon "nf-fa-code") "LSP")))
 
 (use-package eglot-booster
-  :elpaca (:host github :repo "jdtsmith/eglot-booster")
+  :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after (eglot)
   :if (executable-find "emacs-lsp-booster")
   :config (eglot-booster-mode +1))
@@ -69,7 +69,7 @@
   :hook (elpaca-after-init . apheleia-global-mode))
 
 (use-package jinx
-  :elpaca nil
+  :ensure nil
   :hook (text-mode . jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 

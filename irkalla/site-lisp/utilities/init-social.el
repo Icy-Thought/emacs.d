@@ -54,7 +54,7 @@
 
 ;; :NOTE| Emacs Telegram client
 (use-package telega
-  :elpaca nil ;; <-^ fetched from Nixpkgs
+  :ensure nil ;; <-^ fetched from Nixpkgs
   :commands (telega)
   :hook (telega-chat-mode . visual-line-mode)
   :custom

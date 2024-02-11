@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
@@ -25,7 +25,7 @@
   (x-stretch-cursor t))
 
 (use-package auto-revert
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode text-mode) . auto-revert-mode)
   :custom
   (auto-revert-interval 1)
@@ -36,7 +36,7 @@
   :hook (prog-mode . editorconfig-mode))
 
 (use-package display-line-numbers
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
   :custom (display-line-numbers-type 'relative))
 
@@ -44,18 +44,18 @@
   :hook (prog-mode . rainbow-mode))
 
 (use-package elec-pair
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode text-mode) . (lambda ()
                                    (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
                                      (electric-pair-local-mode))))
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
 (use-package hl-line
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode text-mode) . hl-line-mode))
 
 (use-package frames
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode text-mode) . window-divider-mode)
   :custom
   (window-divider-default-places t)

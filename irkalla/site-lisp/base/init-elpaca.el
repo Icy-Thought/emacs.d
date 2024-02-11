@@ -50,18 +50,14 @@
 (elpaca `(,@elpaca-order))
 
 ;; Applying minor configurations to our new package manager
-(unless (fboundp 'use-package)
-  (elpaca use-package (require 'use-package)))
-
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode)
-  (setopt elpaca-use-package-by-default t))
+(elpaca elpaca-use-package (elpaca-use-package-mode))
 
 ;; Verify code evaluation before proceeding
 (elpaca-wait)
 
 ;; :NOTE| Deferring packages should be automated
-(setopt use-package-always-defer t
+(setopt use-package-always-ensure t
+        use-package-always-defer t
         use-package-compute-statistics t)
 
 (provide 'init-elpaca)

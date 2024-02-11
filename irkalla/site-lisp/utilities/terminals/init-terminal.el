@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package tramp
-  :elpaca nil
+  :ensure nil
   :custom
   (tramp-default-method "ssh")
   (remote-file-name-inhibit-cache nil))

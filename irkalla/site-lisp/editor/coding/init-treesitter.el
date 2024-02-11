@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package tree-sitter
-  :elpaca nil
+  :ensure nil
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :custom (font-lock-maximum-decoration t))
 
@@ -27,11 +27,11 @@
   (treesit-auto-add-to-auto-mode-alist))
 
 (use-package ts-fold
-  :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
+  :ensure (:host github :repo "emacs-tree-sitter/ts-fold")
   :hook (tree-sitter-after-on . ts-fold-mode))
 
 (use-package combobulate
-  :elpaca (:host github :repo "mickeynp/combobulate")
+  :ensure (:host github :repo "mickeynp/combobulate")
   :hook (tree-sitter-after-on . combobulate-mode))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

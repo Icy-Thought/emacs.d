@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package ob
-  :elpaca nil
+  :ensure nil
   :preface
   ;; :NOTE| https://emacs.stackexchange.com/a/20618
   (defun demand-babel-languages (orig-fun &rest args)

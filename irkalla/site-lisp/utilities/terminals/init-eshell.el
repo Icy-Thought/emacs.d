@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package eshell
-  :elpaca nil
+  :ensure nil
   :preface
   (defun shortened-path (path max-len)
     (require 'cl-lib)

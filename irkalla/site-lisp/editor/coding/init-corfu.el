@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package corfu
-  :elpaca (:files (:defaults "extensions/*.el"))
+  :ensure (:files (:defaults "extensions/*.el"))
   :requires (kind-icons)
   :preface
   (defun corfu-always-enable-in-minibuffer ()
@@ -53,7 +53,7 @@
 
 ;; :NOTE| Posframe like completion menu
 (use-package corfu-popupinfo
-  :elpaca nil
+  :ensure nil
   :requires (corfu)
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))

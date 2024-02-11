@@ -30,7 +30,7 @@
 (elpaca-wait)
 
 (use-package hydra-posframe
-  :elpaca (:host github :repo "Ladicle/hydra-posframe")
+  :ensure (:host github :repo "Ladicle/hydra-posframe")
   :hook (elpaca-after-init . hydra-posframe-mode)
   :custom
   (hydra-posframe-border-width 2)

@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package eat
-  :elpaca (:host codeberg :repo "akib/emacs-eat"
+  :ensure (:host codeberg :repo "akib/emacs-eat"
                  :files ("*.el" ("term" "term/*.el") "*.texi"
                          "*.ti" ("terminfo/e" "terminfo/e/*")
                          ("terminfo/65" "terminfo/65/*")

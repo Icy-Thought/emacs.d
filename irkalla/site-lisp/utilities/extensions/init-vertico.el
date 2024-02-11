@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package vertico
-  :elpaca (:files (:defaults "extensions/*"))
+  :ensure (:files (:defaults "extensions/*"))
   :requires (vertico-directory)
   :hook (elpaca-after-init . vertico-mode)
   :custom
@@ -40,11 +40,11 @@
   (vertico-posframe-fallback-mode vertico-buffer-mode))
 
 (use-package vertico-mouse
-  :elpaca nil
+  :ensure nil
   :hook (vertico-mode . vertico-mouse-mode))
 
 (use-package vertico-directory
-  :elpaca nil
+  :ensure nil
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :bind (:map vertico-map
               ("RET"   . vertico-directory-enter)
@@ -53,7 +53,7 @@
 
 ;; :NOTE| Enhances the behavior & appearance of Emacs mini-buffer prompt:
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :preface
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"

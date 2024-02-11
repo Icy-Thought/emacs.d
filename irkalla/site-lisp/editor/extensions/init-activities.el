@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package activities
-  :elpaca (:host github :repo "alphapapa/activities.el")
+  :ensure (:host github :repo "alphapapa/activities.el")
   :hook (elpaca-after-init . activities-mode))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

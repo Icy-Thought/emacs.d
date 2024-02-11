@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package dired-x
-  :elpaca nil
+  :ensure nil
   :requires (dired)
   :preface
   (defun dired-external-launch (application extensions)

@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package typst-ts-mode
-  :elpaca (:host sourcehut :repo "meow_king/typst-ts-mode")
+  :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
   :preface
   (defun eglot-typst-setup ()

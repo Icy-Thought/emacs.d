@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package recentf
-  :elpaca nil
+  :ensure nil
   :custom
   (recentf-save-file-modes #o600)
   (recentf-max-saved-items 1024)

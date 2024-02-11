@@ -13,7 +13,7 @@
 
 ;; :NOTE| PDF-Viewer for readers out there!
 (use-package pdf-tools
-  :elpaca nil ;; <-^ fetched from Nixpkgs
+  :ensure nil ;; <-^ fetched from Nixpkgs
   :init (push 'pdf-tools elpaca-ignored-dependencies) ;; Allows proper detection of ~epdfinfo~
   :config
   (require 'pdf-annot)
@@ -21,7 +21,7 @@
   (require 'pdf-outline))
 
 (use-package pdf-view
-  :elpaca nil
+  :ensure nil
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
@@ -48,14 +48,14 @@
   :custom (nov-text-width t))
 
 (use-package nov-xwidget
-  :elpaca (:host github :repo "chenyanming/nov-xwidget")
+  :ensure (:host github :repo "chenyanming/nov-xwidget")
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :bind (:map nov-mode-map
               ("o" . #'nov-xwdiget-view)))
 
 ;; :NOTE| A RSS-reader for our curious minds
 (use-package newsticker
-  :elpaca nil
+  :ensure nil
   :preface
   (defun irkalla/newsticker-start-newTab ()
     "Launch NewsTicker (TreeView) in a new tab."

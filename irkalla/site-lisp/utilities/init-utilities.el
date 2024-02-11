@@ -40,7 +40,7 @@
        (("h" helpful-hydra/body "Helpful"))))))
 
 (use-package screenshot
-  :elpaca (:host github :repo "tecosaur/screenshot"))
+  :ensure (:host github :repo "tecosaur/screenshot"))
 
 ;; :NOTE| Import the custom modules
 (irkalla/enable-modules

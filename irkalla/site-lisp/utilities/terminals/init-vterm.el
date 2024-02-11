@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package vterm
-  :elpaca nil
+  :ensure nil
   :hook (vterm-mode . evil-emacs-state)
   :bind (:map vterm-mode-map
               ("<S-prior>" . #'scroll-down-command)

@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package eww
-  :elpaca nil
+  :ensure nil
   :preface
   (defun auto-readable-wikipedia ()
     "Run `eww-readable' if the current buffer is a Wikipedia article."
@@ -22,7 +22,7 @@
   :hook (eww-after-render . auto-readable-wikipedia))
 
 (use-package shr
-  :elpaca nil
+  :ensure nil
   :demand t
   :custom-face
   (shr-text ((t (:inherit variable-pitch-face :height 1.05))))

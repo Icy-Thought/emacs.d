@@ -13,7 +13,7 @@
 ;;; Code:
 
 (use-package org
-  :elpaca nil
+  :ensure nil
   :preface
   (defun irkalla/org-electric-dollar ()
     "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."

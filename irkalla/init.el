@@ -27,7 +27,7 @@
 
 ;; :NOTE| Time of the day shall be in the superiour format
 (use-package time
-  :elpaca nil
+  :ensure nil
   :custom
   (display-time-24hr-format t)
   (display-time-day-and-date t)

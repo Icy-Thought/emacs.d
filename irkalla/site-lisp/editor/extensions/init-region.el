@@ -15,7 +15,7 @@
   :commands (ialign))
 
 (use-package indent-bars
-  :elpaca (:host github :repo "jdtsmith/indent-bars")
+  :ensure (:host github :repo "jdtsmith/indent-bars")
   :hook (prog-mode . indent-bars-mode)
   :custom (indent-bars-zigzag nil))
 
@@ -26,7 +26,7 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package parens
-  :elpaca nil
+  :ensure nil
   :hook (prog-mode . show-paren-mode)
   :custom
   (show-paren-style 'parenthesis)
@@ -34,7 +34,7 @@
   (show-paren-when-point-inside-paren nil))
 
 (use-package subword
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode text-mode) . subword-mode))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

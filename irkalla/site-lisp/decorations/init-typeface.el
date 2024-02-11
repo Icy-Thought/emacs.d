@@ -36,7 +36,7 @@
   :config (fontaine-set-preset 'regular))
 
 (use-package face-remap
-  :elpaca nil
+  :ensure nil
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
          ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
          ("C--" . (lambda () (interactive) (text-scale-decrease 0.5))))
@@ -46,7 +46,7 @@
   (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'append))
 
 (use-package font-lock
-  :elpaca nil
+  :ensure nil
   :custom-face
   (font-lock-builtin-face       ((t (:slant italic))))
   (font-lock-comment-face       ((t (:slant italic))))

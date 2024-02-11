@@ -25,7 +25,7 @@
 
 ;; :NOTE| Replace several symbols with prettier alternatives
 (use-package prettify-symbols
-  :elpaca nil
+  :ensure nil
   :hook (emacs-lisp-mode . prettify-symbols-mode)
   :custom (prettify-symbols-unprettify-at-point 'right-edge))
 

@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package whitespace
-  :elpaca nil
+  :ensure nil
   ;; :hook (prog-mode . whitespace-mode)
   :custom
   (whitespace-action '(cleanup auto-cleanup))

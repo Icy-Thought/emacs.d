@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package ediff
-  :elpaca nil
+  :ensure nil
   :hook((ediff-prepare-buffer . outline-show-all)
         (ediff-quit . winner-undo))
   :custom

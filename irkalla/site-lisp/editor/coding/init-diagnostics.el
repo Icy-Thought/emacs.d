@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package flymake
-  :elpaca nil
+  :ensure nil
   :hook (prog-mode . flymake-mode)
   :custom
   (flymake-fringe-indicator-position 'right-fringe)

@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init . pixel-scroll-precision-mode)
   :custom
   (auto-window-vscroll nil)
