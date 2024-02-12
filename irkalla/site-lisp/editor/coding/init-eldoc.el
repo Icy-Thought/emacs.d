@@ -22,7 +22,7 @@
   (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
 (use-package eldoc-box
-  :requires (eldoc)
+  :after (eldoc)
   :commands (eldoc-box-help-at-point)
   :hook (eldoc-mode . eldoc-box-hover-at-point-mode)) 
 

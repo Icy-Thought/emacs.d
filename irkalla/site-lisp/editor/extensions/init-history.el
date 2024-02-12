@@ -50,7 +50,7 @@
           undo-strong-limit (* 256 1024 1024)))
 
 (use-package undo-fu-session
-  :requires (undo-fu)
+  :after (undo-fu)
   :hook ((prog-mode text-mode) . global-undo-fu-session-mode)
   :custom
   (undo-fu-session-directory (no-littering-expand-var-file-name "undo-fu-session/"))

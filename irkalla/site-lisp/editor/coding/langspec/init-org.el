@@ -80,18 +80,18 @@
 
 ;; :NOTE| Automatic rendering of LaTeX code-blocks
 (use-package org-fragtog
-  :requires (org)
+  :after (org)
   :hook (org-mode . org-fragtog-mode))
 
 ;; :NOTE| Automatic generation of ToC
 (use-package toc-org
-  :requires (org)
+  :after (org)
   :hook (org-mode . toc-org-enable)
   :custom (toc-org-max-depth 3))
 
 ;; :NOTE| Modernizing our Org-Mode buffers
 (use-package org-modern
-  :requires (org)
+  :after (org)
   :hook (org-mode . org-modern-mode)
   :custom-face (org-modern-symbol ((t (:family "DejaVu Sans"))))
   :custom
@@ -101,11 +101,11 @@
   (org-modern-block-name nil))
 
 (use-package org-ql
-  :requires (org)
+  :after (org)
   :commands (org-ql-search))
 
 (use-package org-timeblock
-  :requires (org)
+  :after (org)
   :commands (org-timeblock))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

@@ -13,7 +13,6 @@
 
 (use-package vertico
   :ensure (:files (:defaults "extensions/*"))
-  :requires (vertico-directory)
   :hook (elpaca-after-init . vertico-mode)
   :custom
   (vertico-cycle t)
@@ -45,6 +44,7 @@
 
 (use-package vertico-directory
   :ensure nil
+  :after (vertico)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :bind (:map vertico-map
               ("RET"   . vertico-directory-enter)
@@ -63,7 +63,9 @@
   :hook (minibuffer-setup . cursor-intangible-mode)
   :config
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-  (setopt minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)))
+  (setopt enable-recursive-minibuffers t
+          minibuffer-prompt-properties 
+          '(read-only t cursor-intangible t face minibuffer-prompt)))
 
 (provide 'init-vertico)
 ;;; init-vertico.el ends here

@@ -13,7 +13,7 @@
 ;;; Code:
 
 (use-package svg-tag-mode
-  :requires (svg-lib)
+  :after (svg-lib)
   :hook ((prog-mode text-mode) . svg-tag-mode)
   :preface
   (defun svg-progress-percent (value)

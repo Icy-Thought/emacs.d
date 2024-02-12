@@ -31,6 +31,7 @@
 
 ;; :NOTE| SVG-library to enrich the user-experience!
 (use-package svg-lib
+  :demand t
   :preface
   (defun first-graphical-frame ()
     (remove-hook 'focus-in-hook #'first-graphical-frame-hook-function)

@@ -18,7 +18,7 @@
   (nerd-icons-scale-factor 1.05))
 
 (use-package nerd-icons-completion
-  :requires (nerd-icons vertico)
+  :after (nerd-icons vertico)
   :hook (vertico-mode . nerd-icons-completion-mode))
 
 (provide 'init-icons)

@@ -27,7 +27,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :requires (embark consult)
+  :after (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package dape
-  :requires (eglot eldoc)
+  :after (eglot eldoc)
   :commands (dape)
   :custom
   (dape-key-prefix "\C-x\C-a")

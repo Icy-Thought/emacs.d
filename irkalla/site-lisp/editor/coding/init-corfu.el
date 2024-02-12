@@ -13,7 +13,7 @@
 
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
-  :requires (kind-icons)
+  :after (kind-icon)
   :preface
   (defun corfu-always-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -48,19 +48,20 @@
 
 (use-package corfu-terminal
   :unless window-system
-  :requires (corfu)
+  :after (corfu)
   :hook (corfu-mode . corfu-terminal-mode))
 
 ;; :NOTE| Posframe like completion menu
 (use-package corfu-popupinfo
   :ensure nil
-  :requires (corfu)
+  :after (corfu)
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 
 ;; :NOTE| Providing corfu with icons for better completion menu
 (use-package kind-icon
-  :requires (svg-lib)
+  :demand t
+  :after (svg-lib)
   :custom
   (kind-icon-default-face 'corfu-default)
   (kind-icon-blend-background nil)

@@ -22,7 +22,7 @@
   (evil-want-keybinding nil))
   
 (use-package evil-collection
-  :requires (evil)
+  :after (evil)
   :hook (evil-mode . (lambda ()
                        (evil-collection-init)
                        (setopt evil-want-keybinding t)))
@@ -31,7 +31,7 @@
   (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-snipe
-  :requires (evil)
+  :after (evil)
   :hook (((prog-mode text-mode) . evil-snipe-local-mode)
          (evil-snipe-local-mode . evil-snipe-override-local-mode))
   :custom
@@ -41,11 +41,11 @@
   :config (push '(?\[ "[[{(]") evil-snipe-aliases))
 
 (use-package evil-surround
-  :requires (evil)
+  :after (evil)
   :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-escape
-  :requires (evil)
+  :after (evil)
   :delight (evil-escape-mode)
   :hook (evil-mode . evil-escape-mode)
   :custom
@@ -54,12 +54,12 @@
   (evil-escape-unodered-key-sequence nil))
 
 (use-package evil-goggles
-  :requires (evil)
+  :after (evil)
   :hook (evil-mode . evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
 
 (use-package evil-nerd-commenter
-  :requires (evil)
+  :after (evil)
   :commands (evilnc-comment-or-uncomment-lines
              evilnc-comment-or-uncomment-paragraphs))
 

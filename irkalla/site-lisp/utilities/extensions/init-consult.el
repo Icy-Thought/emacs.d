@@ -31,7 +31,7 @@
                      :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-projectile
-  :requires (consult projectile))
+  :after (consult projectile))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra

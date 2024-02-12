@@ -22,7 +22,7 @@
   (pyim-dcache-directory (pyim-directory "dcache/")))
 
 (use-package pyim-basedict
-  :requires (pyim)
+  :after (pyim)
   :hook (pyim-mode . pyim-basedict-enable))
 
 (use-package youdao-dictionary

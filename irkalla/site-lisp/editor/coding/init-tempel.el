@@ -23,7 +23,7 @@
 
 ;; Adding pre-defined bindings to our stack
 (use-package tempel-collection
-  :requires (tempel))
+  :after (tempel))
 
 ;; :TODO| CDLaTeX Alternative
 

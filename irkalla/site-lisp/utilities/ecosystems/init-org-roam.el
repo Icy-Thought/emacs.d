@@ -12,7 +12,7 @@
 ;;; Code:
 
 (use-package org-roam
-  :requires (org)
+  :after (org)
   :custom
   (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
   (org-roam-completion-everywhere t)
@@ -32,7 +32,7 @@
 
 ;; :NOTE| A GUI for Org-Roam to reduce the burden of browsing
 (use-package org-roam-ui
-  :requires (org-roam)
+  :after (org-roam)
   :custom
   (org-roam-ui-sync-theme t)
   (org-roam-ui-follow t)

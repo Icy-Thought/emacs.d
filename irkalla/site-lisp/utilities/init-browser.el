@@ -34,7 +34,7 @@
   (shr-h6   ((t (:height 1.06 :slant italic)))))
 
 (use-package shrface
-  :requires (shr)
+  :after (shr)
   :hook ((shrface-mode . visual-line-mode)
          (eww-after-render . shrface-mode)
          (nov-mode . (lambda ()
@@ -52,7 +52,7 @@
   (shrface-default-keybindings))
 
 (use-package shr-tag-pre-highlight
-  :requires (shr)
+  :after (shr)
   :hook (eww-after-render . (lambda ()
                               (require 'shr-tag-pre-highlight)
                               (add-to-list 'shr-external-rendering-functions

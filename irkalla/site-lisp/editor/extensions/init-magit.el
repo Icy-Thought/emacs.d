@@ -22,7 +22,7 @@
   :ensure (hl-todo :version (lambda (_) "3.6.0")))
 
 (use-package magit-todos
-  :requires (magit)
+  :after (magit)
   :hook (magit-mode . magit-todos-mode)
   :custom
   (magit-todos-recursive t)
@@ -55,7 +55,7 @@
   :custom (git-gutter:update-interval 0.05))
 
 (use-package git-gutter-fringe
-  :requires (git-gutter)
+  :after (git-gutter)
   :config
   (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))

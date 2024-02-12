@@ -13,7 +13,7 @@
 
 (use-package dired-x
   :ensure nil
-  :requires (dired)
+  :after (dired)
   :preface
   (defun dired-external-launch (application extensions)
     "External `APPLICATION' used for launching specific file-extensions."

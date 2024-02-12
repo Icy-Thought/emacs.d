@@ -46,7 +46,7 @@
 
 ;; :NOTE| adding org-babel support for Rust
 (use-package ob-rust
-  :requires (ob))
+  :after (rust-mode ob))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
