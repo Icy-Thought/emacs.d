@@ -13,7 +13,8 @@
 
 (use-package activities
   :ensure (:host github :repo "alphapapa/activities.el")
-  :hook (elpaca-after-init . activities-mode))
+  :hook (elpaca-after-init . activities-mode)
+  :custom (activities-name-prefix "Emacs-NSP| "))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
