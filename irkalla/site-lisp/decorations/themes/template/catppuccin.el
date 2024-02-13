@@ -576,7 +576,7 @@
      (centaur-tabs-active-bar-face                      (:background mantle :foreground text))
      (centaur-tabs-selected                             (:background base :foreground pink :underline (:color maroon)))
      (centaur-tabs-selected-modified                    (:background base :foreground yellow :underline (:color peach)))
-     (centaur-tabs-modified-marker-selected             (:background mantle :foreground peach :udnerline t))
+     (centaur-tabs-modified-marker-selected             (:background mantle :foreground peach :underline t))
      (centaur-tabs-close-selected                       (:inherit 'centaur-tabs-selected))
 
      (centaur-tabs-unselected                           (:background mantle :foreground overlay2))
