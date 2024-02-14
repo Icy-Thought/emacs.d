@@ -11,19 +11,13 @@
 
 ;;; Code:
 
-;; NOTE| Time to append our module to Irkalla
-(defmacro irkalla/enable-modules (module-list)
-  "Enable `init-' modules specified by the given MODULE-LIST."
-  (if (listp module-list)
-      `(progn
-         ,@(mapcar (lambda (module)
-                     `(require (quote ,(intern (concat "init-" (symbol-name `,module))))))
-                   module-list))
-    (error "Invalid argument. MODULE-LIST should be a list of symbols")))
-
 ;; Requiring `Base' modules to prevent config collision
-(irkalla/enable-modules
- (elpaca functions garbage hydra frames scrolling))
+(require 'init-elpaca)
+(require 'init-functions)
+(require 'init-garbage)
+(require 'init-hydra)
+(require 'init-frames)
+(require 'init-scrolling)
 
 ;; :NOTE| Time of the day shall be in the superiour format
 (use-package time
@@ -34,8 +28,9 @@
   (display-time-default-load-average nil))
 
 ;; Requiring the remaining modules
-(irkalla/enable-modules
- (decorations utilities editor))
+(require 'init-decorations)
+(require 'init-utilities)
+(require 'init-editor)
 
 (provide 'init)
 ;;; init.el ends here

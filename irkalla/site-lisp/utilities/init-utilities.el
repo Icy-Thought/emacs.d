@@ -15,7 +15,12 @@
   :custom (alert-default-style 'libnotify))
 
 (use-package emacs-everywhere
+  :commands (emacs-everywhere)
   :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
+
+(use-package esup
+  :commands (esup)
+  :custom (esup-depth 0))
 
 (use-package helpful
   :demand t
@@ -43,10 +48,23 @@
   :ensure (:host github :repo "tecosaur/screenshot"))
 
 ;; :NOTE| Import the custom modules
-(irkalla/enable-modules
- (popper centaur-tabs direnv dired recentf 
-         whichkey dashboard readers consult embark vertico org-roam marginalia
-         social terminal browser notmuch))
+(require 'init-popper)
+(require 'init-centaur-tabs)
+(require 'init-direnv)
+(require 'init-dired)
+(require 'init-recentf)
+(require 'init-whichkey)
+(require 'init-dashboard)
+(require 'init-readers)
+(require 'init-consult)
+(require 'init-embark)
+(require 'init-vertico)
+(require 'init-org-roam)
+(require 'init-marginalia) 
+(require 'init-social) 
+(require 'init-terminal) 
+(require 'init-browser) 
+(require 'init-notmuch) 
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here

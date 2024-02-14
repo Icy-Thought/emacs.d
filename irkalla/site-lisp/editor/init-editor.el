@@ -109,9 +109,17 @@
     (meow-normal-define-key '("," . editor-hydra/body))))
 
 ;; :NOTE| Import the custom modules
-(irkalla/enable-modules
- (evil fill-column ligatures history ediff region citar whitespace
-       magit activities coding))
+(require 'init-evil)
+(require 'init-fill-column)
+(require 'init-ligatures)
+(require 'init-history)
+(require 'init-ediff)
+(require 'init-region)
+(require 'init-citar)
+(require 'init-whitespace)
+(require 'init-magit)
+(require 'init-activities)
+(require 'init-coding)
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

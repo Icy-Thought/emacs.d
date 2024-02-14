@@ -91,11 +91,23 @@
              (message "You are not in an Eglot buffer.")) "Eglot (LSP)")))))
 
 ;; :NOTE| Import the custom modules
-(irkalla/enable-modules
- (corfu tempel diagnostics debugger eldoc treesitter))
+(require 'init-corfu)
+(require 'init-tempel)
+(require 'init-diagnostics)
+(require 'init-debugger)
+(require 'init-eldoc)
+(require 'init-treesitter)
 
-(irkalla/enable-modules
- (babel elisp haskell nix rust markdown org lua python typst))
+;; :NOTE| Soluving math equations with different syntaxes!
+(require 'init-babel)
+(require 'init-elisp)
+(require 'init-haskell)
+(require 'init-rust)
+(require 'init-markdown)
+(require 'init-org)
+(require 'init-lua)
+(require 'init-python)
+(require 'init-typst)
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

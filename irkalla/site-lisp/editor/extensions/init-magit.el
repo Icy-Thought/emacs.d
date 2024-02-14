@@ -14,9 +14,8 @@
 ;; :NOTE| A Magic Wand for Git
 (use-package magit
   :if (executable-find "git")
-  :custom
-  (magit-auto-revert-mode nil)
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+  :commands (magit)
+  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 
 (use-package hl-todo
   :ensure (hl-todo :version (lambda (_) "3.6.0")))

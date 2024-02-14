@@ -23,17 +23,16 @@
 ;; (flymake-note-bitmap    '("" compilation-info))
 ;; (flymake-warning-bitmap '("" compilation-warning)))
 
-;; :NOTE| Appending :flymake-hook to the keywords of use-package!
-(elpaca-wait)
-
 ;; :NOTE| Minimal UI for LSP Diagnostics
 (use-package sideline
+  :commands (sideline-mode)
   :custom
   (sideline-delay 0.2)
   (sideline-display-backend-name nil)
   (sideline-display-backend-type 'inner))
 
 (use-package sideline-flymake
+  :requires (sideline)
   :hook (flymake-mode  . sideline-mode)
   :custom (sideline-backends-right '((sideline-flymake  . down))))
 

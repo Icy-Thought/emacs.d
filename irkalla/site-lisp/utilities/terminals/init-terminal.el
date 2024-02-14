@@ -26,7 +26,9 @@
       ("l" project-eshell "Eshell -> Project")
       ("n" nix-shell      "Eshell -> Nix")))))
 
-(irkalla/enable-modules (eshell eat))
+;; :NOTE| Import the custom modules
+(require 'init-eshell)
+(require 'init-eat)
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here

@@ -43,8 +43,10 @@
             svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))))
 
 ;; :NOTE| Import the custom modules
-(irkalla/enable-modules
- (typeface icons svg-tags modeline))
+(require 'init-typeface)
+(require 'init-icons)
+(require 'init-svg-tags)
+(require 'init-modeline)
 
 (provide 'init-decorations)
 ;;; init-decorations.el ends here
