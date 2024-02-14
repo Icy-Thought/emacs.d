@@ -22,17 +22,17 @@
     (:title (pretty-hydra-title "──｢ Utilities: Activities ｣──" 'mdicon "nf-md-file_tree")
             :color teal :quit-key "q")
     ("Main"
-     (("l"   activities-list     "List")
-      ("RET" activities-switch   "Switch"))
+     (("l"     activities-list     "List")
+      ("<RET>" activities-switch   "Switch"))
      "Working"
-     (("n"   activities-new      "Create")
-      ("k"   activities-kill     "Kill")
-      ("u"   activities-revert   "Revert")
-      ("w"   activities-save-all "Save All"))
+     (("n"     activities-new      "Create")
+      ("k"     activities-kill     "Kill")
+      ("u"     activities-revert   "Revert")
+      ("w"     activities-save-all "Save All"))
      "Breaktime"
-     (("s"   activities-suspend  "Suspend")
-      ("r"   activities-resume   "Resume")
-      ("d"   activities-discard  "Discard"))))
+     (("s"     activities-suspend  "Suspend")
+      ("r"     activities-resume   "Resume")
+      ("d"     activities-discard  "Discard"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Control"
