@@ -103,6 +103,7 @@
 (require 'init-elisp)
 (require 'init-haskell)
 (require 'init-rust)
+(require 'init-nix)
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-lua)
