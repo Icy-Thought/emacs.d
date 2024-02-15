@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package face-remap
-  :ensure nil
+(use-feature face-remap
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
          ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
          ("C--" . (lambda () (interactive) (text-scale-decrease 0.5))))
@@ -21,8 +20,7 @@
   (set-fontset-font t 'han    (font-spec :family "Sarasa Mono CL")   nil 'prepend)
   (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'append))
 
-(use-package font-lock
-  :ensure nil
+(use-feature font-lock
   :custom-face
   (font-lock-builtin-face       ((t (:slant italic))))
   (font-lock-comment-face       ((t (:slant italic))))

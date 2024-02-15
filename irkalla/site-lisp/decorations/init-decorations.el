@@ -24,8 +24,7 @@
   :config (irkalla/setup-appearance))
 
 ;; :NOTE| Replace several symbols with prettier alternatives
-(use-package prettify-symbols
-  :ensure nil
+(use-feature prettify-symbols
   :hook (emacs-lisp-mode . prettify-symbols-mode)
   :custom (prettify-symbols-unprettify-at-point 'right-edge))
 

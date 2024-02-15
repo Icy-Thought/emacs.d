@@ -25,16 +25,14 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package parens
-  :ensure nil
+(use-feature parens
   :hook (prog-mode . show-paren-mode)
   :custom
   (show-paren-style 'parenthesis)
   (show-paren-when-point-in-periphery nil)
   (show-paren-when-point-inside-paren nil))
 
-(use-package subword
-  :ensure nil
+(use-feature subword
   :hook ((prog-mode text-mode) . subword-mode))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

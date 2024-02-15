@@ -12,16 +12,14 @@
 ;;; Code:
 
 ;; :NOTE| PDF-Viewer for readers out there!
-(use-package pdf-tools
-  :ensure nil ;; <-^ fetched from Nixpkgs
+(use-feature pdf-tools ;; <-^ fetched from Nixpkgs
   :init (push 'pdf-tools elpaca-ignored-dependencies) ;; Allows proper detection of ~epdfinfo~
   :config
   (require 'pdf-annot)
   (require 'pdf-occur)
   (require 'pdf-outline))
 
-(use-package pdf-view
-  :ensure nil
+(use-feature pdf-view
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
@@ -54,8 +52,7 @@
               ("o" . #'nov-xwdiget-view)))
 
 ;; :NOTE| A RSS-reader for our curious minds
-(use-package newsticker
-  :ensure nil
+(use-feature newsticker
   :preface
   (defun irkalla/newsticker-start-newTab ()
     "Launch NewsTicker (TreeView) in a new tab."

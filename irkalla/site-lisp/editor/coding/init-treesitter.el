@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package tree-sitter
-  :ensure nil
+(use-feature tree-sitter
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :custom (font-lock-maximum-decoration t))
 

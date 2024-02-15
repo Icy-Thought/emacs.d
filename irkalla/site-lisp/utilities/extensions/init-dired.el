@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package dired-x
-  :ensure nil
+(use-feature dired-x
   :after (dired)
   :preface
   (defun dired-external-launch (application extensions)

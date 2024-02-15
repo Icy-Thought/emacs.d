@@ -52,8 +52,7 @@
   :hook (corfu-mode . corfu-terminal-mode))
 
 ;; :NOTE| Posframe like completion menu
-(use-package corfu-popupinfo
-  :ensure nil
+(use-feature corfu-popupinfo
   :after (corfu)
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))

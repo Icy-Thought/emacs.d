@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package tramp
-  :ensure nil
+(use-feature tramp
   :custom
   (tramp-default-method "ssh")
   (remote-file-name-inhibit-cache nil))

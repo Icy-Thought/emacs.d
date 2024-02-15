@@ -40,6 +40,7 @@
 
   ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
   (dolist (prefix '("*" " *" ;; all temporary buffers
+                    "consult-partial-preview"
                     "Ement"
                     "magit"))
     (add-to-list 'centaur-tabs-excluded-prefixes prefix)))

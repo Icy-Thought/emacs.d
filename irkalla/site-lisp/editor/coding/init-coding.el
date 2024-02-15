@@ -12,8 +12,7 @@
 
 ;;; Code:
 
-(use-package emacs
-  :ensure nil
+(use-feature emacs
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -32,8 +31,7 @@
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t))
 
-(use-package eglot
-  :ensure nil
+(use-feature eglot
   :pretty-hydra
   ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
            :color teal :quit-key "q")
@@ -68,8 +66,7 @@
   :diminish apheleia-mode
   :hook (elpaca-after-init . apheleia-global-mode))
 
-(use-package jinx
-  :ensure nil
+(use-feature jinx ;; <-^ fetched from Nixpkgs
   :hook (text-mode . jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 

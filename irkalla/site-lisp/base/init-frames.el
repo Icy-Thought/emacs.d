@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package emacs
-  :ensure nil
+(use-feature emacs
   :custom (window-combination-resize t)
   :config
   (defun irkalla/toggle-frame-transparency ()
@@ -24,16 +23,14 @@
       (set-frame-parameter nil 'alpha-background alpha-value)
       (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value)))))
 
-(use-package windmove
-  :ensure nil
+(use-feature windmove
   :hook (elpaca-after-init . windmove-default-keybindings)
   :config (windmove-default-keybindings 'meta))
 
 (use-package posframe
   :custom (posframe-mouse-banish '(0 . 5000)))
 
-(use-package winner
-  :ensure nil
+(use-feature winner
   :hook (elpaca-after-init . winner-mode))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings

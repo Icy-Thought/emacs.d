@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package flymake
-  :ensure nil
+(use-feature flymake
   :hook (prog-mode . flymake-mode)
   :custom
   (flymake-fringe-indicator-position 'right-fringe)

@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package emacs
-  :ensure nil
+(use-feature emacs
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
@@ -24,8 +23,7 @@
   (remote-file-name-inhibit-locks t)
   (x-stretch-cursor t))
 
-(use-package auto-revert
-  :ensure nil
+(use-feature auto-revert
   :hook ((prog-mode text-mode) . auto-revert-mode)
   :custom
   (auto-revert-interval 1)
@@ -35,27 +33,23 @@
 (use-package editorconfig
   :hook (prog-mode . editorconfig-mode))
 
-(use-package display-line-numbers
-  :ensure nil
+(use-feature display-line-numbers
   :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
   :custom (display-line-numbers-type 'relative))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(use-package elec-pair
-  :ensure nil
+(use-feature elec-pair
   :hook ((prog-mode text-mode) . (lambda ()
                                    (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
                                      (electric-pair-local-mode))))
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
-(use-package hl-line
-  :ensure nil
+(use-feature hl-line
   :hook ((prog-mode text-mode) . hl-line-mode))
 
-(use-package frames
-  :ensure nil
+(use-feature frames
   :hook ((prog-mode text-mode) . window-divider-mode)
   :custom
   (window-divider-default-places t)

@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package ob
-  :ensure nil
+(use-feature ob
   :preface
   ;; :NOTE| https://emacs.stackexchange.com/a/20618
   (defun demand-babel-languages (orig-fun &rest args)

@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package whitespace
-  :ensure nil
+(use-feature whitespace
   ;; :hook (prog-mode . whitespace-mode)
   :custom
   (whitespace-action '(cleanup auto-cleanup))

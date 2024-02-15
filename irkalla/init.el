@@ -20,8 +20,7 @@
 (require 'init-scrolling)
 
 ;; :NOTE| Time of the day shall be in the superiour format
-(use-package time
-  :ensure nil
+(use-feature time
   :custom
   (display-time-24hr-format t)
   (display-time-day-and-date t)

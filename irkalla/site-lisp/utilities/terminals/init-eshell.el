@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package eshell
-  :ensure nil
+(use-feature eshell
   :preface
   (defun shortened-path (path max-len)
     (require 'cl-lib)

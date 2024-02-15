@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package recentf
-  :ensure nil
+(use-feature recentf
   :custom
   (recentf-save-file-modes #o600)
   (recentf-max-saved-items 1024)

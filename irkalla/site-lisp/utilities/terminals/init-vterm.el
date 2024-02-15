@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package vterm
-  :ensure nil
+(use-feature vterm
   :hook (vterm-mode . evil-emacs-state)
   :bind (:map vterm-mode-map
               ("<S-prior>" . #'scroll-down-command)

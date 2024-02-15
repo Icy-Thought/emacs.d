@@ -38,12 +38,10 @@
   (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
   (vertico-posframe-fallback-mode vertico-buffer-mode))
 
-(use-package vertico-mouse
-  :ensure nil
+(use-feature vertico-mouse
   :hook (vertico-mode . vertico-mouse-mode))
 
-(use-package vertico-directory
-  :ensure nil
+(use-feature vertico-directory
   :after (vertico)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :bind (:map vertico-map
@@ -52,8 +50,7 @@
               ("M-DEL" . vertico-directory-delete-word)))
 
 ;; :NOTE| Enhances the behavior & appearance of Emacs mini-buffer prompt:
-(use-package emacs
-  :ensure nil
+(use-feature emacs
   :preface
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"

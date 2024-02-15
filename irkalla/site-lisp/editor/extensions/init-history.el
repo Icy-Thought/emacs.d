@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package emacs
-  :ensure nil
+(use-feature emacs
   :custom
   (auto-save-interval 200)
   (auto-save-timeout 30)
@@ -25,8 +24,7 @@
   (kept-old-versions 3)
   (make-backup-files t))
 
-(use-package savehist
-  :ensure nil
+(use-feature savehist
   :hook (elpaca-after-init . savehist-mode)
   :custom
   (savehist-autosave-interval 60)
@@ -34,8 +32,7 @@
   (savehist-additional-variables '(command-history evil-jumps-history))
   (savehist-ignored-variables '(ement-room-message-history)))
 
-(use-package save-place
-  :ensure nil
+(use-feature save-place
   :hook ((prog-mode text-mode) . save-place-mode)
   :custom
   (save-place-file (no-littering-expand-var-file-name "saveplace"))

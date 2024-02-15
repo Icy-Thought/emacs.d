@@ -11,8 +11,7 @@
 
 ;;; Code:
 
-(use-package ediff
-  :ensure nil
+(use-feature ediff
   :hook((ediff-prepare-buffer . outline-show-all)
         (ediff-quit . winner-undo))
   :custom

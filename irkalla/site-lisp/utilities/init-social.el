@@ -53,8 +53,7 @@
 (use-package htmlize)
 
 ;; :NOTE| Emacs Telegram client
-(use-package telega
-  :ensure nil ;; <-^ fetched from Nixpkgs
+(use-feature telega ;; <-^ fetched from Nixpkgs
   :commands (telega)
   :hook (telega-chat-mode . visual-line-mode)
   :custom

@@ -11,16 +11,14 @@
 
 ;;; Code:
 
-(use-package emacs
-  :ensure nil
+(use-feature emacs
   :hook (text-mode . visual-line-mode)
   :custom
   (fill-column 120)
   (truncate-lines t)
   (truncate-string-ellipsis "↴"))
 
-(use-package visual-fill-column
-  :ensure nil
+(use-feature visual-fill-column
   :commands (visual-fill-column-mode)
   :preface
   (defun irkalla/manuscript-toggle ()
