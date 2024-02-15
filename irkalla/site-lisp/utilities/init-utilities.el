@@ -64,7 +64,6 @@
 (require 'init-social) 
 (require 'init-terminal) 
 (require 'init-browser) 
-(require 'init-notmuch) 
 
 (provide 'init-utilities)
 ;;; init-utilities.el ends here
