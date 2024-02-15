@@ -52,13 +52,22 @@
 ;; Applying minor configurations to our new package manager
 (elpaca elpaca-use-package (elpaca-use-package-mode))
 
-;; Verify code evaluation before proceeding
-(elpaca-wait)
+;; :NOTE| Having a quick-access option for built-in packages is nice!
+(defmacro use-feature (name &rest args)
+  "Similar to `use-package', but for built-in packages.
+  NAME and ARGS are in `use-package'."
+  (declare (indent defun))
+  `(use-package ,name
+     :ensure nil
+     ,@args))
 
-;; :NOTE| Deferring packages should be automated
+;; :NOTE| Configuring our use-package a little
 (setopt use-package-always-ensure t
         use-package-always-defer t
         use-package-compute-statistics t)
+
+;; Verify code evaluation before proceeding.
+(elpaca-wait)
 
 (provide 'init-elpaca)
 ;;; init-elpaca.el ends here
