@@ -12,6 +12,7 @@
 ;;; Code:
 
 (use-feature eldoc
+  :commands (eldoc)
   :hook (eglot-managed-mode . eldoc-mode)
   :custom
   (eldoc-idle-delay 1.0)
