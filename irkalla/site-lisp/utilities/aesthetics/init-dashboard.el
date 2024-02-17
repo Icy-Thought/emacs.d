@@ -71,7 +71,7 @@
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Application"
-     (("RET" dashboard-open "Dashboard")))))
+     (("<RET>" dashboard-open "Dashboard")))))
 
 (provide 'init-dashboard)
 ;;; init-dashboard.el ends here

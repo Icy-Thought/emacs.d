@@ -14,7 +14,8 @@
 (use-package nerd-icons
   :demand t
   :custom
-  (nerd-icons-font-family (face-attribute 'default :family))
+  (nerd-icons-font-family (when (featurep 'fontaine)
+                            (plist-get (fontaine--get-preset-properties 'regular) :default-family)))
   (nerd-icons-scale-factor 1.05))
 
 (use-package nerd-icons-completion

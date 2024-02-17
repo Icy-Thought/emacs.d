@@ -12,28 +12,40 @@
 ;;; Code:
 
 (use-package fontaine
-  :demand t
-  :preface
-  (defvar irkalla/default-font     "VictorMono Nerd Font")
-  (defvar irkalla/fixed-pitch-font "VictorMono Nerd Font Mono")
-  :hook (kill-emacs-hook . fontaine-store-latest-preset)
+  :commands (fontaine-set-preset)
+  :hook (elpaca-after-init . (lambda () (fontaine-set-preset 'regular)))
   :custom
-  (fontaine-presets `((regular) ;; fallback values
+  (fontaine-presets `((regular
+                       :default-weight semibold
+                       :default-height 145
+                       :bold-weight bold
+                       :italic-weight semibold-italic)
+                      (reading
+                       :default-family "Dancing Script"
+                       :default-weight regular
+                       :default-height 225)
                       (large
                        :default-weight semibold
                        :default-height 180
                        :bold-weight extrabold)
                       (t
-                       :default-family ,irkalla/default-font
-                       :default-weight semibold
-                       :default-height 145
-                       :fixed-pitch-family ,irkalla/fixed-pitch-font
+                       :default-family "VictorMono Nerd Font"
+                       :fixed-pitch-family "VictorMono Nerd Font Mono"
                        :fixed-pitch-height nil
                        :variable-pitch-family nil
-                       :variable-pitch-height 1.05
-                       :bold-weight bold
-                       :italic-weight italic)))
-  :config (fontaine-set-preset 'regular))
+                       :variable-pitch-height 1.05)))
+  :config
+  (defun irkalla/manuscript-toggle ()
+    "Toggle buffer appearance for a touch of sophistication."
+    (if (eq (symbol-value 'fontaine-current-preset) 'regular)
+        (fontaine-set-preset 'reading)
+      (fontaine-set-preset 'regular)))
+
+  (define-minor-mode irkalla/manuscript-mode
+    "Paint our buffers with the ancient manuscript style."
+    :group 'irkalla
+    :global nil
+    (irkalla/manuscript-toggle)))
 
 (use-feature face-remap
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
@@ -53,6 +65,12 @@
   (font-lock-keyword-face       ((t (:slant italic))))
   (font-lock-preprocessor-face  ((t (:weight bold))))
   (font-lock-string-face        ((t (:slant italic)))))
+
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ window-hydra ()
+    ("Main"
+     (("t" fontaine-set-preset "Fontaine Preset")
+      ("m" irkalla/manuscript-mode "Manuscript Mode" :toggle t)))))
 
 (provide 'init-typeface)
 ;;; init-typeface.el ends here

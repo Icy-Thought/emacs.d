@@ -12,6 +12,7 @@
 ;;; Code:
 
 (use-feature emacs
+  :hook (text-mode . visual-line-mode)
   :custom 
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
@@ -19,6 +20,9 @@
   (indent-tabs-mode nil)
   (standard-indent 4)
   (tab-width 4)
+  (fill-column 120)
+  (truncate-lines t)
+  (truncate-string-ellipsis "↴")
   (find-file-suppress-same-file-warnings t)
   (remote-file-name-inhibit-locks t)
   (x-stretch-cursor t))
@@ -55,6 +59,11 @@
   (window-divider-default-places t)
   (window-divider-default-right-width 2)
   (window-divider-default-bottom-width 2))
+
+(use-feature visual-fill-column
+  :commands (visual-fill-column-mode)
+  :hook ((visual-line-mode . (lambda () (unless (minibufferp) (visual-fill-column-mode)))))
+  :custom (visual-fill-column-center-text t))
 
 ;; :NOTE| Custom functions for future Hydra usage
 
@@ -104,7 +113,6 @@
 
 ;; :NOTE| Import the custom modules
 (require 'init-evil)
-(require 'init-fill-column)
 (require 'init-ligatures)
 (require 'init-history)
 (require 'init-ediff)
