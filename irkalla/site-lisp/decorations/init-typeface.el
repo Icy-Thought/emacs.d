@@ -18,7 +18,7 @@
   (fontaine-presets `((default) ;; <- fallback values
                       (reading
                        :variable-pitch-family "Amita"
-                       :variable-pitch-height 205
+                       :variable-pitch-height 175
                        :variable-pitch-weight normal)
                       (large
                        :default-weight semibold

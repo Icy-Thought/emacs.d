@@ -183,7 +183,7 @@
      (shr-h4                                            (:inherit 'org-level-3 :italic t))
      (shr-h5                                            (:inherit 'org-level-4 :italic t))
      (shr-h6                                            (:inherit 'org-level-5 :italic t))
-     (shr-text                                          (:inherit 'fixed-pitch))
+     (shr-text                                          (:inherit 'variable-pitch))
 
      ;;https://github.com/skeeto/elfeed
      (elfeed-search-feed-face                           (:foreground lavender))

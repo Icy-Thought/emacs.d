@@ -22,7 +22,9 @@
 
 (use-package shrface
   :after (shr)
-  :hook ((shrface-mode . visual-line-mode)
+  :hook ((shrface-mode . (lambda ()
+                           (visual-line-mode)
+                           (variable-pitch-mode)))
          (eww-after-render . shrface-mode)
          (nov-mode . (lambda ()
                        (setopt nov-shr-rendering-functions '((img . nov-render-img)
