@@ -161,7 +161,26 @@
      (telephone-line-evil-motion                    (:background oniViolet :foreground sumiInk-1 :bold t))
      (telephone-line-evil-insert                    (:background autumnYellow :foreground sumiInk-1 :bold t))
      
-     ;;https://github.com/skeeto/elfeed
+     ;; https://www.emacswiki.org/emacs/eww
+     (eww-form-file                                 (:background surface :foreground autumnYellow)) 
+     (eww-form-text                                 (:background surface :foreground fujiWhite))
+     (eww-form-select                               (:background surface :foreground waveAqua2))
+     (eww-form-submit                               (:background surface :foreground carpYellow))
+     (eww-form-checkbox                             (:background surface :foreground crystalBlue))
+     (eww-form-textarea                             (:background surface :foreground fujiWhite))
+     (eww-valid-certificate                         (:foreground autumnGreen :italic t))
+     (eww-invalid-certificate                       (:foreground autumnRed :italic t))
+
+     ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
+     (shr-h1                                        (:foreground autumnGreen :height 1.54 :italic t))
+     (shr-h2                                        (:inherit 'org-level-1 :italic t))
+     (shr-h3                                        (:inherit 'org-level-2 :italic t))
+     (shr-h4                                        (:inherit 'org-level-3 :italic t))
+     (shr-h5                                        (:inherit 'org-level-4 :italic t))
+     (shr-h6                                        (:inherit 'org-level-5 :italic t))
+     (shr-text                                      (:inherit 'fixed-pitch))
+     
+     ;;https://github.com/skeeto/elfeed             
      (elfeed-search-feed-face                       (:foreground springViolet1))
      (elfeed-search-tag-face                        (:foreground waveAqua2))
      
@@ -205,11 +224,11 @@
      (org-verbatim                                  (:foreground crystalBlue))
      (org-upcoming-deadline                         (:foreground peachRed))
      
-     (org-level-1                                   (:foreground peachRed :height 1.3 :bold t))
+     (org-level-1                                   (:foreground peachRed      :height 1.25 :bold t))
      (org-level-2                                   (:foreground springViolet2 :height 1.15 :bold t))
-     (org-level-3                                   (:foreground boatYellow2 :height 1.05))
-     (org-level-4                                   (:foreground fujiWhite))
-     (org-level-5                                   (:foreground fujiWhite))
+     (org-level-3                                   (:foreground boatYellow2   :height 1.12))
+     (org-level-4                                   (:foreground fujiWhite     :height 1.09))
+     (org-level-5                                   (:foreground fujiWhite     :height 1.06))
      (org-level-6                                   (:foreground carpYellow))
      (org-level-7                                   (:foreground surimiOrange))
      (org-level-8                                   (:foreground springGreen))

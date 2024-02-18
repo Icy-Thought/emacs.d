@@ -25,13 +25,6 @@
       (insert "\\(\\)")
       (backward-char 2)))
   :hook (org-mode . org-display-inline-images)
-  :custom-face
-  (org-document-title ((t (:height 1.50))))
-  (org-level-1        ((t (:inherit outline-1 :height 1.25))))
-  (org-level-2        ((t (:inherit outline-2 :height 1.15))))
-  (org-level-3        ((t (:inherit outline-3 :height 1.12))))
-  (org-level-4        ((t (:inherit outline-4 :height 1.09))))
-  (org-level-5        ((t (:inherit outline-5 :height 1.06))))
   :config
   (setopt org-directory "~/Workspace/memorandum/org-mode")
 

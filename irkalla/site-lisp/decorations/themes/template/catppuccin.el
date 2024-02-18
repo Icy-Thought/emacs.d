@@ -176,6 +176,15 @@
      (eww-valid-certificate                             (:foreground blue :italic t))
      (eww-invalid-certificate                           (:foreground red  :italic t))
 
+     ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
+     (shr-h1                                            (:foreground maroon :height 1.54 :italic t))
+     (shr-h2                                            (:inherit 'org-level-1 :italic t))
+     (shr-h3                                            (:inherit 'org-level-2 :italic t))
+     (shr-h4                                            (:inherit 'org-level-3 :italic t))
+     (shr-h5                                            (:inherit 'org-level-4 :italic t))
+     (shr-h6                                            (:inherit 'org-level-5 :italic t))
+     (shr-text                                          (:inherit 'fixed-pitch))
+
      ;;https://github.com/skeeto/elfeed
      (elfeed-search-feed-face                           (:foreground lavender))
      (elfeed-search-tag-face                            (:foreground green))
@@ -221,11 +230,11 @@
      (org-verbatim                                      (:foreground sky))
      (org-upcoming-deadline                             (:foreground red))
 
-     (org-level-1                                       (:foreground red      :height 1.30 :bold t))
+     (org-level-1                                       (:foreground red      :height 1.25 :bold t))
      (org-level-2                                       (:foreground mauve    :height 1.15 :bold t))
-     (org-level-3                                       (:foreground flamingo :height 1.05))
-     (org-level-4                                       (:foreground text))
-     (org-level-5                                       (:foreground text))
+     (org-level-3                                       (:foreground flamingo :height 1.12))
+     (org-level-4                                       (:foreground text     :height 1.09))
+     (org-level-5                                       (:foreground text     :height 1.06))
      (org-level-6                                       (:foreground yellow))
      (org-level-7                                       (:foreground peach))
      (org-level-8                                       (:foreground maroon))

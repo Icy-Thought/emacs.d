@@ -148,6 +148,25 @@
      (telephone-line-evil-visual                        (:background gold :foreground base :bold t))
      (telephone-line-evil-motion                        (:background foam :foreground base :bold t))
      (telephone-line-evil-insert                        (:background pine :foreground base :bold t))
+     
+     ;; https://www.emacswiki.org/emacs/eww
+     (eww-form-file                                     (:background surface :foreground gold)) 
+     (eww-form-text                                     (:background surface :foreground text))
+     (eww-form-select                                   (:background surface :foreground foam))
+     (eww-form-submit                                   (:background surface :foreground rose))
+     (eww-form-checkbox                                 (:background surface :foreground iris))
+     (eww-form-textarea                                 (:background surface :foreground text))
+     (eww-valid-certificate                             (:foreground pine :italic t))
+     (eww-invalid-certificate                           (:foreground love :italic t))
+
+     ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
+     (shr-h1                                            (:foreground rose :height 1.54 :italic t))
+     (shr-h2                                            (:inherit 'org-level-1 :italic t))
+     (shr-h3                                            (:inherit 'org-level-2 :italic t))
+     (shr-h4                                            (:inherit 'org-level-3 :italic t))
+     (shr-h5                                            (:inherit 'org-level-4 :italic t))
+     (shr-h6                                            (:inherit 'org-level-5 :italic t))
+     (shr-text                                          (:inherit 'fixed-pitch))
 
      ;;https://github.com/skeeto/elfeed
      (elfeed-search-feed-face                           (:foreground iris))
@@ -183,11 +202,11 @@
      (org-upcoming-deadline                             (:foreground love))
      (org-verse                                         (:italic t))
 
-     (org-level-1                                       (:foreground love :height 1.3 :bold t))
+     (org-level-1                                       (:foreground love :height 1.25 :bold t))
      (org-level-2                                       (:foreground iris :height 1.15 :bold t))
-     (org-level-3                                       (:foreground rose :height 1.05))
-     (org-level-4                                       (:foreground text))
-     (org-level-5                                       (:foreground text))
+     (org-level-3                                       (:foreground rose :height 1.12))
+     (org-level-4                                       (:foreground text :height 1.09))
+     (org-level-5                                       (:foreground text :height 1.06))
      (org-level-6                                       (:foreground gold))
      (org-level-7                                       (:foreground gold))
      (org-level-8                                       (:foreground rose))
