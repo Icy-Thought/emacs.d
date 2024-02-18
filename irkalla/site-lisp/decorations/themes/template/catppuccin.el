@@ -203,10 +203,10 @@
      (ement-room-list-very-recent                       (:foreground red :bold t))
 
      ;; https://orgmode.org/org.html
-     (org-block                                         (:background mantle))
-     (org-block-begin-line                              (:background base :foreground rosewater))
-     (org-block-end-line                                (:background base :foreground maroon))
-     (org-code                                          (:background mantle :foreground teal))
+     (org-block                                         (:inherit 'fixed-pitch :background mantle))
+     (org-block-begin-line                              (:inherit 'fixed-pitch :background base :foreground rosewater))
+     (org-block-end-line                                (:inherit 'fixed-pitch :background base :foreground maroon))
+     (org-code                                          (:inherit 'fixed-pitch :background mantle :foreground teal))
      (org-date                                          (:foreground pink))
      (org-done                                          (:foreground green))
      (org-ellipsis                                      (:foreground overlay2 :bold t))

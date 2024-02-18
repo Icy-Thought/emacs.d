@@ -186,10 +186,10 @@
      (custom-link                                       (:foreground foam :underline t))
      
      ;; https://orgmode.org/org.html
-     (org-block                                         (:background base))
-     (org-block-begin-line                              (:background base :foreground muted))
-     (org-block-end-line                                (:background base :foreground muted))
-     (org-code                                          (:background base :foreground gold))
+     (org-block                                         (:inherit 'fixed-pitch :background base))
+     (org-block-begin-line                              (:inherit 'fixed-pitch :background base :foreground muted))
+     (org-block-end-line                                (:inherit 'fixed-pitch :background base :foreground muted))
+     (org-code                                          (:inherit 'fixed-pitch :background base :foreground gold))
      (org-cite                                          (:foreground foam))
      (org-date                                          (:foreground muted))
      (org-done                                          (:foreground muted))

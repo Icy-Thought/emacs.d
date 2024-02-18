@@ -12,29 +12,31 @@
 ;;; Code:
 
 (use-package fontaine
-  :commands (fontaine-set-preset)
-  :hook (elpaca-after-init . (lambda () (fontaine-set-preset 'regular)))
+  :demand t
+  :hook (kill-emacs . fontaine-store-latest-preset)
   :custom
-  (fontaine-presets `((regular
-                       :default-weight semibold
-                       :default-height 145
-                       :bold-weight bold
-                       :italic-weight semibold-italic)
+  (fontaine-presets `((default) ;; <- fallback values
                       (reading
-                       :default-family "Dancing Script"
-                       :default-weight regular
-                       :default-height 225)
+                       :variable-pitch-family "Amita"
+                       :variable-pitch-height 205
+                       :variable-pitch-weight normal)
                       (large
                        :default-weight semibold
                        :default-height 180
                        :bold-weight extrabold)
                       (t
                        :default-family "VictorMono Nerd Font"
+                       :default-height 145
+                       :default-weight semibold
+                       :bold-weight bold
+                       :italic-weight semibold-italic
                        :fixed-pitch-family "VictorMono Nerd Font Mono"
-                       :fixed-pitch-height nil
+                       :fixed-pitch-height 145
                        :variable-pitch-family nil
-                       :variable-pitch-height 1.05)))
+                       :variable-pitch-height 1.00)))
   :config
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'default))
+
   (defun irkalla/manuscript-toggle ()
     "Toggle buffer appearance for a touch of sophistication."
     (if (eq (symbol-value 'fontaine-current-preset) 'regular)
@@ -48,6 +50,7 @@
     (irkalla/manuscript-toggle)))
 
 (use-feature face-remap
+  :hook (text-mode . variable-pitch-mode)
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
          ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
          ("C--" . (lambda () (interactive) (text-scale-decrease 0.5))))
