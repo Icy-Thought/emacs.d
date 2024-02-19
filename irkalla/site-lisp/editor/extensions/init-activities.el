@@ -21,15 +21,16 @@
   (pretty-hydra-define activities-hydra
     (:title (pretty-hydra-title "──｢ Utilities: Activities ｣──" 'mdicon "nf-md-file_tree")
             :color teal :quit-key "q")
-    ("Main"
+    ("Workflow"
      (("l"     activities-list     "List")
-      ("<RET>" activities-switch   "Switch"))
-     "Working"
+      ("RET" activities-switch   "Switch")
+      ("e"     activities-rename   "Rename")
+      ("w"     activities-save-all "Save All"))
+     "Task Operation"
      (("n"     activities-new      "Create")
       ("k"     activities-kill     "Kill")
-      ("u"     activities-revert   "Revert")
-      ("w"     activities-save-all "Save All"))
-     "Breaktime"
+      ("u"     activities-revert   "Revert"))
+     "Pause/Resume"
      (("s"     activities-suspend  "Suspend")
       ("r"     activities-resume   "Resume")
       ("d"     activities-discard  "Discard"))))
