@@ -12,16 +12,7 @@
 ;;; Code:
 
 (use-package autothemer
-  :demand t
-  :preface
-  (defun irkalla/setup-appearance ()
-    (let ((theme-name 'catppuccin-mocha))
-      (when (daemonp)
-        (add-hook 'after-make-frame-functions (lambda (frame)
-                                                (select-frame frame)
-                                                (load-theme theme-name :no-confirm))))
-      (load-theme theme-name :no-confirm)))
-  :config (irkalla/setup-appearance))
+  :init (load-theme 'catppuccin-mocha :no-confirm))
 
 ;; :NOTE| Replace several symbols with prettier alternatives
 (use-feature prettify-symbols

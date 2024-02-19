@@ -12,7 +12,9 @@
 ;;; Code:
 
 (use-package centaur-tabs
-  :hook (elpaca-after-init . centaur-tabs-mode)
+  :init (if (daemonp)
+            (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
+          (add-hook 'elpaca-after-init-hook 'centaur-tabs-mode))
   :bind (:map centaur-tabs-mode-map
               ("C-<prior>"   . #'centaur-tabs-backward-group)
               ("C-<next>"    . #'centaur-tabs-forward-group)
