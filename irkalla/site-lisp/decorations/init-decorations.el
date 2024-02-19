@@ -28,19 +28,6 @@
   :hook (emacs-lisp-mode . prettify-symbols-mode)
   :custom (prettify-symbols-unprettify-at-point 'right-edge))
 
-;; :NOTE| SVG-library to enrich the user-experience!
-(use-package svg-lib
-  :demand t
-  :preface
-  (defun first-graphical-frame ()
-    (remove-hook 'focus-in-hook #'first-graphical-frame-hook-function)
-    (provide 'irkalla/frame-gui))
-  :hook (focus-in . first-graphical-frame)
-  :config
-  (with-eval-after-load 'irkalla/frame-gui
-    (setopt svg-lib-style-default (svg-lib-style-compute-default)
-            svg-lib-style-default (plist-put svg-lib-style-default :font-size 13))))
-
 ;; :NOTE| Import the custom modules
 (require 'init-typeface)
 (require 'init-icons)
