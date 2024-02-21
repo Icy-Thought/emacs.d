@@ -15,13 +15,16 @@
   :mode ("\\.py\\'" . python-mode)
   :preface
   (defun eglot-python-setup ()
-    (with-eval-after-load 'eglot
+    (with-eval-after-load 'eglot  
       (when (executable-find "pylyzer")
         (add-to-list 'eglot-server-programs
-                     `((python-mode python-ts-mode) . ("pylyzer" "--server"
-                                                       :initializationOptions ( :diagnostics t ;; " " fixes broken formatting
-                                                                                :inlineHints t
-                                                                                :smartCompletion t))))))
+                     `((python-mode python-ts-mode) . ("pylyzer" "--server" :initializationOptions ( :diagnostics t ;; " " fixes broken formatting
+                                                                                                     :inlineHints t
+                                                                                                     :smartCompletion t)))))
+
+      (when (executable-find "pyright-langserver")
+        (add-to-list 'eglot-server-programs
+                     `((python-mode python-ts-mode) . ("pyright-langserver" "--stdio" :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
     (eglot-ensure))
   :hook ((python-mode python-ts-mode) . eglot-python-setup))
 
