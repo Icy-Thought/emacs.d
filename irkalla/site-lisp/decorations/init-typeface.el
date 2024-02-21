@@ -19,21 +19,24 @@
                       (reading
                        :variable-pitch-family "Amita"
                        :variable-pitch-height 175
-                       :variable-pitch-weight normal)
+                       :variable-pitch-weight regular)
                       (large
-                       :default-weight semibold
                        :default-height 180
-                       :bold-weight extrabold)
+                       :default-weight semibold)
                       (t
                        :default-family "VictorMono Nerd Font"
                        :default-height 145
                        :default-weight semibold
                        :bold-weight bold
-                       :italic-weight semibold-italic
+                       :italic-weight semibold
+
                        :fixed-pitch-family "VictorMono Nerd Font Mono"
                        :fixed-pitch-height 145
+                       :fixed-pitch-slant nil
+
                        :variable-pitch-family nil
-                       :variable-pitch-height 1.00)))
+                       :variable-pitch-height 1.00
+                       :variable-pitch-slant nil)))
   :config
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'default))
 
