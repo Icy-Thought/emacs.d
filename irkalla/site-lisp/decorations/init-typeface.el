@@ -27,16 +27,15 @@
                        :default-family "VictorMono Nerd Font"
                        :default-height 145
                        :default-weight semibold
-                       :bold-weight bold
                        :italic-weight semibold
 
-                       :fixed-pitch-family "VictorMono Nerd Font Mono"
+                       :fixed-pitch-family nil
                        :fixed-pitch-height 145
-                       :fixed-pitch-slant nil
+                       :fixed-pitch-slant normal
 
-                       :variable-pitch-family nil
+                       :variable-pitch-family "VictorMono Nerd Font Mono"
                        :variable-pitch-height 1.00
-                       :variable-pitch-slant nil)))
+                       :variable-pitch-slant italic)))
   :config
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'default))
 
