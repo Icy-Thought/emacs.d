@@ -177,12 +177,12 @@
      (eww-invalid-certificate                           (:foreground red  :italic t))
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
-     (shr-h1                                            (:foreground maroon :height 1.54 :italic t))
-     (shr-h2                                            (:inherit 'org-level-1 :italic t))
-     (shr-h3                                            (:inherit 'org-level-2 :italic t))
-     (shr-h4                                            (:inherit 'org-level-3 :italic t))
-     (shr-h5                                            (:inherit 'org-level-4 :italic t))
-     (shr-h6                                            (:inherit 'org-level-5 :italic t))
+     (shr-h1                                            (:inherit 'org-document-title :italic t))
+     (shr-h2                                            (:inherit 'org-level-1        :italic t))
+     (shr-h3                                            (:inherit 'org-level-2        :italic t))
+     (shr-h4                                            (:inherit 'org-level-3        :italic t))
+     (shr-h5                                            (:inherit 'org-level-4        :italic t))
+     (shr-h6                                            (:inherit 'org-level-5        :italic t))
      (shr-text                                          (:inherit 'variable-pitch))
 
      ;;https://github.com/skeeto/elfeed
@@ -211,10 +211,10 @@
      (ement-room-list-name                              (:inherit 'ement-room-name :italic t))
      (ement-room-list-very-recent                       (:foreground red :bold t))
 
-     ;; https://orgmode.org/org.html
+     ;; https://orgmode.org/org.html                                                            
      (org-block                                         (:inherit 'fixed-pitch :background mantle))
-     (org-block-begin-line                              (:inherit 'fixed-pitch :background base :foreground rosewater))
-     (org-block-end-line                                (:inherit 'fixed-pitch :background base :foreground maroon))
+     (org-block-begin-line                              (:inherit 'fixed-pitch :background base   :foreground rosewater))
+     (org-block-end-line                                (:inherit 'fixed-pitch :background base   :foreground maroon))
      (org-code                                          (:inherit 'fixed-pitch :background mantle :foreground teal))
      (org-date                                          (:foreground pink))
      (org-done                                          (:foreground green))
@@ -230,6 +230,7 @@
      (org-verbatim                                      (:foreground sky))
      (org-upcoming-deadline                             (:foreground red))
 
+     (org-document-title                                (:foreground maroon   :height 1.54 :bold t))
      (org-level-1                                       (:foreground red      :height 1.25 :bold t))
      (org-level-2                                       (:foreground mauve    :height 1.15 :bold t))
      (org-level-3                                       (:foreground flamingo :height 1.12))

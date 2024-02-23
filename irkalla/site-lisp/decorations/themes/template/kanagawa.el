@@ -172,12 +172,12 @@
      (eww-invalid-certificate                       (:foreground autumnRed :italic t))
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
-     (shr-h1                                        (:foreground autumnGreen :height 1.54 :italic t))
-     (shr-h2                                        (:inherit 'org-level-1 :italic t))
-     (shr-h3                                        (:inherit 'org-level-2 :italic t))
-     (shr-h4                                        (:inherit 'org-level-3 :italic t))
-     (shr-h5                                        (:inherit 'org-level-4 :italic t))
-     (shr-h6                                        (:inherit 'org-level-5 :italic t))
+     (shr-h1                                        (:inherit 'org-document-title :italic t))
+     (shr-h2                                        (:inherit 'org-level-1        :italic t))
+     (shr-h3                                        (:inherit 'org-level-2        :italic t))
+     (shr-h4                                        (:inherit 'org-level-3        :italic t))
+     (shr-h5                                        (:inherit 'org-level-4        :italic t))
+     (shr-h6                                        (:inherit 'org-level-5        :italic t))
      (shr-text                                      (:inherit 'variable-pitch))
      
      ;;https://github.com/skeeto/elfeed             
@@ -224,6 +224,7 @@
      (org-verbatim                                  (:foreground crystalBlue))
      (org-upcoming-deadline                         (:foreground peachRed))
      
+     (org-document-title                            (:foreground autumnGreen   :height 1.54 :bold t))
      (org-level-1                                   (:foreground peachRed      :height 1.25 :bold t))
      (org-level-2                                   (:foreground springViolet2 :height 1.15 :bold t))
      (org-level-3                                   (:foreground boatYellow2   :height 1.12))

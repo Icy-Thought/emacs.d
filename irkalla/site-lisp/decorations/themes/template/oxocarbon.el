@@ -160,12 +160,12 @@
      (eww-invalid-certificate                           (:foreground love :italic t))
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
-     (shr-h1                                            (:foreground rose :height 1.54 :italic t))
-     (shr-h2                                            (:inherit 'org-level-1 :italic t))
-     (shr-h3                                            (:inherit 'org-level-2 :italic t))
-     (shr-h4                                            (:inherit 'org-level-3 :italic t))
-     (shr-h5                                            (:inherit 'org-level-4 :italic t))
-     (shr-h6                                            (:inherit 'org-level-5 :italic t))
+     (shr-h1                                            (:inherit 'org-document-title :italic t))
+     (shr-h2                                            (:inherit 'org-level-1        :italic t))
+     (shr-h3                                            (:inherit 'org-level-2        :italic t))
+     (shr-h4                                            (:inherit 'org-level-3        :italic t))
+     (shr-h5                                            (:inherit 'org-level-4        :italic t))
+     (shr-h6                                            (:inherit 'org-level-5        :italic t))
      (shr-text                                          (:inherit 'variable-pitch))
 
      ;;https://github.com/skeeto/elfeed
@@ -202,6 +202,7 @@
      (org-upcoming-deadline                             (:foreground love))
      (org-verse                                         (:italic t))
 
+     (org-document-title                                (:foreground rose :height 1.54 :bold t))
      (org-level-1                                       (:foreground love :height 1.25 :bold t))
      (org-level-2                                       (:foreground iris :height 1.15 :bold t))
      (org-level-3                                       (:foreground rose :height 1.12))
