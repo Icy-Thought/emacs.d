@@ -56,7 +56,6 @@
 (require 'init-lua)
 (require 'init-python)
 (require 'init-typst)
-(require 'init-zig)
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
