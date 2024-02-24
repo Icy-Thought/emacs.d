@@ -11,7 +11,10 @@
 
 ;;; Code:
 
-;; Bootstrapping Elpaca
+;; :WARN| Necessary stage for master branch Emacs!
+(setopt elpaca-core-date '(20240224))
+
+;; :NOTE| Time to bootstrap our Elpaca!
 (defvar elpaca-installer-version 0.6)
 (defvar elpaca-directory (expand-file-name "var/elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
