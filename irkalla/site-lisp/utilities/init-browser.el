@@ -34,7 +34,7 @@
                        (shrface-mode +1))))
   :custom
   (shrface-href-versatile t)
-  (shrface-bullets-bullet-list (when (featurep 'org-modern) org-modern-star))
+  (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star)))
   :config
   (shrface-basic)
   (shrface-trial)
