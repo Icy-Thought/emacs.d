@@ -25,7 +25,8 @@
   (truncate-string-ellipsis "↴")
   (find-file-suppress-same-file-warnings t)
   (remote-file-name-inhibit-locks t)
-  (x-stretch-cursor t))
+  (x-stretch-cursor t)
+  (text-mode-ispell-word-completion nil))
 
 (use-feature auto-revert
   :hook ((prog-mode text-mode) . auto-revert-mode)
