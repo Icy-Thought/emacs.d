@@ -65,6 +65,11 @@
   :hook ((visual-line-mode . (lambda () (unless (minibufferp) (visual-fill-column-mode)))))
   :custom (visual-fill-column-center-text t))
 
+(use-feature jinx ;; <-^ fetched from Nixpkgs
+  :commands (jinx-correct)
+  :hook (text-mode . jinx-mode)
+  :bind ([remap ispell-word] . jinx-correct))
+
 ;; :NOTE| Custom functions for future Hydra usage
 
 ;;;###autoload

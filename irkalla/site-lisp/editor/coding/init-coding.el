@@ -39,11 +39,6 @@
   :diminish apheleia-mode
   :hook (elpaca-after-init . apheleia-global-mode))
 
-(use-feature jinx ;; <-^ fetched from Nixpkgs
-  :commands (jinx-correct)
-  :hook (text-mode . jinx-mode)
-  :bind ([remap ispell-word] . jinx-correct))
-
 (use-package leetcode
   :commands (leetcode)
   :custom
