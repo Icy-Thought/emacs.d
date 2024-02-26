@@ -12,9 +12,15 @@
 ;;; Code:
 
 (use-feature tramp
+  :config
+  (setopt remote-file-name-inhibit-cache nil)
+  (add-to-list 'tramp-connection-properties
+               (list (regexp-quote "/ssh:YOUR_HOSTNAME:")
+                     "direct-async-process" t))
   :custom
-  (tramp-default-method "ssh")
-  (remote-file-name-inhibit-cache nil))
+  (tramp-verbose 0)
+  (tramp-chunksize 2000)
+  (tramp-use-ssh-controlmaster-options nil))
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra

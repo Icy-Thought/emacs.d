@@ -11,6 +11,12 @@
 
 ;;; Code:
 
+(use-feature dired
+  :config
+  (setopt mouse-drag-and-drop-region-cross-program t
+          mouse-1-click-follows-link nil)
+  :custom (dired-mouse-drag-files t))
+
 (use-feature dired-x
   :after (dired)
   :preface
@@ -36,7 +42,7 @@
 ;; Alternative frontend for dired
 (use-package dirvish
   :commands (dirivish-side)
-  :hook (dired-mode . dirvish-side-follow-mode)
+  :hook ((dired-mode . dirvish-override-dired-mode))
   :bind (("C-c f" . dirvish-side)
          :map dirvish-mode-map
          ("a"   . dirvish-quick-access)
@@ -55,8 +61,13 @@
          ("M-t" . dirvish-layout-toggle)
          ("M-s" . dirvish-setup-menu)
          ("M-e" . dirvish-emerge-menu)
-         ("M-j" . dirvish-fd-jump))
-  :config (dirvish-override-dired-mode +1)
+         ("M-j" . dirvish-fd-jump)
+         ("<mouse-1>" . dirvish-subtree-toggle-or-open)
+         ("<mouse-2>" . dired-mouse-find-file-other-window)
+         ("<mouse-3>" . dired-mouse-find-file))
+  :config
+  (dirvish-peek-mode)
+  (dirvish-side-follow-mode)
   :custom
   (dirvish-side-width 30)
   (dirvish-use-header-line t)
@@ -64,8 +75,9 @@
   (dirvish-quick-access-entries
    '(("h" "~/"                          "Home")
      ("d" "~/Downloads/"                "Downloads")
-     ("m" "~/Library/unexplored"        "Library")
-     ("t" "~/.local/share/Trash/files/" "Trash")))
+     ("m" "/mnt/"                       "Drives")
+     ("l" "~/Library/unexplored"        "Library")
+     ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
   (dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
   (dirvish-attributes '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
   (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
