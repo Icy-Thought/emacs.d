@@ -22,11 +22,12 @@
     (("?" xref-find-references  "Find -> references")
      ("f" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
-  :config (fset #'jsonrpc--log-event #'ignore) ;; noticable perf. diff!
+  :config
+  (fset #'jsonrpc--log-event #'ignore) ;; noticable perf. diff!
+  (setf (plist-get eglot-events-buffer-config :size) 0) ;; noticable perf. diff!
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
-  (eglot-events-buffer-size 0) ;; noticable perf. diff!
   (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider :inlayHintProvider))
   (eglot-menu-string (if (featurep 'nerd-icons) (nerd-icons-faicon "nf-fa-code") "LSP")))

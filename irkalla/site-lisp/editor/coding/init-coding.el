@@ -21,15 +21,15 @@
 
 (use-package orderless
   :demand t
-  :custom
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file  (styles . (orderless flex)))
-                                   (eglot (styles . (orderless flex)))))
-  (completion-styles '(orderless partial-completion basic))
-  (completions-detailed t)
-  (completion-ignore-case t)
-  (read-buffer-completion-ignore-case t)
-  (read-file-name-completion-ignore-case t))
+  :config
+  (setopt completion-category-defaults nil
+          completion-category-overrides '((file  (styles . (orderless flex)))
+                                          (eglot (styles . (orderless flex))))
+          completion-styles '(orderless partial-completion basic)
+          completions-detailed t
+          completion-ignore-case t
+          read-buffer-completion-ignore-case t
+          read-file-name-completion-ignore-case t))
 
 (use-package breadcrumb
   :hook (prog-mode . breadcrumb-local-mode)

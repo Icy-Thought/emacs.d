@@ -35,17 +35,16 @@
      ("c" helpful-command  "Command(s)"))
     "Action"
     (("p" helpful-at-point "SYMB at point"))))
-  :config
-  (setq-default help-window-select t)
-
-  ;; :NOTE| Setup hydra's for the ever-growing bindings
-  (with-eval-after-load 'pretty-hydra
-    (pretty-hydra-define+ main-hydra ()
-      ("Main"
-       (("h" helpful-hydra/body "Helpful"))))))
+  :config (setq-default help-window-select t))
 
 (use-package screenshot
   :ensure (:host github :repo "tecosaur/screenshot"))
+
+;; :NOTE| Setup hydra's for the ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ main-hydra ()
+    ("Main"
+     (("h" helpful-hydra/body "Helpful")))))
 
 ;; :NOTE| Import the custom modules
 (require 'init-popper)
