@@ -160,12 +160,12 @@
      (eww-invalid-certificate                           (:foreground love :italic t))
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/eww/Advanced.html
-     (shr-h1                                            (:inherit 'org-document-title :italic t))
-     (shr-h2                                            (:inherit 'org-level-1        :italic t))
-     (shr-h3                                            (:inherit 'org-level-2        :italic t))
-     (shr-h4                                            (:inherit 'org-level-3        :italic t))
-     (shr-h5                                            (:inherit 'org-level-4        :italic t))
-     (shr-h6                                            (:inherit 'org-level-5        :italic t))
+     (shr-h1                                            (:inherit 'org-document-title))
+     (shr-h2                                            (:inherit 'org-level-1))
+     (shr-h3                                            (:inherit 'org-level-2))
+     (shr-h4                                            (:inherit 'org-level-3))
+     (shr-h5                                            (:inherit 'org-level-4))
+     (shr-h6                                            (:inherit 'org-level-5))
      (shr-text                                          (:inherit 'variable-pitch))
 
      ;;https://github.com/skeeto/elfeed
