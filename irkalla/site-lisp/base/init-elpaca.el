@@ -11,10 +11,10 @@
 
 ;;; Code:
 
-;; :WARN| Necessary stage for Nix (master) Emacs!
-(setopt elpaca-core-date '(20240304))
+;; :WARN| temporary fix for core-date <- Nix Emacs-Git
+(unless (<= emacs-major-version 29)
+  (defvar elpaca-core-date (list (string-to-number (format-time-string "%Y%m%d")))))
 
-;; :NOTE| Time to bootstrap our Elpaca!
 (defvar elpaca-installer-version 0.7)
 (defvar elpaca-directory (expand-file-name "var/elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
