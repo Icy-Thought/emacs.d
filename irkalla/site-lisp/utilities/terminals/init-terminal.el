@@ -22,18 +22,9 @@
   (tramp-chunksize 2000)
   (tramp-use-ssh-controlmaster-options nil))
 
-;; :NOTE| Setup hydra's for the ever-growing bindings
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ launcher-hydra ()
-    ("Terminal"
-     (("e" eat            "EAT")
-      ("p" eat-project    "EAT -> Project")
-      ("l" project-eshell "Eshell -> Project")
-      ("n" nix-shell      "Eshell -> Nix")))))
-
 ;; :NOTE| Import the custom modules
 (require 'init-eshell)
-(require 'init-eat)
+(require 'init-vterm)
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here

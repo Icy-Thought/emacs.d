@@ -48,5 +48,12 @@
   (eshell-prompt-function #'irkalla/eshell-prompt)
   (eshell-prompt-regexp "^.*└─➤ 𝝺 ")) ;; Match last output of prompt -> prevents ~read-only~
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal"
+     (("l" project-eshell "Eshell -> Project")
+      ("n" nix-shell      "Eshell -> Nix")))))
+
 (provide 'init-eshell)
 ;;; init-eshell.el ends here

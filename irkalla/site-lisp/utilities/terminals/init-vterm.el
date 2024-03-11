@@ -12,6 +12,7 @@
 ;;; Code:
 
 (use-feature vterm
+  :commands (vterm)
   :hook (vterm-mode . evil-emacs-state)
   :bind (:map vterm-mode-map
               ("<S-prior>" . #'scroll-down-command)
@@ -20,6 +21,13 @@
   (vterm-timer-delay 0.01)
   (vterm-max-scrollback 10000)
   (vterm-clear-scrollback-when-clearing t))
+
+;; :NOTE| Setup hydra's for the ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal"
+     (("e" vterm "VTerm")
+      ("p" projectile-run-vterm "VTerm -> Project")))))
 
 (provide 'init-vterm)
 ;;; init-vterm.el ends here

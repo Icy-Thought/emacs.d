@@ -25,5 +25,12 @@
   (eat-kill-buffer-on-exit t)
   (eat-enable-auto-line-mode t))
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal"
+     (("e" eat         "EAT")
+      ("p" eat-project "EAT -> Project")))))
+
 (provide 'init-eat)
 ;;; init-eat.el ends here
