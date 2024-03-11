@@ -36,7 +36,6 @@
   (pdf-view-display-size 'fit-width))
 
 (use-package pdf-view-restore
-  :requires (pdf-tools)
   :hook (pdf-view-mode . pdf-view-restore-mode)
   :custom (pdf-view-restore-filename (no-littering-expand-var-file-name "pdf-view-restore")))
 

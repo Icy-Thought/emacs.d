@@ -42,7 +42,7 @@
 ;; Alternative frontend for dired
 (use-package dirvish
   :commands (dirivish-side)
-  :hook ((dired-mode . dirvish-override-dired-mode))
+  :hook (elpaca-after-init . dirvish-override-dired-mode)
   :bind (("C-c f" . dirvish-side)
          :map dirvish-mode-map
          ("a"   . dirvish-quick-access)
