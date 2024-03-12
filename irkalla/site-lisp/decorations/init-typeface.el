@@ -51,6 +51,8 @@
     :global nil
     (irkalla/manuscript-toggle)))
 
+;; :NOTE| Introducing a zoom in/out feature for potential content creation.
+
 (use-feature face-remap
   :hook (text-mode . variable-pitch-mode)
   :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
@@ -60,6 +62,8 @@
   (set-fontset-font t 'arabic (font-spec :family "Scheherazade New") nil 'prepend)
   (set-fontset-font t 'han    (font-spec :family "Sarasa Mono CL")   nil 'prepend)
   (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'append))
+
+;; :NOTE| Allow us to customize the appearance of some font faces.
 
 (use-feature font-lock
   :custom-face
@@ -71,6 +75,7 @@
   (font-lock-preprocessor-face  ((t (:weight bold))))
   (font-lock-string-face        ((t (:slant italic)))))
 
+;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ window-hydra ()
     ("Main"
