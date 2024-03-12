@@ -1,0 +1,220 @@
+#+title: Irkalla Emacs
+#+author: Icy-Thought
+#+language: en
+
+#+NAME: fig:Irkalla Emacs
+#+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
+[[../.github/assets/themes/catppuccin/irkalla.png]]
+
+* Table Of Contents :TOC:
+- [[#early-conf][Early Conf]]
+  - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
+    - [[#defining-our-irkalla-group][Defining Our Irkalla Group]]
+    - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
+    - [[#maintaining-harmony-without-irkallas-directories][Maintaining Harmony Without Irkalla's Directories]]
+  - [[#part-2-performance-enhancements][Part 2: Performance Enhancements]]
+    - [[#increase-the-cpu-processing-restrictions][Increase the CPU processing restrictions]]
+    - [[#native-comp---quicker-emacs-byte-compile][Native-Comp -> Quicker Emacs (Byte-Compile)]]
+    - [[#collect-the-ever-growing-garbage][Collect The Ever-Growing Garbage...]]
+  - [[#part-3-setting-our-ever-growing-options][Part 3: Setting Our Ever-Growing Options]]
+    - [[#debugging--error-handling][Debugging & Error Handling]]
+    - [[#user-interface--startup][User Interface & Startup]]
+    - [[#display--fonts][Display & Fonts]]
+    - [[#file-handling--version-control][File Handling & Version Control]]
+    - [[#miscellaneous][Miscellaneous]]
+  - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
+-  [[#conf][Conf]]
+  - [[#part-1-exploring-the-feasibility-of-emacs][Part 1: Exploring The Feasibility of Emacs]]
+  - [[#part-2-experimenting-with-miraculous-packages][Part 2: Experimenting With Miraculous Packages]]
+  - [[#part-3-concluding-our-emacs-journey][Part 3: Concluding Our Emacs Journey]]
+
+* Early Conf
+:PROPERTIES:
+:header-args+: :tangle “~/.config/emacs/early-init.el”
+:END:
+
+#+begin_src emacs-lisp
+;;; early-init.el --- Icy-Thoughts's Irkalla Emacs Early Initiliazation -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2023-2023 Icy-Thought
+
+;; Author: Icy-Thought <icy-thought@pm.me>
+;; Keywords: internal
+;; URL: https://icy-thought.github.io/
+
+;;; Commentary:
+;; Configurations which ought to be loaded during Irkalla Emacs early initliazation process.
+
+;;; Code:
+#+end_src
+
+** Part 1: Defining The Boundaries Of Irkalla
+
+*** Defining Our Irkalla Group
+
+#+begin_src emacs-lisp
+(defgroup ikralla nil
+  "Irkalla might as well become a cult at this point."
+  :link '(url-link "https://github.com/Icy-Thought/emacs.d/tree/main/irkalla")
+  :group 'emacs)
+#+end_src
+
+*** Setting our UI Changes Early
+
+#+begin_src emacs-lisp
+(setq-default default-frame-alist
+              (append (list
+                       '(alpha-background     . 85)
+                       '(fullscreen           . nil)
+                       '(menu-bar-lines       . 0)
+                       '(tool-bar-lines       . 0)
+                       '(vertical-scroll-bars . nil)))
+              initial-frame-alist (copy-alist default-frame-alist)
+              user-emacs-directory "~/.config/emacs")
+#+end_src
+
+*** Maintaining Harmony Without Irkalla's Directories 
+
+#+begin_src emacs-lisp
+(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
+  "The directory where Irkalla resides in."
+  :type 'string
+  :group 'irkalla)
+#+end_src
+
+**** Appending Custom Theme Dir. To Load Path
+
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path (concat irkalla/main-residence "/themes"))
+#+end_src
+
+**** Move =custom.el= To The =./etc= Directory
+
+#+begin_src emacs-lisp
+(setq-default custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
+
+(if (file-exists-p custom-file)
+    (load custom-file 'noerror 'nomessage)
+  (with-temp-buffer (write-file custom-file)))
+#+end_src
+
+**** Prevent Certain Buffers From Being Closed
+
+#+begin_src emacs-lisp
+(with-current-buffer "*scratch*"  (emacs-lock-mode 'kill))
+(with-current-buffer "*Messages*" (emacs-lock-mode 'kill))
+#+end_src
+
+** Part 2: Performance Enhancements
+
+*** Increase the CPU processing restrictions
+
+#+begin_src emacs-lisp
+(when (boundp 'read-process-output-max)
+  (setq-default process-adaptive-read-buffering nil
+                read-process-output-max (* 24 1024 1024)))
+#+end_src
+
+*** Native-Comp -> Quicker Emacs (Byte-Compile)
+
+#+begin_src emacs-lisp
+(when (featurep 'native-compile)
+  ;; :NOTE| Retain native compilation cache files in ~/.cache/emacs directory
+  (let ((path (expand-file-name "var/eln-cache/" user-emacs-directory)))
+    (setq-default native-comp-eln-load-path (list path)
+                  native-compile-target-directory path))
+
+  ;; :NOTE| Prevent unwanted runtime builds + reduce noise
+  (setq-default comp-deferred-compilation nil
+                native-comp-deferred-compilation nil
+                native-comp-async-report-warnings-errors nil))
+#+end_src
+
+*** Collect The Ever-Growing Garbage...
+
+#+begin_src emacs-lisp
+(setq-default gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+              gc-cons-percentage 0.6)
+#+end_src
+
+** Part 3: Setting Our Ever-Growing Options
+
+*** Debugging & Error Handling
+
+#+begin_src emacs-lisp
+(setq-default ad-redefinition-action 'accept
+              debug-on-error init-file-debug
+              jka-compr-verbose init-file-debug)
+#+end_src
+
+*** User Interface & Startup
+
+#+begin_src emacs-lisp
+(setq-default auto-mode-case-fold nil
+              blink-cursor-mode nil
+              echo-keystrokes 0.02
+              fast-but-imprecise-scrolling t
+              inhibit-splash-screen t
+              inhibit-startup-buffer-menu t
+              inhibit-startup-echo-area-message user-login-name
+              inhibit-startup-message t
+              inhibit-startup-screen t
+              use-dialog-box nil
+              use-file-dialog nil)
+#+end_src
+
+*** Display & Fonts
+
+#+begin_src emacs-lisp
+(setq-default frame-inhibit-implied-resize t
+              frame-resize-pixelwise t
+              idle-update-delay 1.0
+              inhibit-compacting-font-caches t
+              mode-line-format nil
+              redisplay-skip-fontification-on-input t)
+#+end_src
+
+*** File Handling & Version Control
+
+#+begin_src emacs-lisp
+(setq-default auto-save-list-file-prefix nil
+              create-lockfiles nil
+              package-enable-at-startup nil
+              use-short-answers t
+              vc-follow-symlinks t)
+#+end_src
+
+*** Miscellaneous
+
+#+begin_src emacs-lisp
+(setq-default select-enable-clipboard nil
+              command-line-x-option-alist nil
+              default-input-method nil
+              ring-bell-function 'ignore
+              select-active-regions 'only
+              load-prefer-newer noninteractive)
+#+end_src
+
+We might as well set our default Emacs environment to ~UTF-8~.
+
+#+begin_src emacs-lisp
+(set-default-coding-systems 'utf-8)
+#+end_src
+
+** Part 4: Bidding our =early-init.el= Farewell
+
+#+begin_src emacs-lisp
+;;; early-init.el ends here
+#+end_src
+
+*  Conf
+
+** Part 1: Exploring The Feasibility of Emacs
+
+** Part 2: Experimenting With Miraculous Packages
+
+** Part 3: Concluding Our Emacs Journey
+
+#+begin_src emacs-lisp
+;;; init.el ends here
+#+end_src
