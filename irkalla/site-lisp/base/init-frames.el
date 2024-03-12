@@ -14,14 +14,18 @@
 (use-feature emacs
   :custom (window-combination-resize t)
   :config
-  (defun irkalla/toggle-frame-transparency ()
-    "Toggle (on/off) Emacs frame transparency on demand!"
-    (interactive)
+  (defun irkalla/opacify-frame ()
     (let ((alpha-value
            (if (equal (frame-parameter nil 'alpha-background) 100)
                85 100)))
       (set-frame-parameter nil 'alpha-background alpha-value)
-      (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value)))))
+      (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
+
+  (define-minor-mode irkalla/opacify-frame-mode
+    "Toggle (on/off) Emacs frame transparency on demand!"
+    :group 'irkalla
+    :global nil
+    (irkalla/opacify-frame)))
 
 (use-feature windmove
   :hook (elpaca-after-init . windmove-default-keybindings)
@@ -39,7 +43,7 @@
     (:title (pretty-hydra-title "──｢ Base: Frame Management ｣──" 'mdicon "nf-md-dock_window")
             :color teal :quit-key "q")
     ("Main"
-     (("o" irkalla/toggle-frame-transparency "Toggle Transparency"))
+     (("o" irkalla/opacify-frame-mode "Opacify Frame" :toggle t))
      "Windows"
      (("f" delete-other-windows "Focus Window")
       ("u" winner-undo          "Restore Old Windows")

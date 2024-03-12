@@ -17,12 +17,13 @@
   :group 'emacs)
 
 ;; :NOTE| appending UI changes early to Emacs
-(setq-default default-frame-alist (append (list
-                                           '(alpha-background     . 85)
-                                           '(fullscreen           . nil)
-                                           '(menu-bar-lines       . 0)
-                                           '(tool-bar-lines       . 0)
-                                           '(vertical-scroll-bars . nil)))
+(setq-default default-frame-alist
+              (append (list
+                       '(alpha-background     . 85)
+                       '(fullscreen           . nil)
+                       '(menu-bar-lines       . 0)
+                       '(tool-bar-lines       . 0)
+                       '(vertical-scroll-bars . nil)))
               initial-frame-alist (copy-alist default-frame-alist)
               user-emacs-directory "~/.config/emacs")
 
