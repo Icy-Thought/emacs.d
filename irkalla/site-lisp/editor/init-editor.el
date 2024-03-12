@@ -95,27 +95,14 @@
 
 ;; :NOTE| Setup hydra's for the ever-growing bindings
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define editor-hydra
-    (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
-            :color teal :quit-key "q")
+  (pretty-hydra-define+ visual-editor-hydra ()
     ("Action"
-     (("b" eval-buffer "Eval Buf.")
-      ("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
+     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
       ("p" irkalla/paste-from-sysclip "Paste <- Sys-Clip"))))
 
-  (pretty-hydra-define visual-editor-hydra
-    (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
-            :color teal :quit-key "q")
+  (pretty-hydra-define+ visual-editor-hydra ()
     ("Action"
-     (("e" eval-region "Eval Region")
-      ("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip"))))
-
-  (with-eval-after-load 'evil
-    (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
-    (evil-global-set-key 'visual (kbd ",") 'visual-editor-hydra/body))
-
-  (with-eval-after-load 'meow
-    (meow-normal-define-key '("," . editor-hydra/body))))
+     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")))))
 
 ;; :NOTE| Import the custom modules
 (require 'init-evil)
