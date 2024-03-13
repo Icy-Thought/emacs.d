@@ -1,0 +1,3741 @@
+#+title: Irkalla Emacs
+#+author: Icy-Thought
+#+language: en
+#+PROPERTY: header-args :tangle-mode: #o444 :results silent :noweb yes
+
+#+NAME: fig:Irkalla Emacs
+#+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
+[[../.github/assets/themes/catppuccin/irkalla.png]]
+
+* Table Of Contents :TOC:
+- [[#early-configurations][Early Configurations]]
+  - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
+    - [[#defining-our-irkalla-group][Defining Our Irkalla Group]]
+    - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
+    - [[#maintaining-harmony-without-irkallas-directories][Maintaining Harmony Without Irkalla's Directories]]
+  - [[#part-2-performance-enhancements][Part 2: Performance Enhancements]]
+    - [[#increase-the-cpu-processing-restrictions][Increase the CPU processing restrictions]]
+    - [[#native-comp---quicker-emacs-byte-compile][Native-Comp -> Quicker Emacs (Byte-Compile)]]
+    - [[#collect-the-ever-growing-garbage][Collect The Ever-Growing Garbage...]]
+  - [[#part-3-setting-our-ever-growing-options][Part 3: Setting Our Ever-Growing Options]]
+    - [[#debugging--error-handling][Debugging & Error Handling]]
+    - [[#user-interface--startup][User Interface & Startup]]
+    - [[#display--fonts][Display & Fonts]]
+    - [[#file-handling--version-control][File Handling & Version Control]]
+    - [[#miscellaneous][Miscellaneous]]
+  - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
+- [[#late-configurations][Late Configurations]]
+  - [[#part-1-beginning-of-a-journey][Part 1: Beginning Of A Journey]]
+    - [[#elpaca-package-manager][Elpaca: Package Manager]]
+    - [[#defuns-to-ameliorate-irkalla][~defun~'s To Ameliorate Irkalla]]
+    - [[#controlling-irkallas-littering-habits][Controlling Irkalla's Littering Habits]]
+    - [[#hydra-windows-that-contain-our-keybindings][Hydra: Windows That Contain Our Keybindings]]
+    - [[#managing-irkallas-frame][Managing Irkalla's Frame]]
+    - [[#maintaining-a-sane-scroll-pattern][Maintaining A Sane Scroll Pattern]]
+    - [[#24-hour-time-format--other-formats][24-Hour Time Format >> Other Formats]]
+  - [[#part-2-decorating-irkalla][Part 2: Decorating Irkalla]]
+    - [[#autothemer-macros-to-ease-the-theming-process][Autothemer: Macros To Ease The Theming Process]]
+    - [[#prettified-symbols][Prettified Symbols]]
+    - [[#typefaces--saner-fonts][Typeface's & Saner Fonts]]
+    - [[#adding-a-sprinkle-of-icons][Adding A Sprinkle Of Icons]]
+    - [[#svg-tag-decorating-buffers-with-svg][SVG-Tag: Decorating Buffers With SVG]]
+    - [[#modelines---status-bars-for-emacs][Modeline(s) -> Status-Bar(s) For Emacs]]
+    - [[#tab-bars---a-header-line-for-buffers][Tab Bar(s) -> A Header-Line For Buffers]]
+    - [[#dashboard-a-welcoming-buffer-for-new-frames][Dashboard: A Welcoming Buffer For New Frames]]
+  - [[#part-3-expanding-the-utility-box][Part 3: Expanding The Utility Box]]
+    - [[#introducing-the-basics][Introducing The Basics]]
+    - [[#new--extension-of-built-in-features][New & Extension Of Built-in Features]]
+    - [[#trivial-changes-to-extend-workflow][Trivial Changes To Extend Workflow]]
+  - [[#part-4-editing-environment][Part 4: Editing Environment]]
+    - [[#alternative-editing-bindings][Alternative Editing Bindings]]
+    - [[#the-basic-requirements-of-an-editor][The Basic Requirements Of An Editor]]
+    - [[#expanding-on-the-basic-requirements][Expanding On The Basic Requirements]]
+  - [[#part-5-completion--debugging][Part 5: Completion & Debugging]]
+    - [[#orderless-completion-candidate-matching][Orderless: Completion Candidate Matching]]
+    - [[#breadcrumb-location-indicator-for-larger-projects][Breadcrumb: Location Indicator For Larger Projects]]
+    - [[#apheleia-code-formatter][Apheleia: Code Formatter]]
+    - [[#corfu-elegant-completion-ui][Corfu: Elegant Completion UI]]
+    - [[#tempel-snippet-completion][Tempel: Snippet Completion]]
+    - [[#eldoc-documentation-of-symb][Eldoc: Documentation Of SYMB]]
+    - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
+    - [[#flymake-built-in-buffer-diagnostics][Flymake: Built-in Buffer Diagnostics]]
+    - [[#sideline-display-information-on-the-side][Sideline: Display Information On The Side]]
+    - [[#dape-debug-adapter-protocol][Dape: Debug Adapter Protocol]]
+    - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
+    - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
+  - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
+    - [[#emacs-lisp-the-mother-tounge-of-emacs][Emacs Lisp: The Mother-Tounge Of Emacs]]
+    - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
+    - [[#haskell-purely-functional][Haskell: Purely Functional]]
+    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
+    - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
+    - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
+    - [[#python-high-level-language][Python: High Level Language]]
+    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
+    - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
+    - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
+  - [[#part-6-concluding-our-emacs-journey][Part 6: Concluding Our Emacs Journey!]]
+
+* Early Configurations
+:PROPERTIES:
+:header-args+: :tangle “~/.config/emacs/early-init.el”
+:END:
+
+#+begin_src emacs-lisp
+;;; early-init.el --- Icy-Thoughts's Irkalla Emacs Early Initiliazation -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2023-2023 Icy-Thought
+
+;; Author: Icy-Thought <icy-thought@pm.me>
+;; Keywords: internal
+;; URL: https://icy-thought.github.io/
+
+;;; Commentary:
+;; Configurations which ought to be loaded during Irkalla Emacs early initliazation process.
+
+;;; Code:
+#+end_src
+
+** Part 1: Defining The Boundaries Of Irkalla
+
+*** Defining Our Irkalla Group
+
+#+begin_src emacs-lisp
+(defgroup ikralla nil
+  "Irkalla might as well become a cult at this point."
+  :link '(url-link "https://github.com/Icy-Thought/emacs.d/tree/main/irkalla")
+  :group 'emacs)
+#+end_src
+
+*** Setting our UI Changes Early
+
+#+begin_src emacs-lisp
+(setq-default default-frame-alist
+              (append (list
+                       '(alpha-background     . 85)
+                       '(fullscreen           . nil)
+                       '(menu-bar-lines       . 0)
+                       '(tool-bar-lines       . 0)
+                       '(vertical-scroll-bars . nil)))
+              initial-frame-alist (copy-alist default-frame-alist)
+              user-emacs-directory "~/.config/emacs")
+#+end_src
+
+*** Maintaining Harmony Without Irkalla's Directories
+
+#+begin_src emacs-lisp
+(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
+  "The directory where Irkalla resides in."
+  :type 'string
+  :group 'irkalla)
+#+end_src
+
+**** Appending Custom Theme Dir. To Load Path
+
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path (concat irkalla/main-residence "/themes"))
+#+end_src
+
+**** Move =custom.el= To The =./etc= Directory
+
+#+begin_src emacs-lisp
+(setq-default custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
+
+(if (file-exists-p custom-file)
+    (load custom-file 'noerror 'nomessage)
+  (with-temp-buffer (write-file custom-file)))
+#+end_src
+
+**** Prevent Certain Buffers From Being Closed
+
+#+begin_src emacs-lisp
+(with-current-buffer "*scratch*"  (emacs-lock-mode 'kill))
+(with-current-buffer "*Messages*" (emacs-lock-mode 'kill))
+#+end_src
+
+** Part 2: Performance Enhancements
+
+*** Increase the CPU processing restrictions
+
+#+begin_src emacs-lisp
+(when (boundp 'read-process-output-max)
+  (setq-default process-adaptive-read-buffering nil
+                read-process-output-max (* 24 1024 1024)))
+#+end_src
+
+*** Native-Comp -> Quicker Emacs (Byte-Compile)
+
+#+begin_src emacs-lisp
+(when (featurep 'native-compile)
+  ;; :NOTE| Retain native compilation cache files in ~/.cache/emacs directory
+  (let ((path (expand-file-name "var/eln-cache/" user-emacs-directory)))
+    (setq-default native-comp-eln-load-path (list path)
+                  native-compile-target-directory path))
+
+  ;; :NOTE| Prevent unwanted runtime builds + reduce noise
+  (setq-default comp-deferred-compilation nil
+                native-comp-deferred-compilation nil
+                native-comp-async-report-warnings-errors nil))
+#+end_src
+
+*** Collect The Ever-Growing Garbage...
+
+#+begin_src emacs-lisp
+(setq-default gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+              gc-cons-percentage 0.6)
+#+end_src
+
+** Part 3: Setting Our Ever-Growing Options
+
+*** Debugging & Error Handling
+
+#+begin_src emacs-lisp
+(setq-default ad-redefinition-action 'accept
+              debug-on-error init-file-debug
+              jka-compr-verbose init-file-debug)
+#+end_src
+
+*** User Interface & Startup
+
+#+begin_src emacs-lisp
+(setq-default auto-mode-case-fold nil
+              blink-cursor-mode nil
+              echo-keystrokes 0.02
+              fast-but-imprecise-scrolling t
+              inhibit-splash-screen t
+              inhibit-startup-buffer-menu t
+              inhibit-startup-echo-area-message user-login-name
+              inhibit-startup-message t
+              inhibit-startup-screen t
+              use-dialog-box nil
+              use-file-dialog nil)
+#+end_src
+
+*** Display & Fonts
+
+#+begin_src emacs-lisp
+(setq-default frame-inhibit-implied-resize t
+              frame-resize-pixelwise t
+              idle-update-delay 1.0
+              inhibit-compacting-font-caches t
+              mode-line-format nil
+              redisplay-skip-fontification-on-input t)
+#+end_src
+
+*** File Handling & Version Control
+
+#+begin_src emacs-lisp
+(setq-default auto-save-list-file-prefix nil
+              create-lockfiles nil
+              package-enable-at-startup nil
+              use-short-answers t
+              vc-follow-symlinks t)
+#+end_src
+
+*** Miscellaneous
+
+#+begin_src emacs-lisp
+(setq-default select-enable-clipboard nil
+              command-line-x-option-alist nil
+              default-input-method nil
+              ring-bell-function 'ignore
+              select-active-regions 'only
+              load-prefer-newer noninteractive)
+#+end_src
+
+We might as well set our default Emacs environment to ~UTF-8~.
+
+#+begin_src emacs-lisp
+(set-default-coding-systems 'utf-8)
+#+end_src
+
+** Part 4: Bidding our =early-init.el= Farewell
+
+#+begin_src emacs-lisp
+;;; early-init.el ends here
+#+end_src
+
+* Late Configurations
+
+** Part 1: Beginning Of A Journey
+
+*** Elpaca: Package Manager
+
+**** Informing Elpaca About Irkalla's Build Time
+
+Since Elpaca struggles to find the development build version of my Emacs, it is necessary for me to define the ~elpaca-core-date~ for it to function as intended. The reason for this is because Nix disables the ~emacs-build-time~ for the reproducible builds to work as designed.
+
+#+begin_src emacs-lisp
+(unless (<= emacs-major-version 29)
+  (defvar elpaca-core-date (list (string-to-number (format-time-string "%Y%m%d")))))
+#+end_src
+
+**** Bootstrapping Elpaca
+
+#+begin_src emacs-lisp
+(defvar elpaca-installer-version 0.7)
+(defvar elpaca-directory (expand-file-name "var/elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                 ,@(when-let ((depth (plist-get order :depth)))
+                                                     (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                 ,(plist-get order :repo) ,repo))))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
+#+end_src
+
+**** Configuring Elpaca
+
+***** Enable =Use-Package= Deceleration
+
+#+begin_src emacs-lisp
+(elpaca elpaca-use-package (elpaca-use-package-mode))
+#+end_src
+
+***** Macro: ~use-feature~ For Built-in Packages
+
+Being able to reduce ~use-package~ + ~:ensure nil~ to a ~defmacro~ is never a wrong thing. And being able to call it ~use-feature~ is in my opinion a more precise way to work wi such packages. [[https://github.com/progfolio/.emacs.d/blob/master/init.org#use-package][Thanks Progofolio]]!
+
+#+begin_src emacs-lisp
+(defmacro use-feature (name &rest args)
+  "Similar to `use-package', but for built-in packages.
+  NAME and ARGS are in `use-package'."
+  (declare (indent defun))
+  `(use-package ,name
+     :ensure nil
+     ,@args))
+
+;; :NOTE| Configuring our use-package a little
+#+end_src
+
+***** Setting Up =Use-Package= Default Behavior
+
+#+begin_src emacs-lisp
+(setopt use-package-always-ensure t
+        use-package-always-defer t
+        use-package-compute-statistics t)
+#+end_src
+
+**** Verify Code Evaluation Before Proceeding.
+
+#+begin_src emacs-lisp
+(elpaca-wait)
+#+end_src
+
+*** ~defun~'s To Ameliorate Irkalla
+
+**** Allow Irkalla To Read Agenix Secrets (🤫)
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/read-secret-file (filename)
+  "Fetch content of secrets file generated by agenix."
+  (with-temp-buffer
+    (insert-file-contents (concat "/run/agenix/" filename))
+    (string-trim-right (buffer-string))))
+#+end_src>
+
+**** Informing Projectile About =~/Workspace= Projects
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/add-public-projects ()
+  "Add directories present in our /public directory to known projects."
+  (interactive)
+  (let ((base-dir (expand-file-name "~/Workspace/public")))
+    (mapc (lambda (dir)
+            (when (file-directory-p dir)
+              (projectile-add-known-project dir)))
+          (directory-files base-dir t "^[^.].*"))
+    (message "Directories inside ~/Workspace/public added as known projects.")))
+#+end_src
+
+*** Controlling Irkalla's Littering Habits
+
+**** Automated Garbage Collection
+
+Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable performance increase and should therefore be added to its configuration.
+
+#+begin_src emacs-lisp
+(use-package gcmh
+  :demand t
+  :delight " Ⓖ"
+  :custom
+  (gcmh-mode 1)
+  (gcmh-idle-delay 'auto)
+  (gcmh-auto-idle-delay-factor 10)
+  (gcmh-high-cons-threshold (* 16 1024 1024)))
+#+end_src
+
+**** Careful Placement Of Litter Files
+
+#+begin_src emacs-lisp
+(use-package no-littering
+  :demand t
+  :config
+  (setopt no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
+          no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
+
+  (with-eval-after-load 'recentf
+    (add-to-list 'recentf-exclude no-littering-etc-directory)
+    (add-to-list 'recentf-exclude no-littering-var-directory))
+
+  (with-eval-after-load 'files
+    (setopt auto-save-file-name-transforms
+            `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
+            backup-directory-alist
+            `((".*" . ,(no-littering-expand-var-file-name "backups/"))))))
+#+end_src
+
+*** Hydra: Windows That Contain Our Keybindings
+
+**** Pretty Hydra: Auto Style The Hydra's
+
+#+begin_src emacs-lisp
+(use-package pretty-hydra
+  :demand t
+  :config
+  (cl-defun pretty-hydra-title (title &optional icon-type icon-name
+                                      &key face height v-adjust)
+    (let ((face (or face `(:inherit hydra-face-pink :height 1.2 :slant italic)))
+          (height (or height 1.2))
+          (v-adjust (or v-adjust 0.0)))
+      (concat
+       (when (and (display-graphic-p) icon-type icon-name)
+         (let ((f (intern (format "nerd-icons-%s" icon-type))))
+           (when (fboundp f)
+             (concat (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+                     "  "))))
+       (propertize title 'face face)))))
+#+end_src
+
+**** Allow The Hydras To Float
+
+#+begin_src emacs-lisp
+(use-package hydra-posframe
+  :ensure (:host github :repo "Ladicle/hydra-posframe")
+  :hook (elpaca-after-init . hydra-posframe-mode)
+  :custom
+  (hydra-posframe-border-width 2)
+  (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))
+#+end_src
+
+To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package keyword, we have to tell it to first wait and then proceed with the remaining configuration.
+
+#+begin_src emacs-lisp
+(elpaca-wait)
+#+end_src
+
+**** Defining Essential Hydras Early
+
+***** 1. Introducing The Main Hydras
+
+#+begin_src emacs-lisp
+(pretty-hydra-define main-hydra
+  (:title (pretty-hydra-title "──｢ Phylum Cnidaria ｣──" 'mdicon "nf-md-graph")
+          :color teal :quit-key "q")
+  ("Main"
+   (("o" launcher-hydra/body "Launcher")
+    ("m" elpaca-hydra/body "Elpaca"))
+   "Control"
+   (("b" buffer-hydra/body "Buffer"))
+   "Action"
+   (("z" zone "Zooning out..."))))
+
+(with-eval-after-load 'evil
+  (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body))
+
+(with-eval-after-load 'meow
+  (meow-normal-define-key '("S-SPC" . main-hydra/body)))
+
+#+end_src
+
+Then we have another essential Hydra that we will tie our editing related commands to, ~editor-hydra~.
+
+#+begin_src emacs-lisp
+(pretty-hydra-define editor-hydra
+  (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
+          :color teal :quit-key "q")
+  ("Action"
+   (("b" eval-buffer "Eval Buf."))))
+
+(pretty-hydra-define visual-editor-hydra
+  (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
+          :color teal :quit-key "q")
+  ("Action"
+   (("e" eval-region "Eval Region"))))
+
+(with-eval-after-load 'evil
+  (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
+  (evil-global-set-key 'visual (kbd ",") 'visual-editor-hydra/body))
+
+(with-eval-after-load 'meow
+  (meow-normal-define-key '("," . editor-hydra/body)))
+#+end_src
+
+***** 2. Expanding With Secondary Hydras
+
+****** Buffer(s) Management
+
+#+begin_src emacs-lisp
+(pretty-hydra-define buffer-hydra
+  (:title (pretty-hydra-title "──｢ Main: Buffer(s) ｣──" 'octicon "nf-oct-repo_template")
+          :color teal :quit-key "q")
+  ("Buffer"
+   (("s" scratch-buffer   "Scratch")
+    ("j" next-buffer      "Next")
+    ("k" previous-buffer  "Previous"))))
+#+end_src
+
+****** Creating An Application Launcher
+
+#+begin_src emacs-lisp
+(pretty-hydra-define launcher-hydra
+  (:title (pretty-hydra-title "──｢ Main: Launcher(s) ｣──" 'codicon "nf-cod-rocket")
+          :color teal :quit-key "q")
+  ("EWW Browse"
+   (("w" (eww-browse-url "https://en.wikipedia.org") "Wikipedia"))))
+#+end_src
+
+****** Quick Access To Elpaca
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'elpaca
+  (pretty-hydra-define elpaca-hydra
+    (:title (pretty-hydra-title "──｢ Main: Elpaca ｣──" 'pomicon "nf-pom-clean_code")
+            :color teal :quit-key "q")
+    ("Main"
+     (("p" elpaca-manager   "Elpaca manager")
+      ("r" elpaca-rebuild   "Rebuild package")
+      ("i" elpaca-info      "Package info"))
+     "Fetch"
+     (("f" elpaca-fetch     "Specific package")
+      ("e" elpaca-fetch-all "All packages"))
+     "Update"
+     (("m" elpaca-merge     "Specific package")
+      ("a" elpaca-merge-all "All packages")))))
+#+end_src
+
+*** Managing Irkalla's Frame
+
+**** Ability To Opacify Frames On Demand
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :custom (window-combination-resize t)
+  :config
+  (defun irkalla/opacify-frame ()
+    (let ((alpha-value
+           (if (equal (frame-parameter nil 'alpha-background) 100)
+               85 100)))
+      (set-frame-parameter nil 'alpha-background alpha-value)
+      (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
+
+  (define-minor-mode irkalla/opacify-frame-mode
+    "Toggle (on/off) Emacs frame transparency on demand!"
+    :group 'irkalla
+    :global nil
+    (irkalla/opacify-frame)))
+#+end_src
+
+**** Navigating Split Windows Should Be Easy
+
+#+begin_src emacs-lisp
+(use-feature windmove
+  :hook (elpaca-after-init . windmove-default-keybindings)
+  :config (windmove-default-keybindings 'meta))
+#+end_src
+
+**** Posframe: Floating Windows
+
+#+begin_src emacs-lisp
+(use-package posframe
+  :custom (posframe-mouse-banish '(0 . 5000)))
+#+end_src
+
+**** Winner: Memorize Window Settings
+
+Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for your Emacs configuration. And by that I mean the ability to zoom into one split window and later zoom out to the previous configuration. But for us to zoom-out, it is required from our Emacs configuration to memorize the previous state and this is where ~winner-mode~ comes in!
+
+#+begin_src emacs-lisp
+(use-feature winner
+  :hook (elpaca-after-init . winner-mode))
+#+end_src
+
+***** Hydra: Window Navigation
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define window-hydra
+    (:title (pretty-hydra-title "──｢ Base: Frame Management ｣──" 'mdicon "nf-md-dock_window")
+            :color teal :quit-key "q")
+    ("Main"
+     (("o" irkalla/opacify-frame-mode "Opacify Frame" :toggle t))
+     "Windows"
+     (("f" delete-other-windows "Focus Window")
+      ("u" winner-undo          "Restore Old Windows")
+      ("r" winner-redo          "Redo Window Change"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Control"
+     (("w" window-hydra/body "Window")))))
+#+end_src
+
+*** Maintaining A Sane Scroll Pattern
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :hook (elpaca-after-init . pixel-scroll-precision-mode)
+  :custom
+  (auto-window-vscroll nil)
+  (fast-but-imprecise-scrolling nil)
+  (hscroll-margin 1)
+  (hscroll-step 1)
+  (lazy-lock-defer-on-scrolling t)
+  (mouse-wheel-progressive-speed nil)
+  (mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+  (scroll-conservatively 101)
+  (scroll-down-aggressively 0.01)
+  (scroll-margin 3)
+  (scroll-preserve-screen-position t)
+  (scroll-step 1)
+  (scroll-up-aggressively 0.01))
+#+end_src
+
+*** 24-Hour Time Format >> Other Formats
+
+#+begin_src emacs-lisp
+(use-feature time
+  :custom
+  (display-time-24hr-format t)
+  (display-time-day-and-date t)
+  (display-time-default-load-average nil))
+#+end_src
+
+** Part 2: Decorating Irkalla
+
+*** Autothemer: Macros To Ease The Theming Process
+
+The themes that I have created with the help of [[https://github.com/jasonm23/autothemer][Autothemer]] can be found in the =./themes= directory of Irkalla.
+
+#+begin_src emacs-lisp
+(use-package autothemer
+  :init (load-theme 'catppuccin-mocha :no-confirm))
+#+end_src
+
+*** Prettified Symbols
+
+#+begin_src emacs-lisp
+(use-feature prettify-symbols
+  :hook (emacs-lisp-mode . prettify-symbols-mode)
+  :custom (prettify-symbols-unprettify-at-point 'right-edge))
+#+end_src
+
+*** Typeface's & Saner Fonts
+
+**** Fontaine: Macros To Easen The Fontification Process
+
+#+begin_src emacs-lisp
+(use-package fontaine
+  :demand t
+  :hook (kill-emacs . fontaine-store-latest-preset)
+  :custom
+  (fontaine-presets `((default) ;; <- fallback values
+                      (reading
+                       :variable-pitch-family "Amita"
+                       :variable-pitch-height 175
+                       :variable-pitch-weight regular)
+                      (large
+                       :default-height 180
+                       :default-weight semibold)
+                      (t
+                       :default-family "VictorMono Nerd Font"
+                       :default-height 145
+                       :default-weight semibold
+                       :italic-weight semibold
+
+                       :fixed-pitch-family nil
+                       :fixed-pitch-height 145
+                       :fixed-pitch-slant normal
+
+                       :variable-pitch-family "VictorMono Nerd Font Mono"
+                       :variable-pitch-height 1.00
+                       :variable-pitch-slant italic)))
+  :config (fontaine-set-preset (or (fontaine-restore-latest-preset) 'default)))
+#+end_src
+
+We also want to create a mode for the ~reading~ preset to activate/deactivate from a Hydra.
+
+#+begin_src emacs-lisp
+(defun irkalla/manuscript-toggle ()
+  "Toggle buffer appearance for a touch of sophistication."
+  (if (eq (symbol-value 'fontaine-current-preset) 'regular)
+      (fontaine-set-preset 'reading)
+    (fontaine-set-preset 'regular)))
+
+(define-minor-mode irkalla/manuscript-mode
+  "Paint our buffers with the ancient manuscript style."
+  :group 'irkalla
+  :global nil
+  (irkalla/manuscript-toggle))
+#+end_src
+
+***** Hydra: Append Font Controls
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ window-hydra ()
+    ("Main"
+     (("t" fontaine-set-preset "Fontaine Preset")
+      ("m" irkalla/manuscript-mode "Manuscript Mode" :toggle t)))))
+#+end_src
+
+**** Remapping Face's & Adding Text Zoom Feature
+
+Displaying all languages with the same font is cursed and lucky enough Emacs provides a proper way to deal with such cursed behavior! With the help of ~set-fontset-font~ we can inform Emacs about the fonts we'd like it to use when displaying content written in a given language.
+
+#+begin_src emacs-lisp
+(use-feature face-remap
+  :hook (text-mode . variable-pitch-mode)
+  :bind (("C-0" . (lambda () (interactive) (text-scale-increase 0.0)))
+         ("C-+" . (lambda () (interactive) (text-scale-increase 0.5)))
+         ("C--" . (lambda () (interactive) (text-scale-decrease 0.5))))
+  :config
+  (set-fontset-font t 'arabic (font-spec :family "Scheherazade New") nil 'prepend)
+  (set-fontset-font t 'han    (font-spec :family "Sarasa Mono CL")   nil 'prepend)
+  (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'append))
+#+end_src
+
+**** Changing The Slants A Bit
+
+#+begin_src emacs-lisp
+(use-feature font-lock
+  :custom-face
+  (font-lock-builtin-face       ((t (:slant italic))))
+  (font-lock-comment-face       ((t (:slant italic))))
+  (font-lock-doc-face           ((t (:slant italic))))
+  (font-lock-function-name-face ((t (:slant italic :weight bold))))
+  (font-lock-keyword-face       ((t (:slant italic))))
+  (font-lock-preprocessor-face  ((t (:weight bold))))
+  (font-lock-string-face        ((t (:slant italic)))))
+#+end_src
+
+*** Adding A Sprinkle Of Icons
+
+#+begin_src emacs-lisp
+(use-package nerd-icons
+  :demand t
+  :custom
+  (nerd-icons-font-family (when (featurep 'fontaine)
+                            (plist-get (fontaine--get-preset-properties 'default) :default-family)))
+  (nerd-icons-scale-factor 1.05))
+#+end_src
+
+We should also be able to complete the icons as we do on other platforms.
+
+#+begin_src emacs-lisp
+(use-package nerd-icons-completion
+  :after (nerd-icons vertico)
+  :hook (vertico-mode . nerd-icons-completion-mode))
+#+end_src
+
+*** SVG-Tag: Decorating Buffers With SVG
+
+#+begin_src emacs-lisp
+(use-package svg-tag-mode
+  :hook ((prog-mode text-mode) . svg-tag-mode)
+  :config
+  <<svg-tag-constants>>
+  <<svg-tag-progress-bar>>
+  <<svg-tag-patterns>>)
+#+end_src
+
+**** Defining Constants
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+NAME: svg-tag-constants
+#+begin_src emacs-lisp
+(defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
+(defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
+(defconst day-re "[A-Za-z]\\{3\\}")
+(defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
+#+end_src
+
+**** Adding A Progress Bar
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+NAME: svg-tag-progress-bar
+#+begin_src emacs-lisp
+(defun svg-progress-percent (value)
+  (svg-image (svg-lib-concat
+              (svg-lib-progress-bar (/ (string-to-number value) 100.0)
+                                    nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+              (svg-lib-tag (concat value "%")
+                           nil :stroke 0 :margin 0)) :ascent 'center)
+
+  (defun svg-progress-count (value)
+    (let* ((seq (mapcar #'string-to-number (split-string value "/")))
+           (count (float (car seq)))
+           (total (float (cadr seq))))
+      (svg-image (svg-lib-concat
+                  (svg-lib-progress-bar (/ count total) nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+                  (svg-lib-tag value nil :stroke 0 :margin 0)) :ascent 'center))))
+#+end_src
+
+**** Specifying Tagging Patterns
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+NAME: svg-tag-patterns
+#+begin_src emacs-lisp
+(setq svg-tag-tags
+      `(<<svg-tagging-general>>
+        <<svg-tagging-org-mode>>))
+#+end_src
+
+***** SVG Tagging: General
+
+#+NAME: svg-tagging-general
+#+begin_src emacs-lisp
+;; :TODO| Reduce to a more general solution
+;; :NOTE| Reduce to a more general solution
+;; :FIXME| There is more regexp
+;; :HACK| Fix this regexp
+;; :WARN| This needs to be fixed
+
+("\\([:]\\(?:TODO\\|todo\\)|.*\\)" . ((lambda (tag)
+                                        (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
+
+("\\([:]\\(?:TODO\\|todo\\)*|\\)" . ((lambda (tag)
+                                       (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+
+("\\([:]\\(?:WARN\\|warn\\)|.*\\)" . ((lambda (tag)
+                                        (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 7))))
+
+("\\([:]\\(?:FIXME\\|fixme\\)|.*\\)" . ((lambda (tag)
+                                          (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
+
+("\\([:]\\(?:FIXME\\|fixme\\)*|\\)" . ((lambda (tag)
+                                         (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+
+("\\([:]\\(?:HACK\\|PERF\\|MARK\\|hack\\)|.*\\)" . ((lambda (tag)
+                                                      (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
+
+("\\([:]\\(?:HACK\\|hack\\|PERF\\|WARN\\|warn\\|MARK\\)*|\\)" . ((lambda (tag)
+                                                                   (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+
+("\\([:]\\(?:NOTE\\|note\\)|.*\\)" . ((lambda (tag)
+                                        (svg-tag-make tag :face 'org-footnote :inverse t :crop-right t :beg 6))))
+
+("\\([:]\\(?:NOTE\\|note\\)*|\\)" . ((lambda (tag)
+                                       (svg-tag-make tag :face 'org-footnote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+#+end_src
+
+***** SVG Tagging: Org-Mode
+
+#+NAME: svg-tagging-org-mode
+#+begin_src emacs-lisp
+;; Org tags :THIS:
+;; ("\\(:[A-Za-z0-9]+:\\)" . ((lambda (tag)
+;;                              (svg-tag-make tag :beg 1 :end -1 :inverse t))))
+
+;; Task priority [#a]
+("\\[#[a-zA-Z]\\]" . ((lambda (tag)
+                        (svg-tag-make tag :face 'org-priority :beg 2 :end -1 :margin 0 :inverse t))))
+
+;; Progress (percentage): [45%]
+("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
+                                    (svg-progress-percent (substring tag 1 -2)))))
+
+;; Progress (fraction): [1/3]
+("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
+                                  (svg-progress-count (substring tag 1 -1)))))
+
+;; Org TAGS
+(":TODO:"              . ((lambda (tag) (svg-tag-make "TODO"         :face 'org-todo))))
+(":WIP:"               . ((lambda (tag) (svg-tag-make "WIP"          :face 'org-cite))))
+(":DONE:"              . ((lambda (tag) (svg-tag-make "DONE"         :face 'org-done))))
+(":NOTE:"              . ((lambda (tag) (svg-tag-make "NOTE"))))
+("SCHEDULED:"          . ((lambda (tag) (svg-tag-make "SCHEDULED"    :face 'org-warning))))
+("DEADLINE:"           . ((lambda (tag) (svg-tag-make "DEADLINE"     :face 'org-priority))))
+("^#\\+begin_src"      . ((lambda (tag) (svg-tag-make "BEGIN_SRC"    :face 'org-block-begin-line))))
+("^#\\+end_src"        . ((lambda (tag) (svg-tag-make "END_SRC"      :face 'org-block-end-line))))
+("^#\\+begin_export"   . ((lambda (tag) (svg-tag-make "BEGIN_EXPORT" :face 'org-block-begin-line))))
+("^#\\+end_export"     . ((lambda (tag) (svg-tag-make "END_EXPORT"   :face 'org-block-end-line))))
+("^#\\+begin_example"  . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-begin-line))))
+("^#\\+end_example"    . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-end-line))))
+("^#\\+begin_quote"    . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
+("^#\\+end_quote"      . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
+("^#\\+begin_sidenote" . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
+("^#\\+end_sidenote"   . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
+("^#\\+RESULTS:"       . ((lambda (tag) (svg-tag-make "RESULTS"      :face 'org-done :underline nil))))
+(":X"                  . ((lambda (tag) (svg-tag-make "[X]"          :face 'org-checkbox-statistics-done))))
+(":-"                  . ((lambda (tag) (svg-tag-make "[-]"          :face 'org-checkbox))))
+
+;; Citation of the form [cite:@Knuth:1984]
+("\\(\\[cite:@[A-Za-z]+:\\)" . ((lambda (tag)
+                                  (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
+
+("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)" . ((lambda (tag)
+                                           (svg-tag-make tag :end -1 :crop-left t))))
+
+       ;;; Works for stuff like :XXX|YYY:
+("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
+                                      (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
+
+(":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)" . ((lambda (tag)
+                                      (svg-tag-make tag :beg 1 :end -1 :margin 0 :crop-left t))))
+
+;; Active date (with or without day name, with or without time) <2023-04-03 Sun 17:45>
+(,(format "\\(<%s>\\)" date-re) . ((lambda (tag)
+                                     (svg-tag-make tag :beg 1 :end -1 :margin 0))))
+
+(,(format "\\(<%s \\)%s>" date-re day-time-re) . ((lambda (tag)
+                                                    (svg-tag-make tag :beg 1 :inverse t :crop-right t :margin 0 :face 'org-agenda-date))))
+
+(,(format "<%s \\(%s>\\)" date-re day-time-re) . ((lambda (tag)
+                                                    (svg-tag-make tag :end -1 :inverse nil :crop-left t :margin 0 :face 'org-agenda-date))))
+#+end_src
+
+*** Modeline(s) -> Status-Bar(s) For Emacs
+
+**** Doom: A Rather Doomed Modeline
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :after (nerd-icons)
+  :hook ((elpaca-after-init . doom-modeline-mode)
+         (doom-modeline-mode . display-time-mode))
+  :custom
+  (doom-modeline-bar-width 4)
+  (doom-modeline-buffer-file-name 'relative-to-project)
+  (doom-modeline-github t)
+  (doom-modeline-github-interval (* 30 60))
+  (doom-modeline-height 35)
+  (when (display-graphic-p) (doom-modeline-hud t)))
+#+end_src
+
+**** Minimalistic Modeline
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package mini-echo
+  :after (nerd-icons)
+  :hook (elpaca-after-init . mini-echo-mode)
+  :custom
+  (mini-echo-default-segments
+   '( :long ("evil" "major-mode" "vcs" "buffer-position" "envrc"
+             "buffer-size" "flymake" "process" "selection-info"
+             "narrow" "macro" "profiler" "repeat")
+      :short ("evil" "major-mode" "buffer-position"
+              "flymake" "process" "selection-info" "narrow"
+              "macro" "profiler" "repeat")))
+  (mini-echo-separator " ")
+  (mini-echo-update-interval 0.2)
+  (mini-echo-right-padding 1))
+#+end_src
+
+**** Telephone: Powerline Styled Modeline
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package telephone-line
+  :hook ((prog-mode text-mode) . telephone-line-mode)
+  :custom
+  (telephone-line-height 26)
+  (when (featurep 'evil) (telephone-line-evil-use-short-tag t))
+  (when (featurep 'meow) (telephone-line-meow-use-short-tag t))
+  ;; Left separator
+  (telephone-line-primary-left-separator 'telephone-line-tan-left)
+  (telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left)
+  ;; Right separator
+  (telephone-line-primary-right-separator 'telephone-line-tan-right)
+  (telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right))
+#+end_src
+
+*** Tab Bar(s) -> A Header-Line For Buffers
+
+**** Centaur Tabs: A Header Line For Buffers
+
+#+begin_src emacs-lisp
+(use-package centaur-tabs
+  :init (if (daemonp)
+            (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
+          (add-hook 'elpaca-after-init-hook 'centaur-tabs-mode))
+  :bind (:map centaur-tabs-mode-map
+              ("C-<prior>"   . #'centaur-tabs-backward-group)
+              ("C-<next>"    . #'centaur-tabs-forward-group)
+              ("M-<prior>"   . #'centaur-tabs-backward)
+              ("M-<next>"    . #'centaur-tabs-forward)
+              ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
+              ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
+  :custom
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-enable-key-bindings t)
+  (centaur-tabs-height 32)
+  (centaur-tabs-left-edge-margin nil)
+  (centaur-tabs-set-bar 'under)
+  (centaur-tabs-show-count nil)
+  (centaur-tabs-set-modified-marker t)
+  (centaur-tabs-show-navigation-buttons t)
+  (centaur-tabs-show-new-tab-button t)
+  (centaur-tabs-adjust-buffer-order t)
+  :config
+  (centaur-tabs-headline-match)
+  (centaur-tabs-enable-buffer-reordering)
+  (centaur-tabs-group-by-projectile-project)
+  (setq x-underline-at-descent-line t)
+
+  ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
+  (dolist (prefix '("*" " *" ;; all temporary buffers
+                    "consult-partial-preview"
+                    "Ement"
+                    "magit"))
+    (add-to-list 'centaur-tabs-excluded-prefixes prefix)))
+#+end_src
+
+**** Tabspaces: Buffer Isolated Workspaces
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package tabspaces
+  :hook (elpaca-after-init . tabspaces-mode)
+  :commands (tabspaces-switch-or-create-workspace
+             tabspaces-open-or-create-project-and-workspace)
+  :custom
+  (tabspaces-keymap-prefix "C-c p")
+  (tabspaces-use-filtered-buffers-as-default t)
+  (tabspaces-default-tab "Default")
+  (tabspaces-remove-to-default t)
+  (tabspaces-include-buffers '("*scratch*"))
+  (tabspaces-initialize-project-with-todo t)
+  (tabspaces-todo-file-name "project-todo.org")
+  (tabspaces-session t)
+  :config
+  ;; ~Consult-Buffer~ -> filter buffers by workspace
+  (with-eval-after-load 'consult
+    (consult-customize consult--source-buffer :hidden t :default nil)
+    (defvar consult--source-workspace
+      (list :name     "Workspace Buffers"
+            :narrow   ?w
+            :history  'buffer-name-history
+            :category 'buffer
+            :state    #'consult--buffer-state
+            :default  t
+            :items    (lambda ()
+                        (consult--buffer-query
+                         :predicate #'tabspaces--local-buffer-p
+                         :sort 'visibility
+                         :as #'buffer-name)))
+
+      "Set workspace buffer list for consult-buffer.")
+    (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
+#+end_src
+
+To ease the navigation between the growing tabs, we could add navigation bindings akin to the once we have for windows in browsers.
+
+#+begin_src emacs-lisp
+(use-feature tab-bar
+  :hook (elpaca-after-init . tab-bar-mode)
+  :bind (("C-<next>" . tab-next)
+         ("C-<prior>" . tab-previous))
+  :custom
+  (tab-bar-show 1)
+  (tab-bar-tab-hints t)
+  (tab-bar-new-tab-choice "*dashboard*"))
+#+end_src
+
+*** Dashboard: A Welcoming Buffer For New Frames
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :after (nerd-icons)
+  :commands (dashboard-refresh-buffer)
+  :hook ((elpaca-after-init . dashboard-open)
+         (dashboard-mode . hl-line-mode))
+  :custom-face
+  (dashboard-heading           ((t (:weight regular))))
+  (dashboard-banner-logo-title ((t (:weight regular))))
+  :custom
+  (initial-buffer-choice (lambda ()
+                           (dashboard-refresh-buffer)
+                           (get-buffer dashboard-buffer-name)))
+
+  (dashboard-display-icons-p t)
+  (dashboard-icon-type 'nerd-icons)
+
+  (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
+  (dashboard-center-content t)
+  (dashboard-modify-heading-icons '((recents . "file-text")
+                                    (bookmarks . "book")))
+  (dashboard-startup-banner (concat irkalla/main-residence "/logos/owl-skull.svg"))
+  (dashboard-path-max-length 20)
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
+  (dashboard-set-init-info t)
+  ;; (dashboard-projects-switch-function 'irkalla/switch-project-by-name) ;; :TODO| setup a projectile consult switcher
+  (dashboard-week-agenda t)
+
+  (dashboard-set-navigator t)
+  (dashboard-navigator-buttons
+   `(
+     ((,(nerd-icons-octicon "nf-oct-mark_github" :height 1.2 :v-adjust 0.0)
+       "Homepage"
+       "Browse my personal GitHub profile home."
+       (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
+
+      (,(nerd-icons-mdicon "nf-md-download" :height 1.2 :v-adjust 0.0)
+       "Elpaca Manager"
+       "Manage Irkalla Emacs packages."
+       (lambda (&rest _) (elpaca-manager)))
+
+      (,(nerd-icons-mdicon "nf-md-refresh" :height 1.2 :v-adjust 0.0)
+       "Restart Emacs.."
+       "Restart Irkalla Emacs instance."
+       (lambda (&rest _) (restart-emacs))))))
+
+  (dashboard-items '((recents   . 5)
+                     (bookmarks . 5)
+                     (projects  . 5)
+                     (agenda    . 5)
+                     (registers . 5)))
+
+  (dashboard-item-names '(("Recent Files:" . "Recently opened files:")
+                          ("Agenda for today:" . "Today's agenda:")
+                          ("Agenda for the coming week:" . "Agenda:"))))
+#+end_src
+
+**** Hydra: Dashboard Launch Option
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Application"
+     (("RET" dashboard-open "Dashboard")))))
+#+end_src
+
+** Part 3: Expanding The Utility Box
+
+*** Introducing The Basics
+
+**** Notifications -> System Alerts
+
+#+begin_src emacs-lisp
+(use-package alert
+  :custom (alert-default-style 'libnotify))
+#+end_src
+
+**** Spawn Emacs Everywhere
+
+#+begin_src emacs-lisp
+(use-package emacs-everywhere
+  :commands (emacs-everywhere)
+  :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
+
+#+end_src
+
+**** Trace Performance Hiccups
+
+#+begin_src emacs-lisp
+(use-package esup
+  :commands (esup)
+  :custom (esup-depth 0))
+#+end_src
+
+**** ~C-h~ On Steroids
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :demand t
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Utilities: Helpful ｣──" 'mdicon "nf-md-help_network")
+           :color teal :quit-key "q")
+   ("Describe"
+    (("k" helpful-key      "Key(s)")
+     ("f" helpful-function "Function(s)")
+     ("F" helpful-callable "Interactive function(s)")
+     ("v" helpful-variable "Variable(s)")
+     ("c" helpful-command  "Command(s)"))
+    "Action"
+    (("p" helpful-at-point "SYMB at point"))))
+  :config (setq-default help-window-select t))
+#+end_src
+
+Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our new hydra to our main Hydra.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ main-hydra ()
+    ("Main"
+     (("h" helpful-hydra/body "Helpful")))))
+#+end_src
+
+**** A Minimal Capture Toolkit
+
+As of now, screenshot is not useful because of how I maintain my system clipboard. (~cb~ instead of ~xclip~)
+
+#+begin_src emacs-lisp
+(use-package screenshot
+  :ensure (:host github :repo "tecosaur/screenshot"))
+#+end_src
+
+**** Controlling Recent Files
+
+#+begin_src emacs-lisp
+(use-feature recentf
+  :custom
+  (recentf-save-file-modes #o600)
+  (recentf-max-saved-items 1024)
+  (recentf-auto-cleanup 600)
+  (recentf-exclude '(;; Compressed files & Archives
+                     "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$"
+                     "\\.bz2$" "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zpaq$"
+                     "\\.lz$" "\\.lrz$" "\\.lzo$" "\\.lzma$" "\\.shar$" "\\.kgb$"
+                     "\\.zip$" "\\.Z$" "\\.7z$" "\\.rar$"
+                     ;; TRAMP
+                     "^/sudo:" "^/ssh:"
+                     ;; Emacs-Everywhere
+                     "/tmp/emacs-everywhere")))
+#+end_src
+
+**** Chinese, Japanese & Korean
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package pyim
+  :bind (:map text-mode-map
+              ("M-j" pyim-convert-string-at-point))
+  :custom
+  (pyim-default-scheme 'quanpin)
+  (pyim-page-tooltip 'posframe)
+  (pyim-page-length 5)
+  (pyim-directory (no-littering-expand-var-file-name "pyim/"))
+  (pyim-dcache-directory (pyim-directory "dcache/")))
+#+end_src
+
+Also, I want several dictionaries to learn & recall the definitions of several words.
+
+#+begin_src emacs-lisp
+(use-package pyim-basedict
+  :after (pyim)
+  :hook (pyim-mode . pyim-basedict-enable))
+
+(use-package youdao-dictionary
+  :commands (youdao-dictionary-search-at-point-posframe)
+  :bind (("C-c y" youdao-dictionary-search-at-point-posframe)))
+#+end_src
+
+*** New & Extension Of Built-in Features
+
+**** Popper: Pop-up Related Buffers On Demand
+
+#+begin_src emacs-lisp
+(use-package popper
+  :hook (elpaca-after-init . (lambda ()
+                               (popper-mode +1)
+                               (popper-echo-mode +1)))
+  :custom
+  (popper-reference-buffers
+   '("\\*Messages\\*"
+     "Output\\*$"
+     "\\*Async Shell Command\\*"
+     help-mode
+     compilation-mode
+
+     ;; :NOTE| terminal-related
+     "^\\*eat.*\\*$"    eat-mode
+     "^\\*eshell.*\\*$" eshell-mode
+     "^\\*shell.*\\*$"  shell-mode
+     "^\\*term.*\\*$"   term-mode
+     "^\\*vterm.*\\*$"  vterm-mode))
+
+  (popper-group-function #'popper-group-by-projectile)
+  (popper-display-function #'display-buffer-full-frame))
+#+end_src
+
+***** Hydra: Adding Popper Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define popper-hydra
+    (:title (pretty-hydra-title "──｢ Utilities: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+            :color teal :quit-key "q")
+    ("Action(s)"
+     (("t" popper-toggle      "Un/Toggle Popup")
+      ("j" popper-cycle       "Cycle Between Popup(s)")
+      ("s" popper-toggle-type "Add Buf. To Popup"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Action"
+     (("t" popper-hydra/body "Popper")))))
+#+end_src
+
+**** Dired: Built-in Emacs File Manager
+
+Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall add that minor feature to Irkalla.
+
+#+begin_src emacs-lisp
+(use-feature dired
+  :config
+  (setopt mouse-drag-and-drop-region-cross-program t
+          mouse-1-click-follows-link nil)
+  :custom (dired-mouse-drag-files t))
+#+end_src
+
+I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
+
+#+begin_src emacs-lisp
+(use-feature dired-x
+  :after (dired)
+  :preface
+  (defun dired-external-launch (application extensions)
+    "External `APPLICATION' used for launching specific file-extensions."
+    (let ((pattern (concat "\\." (regexp-opt extensions t) "$"))
+          (entry (list pattern application)))
+      (add-to-list 'dired-guess-shell-alist-user entry)))
+  :custom
+  (dired-external-launch
+   (if (eq system-type 'gnu/linux) "mpv" "xdg-open")
+   '("avi" "flv" "mkv" "mov" "mp3" "mp4" "mpeg" "mpg" "ogg" "ogm" "wav" "wmv"))
+
+  (dired-external-launch
+   (if (eq system-type 'gnu/linux) "libreoffice" "xdg-open")
+   '("doc" "docx"  "odt" "xls" "xlsx")))
+#+end_src
+
+Lastly, I want the different type of directories to have some form of syntax highlighting.
+
+#+begin_src emacs-lisp
+(use-package diredfl
+  :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
+  :custom-face (diredfl-dir-name ((t :bold t))))
+#+end_src
+
+***** Dirvish: Polishing Dired + Batteries
+
+#+begin_src emacs-lisp
+(use-package dirvish
+  :commands (dirivish-side)
+  :hook (elpaca-after-init . dirvish-override-dired-mode)
+  :bind (("C-c f" . dirvish-side)
+         :map dirvish-mode-map
+         ("a"   . dirvish-quick-access)
+         ("f"   . dirvish-file-info-menu)
+         ("y"   . dirvish-yank-menu)
+         ("N"   . dirvish-narrow)
+         ("^"   . dirvish-history-last)
+         ("h"   . dirvish-history-jump)
+         ("s"   . dirvish-quicksort)
+         ("v"   . dirvish-vc-menu)
+         ("TAB" . dirvish-subtree-toggle)
+         ("M-f" . dirvish-history-go-forward)
+         ("M-b" . dirvish-history-go-backward)
+         ("M-l" . dirvish-ls-switches-menu)
+         ("M-m" . dirvish-mark-menu)
+         ("M-t" . dirvish-layout-toggle)
+         ("M-s" . dirvish-setup-menu)
+         ("M-e" . dirvish-emerge-menu)
+         ("M-j" . dirvish-fd-jump)
+         ("<mouse-1>" . dirvish-subtree-toggle-or-open)
+         ("<mouse-2>" . dired-mouse-find-file-other-window)
+         ("<mouse-3>" . dired-mouse-find-file))
+  :config
+  (dirvish-peek-mode)
+  (dirvish-side-follow-mode)
+  :custom
+  (dirvish-side-width 30)
+  (dirvish-use-header-line t)
+  (dirvish-fd-default-dir "~/")
+  (dirvish-quick-access-entries
+   '(("h" "~/"                          "Home")
+     ("d" "~/Downloads/"                "Downloads")
+     ("m" "/mnt/"                       "Drives")
+     ("l" "~/Library/unexplored"        "Library")
+     ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
+  (dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
+  (dirvish-attributes '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
+  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
+#+end_src
+
+**** Which Key Was It Again???
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :hook ((elpaca-after-init . which-key-mode)
+         (which-key . which-key-setup-minibuffer))
+  :custom
+  (which-key-allow-evil-operators t)
+  (which-key-idle-delay 0.3)
+  (which-key-show-remaining-keys t)
+  (which-key-separator " → ")
+  (which-key-sort-order 'which-key-prefix-then-key-order))
+#+end_src
+
+**** Consult: Search & Navigation Commands
+
+#+begin_src emacs-lisp
+(use-package consult
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :config
+  (setopt register-preview-delay 0.5
+          register-preview-function #'consult-register-format)
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Consult -> select xref locations with preview
+  (setopt xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
+  :custom
+  (consult-narrow-key "<") ;; "C-+"
+  (consult-customize consult-theme :preview-key '(:debounce 0.2 any)
+                     consult-ripgrep consult-git-grep consult-grep
+                     consult-bookmark consult-recent-file consult-xref
+                     consult--source-bookmark consult--source-file-register
+                     consult--source-recent-file consult--source-project-recent-file
+                     :preview-key '(:debounce 0.4 any)))
+#+end_src
+
+Allowing consult to interact with my ever-growing projects is something I consider to be useful.
+
+#+begin_src emacs-lisp
+(use-package consult-projectile
+  :after (consult projectile))
+#+end_src
+
+***** Hydra: Consult Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define consult-hydra
+    (:title (pretty-hydra-title "──｢ Utilities: Consult ｣──" 'mdicon "nf-md-console")
+            :color teal :quit-key "q")
+    ("Main"
+     (("f" consult-fd                        "Find files by NAME")
+      ("r" consult-recent-file               "Recent files")
+      ("p" consult-projectile-switch-project "Switch project")
+      ("/" consult-ripgrep                   "Grep <- REGEXP"))
+     "Action"
+     (("B" consult-bookmark                  "Open named bookmark")
+      ("h" consult-history                   "Insert STR from hist.")
+      ("y" consult-yank-pop                  "Paste yank <- reg.")
+      ("t" consult-theme                     "Switch Theme"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Action"
+     (("f" consult-hydra/body "Consult"))))
+
+  (pretty-hydra-define editor-consult-hydra
+    (:title (pretty-hydra-title "──｢ Utilities: Consult ｣──" 'mdicon "nf-md-console")
+            :color teal :quit-key "q")
+    ("Language Server"
+     (("m" consult-mark                      "Jump -> marker")
+      ("M" consult-global-mark               "Glob. jump -> marker")
+      ("o" consult-outline                   "Jump -> buffer outlines")
+      ("[" consult-flymake                   "Jump -> Flymake diagnostics")
+      ("]" consult-compile-error             "Jump -> compile-error in buffer"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("f" editor-consult-hydra/body "Consult"))))
+
+  (pretty-hydra-define+ buffer-hydra ()
+    ("Consult"
+     (("b" consult-buffer                    "Switch buffer")
+      ("B" consult-projectile-buffer         "Switch -> project buffer")
+      ("w" consult-buffer-other-window       "Buf. switch -> Split"))))
+
+  (pretty-hydra-define+ helpful-hydra ()
+    ("Action"
+     (("?" consult-man                       "Consult 'MAN'-page(s)")
+      ("i" consult-info                      "Consult 'MANUAL'")))))
+#+end_src
+
+**** Embark: Mini-Buffer Actions
+
+#+begin_src emacs-lisp
+(use-package embark
+  :hook (eldoc-documentation-functions . embark-eldoc-first-target)
+  :custom
+  (embark-prompter #'embark-completing-read-prompter)
+  (embark-indicators '(embark-minimal-indicator
+                       embark-highlight-indicator
+                       embark-isearch-highlight-indicator))
+  :config
+  (setopt prefix-help-command #'embark-prefix-help-command)
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+#+end_src
+
+Well, since =Embark= and =Consult= can be linked... I do not see a reason for their seperation.
+
+#+begin_src emacs-lisp
+(use-package embark-consult
+  :after (embark consult)
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
+#+end_src
+
+***** Hydra: Embark Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define embark-hydra
+    (:title (pretty-hydra-title "──｢ Utilities: Embark ｣──" 'mdicon "nf-md-lightbulb_on_outline")
+            :color teal :quit-key "q")
+    ("Action(s)"
+     (("a" embark-act      "Prompt -> perform")
+      ("d" embark-dwim     "Run default on buffer"))
+     "Documentation"
+     (("h" embark-bindings "Explore Emacs bindings"))))
+
+  (pretty-hydra-define+ main-hydra ()
+    ("Action"
+     (("e" embark-hydra/body "Embark")))))
+#+end_src>
+
+**** Vertico: Mini-Buffer On Steroids
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :ensure (:files (:defaults "extensions/*"))
+  :hook (elpaca-after-init . vertico-mode)
+  :custom
+  (vertico-cycle t)
+
+  (vertico-multiform-categories
+   '((file grid reverse)
+     (consult-location buffer)
+     (consult-grep buffer)
+     (minor-mode reverse)
+     (imenu buffer)
+     (t unobtrusive)))
+
+  (vertico-multiform-commands
+   '((consult-dir reverse)
+     (execute-extended-command flat)
+     (embark-prefix-help-command reverse)
+     (completion-at-point reverse))))
+#+end_src
+
+Items displayed within =Vertico= should be clickable by the mouse, for whatever reason I choose to use the mouse.
+
+#+begin_src emacs-lisp
+(use-feature vertico-mouse
+  :hook (vertico-mode . vertico-mouse-mode))
+#+end_src
+
+Directory navigation within =Vertico= is not idle by default.. therefore I choose to take care of it.
+
+#+begin_src emacs-lisp
+(use-feature vertico-directory
+  :after (vertico)
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :bind (:map vertico-map
+              ("RET"   . vertico-directory-enter)
+              ("DEL"   . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word)))
+#+end_src
+
+Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :preface
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" "" crm-separator)
+                  (car args))
+          (cdr args)))
+  :hook (minibuffer-setup . cursor-intangible-mode)
+  :config
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  (setopt enable-recursive-minibuffers t
+          minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt)))
+#+end_src
+
+As of now, I am not planning on having my =Vertico= buffers float. But I might change myself later, hence why I choose to retain the code block below.
+
+#+begin_src emacs-lisp :tangle no
+(use-package vertico-posframe
+  :hook (vertico-mode . vertico-posframe-mode)
+  :custom
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
+  (vertico-posframe-fallback-mode vertico-buffer-mode))
+#+end_src
+
+**** Marginalia: Annotate The Mini-Buffer
+
+#+begin_src emacs-lisp
+(use-package marginalia
+  :hook (elpaca-after-init . marginalia-mode)
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right))
+#+end_src
+
+**** Terminal Work & Emulation Within Emacs
+
+#+begin_src emacs-lisp
+(use-feature tramp
+  :config
+  (setopt remote-file-name-inhibit-cache nil)
+  (add-to-list 'tramp-connection-properties
+               (list (regexp-quote "/ssh:YOUR_HOSTNAME:")
+                     "direct-async-process" t))
+  :custom
+  (tramp-verbose 0)
+  (tramp-chunksize 2000)
+  (tramp-use-ssh-controlmaster-options nil))
+#+end_src
+
+***** Eshell: Emacs-Lisp Shell
+
+=Eshell= is a bit special, it acts as a seperate shell from your system shell and therefore you won't access your system shell environment by default. And it also comes with unpolished aesthetics IMO, therefore I thought I should clean it up a bit.
+
+#+begin_src emacs-lisp
+(use-feature eshell
+  :preface
+  <<eshell-shorten-directory-path>>
+  <<eshell-redesign-prompt>>
+  :custom
+  (eshell-error-if-no-glob t)
+  (eshell-hist-ignoredups t)
+  (eshell-save-history-on-exit t)
+  (eshell-scroll-to-bottom-on-input 'this)
+  (eshell-scroll-to-bottom-on-output nil)
+  (eshell-destroy-buffer-when-process-dies t)
+  ;; :NOTE| Aesthetics of our semi-cursed prompt?
+  (eshell-prompt-function #'irkalla/eshell-prompt)
+  (eshell-prompt-regexp "^.*└─➤ 𝝺 "))
+#+end_src
+
+****** Shorten Directory Path Length
+
+#+begin_src emacs-lisp :tangle no
+(defun shortened-path (path max-len)
+  (require 'cl-lib)
+  (let* ((components (split-string (abbreviate-file-name path) "/"))
+         (len (+ (1- (length components))
+                 (cl-reduce '+ components :key 'length)))
+         (str ""))
+    (while (and (> len max-len) (cdr components))
+      (setq str (concat str (if (= 0 (length (car components)))
+                                "/" (string (elt (car components) 0) ?/)))
+            len (- len (1- (length (car components))))
+            components (cdr components)))
+    (concat str (cl-reduce (lambda (a b) (concat a "/" b)) components))))
+#+end_src
+
+****** A Different Prompt Aesthetic
+
+Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][starship-rs]] with =Eshell=, I am forced to take things into hand.
+
+#+begin_src emacs-lisp :tangle no
+  (defun irkalla/eshell-prompt ()
+    (concat
+     (propertize (concat "  " (shortened-path (eshell/pwd) 40)) 'face 'font-lock-constant-face)
+     (when (package-installed-p 'magit)
+       (propertize (if (magit-get-current-branch)
+                       (concat "   " (magit-get-current-branch)) "" 'face 'font-lock-variable-name-face)))
+     (when (package-installed-p 'envrc)
+       (propertize (if (string= envrc--status 'none)
+                       "" "   " 'face 'font-lock-string-face)))
+     (propertize (concat "   " (format-time-string "%H:%M" (current-time))) 'face 'font-lock-variable-name-face)
+     (propertize "\n └─➤ 𝝺 " 'face 'font-lock-type-face)))
+#+end_src
+
+****** Hydra: Eshell Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal"
+     (("l" project-eshell "Eshell -> Project")
+      ("n" nix-shell      "Eshell -> Nix")))))
+#+end_src
+
+***** EAT: Terminal Emulator In Lisp
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package eat
+  :ensure (:host codeberg :repo "akib/emacs-eat"
+                 :files ("*.el" ("term" "term/*.el") "*.texi"
+                         "*.ti" ("terminfo/e" "terminfo/e/*")
+                         ("terminfo/65" "terminfo/65/*")
+                         ("integration" "integration/*")
+                         (:exclude ".dir-locals.el" "*-tests.el")))
+  :hook ((eshell-mode . (lambda ()
+                          (eat-eshell-mode)
+                          (eat-eshell-visual-command-mode))))
+  :custom
+  (eat-kill-buffer-on-exit t)
+  (eat-enable-auto-line-mode t))
+#+end_src
+
+****** Hydra: EAT Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal"
+     (("e" eat         "EAT")
+      ("p" eat-project "EAT -> Project")))))
+#+end_src
+
+***** VTerm: Fully-Fledged Terminal
+
+#+begin_src emacs-lisp
+(use-feature vterm
+  :commands (vterm)
+  :hook (vterm-mode . evil-emacs-state)
+  :bind (:map vterm-mode-map
+              ("<S-prior>" . #'scroll-down-command)
+              ("<S-next>"  . #'scroll-up-command))
+  :custom
+  (vterm-timer-delay 0.01)
+  (vterm-max-scrollback 10000)
+  (vterm-clear-scrollback-when-clearing t))
+#+end_src
+
+****** Hydra: VTerm Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Terminal"
+     (("e" vterm "VTerm")
+      ("p" projectile-run-vterm "VTerm -> Project")))))
+#+end_src
+
+*** Trivial Changes To Extend Workflow
+
+**** Life Without Reading Sucks
+
+***** PDF Reader
+
+#+begin_src emacs-lisp
+(use-feature pdf-tools ;; <-^ fetched from Nixpkgs
+  :init (push 'pdf-tools elpaca-ignored-dependencies) ;; Allows proper detection of ~epdfinfo~
+  :config
+  (require 'pdf-annot) ;; WARNING find a way to load all of pdf-tools without excluding anything
+  (require 'pdf-occur)
+  (require 'pdf-outline))
+#+end_src
+
+Let's sprinkle some beauty to the displayed PDF-files for more appropriate reading environment. (debatable)
+
+#+begin_src emacs-lisp
+(use-feature pdf-view
+  :magic ("%PDF" . pdf-view-mode)
+  :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
+  :hook (pdf-view-mode . (lambda ()
+                           (when (featurep 'evil)
+                             ;; :NOTE| Set the PDF free from the unnecessary borders
+                             (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
+                           (pdf-view-themed-minor-mode)))
+  :config
+  (advice-add 'pdf-view-enlarge :after (lambda (&rest _args) (pdf-view-center-in-window)))
+  (advice-add 'pdf-view-shrink :after (lambda (&rest _args) (pdf-view-center-in-window)))
+  :custom
+  (pdf-view-use-scaling t)
+  (pdf-view-use-imagemagick nil)
+  (pdf-view-display-size 'fit-width))
+#+end_src
+
+Instead of maintaining a bookmark for each PDF file I read, I decided to add a package to help me defer that process.
+
+#+begin_src emacs-lisp
+(use-package pdf-view-restore
+  :hook (pdf-view-mode . pdf-view-restore-mode)
+  :custom (pdf-view-restore-filename (no-littering-expand-var-file-name "pdf-view-restore")))
+#+end_src
+
+***** EPUB Reader
+
+#+begin_src emacs-lisp
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :hook (nov-mode . (lambda () (toggle-scroll-bar +1)))
+  :custom (nov-text-width t))
+#+end_src
+
+Being able to render the EPUB files in a cleaner fashion could sometimes be nice.
+
+#+begin_src emacs-lisp
+(use-package nov-xwidget
+  :ensure (:host github :repo "chenyanming/nov-xwidget")
+  :hook (nov-mode . nov-xwidget-inject-all-files)
+  :bind (:map nov-mode-map
+              ("o" . #'nov-xwdiget-view)))
+#+end_src
+
+***** RSS Reader
+
+#+begin_src emacs-lisp
+(use-feature newsticker
+  :preface
+  (defun irkalla/newsticker-start-newTab ()
+    "Launch NewsTicker (TreeView) in a new tab."
+    (interactive)
+    (let (success)
+      (unwind-protect (progn
+                        (tab-bar-new-tab)
+                        (call-interactively #'newsticker-treeview)
+                        (tab-bar-rename-tab "newsticker")
+                        (setq success t))
+        (unless success (tab-bar-close-tab)))))
+
+  (defun irkalla/newsticker-quit-newTab ()
+    "Quit NewsTicker (TreeView) -> stop NewsTicker -> close tab."
+    (interactive)
+    (newsticker-treeview-quit)
+    (newsticker-stop)
+    (tab-close))
+  :hook (newsticker-treeview-item-mode . visual-line-mode)
+  :bind (:map newsticker-treeview-mode-map
+              ("o" . newsticker-treeview-browse-url)
+              ("q" . irkalla/newsticker-quit-newTab))
+  :custom
+  (newsticker-automatically-mark-items-as-old nil)
+  (newsticker-automatically-mark-visited-items-as-old t)
+  (newsticker-obsolete-item-max-age 259200) ;; 3 days
+  (newsticker-retrieval-method 'extern)
+  (newsticker-treeview-automatically-mark-displayed-items-as-old nil)
+
+  (newsticker-url-list-defaults nil)
+  (newsticker-url-list
+   '(("Planet Emacslife"            "https://planet.emacslife.com/atom.xml")
+     ("Sacha Chua"                  "https://sachachua.com/blog/feed/")
+     ("Mastering Emacs"             "http://www.masteringemacs.org/feed/")
+     ;; ---[ Science & Technology ]---
+     ("Phys.org: Physics"           "https://phys.org/rss-feed/")
+     ("Quanta Magazine"             "https://api.quantamagazine.org/feed/")
+     ;; ---[ Mathematics ]---
+     ("Arxiv: Mathematics"          "http://arxiv.org/rss/math")
+     ("Arxiv: Mathematical Physics" "http://arxiv.org/rss/math-ph")
+     ("Terrence Tao (Blog)"         "https://terrytao.wordpress.com/feed/")
+     ("Stephen Wolfram (Blog)"      "https://writings.stephenwolfram.com/feed/")
+     ;; ---[ Computer Science ]---
+     ("Arxiv: Computer Science"     "http://arxiv.org/rss/cs")
+     ;; ---[ Physics ]---
+     ("Arxiv: Physics"              "http://arxiv.org/rss/physics")))
+
+  (newsticker-wget-name "curl")
+  (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8")))
+#+end_src
+
+****** Hydra: Newsticker Commands
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ launcher-hydra ()
+    ("Application"
+     (("n" irkalla/newsticker-start-newTab "Newsticker (RSS)")))))
+#+end_src
+
+**** Socializing Is Alright
+
+Syntax highlighting is a nice feature to have in our different chat clients.
+
+#+begin_src emacs-lisp
+(use-package htmlize)
+#+end_src
+
+***** Matrix: Secure & Interoperable Communication
+
+#+begin_src emacs-lisp
+(use-package ement
+  :commands (ement-connect)
+  :hook (ement-room-mode . visual-line-mode)
+  :bind (:map ement-room-mode-map
+              ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
+              ([remap pixel-scroll-interpolate-down] . ement-room-scroll-up-mark-read))
+  :custom
+  ;; :NOTE| Notifications ought to be limited to @mentions only!
+  (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
+                                          ement-notify--event-mentions-room-p))
+  (ement-room-images t)
+  (ement-room-message-format-spec "%S>%L %B%r%R[%t]")
+  (ement-room-send-message-filter #'ement-room-send-org-filter)
+  (ement-save-sessions t)
+  :config
+  (add-hook 'ement-room-read-string-setup-hook
+            (lambda ()
+              (when (featurep 'cape)
+                (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
+#+end_src
+
+I also want to write a function that could later be used to spawn an Emacs (matrix) frame by XMonad or other window managers.
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/connect-to-matrix ()
+  "Connect Emacs to the Matrix, unless connection exists."
+  (interactive "p")
+  (require 'ement)
+  (let* ((matrix-username "@gilganix:matrix.org"))
+    (cond
+     ((map-elt ement-sessions matrix-username) (ement-room-list))
+     ((ement--read-sessions)
+      (call-interactively #'ement-connect)
+      (message "Connecting to known Ement session..."))
+     (t (ement-connect
+         :user-id matrix-username
+         :password (irkalla/read-secret-file "Ement")
+         :uri-prefix "http://localhost:8009")))))
+#+end_src
+
+***** Telega: Emacs Telegram Client
+
+#+begin_src emacs-lisp
+(use-feature telega ;; <-^ fetched from Nixpkgs
+  :commands (telega)
+  :hook (telega-chat-mode . visual-line-mode)
+  :custom
+  (telega-directory (no-littering-expand-var-file-name "telega/"))
+  (telega-chat-bidi-display-reordering t)
+  (telega-notifications-mode t)
+  (telega-emoji-use-images nil) ;; recent libsvg issue..
+  :config
+  (when (featurep 'cape)
+    (add-hook 'telega-chat-mode-hook
+              (lambda ()
+                (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
+#+end_src
+
+**** Browsing The Web
+
+***** GNU Emacs Web Browser (EWW)
+
+#+begin_src emacs-lisp
+(use-feature eww
+  :preface
+  (defun auto-readable-wikipedia ()
+    "Run `eww-readable' if the current buffer is a Wikipedia article."
+    (when (and (eq major-mode 'eww-mode)
+               (string-match-p "\\bwikipedia\\.org\\b" (eww-current-url)))
+      (eww-readable)))
+  :hook (eww-after-render . auto-readable-wikipedia))
+#+end_src>
+
+***** Shrface: Org Like Rendering For The Web
+
+#+begin_src emacs-lisp
+(use-package shrface
+  :after (shr)
+  :hook ((shrface-mode . (lambda ()
+                           (visual-line-mode)
+                           (variable-pitch-mode)))
+         (eww-after-render . shrface-mode)
+         (nov-mode . (lambda ()
+                       (setopt nov-shr-rendering-functions '((img . nov-render-img)
+                                                             (title . nov-render-title)))
+                       (setq nov-shr-rendering-functions
+                             (append nov-shr-rendering-functions shr-external-rendering-functions))
+                       (shrface-mode +1))))
+  :custom
+  (shrface-href-versatile t)
+  (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star)))
+  :config
+  (shrface-basic)
+  (shrface-trial)
+  (shrface-default-keybindings))
+#+end_src
+
+I also would like for web-pages to properly render code blocks, and that is by displaying them with the appropriate syntax highlighting.
+
+#+begin_src emacs-lisp
+(use-package shr-tag-pre-highlight
+  :after (shr)
+  :hook (eww-after-render . (lambda ()
+                              (require 'shr-tag-pre-highlight)
+                              (add-to-list 'shr-external-rendering-functions
+                                           '(pre . shr-tag-pre-highlight)))))
+#+end_src
+
+** Part 4: Editing Environment
+
+*** Alternative Editing Bindings
+
+**** EVIL: VIM Layer For Emacs
+
+Related links:
+- https://github.com/emacs-evil/evil
+
+#+begin_src emacs-lisp
+(use-package evil
+  :hook (elpaca-after-init . evil-mode)
+  :config (evil-set-undo-system 'undo-fu)
+  :custom
+  (evil-respect-visual-line-mode t)
+  (evil-split-window-below t)
+  (evil-vsplit-window-right t)
+  (evil-want-integration t)
+  (evil-want-keybinding nil))
+#+end_src
+
+***** A Collection Of Evil Bindings
+
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after (evil)
+  :hook (evil-mode . (lambda ()
+                       (evil-collection-init)
+                       (setopt evil-want-keybinding t)))
+  :custom
+  (evil-collection-magit-want-horizontal-movement t)
+  (evil-collection-magit-use-y-for-yank t))
+#+end_src
+
+***** EVIL-Snipe: 2-Char Word Word Search
+
+#+begin_src emacs-lisp
+(use-package evil-snipe
+  :after (evil)
+  :hook (((prog-mode text-mode) . evil-snipe-local-mode)
+         (evil-snipe-local-mode . evil-snipe-override-local-mode))
+  :custom
+  (evil-snipe-scope 'visible)
+  (evil-snipe-repeat-scope 'whole-visible)
+  (evil-snipe-spillover-scope nil)
+  :config (push '(?\[ "[[{(]") evil-snipe-aliases))
+#+end_src
+
+***** EVIL Surround Word With SYMB
+
+#+begin_src emacs-lisp
+(use-package evil-surround
+  :after (evil)
+  :hook (evil-mode . global-evil-surround-mode))
+#+end_src
+
+***** Quick EVIL Escape
+
+#+begin_src emacs-lisp
+(use-package evil-escape
+  :after (evil)
+  :delight (evil-escape-mode)
+  :hook (evil-mode . evil-escape-mode)
+  :custom
+  (evil-escape-key-sequence "jk")
+  (evil-escape-delay 0.1)
+  (evil-escape-unodered-key-sequence nil))
+#+end_src
+
+***** EVIL Action Highlight
+
+#+begin_src emacs-lisp
+(use-package evil-goggles
+  :after (evil)
+  :hook (evil-mode . evil-goggles-mode)
+  :custom (evil-goggles-duration 0.1))
+#+end_src
+
+***** EVIL (Line/Block) Commenting
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :after (evil)
+  :commands (evilnc-comment-or-uncomment-lines
+             evilnc-comment-or-uncomment-paragraphs))
+#+end_src
+
+****** Hydra: Evil Comment Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Action"
+     ((";" evilnc-comment-or-uncomment-lines      "Comment line"))))
+
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     ((";" evilnc-comment-or-uncomment-lines "Comment Line(s)")))))
+#+end_src
+
+**** MEOW: Modular Editing
+
+Related links:
+- https://github.com/meow-edit/meow
+
+#+begin_src emacs-lisp
+(use-package meow
+  :demand t
+  :hook (elpaca-after-init . meow-global-mode)
+  :custom-face
+  (meow-beacon-indicator ((t (:inherit telephone-line-evil-emacs))))
+  (meow-insert-indicator ((t (:inherit telephone-line-evil-insert))))
+  (meow-motion-indicator ((t (:inherit telephone-line-evil-motion))))
+  (meow-normal-indicator ((t (:inherit telephone-line-evil-motion))))
+  (meow-keypad-indicator ((t (:inherit telephone-line-evil-operator))))
+  :custom
+  (meow-keypad-self-insert-undefined nil)
+  (meow-keypad-ctrl-meta-prefix nil)
+  (meow-keypad-literal-prefix ?\s)
+  (meow-keypad-meta-prefix ?m)
+  (meow-keypad-start-keys '((?c . ?c) (?u . ?u) (?x . ?x)))
+  (meow-mode-state-list '((vterm-mode . insert)))
+
+  (meow-expand-hint-remove-delay 1.5)
+  (meow-esc-delay 0.001)
+  (meow-expand-exclude-mode-list nil)
+  :config
+  (meow-qwerty-setup)
+  (meow-setup-indicator)
+  (meow-setup-line-number)
+
+  ;; :NOTE| meow-things related bindings
+  (meow-thing-register 'tex-round    '(pair ("\\left(") ("\\right)"))     '(pair ("\\left(") ("\\right)")))
+  (meow-thing-register 'tex-square   '(pair ("\\left[") ("\\right]"))     '(pair ("\\left[") ("\\right]")))
+  (meow-thing-register 'tex-curly    '(pair ("\\left\\{") ("\\right\\}")) '(pair ("\\left\\{") ("\\right\\}")))
+
+  (meow-thing-register 'quote-gqq    '(pair ("„") ("“"))                  '(pair ("„") ("“")))
+  (meow-thing-register 'quote-gq     '(pair ("‚") ("‘"))                  '(pair ("‚") ("‘")))
+  (meow-thing-register 'quote-eqq    '(pair ("“") ("”"))                  '(pair ("“") ("”")))
+  (meow-thing-register 'quote-eq     '(pair ("‘") ("’"))                  '(pair ("‘") ("’")))
+
+  ;; Later we inform Meow about our new changes
+  (setopt meow-char-thing-table
+          '((?\( . round)     (?\) . round)
+            (?\[ . square)    (?\] . square)
+            (?\{ . curly)     (?\} . curly)
+            (?r  . tex-round) (?s  . tex-square) (?c . tex-curly)
+            (?„  . quote-gqq) (?‚  . quote-gq)
+            (?\“ . quote-eqq) (?\‘ . quote-eq)
+            (?s  . symbol)    (?.  . sentence)   (?b . buffer)
+            (?p  . paragraph) (?l  . line)       (?\" . string))))
+#+end_src
+
+***** QWERTY Layout
+
+#+begin_src emacs-lisp
+(defun meow-qwerty-setup ()
+  "Simple bindings intended to make our Meow workflow more fluid."
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
+        meow-use-cursor-position-hack t)
+
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("<escape>" . keyboard-quit))
+
+  (meow-leader-define-key
+   ;; SPC j/k will run the original command in MOTION state.
+   '("j" . "H-j")
+   '("k" . "H-k")
+
+   ;; Use SPC (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
+
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+
+   '("~" . upcase-char)
+   '("-" . negative-argument)
+   '("=" . indent-region)
+   '(":" . recenter-top-bottom)
+   '(";" . meow-reverse)
+   '("." . repeat)
+   '("<" . meow-inner-of-thing)
+   '(">" . meow-bounds-of-thing)
+   '("(" . backward-sexp)
+   '(")" . forward-sexp)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("P" . meow-yank-pop)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . undo)
+   '("U" . undo-redo)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("<escape>" . keyboard-quit)))
+#+end_src
+
+*** The Basic Requirements Of An Editor
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :hook (text-mode . visual-line-mode)
+  :custom
+  (confirm-nonexistent-file-or-buffer nil)
+  (backward-delete-char-untabify-method 'hungry)
+  (electric-indent-inhibit t)
+  (indent-tabs-mode nil)
+  (standard-indent 4)
+  (tab-width 4)
+  (fill-column 120)
+  (truncate-lines t)
+  (truncate-string-ellipsis "↴")
+  (find-file-suppress-same-file-warnings t)
+  (remote-file-name-inhibit-locks t)
+  (x-stretch-cursor t)
+  (text-mode-ispell-word-completion nil))
+#+end_src
+
+**** Update Files When Changed
+
+#+begin_src emacs-lisp
+(use-feature auto-revert
+  :hook ((prog-mode text-mode) . auto-revert-mode)
+  :custom
+  (auto-revert-interval 1)
+  (auto-revert-notify t)
+  (auto-revert-verbose t))
+#+end_src
+
+**** Uniform Editing Environment
+
+Since I work with other developers I need to add one package that could help reduce the burden of formatter wars and whatnot, =editorconfig= that is.
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :hook (prog-mode . editorconfig-mode))
+#+end_src
+
+Also, not all system environments will contain the necessary packages required to work with certain projects. Therefore packages like =direnv= was created, to automatically install/load the environment of a specific project.
+
+#+begin_src emacs-lisp
+(use-package direnv
+  :hook (elpaca-after-init . direnv-mode)
+  :config (add-to-list 'warning-suppress-types '(direnv))
+  :custom (direnv-always-show-summary nil))
+#+end_src
+
+**** Enhancing The Aesthetics A Little
+
+***** Number Line
+
+#+begin_src emacs-lisp
+(use-feature display-line-numbers
+  :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
+  :custom (display-line-numbers-type 'relative))
+#+end_src
+
+***** Matching Parentheses
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+***** Colorful Indentation Levels
+
+#+begin_src emacs-lisp
+(use-package indent-bars
+  :ensure (:host github :repo "jdtsmith/indent-bars")
+  :hook (prog-mode . indent-bars-mode)
+  :custom (indent-bars-zigzag nil))
+#+end_src
+
+***** Highlight Current Line
+
+#+begin_src emacs-lisp
+(use-feature hl-line
+  :hook ((prog-mode text-mode) . hl-line-mode))
+#+end_src
+
+***** Window Frames
+
+#+begin_src emacs-lisp
+(use-feature frames
+  :hook ((prog-mode text-mode) . window-divider-mode)
+  :custom
+  (window-divider-default-places t)
+  (window-divider-default-right-width 2)
+  (window-divider-default-bottom-width 2))
+#+end_src
+
+***** Noticeable Whitespaces
+
+#+begin_src emacs-lisp
+(use-feature whitespace
+  :custom
+  (whitespace-action '(cleanup auto-cleanup))
+  (whitespace-style
+   '(face spaces tabs newline trailing space-mark tab-mark newline-mark))
+  (whitespace-display-mappings
+   '(;; space -> · else .
+     (space-mark 32 [183] [46])
+     ;; new line -> ¬ else $
+     (newline-mark ?\n [172 ?\n] [36 ?\n])
+     ;; carriage return (Windows) -> ¶ else #
+     (newline-mark ?\r [182] [35])
+     ;; tabs -> » else >
+     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
+#+end_src
+
+****** Hydra: Whitespace Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ window-hydra ()
+    ("Main"
+     (("w" whitespace-mode "Whitespace Mode" :toggle t)))))
+#+end_src
+
+***** Soft Line Wrapping
+
+#+begin_src emacs-lisp
+(use-feature visual-fill-column
+  :commands (visual-fill-column-mode)
+  :hook ((visual-line-mode . (lambda () (unless (minibufferp) (visual-fill-column-mode)))))
+  :custom (visual-fill-column-center-text t))
+#+end_src
+
+***** Ligatures: Cleaner Display Of SYMB
+
+#+begin_src emacs-lisp
+(use-package ligature
+  :hook (elpaca-after-init . global-ligature-mode)
+  :config
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "\\\\" "://")))
+#+end_src
+
+**** Elec-Pair: Insert Matching SYMB
+
+#+begin_src emacs-lisp
+(use-feature elec-pair
+  :hook ((prog-mode text-mode) . (lambda ()
+                                   (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
+                                     (electric-pair-local-mode))))
+  :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
+#+end_src
+
+**** Jinx: Elegant Spell Checker
+
+#+begin_src emacs-lisp
+(use-feature jinx ;; <-^ fetched from Nixpkgs
+  :commands (jinx-correct)
+  :hook (text-mode . jinx-mode)
+  :bind ([remap ispell-word] . jinx-correct))
+#+end_src
+
+**** Separate Emacs Clipboard From System
+
+#+begin_src emacs-lisp
+;;;###autoload
+(defun irkalla/copy-to-sysclip ()
+  "Copy contents to the system clipboard."
+  (interactive)
+  (setopt select-enable-clipboard t)
+  (if (featurep 'evil)
+      (call-interactively #'evil-yank)
+    (kill-ring-save (region-beginning) (region-end)))
+  (setopt select-enable-clipboard nil))
+
+;;;###autoload
+(defun irkalla/paste-from-sysclip ()
+  "Paste contents to the system clipboard."
+  (interactive)
+  (setopt select-enable-clipboard t)
+  (if (featurep 'evil)
+      (call-interactively #'evil-paste-after)
+    (yank))
+  (setopt select-enable-clipboard nil))
+#+end_src
+
+***** Hydra: Clipboard Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
+      ("p" irkalla/paste-from-sysclip "Paste <- Sys-Clip"))))
+
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")))))
+#+end_src
+
+*** Expanding On The Basic Requirements
+
+**** Maintaining A Clean History
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :custom
+  (auto-save-interval 200)
+  (auto-save-timeout 30)
+  (backup-by-copying t)
+  (delete-by-moving-to-trash t)
+  (delete-old-versions t)
+  (history-delete-duplicates t)
+  (history-length 1000)
+  (kept-new-versions 7)
+  (kept-old-versions 3)
+  (make-backup-files t))
+#+end_src
+
+***** History Ought To Be Saved
+
+#+begin_src emacs-lisp
+(use-feature savehist
+  :hook (elpaca-after-init . savehist-mode)
+  :custom
+  (savehist-autosave-interval 60)
+  (savehist-file (no-littering-expand-var-file-name "savehist"))
+  (savehist-additional-variables '(command-history evil-jumps-history))
+  (savehist-ignored-variables '(ement-room-message-history)))
+#+end_src
+
+***** Locations Should Be Memorized
+
+#+begin_src emacs-lisp
+(use-feature save-place
+  :hook ((prog-mode text-mode) . save-place-mode)
+  :custom
+  (save-place-file (no-littering-expand-var-file-name "saveplace"))
+  (save-place-forget-unreadable-files t))
+#+end_src
+
+***** Undo-Fu: Wrapper For Built-in Undo System
+
+#+begin_src emacs-lisp
+(use-package undo-fu
+  :if (>= emacs-major-version 29)
+  :demand t
+  :config
+  (setopt undo-limit        (* 128 1024 1024)
+          undo-outer-limit  (* 128 1024 1024)
+          undo-strong-limit (* 256 1024 1024)))
+#+end_src
+
+Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
+
+#+begin_src emacs-lisp
+(use-package undo-fu-session
+  :after (undo-fu)
+  :hook ((prog-mode text-mode) . global-undo-fu-session-mode)
+  :custom
+  (undo-fu-session-directory (no-littering-expand-var-file-name "undo-fu-session/"))
+  (undo-fu-session-compression (if (executable-find "zstd") 'zst 'gz))
+  (undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
+#+end_src
+
+***** Vundo: Visualize Undo History
+
+#+begin_src emacs-lisp
+(use-package vundo
+  :commands (vundo)
+  :bind (("C-c u" . vundo))
+  :custom
+  (vundo-compact-display t)
+  (vundo-glyph-alist vundo-unicode-symbols))
+#+end_src
+
+**** Ediff: Display File Difference(s)
+
+#+begin_src emacs-lisp
+(use-feature ediff
+  :hook((ediff-prepare-buffer . outline-show-all)
+        (ediff-quit . winner-undo))
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-merge-split-window-function 'split-window-horizontally))
+#+end_src
+
+**** Regional Specific Manipulations
+
+***** Align Highlighted Region
+
+#+begin_src emacs-lisp
+(use-package ialign
+  :commands (ialign))
+#+end_src
+
+****** Hydra: Alignment Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     (("a" ialign "Align -> REGEXP")))))
+#+end_src
+
+***** Expand Region Selection
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :commands (er/expand-region er/contract-region))
+#+end_src
+
+****** Hydra: Regional Expansion Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Navigation"
+     ((")" er/expand-region   "Increase -> semantic units")
+      ("(" er/contract-region "Contract -> PREV size")))))
+#+end_src
+
+***** Highlight Matching Parentheses
+
+#+begin_src emacs-lisp
+(use-feature parens
+  :hook (prog-mode . show-paren-mode)
+  :custom
+  (show-paren-style 'parenthesis)
+  (show-paren-when-point-in-periphery nil)
+  (show-paren-when-point-inside-paren nil))
+#+end_src
+
+***** Sub-Word Navigation
+
+#+begin_src emacs-lisp
+(use-feature subword
+  :hook ((prog-mode text-mode) . subword-mode))
+#+end_src
+
+**** Magit: Git Porcelain Inside Emacs
+
+#+begin_src emacs-lisp
+(use-package magit
+  :if (executable-find "git")
+  :commands (magit)
+  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+#+end_src
+
+***** Hydra: Magit Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define vc-hydra
+    (:title (pretty-hydra-title "──｢ Editor: Version Control ｣──" 'mdicon "nf-md-git")
+            :color teal :quit-key "q")
+    ("Magit"
+     (("g" magit                            "Open Magit")
+      ("s" magit-stage-buffer-file          "Stage file")
+      ("u" magit-unstage-buffer-file        "Unstage file"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("g" vc-hydra/body "Version Control")))))
+#+end_src
+
+***** Highlight Repository TODO's
+
+#+begin_src emacs-lisp
+(use-package hl-todo
+  :ensure (hl-todo :version (lambda (_) "3.6.0"))) ;; elpaca
+
+(use-package magit-todos
+  :after (magit)
+  :hook (magit-mode . magit-todos-mode)
+  :custom
+  (magit-todos-recursive t)
+  (magit-todos-depth 10)
+  (magit-todos-exclude-globs '(".git/" "*.html"))
+  (magit-todos-nice (if (executable-find "nice") t nil))
+  (magit-todos-scanner #'magit-todos--scan-with-rg))
+#+end_src
+
+***** Git Blame Buffer Line(s)
+
+#+begin_src emacs-lisp
+(use-package blamer
+  :if (executable-find "git")
+  :commands (blamer-show-posframe-commit-info)
+  :custom-face
+  (blamer-face ((t (:background nil :height 125 :italic t))))
+  :custom
+  (blamer-idle-time 0.5)
+  (blamer-min-offset 70)
+  (blamer-view 'overlay-right)
+  (blamer-type 'visual)
+  (blamer-max-commit-message-length 70)
+  (blamer-force-truncate-long-line nil)
+  (blamer-author-formatter " ✎ %s ")
+  (blamer-commit-formatter "● \'%s\' ● "))
+#+end_src
+
+****** Hydra: Git Blamer Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ vc-hydra ()
+    ("Blamer"
+     (("i" blamer-show-posframe-commit-info "Commit Info")))))
+#+end_src
+
+***** Highlight Git Buffer Changes
+
+#+begin_src emacs-lisp
+(use-package git-gutter
+  :if (executable-find "git")
+  :diminish git-gutter-mode
+  :hook (prog-mode . git-gutter-mode)
+  :custom (git-gutter:update-interval 0.05))
+
+(use-package git-gutter-fringe
+  :after (git-gutter)
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+#+end_src
+
+****** Hydra: Git Gutter Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ vc-hydra ()
+    ("Git-Gutter"
+     (("m" git-gutter:mark-hunk             "Mark hunk")
+      ("k" git-gutter:previous-hunk         "Previous hunk")
+      ("j" git-gutter:next-hunk             "Next hunk")
+      ("u" git-gutter:revert-hunk           "Revert hunk")))))
+#+end_src
+
+**** Activities: Bookmarking Workspaces
+
+#+begin_src emacs-lisp
+(use-package activities
+  :ensure (:host github :repo "alphapapa/activities.el")
+  :hook (elpaca-after-init . activities-mode)
+  :custom (activities-name-prefix "Emacs-NSP| ")) ;; XMonad Scratchpad
+#+end_src
+
+***** Hydra: Activities Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define activities-hydra
+    (:title (pretty-hydra-title "──｢ Utilities: Activities ｣──" 'mdicon "nf-md-file_tree")
+            :color teal :quit-key "q")
+    ("Workflow"
+     (("l"     activities-list     "List")
+      ("RET" activities-switch   "Switch")
+      ("e"     activities-rename   "Rename")
+      ("w"     activities-save-all "Save All"))
+     "Task Operation"
+     (("n"     activities-new      "Create")
+      ("k"     activities-kill     "Kill")
+      ("u"     activities-revert   "Revert"))
+     "Pause/Resume"
+     (("s"     activities-suspend  "Suspend")
+      ("r"     activities-resume   "Resume")
+      ("d"     activities-discard  "Discard"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("a" activities-hydra/body "Activities")))))
+#+end_src
+
+** Part 5: Completion & Debugging
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :custom
+  (compilation-always-kill t)
+  (compilation-ask-about-save nil)
+  (compilation-scroll-output t)
+  (compilation-scroll-output t))
+#+end_src
+
+*** Orderless: Completion Candidate Matching
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :demand t
+  :config
+  (setopt completion-category-defaults nil
+          completion-category-overrides '((file  (styles . (orderless flex)))
+                                          (eglot (styles . (orderless flex))))
+          completion-styles '(orderless partial-completion basic)
+          completions-detailed t
+          completion-ignore-case t
+          read-buffer-completion-ignore-case t
+          read-file-name-completion-ignore-case t))
+#+end_src
+
+*** Breadcrumb: Location Indicator For Larger Projects
+
+#+begin_src emacs-lisp
+(use-package breadcrumb
+  :hook (prog-mode . breadcrumb-local-mode)
+  :custom (breadcrumb-project-max-length -1))
+#+end_src
+
+*** Apheleia: Code Formatter
+
+#+begin_src emacs-lisp
+(use-package apheleia
+  :diminish apheleia-mode
+  :hook (elpaca-after-init . apheleia-global-mode))
+#+end_src
+
+**** Hydra: Apheleia Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Action"
+     (("=" apheleia-format-buffer "Buf. Format")))))
+#+end_src
+
+*** Corfu: Elegant Completion UI
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :ensure (:files (:defaults "extensions/*.el"))
+  :after (kind-icon)
+  :preface
+  (defun corfu-always-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+                (bound-and-true-p vertico--input)
+                (eq (current-local-map) read-passwd-map))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  :hook ((elpaca-after-init . global-corfu-mode)
+         (minibuffer-setup . corfu-always-enable-in-minibuffer))
+  :bind (:map corfu-map
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous))
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
+  (corfu-preselect t)
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.05)
+  (corfu-count 16)
+  (corfu-scroll-margin 5)
+  (corfu-separator ?\s)
+  (corfu-on-exact-match nil)
+  (corfu-preview-current 'insert)
+  (corfu-quit-no-match 'separator))
+#+end_src
+
+**** Completion Menu For Terminal Activity
+
+#+begin_src emacs-lisp
+(use-package corfu-terminal
+  :unless window-system
+  :after (corfu)
+  :hook (corfu-mode . corfu-terminal-mode))
+#+end_src
+
+**** Popup For SYMB Information
+
+#+begin_src emacs-lisp
+(use-feature corfu-popupinfo
+  :after (corfu)
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
+#+end_src
+
+**** Completion Menu Icons
+
+#+begin_src emacs-lisp
+(use-package kind-icon
+  :demand t
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.08)
+  :config
+  (when (featurep 'corfu)
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)))
+#+end_src
+
+**** Controlling Suggestion Output
+
+#+begin_src emacs-lisp
+(use-package cape
+  :demand t
+  :custom (cape-dict-file (getenv "WORDLIST"))
+  :config
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (add-hook 'completion-at-point-functions #'cape-file nil t)
+              (add-hook 'completion-at-point-functions #'cape-keyword nil t)))
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
+  (add-hook 'LaTeX-mode-hook
+            (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t)))
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)
+              (add-hook 'completion-at-point-functions #'cape-dict nil t)
+              (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
+#+end_src
+
+*** Tempel: Snippet Completion
+
+#+begin_src emacs-lisp
+(use-package tempel
+  :preface
+  (defun setup-capf-tempel ()
+    "Temple + Corfu -> display possible snippet completions."
+    (add-to-list 'completion-at-point-functions #'tempel-complete))
+  :hook ((conf-mode prog-mode text-mode) . setup-capf-tempel)
+  :custom
+  (tempel-trigger-prefix "<")
+  (tempel-path (concat irkalla/main-residence "/snippets/*.eld")))
+#+end_src
+
+Instead of defining all of our snippets manually, we could use the help of an external package to help us add the basics and then expand on those bindings with our defined bindings.
+
+#+begin_src emacs-lisp
+(use-package tempel-collection
+  :after (tempel))
+#+end_src
+
+*** Eldoc: Documentation Of SYMB
+
+#+begin_src emacs-lisp
+(use-feature eldoc
+  :commands (eldoc)
+  :hook (eglot-managed-mode . eldoc-mode)
+  :custom
+  (eldoc-idle-delay 1.0)
+  (eldoc-echo-area-display-truncation-message nil)
+  (eldoc-echo-area-use-multiline-p nil)
+  (eldoc-echo-area-prefer-doc-buffer t)
+  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+#+end_src
+
+Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing becomes pleasant.
+
+#+begin_src emacs-lisp
+(use-package eldoc-box
+  :after (eldoc)
+  :commands (eldoc-box-help-at-point)
+  :hook (eldoc-mode . eldoc-box-hover-at-point-mode))
+#+end_src
+
+*** Tree-Sitter: Parser Generator Tool
+
+#+begin_src emacs-lisp
+(use-feature tree-sitter
+  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :custom (font-lock-maximum-decoration t))
+
+(use-package treesit-auto
+  :hook (prog-mode . global-treesit-auto-mode)
+  :custom (treesit-auto-install nil)
+  :config
+  (advice-add 'org-src-get-lang-mode
+              :filter-return (lambda (mode)
+                               (pcase (assoc mode major-mode-remap-alist)
+                                 (`(,mode . ,ts-mode) ts-mode) (_ mode))))
+  (treesit-auto-add-to-auto-mode-alist))
+#+end_src
+
+**** Tree-Sitter Folding Of Code-Blocks
+
+#+begin_src emacs-lisp
+(use-package ts-fold
+  :ensure (:host github :repo "emacs-tree-sitter/ts-fold")
+  :hook (tree-sitter-after-on . ts-fold-mode))
+#+end_src
+
+**** Combobulate: Structured Editing & Navigation
+
+#+begin_src emacs-lisp
+(use-package combobulate
+  :ensure (:host github :repo "mickeynp/combobulate")
+  :hook (tree-sitter-after-on . combobulate-mode))
+#+end_src
+
+***** Hydra: Combobulate Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("c" combobulate "Combobulate")))))
+#+end_src
+
+*** Flymake: Built-in Buffer Diagnostics
+
+#+begin_src emacs-lisp
+(use-feature flymake
+  :hook (prog-mode . flymake-mode)
+  :custom
+  (flymake-fringe-indicator-position 'right-fringe)
+  (elisp-flymake-byte-compile-load-path load-path))
+#+end_src
+
+:TODO| more appropriate flymake symbols.
+#+begin_src emacs-lisp :tangle no
+(flymake-error-bitmap   '("" compilation-error))
+(flymake-note-bitmap    '("" compilation-info))
+(flymake-warning-bitmap '("" compilation-warning)))
+#+end_src
+
+*** Sideline: Display Information On The Side
+
+#+begin_src emacs-lisp
+(use-package sideline
+  :commands (sideline-mode)
+  :custom
+  (sideline-delay 0.2)
+  (sideline-display-backend-name nil)
+  (sideline-display-backend-type 'inner))
+#+end_src
+
+***** Flymake Diagnostics
+
+#+begin_src emacs-lisp
+(use-package sideline-flymake
+  :requires (sideline)
+  :hook (flymake-mode  . sideline-mode)
+  :custom (sideline-backends-right '((sideline-flymake  . down))))
+#+end_src
+
+*** Dape: Debug Adapter Protocol
+
+#+begin_src emacs-lisp
+(use-package dape
+  :after (eglot eldoc)
+  :commands (dape)
+  :custom
+  (dape-key-prefix "\C-x\C-a")
+  (dape-buffer-window-arrangement 'right)
+  (dape-cwd-fn 'projectile-project-root))
+#+end_src
+
+**** Hydra: Dape Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define dape-hydra
+    (:title (pretty-hydra-title "──｢ Coding: Debugger ｣──" 'codicon "nf-cod-debug")
+            :color teal :quit-key "q")
+    ("Main"
+     (("d" dape "Dape")
+      ("k" dape-kill "Kill")
+      ("D" dape-disconnect-quit "Disconnect")
+      ("Q" dape-quit "Quit" :exit t))
+     "Stepping"
+     (("n" dape-next "Next")
+      ("s" dape-step-in "Step In")
+      ("o" dape-step-out "Step Out")
+      ("c" dape-continue "Continue")
+      ("p" dape-pause "Pause")
+      ("r" dape-restart "Restart"))
+     "Breakpoint"
+     (("b" dape-breakpoint-toggle "Toggle")
+      ("l" dape-breakpoint-log "Log")
+      ("e" dape-breakpoint-expression "Expression")
+      ("B" dape-breakpoint-remove-all "Clear"))
+     "Informative"
+     (("m" dape-read-memory "Read Memory")
+      ("w" dape-watch-dwim "Watch DWIM")
+      ("t" dape-select-thread "Select Thread")
+      ("S" dape-select-stack "Select Stack")
+      ("i" dape-info "Info")
+      ("R" dape-repl "REPL"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("d" dape-hydra/body "Dape")))))
+#+end_src
+
+*** Leetcode: Dashboard For Code Challenges
+
+#+begin_src emacs-lisp
+(use-package leetcode
+  :commands (leetcode)
+  :custom
+  (leetcode-save-solutions t)
+  (leetcode-prefer-language "python3")
+  (leetcode-directory (no-littering-expand-var-file-name "leetcode/")))
+#+end_src
+
+*** ChatGPT: Code Prediction At The Cost Of Freedom
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package chatgpt-shell
+  :commands (chatgpt-shell dall-e-shell)
+  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "ClosedAI"))))
+#+end_src
+
+**** Hydra: ChatGPT Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("ChatGPT"
+     (("c" chatgpt-shell "Shell")
+      ("d" dall-e-shell  "Dall-E")))))
+#+end_src
+
+** Part 6: Language Server Protocols
+
+#+begin_src emacs-lisp
+(use-feature eglot
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
+           :color teal :quit-key "q")
+   ("Actions"
+    (("a" eglot-code-actions    "Perform code-actions")
+     ("r" eglot-rename          "Rename $SYMB"))
+    "Look-up"
+    (("?" xref-find-references  "Find -> references")
+     ("f" xref-find-definitions "Find -> definition")
+     ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
+  :config
+  (fset #'jsonrpc--log-event #'ignore) ;; noticable perf. diff!
+  (setf (plist-get eglot-events-buffer-config :size) 0) ;; noticable perf. diff!
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-confirm-server-initiated-edits nil)
+  (eglot-extend-to-xref t)
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider :inlayHintProvider))
+  (eglot-menu-string (if (featurep 'nerd-icons) (nerd-icons-faicon "nf-fa-code") "LSP")))
+
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("l" (if (eglot-managed-p)
+               (eglot-hydra/body)
+             (message "You are not in an Eglot buffer.")) "Eglot (LSP)")))))
+#+end_src
+
+There is another things that we could utilize to increase the responsiveness of our LSP completions, and that is to add [[https://github.com/jdtsmith/eglot-booster][eglot-booster]] to the stack!
+
+#+begin_src emacs-lisp
+(use-package eglot-booster
+  :ensure (:host github :repo "jdtsmith/eglot-booster")
+  :after (eglot)
+  :if (executable-find "emacs-lsp-booster")
+  :config (eglot-booster-mode +1))
+#+end_src
+
+*** Emacs Lisp: The Mother-Tounge Of Emacs
+
+**** Maintain Harmony Within The Growing Parentheses
+
+#+begin_src emacs-lisp
+(use-package parinfer-rust-mode
+  :hook (emacs-lisp-mode . parinfer-rust-mode)
+  :custom
+  (parinfer-rust-auto-download t)
+  (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
+#+end_src
+
+**** Hydra: Emacs-Lisp Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define emacs-lisp-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Emacs Lisp ｣──" 'sucicon "nf-custom-emacs")
+            :color teal :quit-key "q")
+    ("Actions"
+     (("a" apropos "Show $SYMB == pattern"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Programming"
+     (("x" emacs-lisp-hydra/body "Emacs Lisp")))))
+#+end_src
+
+*** Org-Mode: The Superior Documentation Format
+
+#+begin_src emacs-lisp
+(use-feature org
+  :preface
+  (defun irkalla/org-electric-dollar ()
+    "Inserts \\( \\) when $, and replaces it with \\[ \\] when $$."
+    (interactive)
+    (if (and (looking-at "\\\\)")
+             (looking-back "\\\\("))
+        (progn (delete-char 2)
+               (delete-char -2)
+               (insert "\\[\\]"))
+      (insert "\\(\\)")
+      (backward-char 2)))
+  :hook (org-mode . org-display-inline-images)
+  :config
+  (setopt org-directory "~/Workspace/memorandum/org-mode")
+
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert org-mode-map (kbd "$") #'irkalla/org-electric-dollar))
+
+  ;; :NOTE| Move our LaTeX previews to cache dir
+  (let ((latex-dir (no-littering-expand-var-file-name "latex-preview/")))
+    (unless (file-directory-p latex-dir)
+      (mkdir latex-dir t))
+    (setopt org-preview-latex-image-directory latex-dir))
+
+  ;; :NOTE| Change the aesthetics of our LaTeX previews
+  (setopt org-latex-preview-options
+          (progn (plist-put org-format-latex-options :background "Transparent")
+                 (plist-put org-format-latex-options :scale 2.5)
+                 (plist-put org-format-latex-options :zoom 1.15)))
+  :custom
+  (org-agenda-files '("~/Workspace/memorandum/org-mode/agenda/init.org"))
+  (org-catch-invisible-edits 'show-and-error)
+  (org-cycle-include-plain-lists 'integrate)
+  (org-cycle-separator-lines 2)
+  (org-edit-src-auto-save-idle-delay 5)
+  (org-ellipsis "…")
+  (org-export-coding-system 'utf-8)
+  (org-export-preserve-breaks t)
+  (org-fontify-quote-and-verse-blocks t)
+  (org-hide-emphasis-markers t)
+  (org-highlight-latex-and-related '(native))
+  (org-insert-heading-respect-content t)
+  (org-latex-tables-centered t)
+  (org-special-ctrl-a/e t)
+  (org-startup-folded 'overview)
+  (org-startup-indented t)
+  (org-startup-with-inline-images t)
+  (org-support-shift-select t)
+  (org-tags-column 0)
+
+  ;; Code blocks
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
+  (org-src-fontify-natively t)
+  (org-src-preserve-indentation t)
+  (org-src-tab-acts-natively nil))
+#+end_src
+
+**** Hydra: Org-Mode Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define org-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Org-Mode ｣──" 'sucicon "nf-custom-orgmode")
+            :color teal :quit-key "q")
+    ("Buffer"
+     (("e" org-edit-special "Specialized Edit")
+      ("t" org-babel-tangle "Tangle")
+      ("c" org-capture      "Capture"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Markup"
+     (("o" (if (eq major-mode 'org-mode)
+               (org-hydra/body)
+             (message "You are not in an Org buffer.")) "Org-Mode")))))
+#+end_src
+
+**** Org Babel: Code Execution Within Emacs
+
+#+begin_src emacs-lisp
+(use-feature ob
+  :preface
+  <<org-babel-language-on-demand>>
+  <<org-babel-execute-action>>
+  :hook (org-babel-after-execute . org-display-inline-images)
+  :custom
+  (org-babel-default-header-args
+   '((:async   . "yes")
+     (:cache   . "no")
+     (:eval    . "never-export")
+     (:exports . "both")
+     (:hlines  . "no")
+     (:noweb   . "yes")
+     (:results . "output replace")
+     (:session . "none")
+     (:tangle  . "no")))
+  (org-export-use-babel nil)
+  (org-confirm-babel-evaluate nil)
+  :config
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal org-mode-map (kbd "<return>") #'irkalla/org-execute-action))
+  (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
+#+end_src
+
+To speed things up, I have chosen to add an asynchronous babel execution feature with the help of an external package to Irkalla.
+
+#+begin_src emacs-lisp
+(use-package ob-async)
+#+end_src
+
+***** Org-Babel Language On Demand
+
+Related links:
+- https://emacs.stackexchange.com/a/20618
+  
+#+NAME: org-babel-language-on-demand
+#+begin_src emacs-lisp :tangle no
+(defun demand-babel-languages (orig-fun &rest args)
+  "Load language if needed before executing a source block."
+  (let ((language (org-element-property :language (org-element-at-point))))
+    (unless (cdr (assoc (intern language) org-babel-load-languages))
+      (add-to-list 'org-babel-load-languages (cons (intern language) t))
+      (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+    (apply orig-fun args)))
+#+end_src
+
+***** Context Based Babel Action Execution
+
+#+NAME: org-babel-execute-action
+#+begin_src emacs-lisp :tangle no
+(defun irkalla/org-execute-action ()
+  (let ((context (org-element-context)))
+    (pcase (org-element-type context)
+      (`src-block
+       ;; In a source block, call `org-babel-execute-src-block'.
+       (org-babel-eval-wipe-error-buffer)
+       (org-babel-execute-src-block current-prefix-arg))
+      (`babel-call
+       ;; In a `:+CALL:' block, call `org-babel-execute-maybe'.
+       (call-interactively #'org-babel-execute-maybe))
+      (`table-row
+       ;; In a table or table-cell, call `org-table-next-row'.
+       (call-interactively #'org-table-next-row))
+      ((or `link `timestamp)
+       ;; On a link or a timestamp, call `org-open-at-point'.
+       (call-interactively #'org-open-at-point))
+      (_
+       ;; Fallback to evil standard command
+       (call-interactively #'forward-line)))))
+#+end_src
+
+**** Fragtog: LaTeX Rendering On Hover
+
+#+begin_src emacs-lisp
+(use-package org-fragtog
+  :after (org)
+  :hook (org-mode . org-fragtog-mode))
+#+end_src
+
+**** Auto Generate Table Of Contents
+
+#+begin_src emacs-lisp
+(use-package toc-org
+  :after (org)
+  :hook (org-mode . toc-org-enable)
+  :custom (toc-org-max-depth 3))
+#+end_src
+
+**** Modernize Org-Mode Buffers
+
+#+begin_src emacs-lisp
+(use-package org-modern
+  :after (org)
+  :hook (org-mode . org-modern-mode)
+  :custom-face (org-modern-symbol ((t (:family "DejaVu Sans"))))
+  :custom
+  ;; :NOTE| Settings replaced by svg-tag-mode
+  (org-modern-tag nil)
+  (org-modern-todo nil)
+  (org-modern-block-name nil))
+#+end_src
+
+**** Searching Org-Mode Files 
+
+#+begin_src emacs-lisp
+(use-package org-ql
+  :after (org)
+  :commands (org-ql-search))
+#+end_src
+
+***** Hydra: Org-QL Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ org-hydra ()
+    ("Project"
+     (("/" org-ql-search "Search TAG Org Files")))))
+#+end_src
+
+**** Schedule For Your Daily Life
+
+#+begin_src emacs-lisp
+(use-package org-timeblock
+  :after (org)
+  :commands (org-timeblock))
+#+end_src
+
+**** Org-Roam: Zettlekasten System For Org-Mode
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :after (org)
+  :custom
+  (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
+  (org-roam-completion-everywhere t)
+  (org-roam-capture-templates
+   `(("d" "default" plain "%?"
+      :if-new (file+head
+               "%<%Y%m%d%H%M%S>-${slug}.org"
+               ,(let ((options '("#+options: _:{}"
+                                 "#+options: ^:{}"
+                                 "#+startup: latexpreview"
+                                 "#+startup: entitiespretty"
+                                 "#+startup: inlineimages"
+                                 "#+title: ${title}")))
+                  (mapconcat 'identity options "\n")))
+      :unnarrowed t)))
+  (org-roam-node-display-template "${title}"))
+#+end_src
+
+***** Visualization UI For Org-Roam
+
+#+begin_src emacs-lisp
+(use-package org-roam-ui
+  :after (org-roam)
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start nil))
+#+end_src
+
+***** Hydra: Org-Roam Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ org-hydra ()
+    ("Org-Roam"
+     (("l" org-roam-buffer-toggle "Toggle -> buffer")
+      ("g" org-roam-graph         "Node <- display graph")
+      ("f" org-roam-node-find     "Node <- find")
+      ("i" org-roam-node-insert   "Node <- insert ':id' link")
+      ("C" org-roam-capture       "Node <- Capture")))))
+#+end_src
+
+**** Citar: Cite Your Sources!
+
+#+begin_src emacs-lisp
+(use-package citar
+  :hook ((LaTeX-mode org-mode) . citar-capf-setup)
+  :custom (citar-bibliography '("~/Workspace/memorandum/references.bib")))
+#+end_src
+
+Also, allow =Embark= to interact with those citations.
+
+#+begin_src emacs-lisp
+(use-package citar-embark
+  :after (citar embark)
+  :hook (org-mode . citar-embark-mode)
+  :config (setopt citar-at-point-function 'embark-act))
+#+end_src
+
+*** Haskell: Purely Functional
+
+#+begin_src emacs-lisp
+(use-package haskell-mode
+  :mode ("\\.hs\\'" . haskell-mode)
+  :hook (haskell-mode . eglot-ensure))
+#+end_src
+
+**** Apheleia: Haskell Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "stylish-haskell")
+    (setf (alist-get 'stylish-haskell apheleia-formatters)
+          '("stylish-haskell" "-"))
+    (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell))))
+#+end_src
+
+*** Rust: Statically & Storngly Typed
+
+#+begin_src emacs-lisp
+(use-package rust-mode
+  :mode ("\\.rs$" . rust-mode)
+  :preface
+  (defun irkalla/locate-cargo-toml (dir)
+    "Locate the missing Rust project Cargo.toml."
+    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
+        (list 'vc 'Git root)))
+
+  (defun eglot-rust-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "rust-analyzer")
+        (add-to-list 'eglot-server-programs
+                     `((rust-mode rust-ts-mode)
+                       . ("rust-analyzer"
+                          ;; https://rust-analyzer.github.io/manual.html
+                          :initializationOptions ( :cargo       (:features "all")
+                                                   :completion  (:callable (:snippets "fill_arguments"))
+                                                   :checkOnSave (:command "clippy" :allTargets :json-false)))))))
+    (eglot-ensure))
+  :hook ((rust-mode rust-ts-mode) . (lambda ()
+                                      (eglot-rust-setup)
+                                      (indent-tabs-mode -1)
+                                      (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+#+end_src
+
+Cargo commands should be available to the user at all time when working with rust projects!
+
+#+begin_src emacs-lisp
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode)
+  :custom (cargo-process--command-clippy "clippy"))
+#+end_src
+
+Also, let us not forget that we want to interact with rust code-blocks defined within org-mode files!
+
+#+begin_src emacs-lisp
+(use-package ob-rust
+  :after (rust-mode ob))
+#+end_src
+
+**** Apheleia: Rust Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "rustfmt")
+    (setf (alist-get 'rustfmt apheleia-formatters)
+          '("rustfmt" "--quiet" "--emit" "stdout"))
+    (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt))))
+#+end_src
+
+**** Hydra: Rust Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define rust-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
+            :color teal :quit-key "q")
+    ("Interactive"
+     (("l" rust-run-clippy     "cargo clippy")
+      ("r" rust-run            "project")
+      ("t" rust-test           "tests on project"))
+     "Build"
+     (("c" rust-compile        "Compile project")
+      ("d" rust-check          "Compile & Check"))
+     "Process"
+     (("a" cargo-process-add   "Add")
+      ("c" cargo-process-clean "Clean"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Programming"
+     (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
+               (rust-hydra/body)
+             (message "You are not in a rust buffer.")) "Rust")))))
+#+end_src
+
+*** Nix: Purely Functional DSL
+
+#+begin_src emacs-lisp
+(use-package nix-ts-mode
+  :mode ("\\.nix\\'" . nix-ts-mode)
+  :preface
+  (defun eglot-nix-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "nil")
+        (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil")))))
+    (eglot-ensure))
+  :hook (nix-ts-mode . eglot-nix-setup))
+#+end_src
+
+**** Apheleia: Nix Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "alejandra")
+    (setf (alist-get 'alejandra apheleia-formatters)
+          '("alejandra" "--quiet" "-"))
+    (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra))))
+#+end_src
+
+*** Lua: Embedded Scripting Language
+
+#+begin_src emacs-lisp
+(use-package lua-mode
+  :mode ("\\.lua\\'" . lua-mode)
+  :preface
+  (defun eglot-lua-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "lua-language-server")
+        (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))))
+    (eglot-ensure))
+  :hook (lua-mode . eglot-lua-setup))
+#+end_src
+
+**** Apheleia: Lua Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "stylua")
+    (setf (alist-get 'stylua apheleia-formatters)
+          '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
+    (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
+#+end_src
+
+*** Python: High Level Language
+
+#+begin_src emacs-lisp
+(use-package python-mode
+  :mode ("\\.py\\'" . python-mode)
+  :preface
+  (defun eglot-python-setup ()
+    (with-eval-after-load 'eglot  
+      (when (executable-find "pylyzer")
+        (add-to-list 'eglot-server-programs
+                     `((python-mode python-ts-mode)
+                       . ("pylyzer" "--server" :initializationOptions ( :diagnostics t
+                                                                        :inlineHints t
+                                                                        :smartCompletion t)))))
+      (when (executable-find "pyright-langserver")
+        (add-to-list 'eglot-server-programs
+                     `((python-mode python-ts-mode) . ("pyright-langserver" "--stdio" :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
+    (eglot-ensure))
+  :hook ((python-mode python-ts-mode) . eglot-python-setup))
+#+end_src
+**** Apheleia: Python Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "isort")
+    (setf (alist-get 'isort apheleia-formatters)
+          '("isort" "--profile black" "--stdout"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
+
+  (when (executable-find "black")
+    (setf (alist-get 'black apheleia-formatters)
+          '("black" "-"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
+#+end_src
+
+*** Typst: A More Powerful LaTeX Alt.
+
+#+begin_src emacs-lisp
+(use-package typst-ts-mode
+  :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
+  :mode ("\\.typ\\'" . typst-ts-mode)
+  :preface
+  (defun eglot-typst-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "typst-lsp")
+        (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst-lsp")))))
+    (eglot-ensure))
+  :hook (typst-ts-mode . eglot-typst-setup)
+  :custom
+  (typst-ts-mode-watch-options "--open")
+  (typst-ts-mode-enable-raw-blocks-highlight t)
+  (typst-ts-mode-highlight-raw-blocks-at-startup t)
+  :config
+  (with-eval-after-load 'consult-imenu
+    (setopt consult-imenu-config
+            (append consult-imenu-config '((typst-ts-mode
+                                            :topLevel "Headings"
+                                            :types ((?h "Headings" typst-ts-markup-header-face)
+                                                    (?f "Functions" font-lock-function-name-face))))))))
+#+end_src
+
+**** Apheleia: Typst Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "typstfmt")
+    (setf (alist-get 'typstfmt apheleia-formatters) '("typstfmt"))
+    (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstfmt))))
+#+end_src
+
+**** Hydra: Typst Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define typst-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Typst ｣──" 'mdicon "nf-md-math_compass")
+            :color teal :quit-key "q")
+    ("Build"
+     (("c" typst-ts-mode-compile "Compile")
+      ("p" typst-ts-mode-preview "Preview")
+      ("u" typst-ts-mode-compile-and-preview "Run & Preview"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Markup"
+     (("t" (if (eq major-mode 'typst-ts-mode)
+               (typst-hydra/body)
+             (message "You are not in a typst buffer."))  "Typst")))))
+#+end_src
+
+*** Markdown: Minimal Markup Language
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode)
+  :custom-face
+  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
+  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
+  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
+  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
+  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
+  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
+  :custom (markdown-command "multimarkdown"))
+#+end_src
+
+**** Hydra: Markdown Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define markdown-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
+            :color teal :quit-key "q")
+    ("Interactive"
+     (("d" markdown-do "Perform -> action"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Markup"
+     (("m" (if (eq major-mode 'markdown-mode)
+               (markdown-hydra/body)
+             (message "You are not in a markdown buffer.")) "Markdown")))))
+#+end_src
+
+*** Zig: Imperative & Statically Compiled
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+
+#+begin_src emacs-lisp
+(use-package zig-mode
+  :mode ("\\.zig$" . zig-mode)
+  :preface
+  (defun eglot-zig-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "zls")
+        (add-to-list 'eglot-server-programs `((zig-mode zig-ts-mode) . ("zls")))))
+    (eglot-ensure))
+  :hook ((zig-mode zig-ts-mode) . eglot-zig-setup))
+#+end_src
+
+**** Apheleia: Zig Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "zig")
+    (setf (alist-get 'zigfmt apheleia-formatters)
+          '("zig" "fmt" "--stdin"))
+    (add-to-list 'apheleia-mode-alist '((zig-mode zig-ts-mode) . zigfmt))))
+#+end_src
+
+** Part 6: Concluding Our Emacs Journey!
+
+#+begin_src emacs-lisp
+;;; init.el ends here
+#+end_src
