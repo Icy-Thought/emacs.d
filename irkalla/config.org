@@ -1,7 +1,6 @@
 #+title: Irkalla Emacs
 #+author: Icy-Thought
 #+language: en
-#+PROPERTY: header-args :tangle-mode: #o444 :results silent :noweb yes
 
 #+NAME: fig:Irkalla Emacs
 #+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
@@ -12,7 +11,7 @@
   - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
     - [[#defining-our-irkalla-group][Defining Our Irkalla Group]]
     - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
-    - [[#maintaining-harmony-without-irkallas-directories][Maintaining Harmony Without Irkalla's Directories]]
+    - [[#maintaining-harmony-within-irkallas-directories][Maintaining Harmony Within Irkalla's Directories]]
   - [[#part-2-performance-enhancements][Part 2: Performance Enhancements]]
     - [[#increase-the-cpu-processing-restrictions][Increase the CPU processing restrictions]]
     - [[#native-comp---quicker-emacs-byte-compile][Native-Comp -> Quicker Emacs (Byte-Compile)]]
@@ -78,7 +77,7 @@
 
 * Early Configurations
 :PROPERTIES:
-:header-args+: :tangle “~/.config/emacs/early-init.el”
+:HEADER-ARGS: :tangle ~/.config/emacs/early-init.el
 :END:
 
 #+begin_src emacs-lisp
@@ -121,13 +120,22 @@
               user-emacs-directory "~/.config/emacs")
 #+end_src
 
-*** Maintaining Harmony Without Irkalla's Directories
+*** Maintaining Harmony Within Irkalla's Directories
 
 #+begin_src emacs-lisp
 (defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
   "The directory where Irkalla resides in."
   :type 'string
   :group 'irkalla)
+#+end_src
+
+**** Appending Directories To Load-Path
+
+#+begin_src emacs-lisp
+(let ((default-directory irkalla/main-residence))
+  (when (file-exists-p default-directory)
+    (normal-top-level-add-to-load-path '("./themes"))
+    (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
 
 **** Appending Custom Theme Dir. To Load Path
@@ -235,7 +243,8 @@
 *** Miscellaneous
 
 #+begin_src emacs-lisp
-(setq-default select-enable-clipboard nil
+(setq-default initial-major-mode 'fundamental-mode
+              select-enable-clipboard nil
               command-line-x-option-alist nil
               default-input-method nil
               ring-bell-function 'ignore
@@ -256,6 +265,24 @@ We might as well set our default Emacs environment to ~UTF-8~.
 #+end_src
 
 * Late Configurations
+:PROPERTIES:
+:HEADER-ARGS: :tangle ~/.config/emacs/init.el
+:END:
+
+#+begin_src emacs-lisp
+;;; init.el --- Initialization: Where It All Begins -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2023-2023 Icy-Thought
+
+;; Author: Icy-Thought <icy-thought@pm.me>
+;; Keywords: internal
+;; URL: https://icy-thought.github.io/
+
+;;; Commentary:
+;; The main file where we include our (increasing?) Emacs modules & configurations.
+
+;;; Code:
+#+end_src
 
 ** Part 1: Beginning Of A Journey
 
@@ -313,17 +340,24 @@ Since Elpaca struggles to find the development build version of my Emacs, it is 
 (elpaca `(,@elpaca-order))
 #+end_src
 
-**** Configuring Elpaca
-
-***** Enable =Use-Package= Deceleration
+Tell =Evil= to refrain from taking over the keybindings when inside ~elpaca-ui-mode~.
 
 #+begin_src emacs-lisp
-(elpaca elpaca-use-package (elpaca-use-package-mode))
+(with-eval-after-load 'evil
+  (evil-make-intercept-map elpaca-ui-mode-map))
 #+end_src
 
-***** Macro: ~use-feature~ For Built-in Packages
+**** Integrating =Use-Package= With =Elpaca=
 
-Being able to reduce ~use-package~ + ~:ensure nil~ to a ~defmacro~ is never a wrong thing. And being able to call it ~use-feature~ is in my opinion a more precise way to work wi such packages. [[https://github.com/progfolio/.emacs.d/blob/master/init.org#use-package][Thanks Progofolio]]!
+#+begin_src emacs-lisp
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode)
+  (setopt use-package-always-ensure t
+        use-package-always-defer t
+        use-package-compute-statistics t))
+#+end_src
+
+Another neat thing that I could do with the help of macros, is to add a ~use-feature~ macro that helps reduce the burden of writing ~use-package~ + ~:ensure nil~ and instead compress it into ~(use-feature)~!
 
 #+begin_src emacs-lisp
 (defmacro use-feature (name &rest args)
@@ -333,19 +367,9 @@ Being able to reduce ~use-package~ + ~:ensure nil~ to a ~defmacro~ is never a wr
   `(use-package ,name
      :ensure nil
      ,@args))
-
-;; :NOTE| Configuring our use-package a little
 #+end_src
 
-***** Setting Up =Use-Package= Default Behavior
-
-#+begin_src emacs-lisp
-(setopt use-package-always-ensure t
-        use-package-always-defer t
-        use-package-compute-statistics t)
-#+end_src
-
-**** Verify Code Evaluation Before Proceeding.
+**** Allow Elpaca To Process The Changes
 
 #+begin_src emacs-lisp
 (elpaca-wait)
@@ -356,18 +380,16 @@ Being able to reduce ~use-package~ + ~:ensure nil~ to a ~defmacro~ is never a wr
 **** Allow Irkalla To Read Agenix Secrets (🤫)
 
 #+begin_src emacs-lisp
-;;;###autoload
 (defun irkalla/read-secret-file (filename)
   "Fetch content of secrets file generated by agenix."
   (with-temp-buffer
     (insert-file-contents (concat "/run/agenix/" filename))
     (string-trim-right (buffer-string))))
-#+end_src>
+#+end_src
 
 **** Informing Projectile About =~/Workspace= Projects
 
 #+begin_src emacs-lisp
-;;;###autoload
 (defun irkalla/add-public-projects ()
   "Add directories present in our /public directory to known projects."
   (interactive)
@@ -418,8 +440,6 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 
 *** Hydra: Windows That Contain Our Keybindings
 
-**** Pretty Hydra: Auto Style The Hydra's
-
 #+begin_src emacs-lisp
 (use-package pretty-hydra
   :demand t
@@ -438,26 +458,27 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
        (propertize title 'face face)))))
 #+end_src
 
-**** Allow The Hydras To Float
-
-#+begin_src emacs-lisp
-(use-package hydra-posframe
-  :ensure (:host github :repo "Ladicle/hydra-posframe")
-  :hook (elpaca-after-init . hydra-posframe-mode)
-  :custom
-  (hydra-posframe-border-width 2)
-  (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))
-#+end_src
-
 To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package keyword, we have to tell it to first wait and then proceed with the remaining configuration.
 
 #+begin_src emacs-lisp
 (elpaca-wait)
 #+end_src
 
+**** Allow Hydras To Float Mid-Air
+
+#+begin_src emacs-lisp
+(use-package hydra-posframe
+  :ensure (:host github :repo "Ladicle/hydra-posframe")
+  :after (pretty-hydra)
+  :hook (elpaca-after-init . hydra-posframe-mode)
+  :custom
+  (hydra-posframe-border-width 2)
+  (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))
+#+end_src
+
 **** Defining Essential Hydras Early
 
-***** 1. Introducing The Main Hydras
+***** Introducing The Main Hydras
 
 #+begin_src emacs-lisp
 (pretty-hydra-define main-hydra
@@ -502,7 +523,7 @@ Then we have another essential Hydra that we will tie our editing related comman
   (meow-normal-define-key '("," . editor-hydra/body)))
 #+end_src
 
-***** 2. Expanding With Secondary Hydras
+***** Expanding With Secondary Hydras
 
 ****** Buffer(s) Management
 
@@ -573,13 +594,6 @@ Then we have another essential Hydra that we will tie our editing related comman
 (use-feature windmove
   :hook (elpaca-after-init . windmove-default-keybindings)
   :config (windmove-default-keybindings 'meta))
-#+end_src
-
-**** Posframe: Floating Windows
-
-#+begin_src emacs-lisp
-(use-package posframe
-  :custom (posframe-mouse-banish '(0 . 5000)))
 #+end_src
 
 **** Winner: Memorize Window Settings
@@ -822,9 +836,10 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+NAME: svg-tag-patterns
 #+begin_src emacs-lisp
-(setq svg-tag-tags
-      `(<<svg-tagging-general>>
-        <<svg-tagging-org-mode>>))
+(setopt svg-tag-tags
+        `(;; Watever tags we choose shall be materialized!
+          <<svg-tagging-general>>
+          <<svg-tagging-org-mode>>))
 #+end_src
 
 ***** SVG Tagging: General
@@ -913,7 +928,7 @@ We should also be able to complete the icons as we do on other platforms.
 ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)" . ((lambda (tag)
                                            (svg-tag-make tag :end -1 :crop-left t))))
 
-       ;;; Works for stuff like :XXX|YYY:
+;;; Works for stuff like :XXX|YYY:
 ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
                                       (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
 
@@ -938,7 +953,7 @@ We should also be able to complete the icons as we do on other platforms.
 #+begin_src emacs-lisp
 (use-package doom-modeline
   :after (nerd-icons)
-  :hook ((elpaca-after-init . doom-modeline-mode)
+  :hook ((elpaca-after-init  . doom-modeline-mode)
          (doom-modeline-mode . display-time-mode))
   :custom
   (doom-modeline-bar-width 4)
@@ -949,7 +964,7 @@ We should also be able to complete the icons as we do on other platforms.
   (when (display-graphic-p) (doom-modeline-hud t)))
 #+end_src
 
-**** Minimalistic Modeline
+**** Mini-Echo: Minimalism Inspired Modeline
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
 :END:
@@ -1275,8 +1290,8 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 #+begin_src emacs-lisp
 (use-package popper
   :hook (elpaca-after-init . (lambda ()
-                               (popper-mode +1)
-                               (popper-echo-mode +1)))
+                               (popper-mode t)
+                               (popper-echo-mode t)))
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
@@ -1536,7 +1551,7 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
   (pretty-hydra-define+ main-hydra ()
     ("Action"
      (("e" embark-hydra/body "Embark")))))
-#+end_src>
+#+end_src
 
 **** Vertico: Mini-Buffer On Steroids
 
@@ -1546,7 +1561,6 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
   :hook (elpaca-after-init . vertico-mode)
   :custom
   (vertico-cycle t)
-
   (vertico-multiform-categories
    '((file grid reverse)
      (consult-location buffer)
@@ -1657,6 +1671,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 ****** Shorten Directory Path Length
 
+#+NAME: eshell-shorten-directory-path
 #+begin_src emacs-lisp :tangle no
 (defun shortened-path (path max-len)
   (require 'cl-lib)
@@ -1676,6 +1691,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][starship-rs]] with =Eshell=, I am forced to take things into hand.
 
+#+NAME: eshell-redesign-prompt
 #+begin_src emacs-lisp :tangle no
   (defun irkalla/eshell-prompt ()
     (concat
@@ -1804,7 +1820,7 @@ Instead of maintaining a bookmark for each PDF file I read, I decided to add a p
 #+begin_src emacs-lisp
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . (lambda () (toggle-scroll-bar +1)))
+  :hook (nov-mode . (lambda () (toggle-scroll-bar t)))
   :custom (nov-text-width t))
 #+end_src
 
@@ -1918,7 +1934,6 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 I also want to write a function that could later be used to spawn an Emacs (matrix) frame by XMonad or other window managers.
 
 #+begin_src emacs-lisp
-;;;###autoload
 (defun irkalla/connect-to-matrix ()
   "Connect Emacs to the Matrix, unless connection exists."
   (interactive "p")
@@ -1967,7 +1982,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
                (string-match-p "\\bwikipedia\\.org\\b" (eww-current-url)))
       (eww-readable)))
   :hook (eww-after-render . auto-readable-wikipedia))
-#+end_src>
+#+end_src
 
 ***** Shrface: Org Like Rendering For The Web
 
@@ -1983,7 +1998,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
                                                              (title . nov-render-title)))
                        (setq nov-shr-rendering-functions
                              (append nov-shr-rendering-functions shr-external-rendering-functions))
-                       (shrface-mode +1))))
+                       (shrface-mode t))))
   :custom
   (shrface-href-versatile t)
   (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star)))
@@ -2105,6 +2120,9 @@ Related links:
 #+end_src
 
 **** MEOW: Modular Editing
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
 
 Related links:
 - https://github.com/meow-edit/meow
@@ -2437,8 +2455,9 @@ Also, not all system environments will contain the necessary packages required t
 
 **** Separate Emacs Clipboard From System
 
+***** Copying To System Clipboard
+
 #+begin_src emacs-lisp
-;;;###autoload
 (defun irkalla/copy-to-sysclip ()
   "Copy contents to the system clipboard."
   (interactive)
@@ -2447,8 +2466,11 @@ Also, not all system environments will contain the necessary packages required t
       (call-interactively #'evil-yank)
     (kill-ring-save (region-beginning) (region-end)))
   (setopt select-enable-clipboard nil))
+#+end_src
 
-;;;###autoload
+***** Pasting From System Clipboard
+
+#+begin_src emacs-lisp
 (defun irkalla/paste-from-sysclip ()
   "Paste contents to the system clipboard."
   (interactive)
@@ -2463,7 +2485,7 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ visual-editor-hydra ()
+  (pretty-hydra-define+ editor-hydra ()
     ("Action"
      (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
       ("p" irkalla/paste-from-sysclip "Paste <- Sys-Clip"))))
@@ -2806,7 +2828,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
-  :after (kind-icon)
   :preface
   (defun corfu-always-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -2860,6 +2881,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package kind-icon
   :demand t
+  :after (corfu)
   :custom
   (kind-icon-default-face 'corfu-default)
   (kind-icon-blend-background nil)
@@ -3135,7 +3157,7 @@ There is another things that we could utilize to increase the responsiveness of 
   :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after (eglot)
   :if (executable-find "emacs-lsp-booster")
-  :config (eglot-booster-mode +1))
+  :config (eglot-booster-mode t))
 #+end_src
 
 *** Emacs Lisp: The Mother-Tounge Of Emacs
@@ -3250,6 +3272,7 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-feature ob
+  :after (org)
   :preface
   <<org-babel-language-on-demand>>
   <<org-babel-execute-action>>
@@ -3264,7 +3287,7 @@ There is another things that we could utilize to increase the responsiveness of 
      (:noweb   . "yes")
      (:results . "output replace")
      (:session . "none")
-     (:tangle  . "no")))
+     (:tangle .  "no")))
   (org-export-use-babel nil)
   (org-confirm-babel-evaluate nil)
   :config
@@ -3283,7 +3306,7 @@ To speed things up, I have chosen to add an asynchronous babel execution feature
 
 Related links:
 - https://emacs.stackexchange.com/a/20618
-  
+
 #+NAME: org-babel-language-on-demand
 #+begin_src emacs-lisp :tangle no
 (defun demand-babel-languages (orig-fun &rest args)
@@ -3300,6 +3323,8 @@ Related links:
 #+NAME: org-babel-execute-action
 #+begin_src emacs-lisp :tangle no
 (defun irkalla/org-execute-action ()
+  ;; In a source block, call `org-babel-execute-src-block'.
+  (interactive)
   (let ((context (org-element-context)))
     (pcase (org-element-type context)
       (`src-block
@@ -3351,7 +3376,7 @@ Related links:
   (org-modern-block-name nil))
 #+end_src
 
-**** Searching Org-Mode Files 
+**** Searching Org-Mode Files
 
 #+begin_src emacs-lisp
 (use-package org-ql
@@ -3592,7 +3617,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   :mode ("\\.py\\'" . python-mode)
   :preface
   (defun eglot-python-setup ()
-    (with-eval-after-load 'eglot  
+    (with-eval-after-load 'eglot
       (when (executable-find "pylyzer")
         (add-to-list 'eglot-server-programs
                      `((python-mode python-ts-mode)
@@ -3710,7 +3735,6 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
 :END:
-
 
 #+begin_src emacs-lisp
 (use-package zig-mode
