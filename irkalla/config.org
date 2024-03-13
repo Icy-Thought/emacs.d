@@ -66,14 +66,14 @@
   - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
     - [[#emacs-lisp-the-mother-tounge-of-emacs][Emacs Lisp: The Mother-Tounge Of Emacs]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
-    - [[#haskell][Haskell]]
-    - [[#rust][Rust]]
-    - [[#nix][Nix]]
-    - [[#lua][Lua]]
-    - [[#python][Python]]
-    - [[#typst][Typst]]
-    - [[#markdown][Markdown]]
-    - [[#zig][Zig]]
+    - [[#haskell-purely-functional][Haskell: Purely Functional]]
+    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
+    - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
+    - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
+    - [[#python-high-level-language][Python: High Level Language]]
+    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
+    - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
+    - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
   - [[#part-6-concluding-our-emacs-journey][Part 6: Concluding Our Emacs Journey!]]
 
 * Early Configurations
@@ -3441,7 +3441,7 @@ Also, allow =Embark= to interact with those citations.
   :config (setopt citar-at-point-function 'embark-act))
 #+end_src
 
-*** Haskell
+*** Haskell: Purely Functional
 
 #+begin_src emacs-lisp
 (use-package haskell-mode
@@ -3459,7 +3459,7 @@ Also, allow =Embark= to interact with those citations.
     (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell))))
 #+end_src
 
-*** Rust
+*** Rust: Statically & Storngly Typed
 
 #+begin_src emacs-lisp
 (use-package rust-mode
@@ -3537,7 +3537,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
              (message "You are not in a rust buffer.")) "Rust")))))
 #+end_src
 
-*** Nix
+*** Nix: Purely Functional DSL
 
 #+begin_src emacs-lisp
 (use-package nix-ts-mode
@@ -3561,7 +3561,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra))))
 #+end_src
 
-*** Lua
+*** Lua: Embedded Scripting Language
 
 #+begin_src emacs-lisp
 (use-package lua-mode
@@ -3585,7 +3585,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
 #+end_src
 
-*** Python
+*** Python: High Level Language
 
 #+begin_src emacs-lisp
 (use-package python-mode
@@ -3620,7 +3620,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
 #+end_src
 
-*** Typst
+*** Typst: A More Powerful LaTeX Alt.
 
 #+begin_src emacs-lisp
 (use-package typst-ts-mode
@@ -3674,7 +3674,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
              (message "You are not in a typst buffer."))  "Typst")))))
 #+end_src
 
-*** Markdown
+*** Markdown: Minimal Markup Language
 
 #+begin_src emacs-lisp
 (use-package markdown-mode
@@ -3706,7 +3706,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
              (message "You are not in a markdown buffer.")) "Markdown")))))
 #+end_src
 
-*** Zig
+*** Zig: Imperative & Statically Compiled
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
 :END:
