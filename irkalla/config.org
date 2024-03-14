@@ -352,7 +352,6 @@ Tell =Evil= to refrain from taking over the keybindings when inside ~elpaca-ui-m
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
   (setq use-package-always-ensure t
-        use-package-always-defer t
         use-package-compute-statistics t))
 #+end_src
 
@@ -394,7 +393,6 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 
 #+begin_src emacs-lisp
 (use-package gcmh
-  :demand t
   :config (gcmh-mode t)
   :custom
   (gcmh-idle-delay 'auto)
@@ -406,7 +404,6 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 
 #+begin_src emacs-lisp
 (use-package no-littering
-  :demand t
   :config
   (setq no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
         no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
@@ -426,7 +423,6 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 
 #+begin_src emacs-lisp
 (use-package pretty-hydra
-  :demand t
   :config
   (cl-defun pretty-hydra-title (title &optional icon-type icon-name
                                       &key face height v-adjust)
@@ -453,7 +449,6 @@ To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package 
 #+begin_src emacs-lisp
 (use-package hydra-posframe
   :ensure (:host github :repo "Ladicle/hydra-posframe")
-  :demand t
   :config (hydra-posframe-mode t)
   :custom
   (hydra-posframe-border-width 2)
@@ -576,7 +571,6 @@ Then we have another essential Hydra that we will tie our editing related comman
 
 #+begin_src emacs-lisp
 (use-feature windmove
-  :demand t 
   :config
   (windmove-default-keybindings)
   (windmove-default-keybindings 'meta))
@@ -588,7 +582,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature winner
-  :demand t
+  :defer t
   :config (winner-mode t))
 #+end_src
 
@@ -754,7 +748,6 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
 
 #+begin_src emacs-lisp
 (use-package nerd-icons
-  :demand t
   :custom
   (nerd-icons-font-family (when (featurep 'fontaine)
                             (plist-get (fontaine--get-preset-properties 'default) :default-family)))
@@ -765,7 +758,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
-  :after (nerd-icons marginalia)
+  :after (marginalia)
   :hook (marginalia-mode . nerd-icons-completion-mode))
 #+end_src
 
@@ -939,10 +932,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :demand t
-  :after (nerd-icons)
-  :hook (doom-modeline-mode . display-time-mode)
-  :config (doom-modeline-mode t)
+  :init (doom-modeline-mode)
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)
@@ -959,7 +949,6 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package mini-echo
-  :demand t
   :after (nerd-icons)
   :config (mini-echo-mode t)
   :custom
@@ -1001,9 +990,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package centaur-tabs
-  :init (if (daemonp)
-            (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
-          (add-hook 'elpaca-after-init-hook 'centaur-tabs-mode))
+  :defer 2
   :bind (:map centaur-tabs-mode-map
               ("C-<prior>"   . #'centaur-tabs-backward-group)
               ("C-<next>"    . #'centaur-tabs-forward-group)
@@ -1011,6 +998,9 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
+  :init (if (daemonp)
+            (add-hook 'server-after-make-frame-hook #'centaur-tabs-mode)
+          (centaur-tabs-mode))
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-cycle-scope 'tabs)
@@ -1044,7 +1034,6 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package tabspaces
-  :demand t
   :config (tabspaces-mode t)
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
@@ -1082,7 +1071,6 @@ To ease the navigation between the growing tabs, we could add navigation binding
 
 #+begin_src emacs-lisp
 (use-feature tab-bar
-  :demand t
   :config (tab-bar-mode t)
   :bind (("C-<next>" . tab-next)
          ("C-<prior>" . tab-previous))
@@ -1164,13 +1152,6 @@ To ease the navigation between the growing tabs, we could add navigation binding
 
 *** Introducing The Basics
 
-**** Notifications -> System Alerts
-
-#+begin_src emacs-lisp
-(use-package alert
-  :custom (alert-default-style 'libnotify))
-#+end_src
-
 **** Spawn Emacs Everywhere
 
 #+begin_src emacs-lisp
@@ -1192,7 +1173,12 @@ To ease the navigation between the growing tabs, we could add navigation binding
 
 #+begin_src emacs-lisp
 (use-package helpful
-  :demand t
+  :bind
+  ([remap describe-callable]    . helpful-callable)
+  ([remap describe-function]    . helpful-function)
+  ([remap describe-variable]    . helpful-variable)
+  ([remap describe-key]         . helpful-key)
+  ([remap view-emacs-debugging] . helpful-at-point)
   :pretty-hydra
   ((:title (pretty-hydra-title "──｢ Utilities: Helpful ｣──" 'mdicon "nf-md-help_network")
            :color teal :quit-key "q")
@@ -1204,7 +1190,7 @@ To ease the navigation between the growing tabs, we could add navigation binding
      ("c" helpful-command  "Command(s)"))
     "Action"
     (("p" helpful-at-point "SYMB at point"))))
-  :config (setq help-window-select t))
+  :init (setq help-window-select t))
 #+end_src
 
 Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our new hydra to our main Hydra.
@@ -1222,13 +1208,15 @@ As of now, screenshot is not useful because of how I maintain my system clipboar
 
 #+begin_src emacs-lisp
 (use-package screenshot
-  :ensure (:host github :repo "tecosaur/screenshot"))
+  :ensure (:host github :repo "tecosaur/screenshot")
+  :commands (screenshot))
 #+end_src
 
 **** Controlling Recent Files
 
 #+begin_src emacs-lisp
 (use-feature recentf
+  :defer 1
   :custom
   (recentf-save-file-modes #o600)
   (recentf-max-saved-items 1024)
@@ -1279,7 +1267,6 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 #+begin_src emacs-lisp
 (use-package popper
-  :demand t
   :config
   (popper-mode t)
   (popper-echo-mode t)
@@ -1354,6 +1341,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-package diredfl
+  :after (dirvish)
   :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
   :custom-face (diredfl-dir-name ((t :bold t))))
 #+end_src
@@ -1362,7 +1350,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-package dirvish
-  :demand t
+  :after (dired)
   :bind (("C-c f" . dirvish-side)
          :map dirvish-mode-map
          ("a"   . dirvish-quick-access)
@@ -1408,7 +1396,6 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-package which-key
-  :demand t
   :diminish which-key-mode
   :config
   (which-key-mode t)
@@ -1548,8 +1535,6 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
 
 #+begin_src emacs-lisp
 (use-package vertico
-  :ensure (:files (:defaults "extensions/*"))
-  :demand t
   :config (vertico-mode t)
   :custom
   (vertico-cycle t)
@@ -1619,7 +1604,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp
 (use-package marginalia
-  :demand t
+  :after (vertico)
   :config (marginalia-mode t)
   :custom
   (marginalia-max-relative-age 0)
@@ -1630,6 +1615,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp
 (use-feature tramp
+  :defer t
   :config
   (setq remote-file-name-inhibit-cache nil)
   (add-to-list 'tramp-connection-properties
@@ -1647,6 +1633,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp
 (use-feature eshell
+  :commands (project-eshell)
   :preface
   <<eshell-shorten-directory-path>>
   <<eshell-redesign-prompt>>
@@ -1773,11 +1760,8 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 
 #+begin_src emacs-lisp
 (use-feature pdf-tools ;; <-^ fetched from Nixpkgs
-  :init (push 'pdf-tools elpaca-ignored-dependencies) ;; Allows proper detection of ~epdfinfo~
-  :config
-  (require 'pdf-annot) ;; WARNING find a way to load all of pdf-tools without excluding anything
-  (require 'pdf-occur)
-  (require 'pdf-outline))
+  :defer t
+  :init (push 'pdf-tools elpaca-ignored-dependencies)) ;; Allows proper detection of ~epdfinfo~
 #+end_src
 
 Let's sprinkle some beauty to the displayed PDF-files for more appropriate reading environment. (debatable)
@@ -1896,7 +1880,8 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
 Syntax highlighting is a nice feature to have in our different chat clients.
 
 #+begin_src emacs-lisp
-(use-package htmlize)
+(use-package htmlize
+  :defer t)
 #+end_src
 
 ***** Matrix: Secure & Interoperable Communication
@@ -2005,7 +1990,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package shr-tag-pre-highlight
-  :after (shr)
+  :after (shrface)
   :hook (eww-after-render . (lambda ()
                               (require 'shr-tag-pre-highlight)
                               (add-to-list 'shr-external-rendering-functions
@@ -2023,7 +2008,6 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil
-  :demand t
   :config (evil-mode)
   :custom
   (evil-respect-visual-line-mode t)
@@ -2039,7 +2023,6 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil-collection
-  :demand t
   :after (evil)
   :init (setq evil-collection-setup-minibuffer t)
   :config (evil-collection-init)
@@ -2066,7 +2049,6 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil-surround
-  :demand t
   :after (evil)
   :config (global-evil-surround-mode))
 #+end_src
@@ -2075,7 +2057,6 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
-  :demand t
   :after (evil)
   :config (evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
@@ -2113,7 +2094,6 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package meow
-  :demand t
   :custom-face
   (meow-beacon-indicator ((t (:inherit telephone-line-evil-emacs))))
   (meow-insert-indicator ((t (:inherit telephone-line-evil-insert))))
@@ -2309,7 +2289,6 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-package direnv
-  :demand t
   :config
   (direnv-mode t)
   (add-to-list 'warning-suppress-types '(direnv))
@@ -2364,6 +2343,7 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-feature whitespace
+  :commands (whitespace-mode)
   :custom
   (whitespace-action '(cleanup auto-cleanup))
   (whitespace-style
@@ -2401,7 +2381,6 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-package ligature
-  :demand t 
   :config
   (global-ligature-mode t)
   (ligature-set-ligatures 't '("www"))
@@ -2505,7 +2484,7 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-feature savehist
-  :demand t
+  :defer 1
   :config (savehist-mode t)
   :custom
   (savehist-autosave-interval 60)
@@ -2529,7 +2508,6 @@ Also, not all system environments will contain the necessary packages required t
 #+begin_src emacs-lisp
 (use-package undo-fu
   :if (>= emacs-major-version 29)
-  :demand t
   :config
   (setq undo-limit        (* 128 1024 1024)
         undo-outer-limit  (* 128 1024 1024)
@@ -2728,8 +2706,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package activities
-  :ensure (:host github :repo "alphapapa/activities.el")
-  :demand t
+  :defer 1
   :config (activities-mode t)
   :custom (activities-name-prefix "Emacs-NSP| ")) ;; XMonad Scratchpad
 #+end_src
@@ -2743,7 +2720,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
             :color teal :quit-key "q")
     ("Workflow"
      (("l"     activities-list     "List")
-      ("RET" activities-switch   "Switch")
+      ("RET"   activities-switch   "Switch")
       ("e"     activities-rename   "Rename")
       ("w"     activities-save-all "Save All"))
      "Task Operation"
@@ -2775,7 +2752,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package orderless
-  :demand t
   :config
   (setq completion-category-defaults nil
         completion-category-overrides '((file  (styles . (orderless flex)))
@@ -2799,7 +2775,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package apheleia
-  :demand t
+  :defer 2
   :diminish apheleia-mode
   :config (apheleia-global-mode t))
 #+end_src
@@ -2818,7 +2794,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
-  :demand t
   :preface
   (defun corfu-always-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -2834,7 +2809,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
               ("S-TAB" . corfu-previous)
               ([backtab] . corfu-previous))
   :hook (minibuffer-setup . corfu-always-enable-in-minibuffer)
-  :config (global-corfu-mode t)
+  :init (global-corfu-mode t)
   :custom
   (corfu-auto t)
   (corfu-cycle t)
@@ -2871,7 +2846,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package kind-icon
-  :demand t
   :after (corfu)
   :custom
   (kind-icon-default-face 'corfu-default)
@@ -2886,7 +2860,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package cape
-  :demand t
   :custom (cape-dict-file (getenv "WORDLIST"))
   :config
   (add-hook 'prog-mode-hook
@@ -3288,12 +3261,6 @@ There is another things that we could utilize to increase the responsiveness of 
   (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
 #+end_src
 
-To speed things up, I have chosen to add an asynchronous babel execution feature with the help of an external package to Irkalla.
-
-#+begin_src emacs-lisp
-(use-package ob-async)
-#+end_src
-
 ***** Org-Babel Language On Demand
 
 Related links:
@@ -3411,7 +3378,7 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package org-roam
-  :after (org)
+  :commands (org-roam-graph)
   :custom
   (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
   (org-roam-completion-everywhere t)
