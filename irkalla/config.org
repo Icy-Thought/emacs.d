@@ -409,9 +409,8 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 #+begin_src emacs-lisp
 (use-package gcmh
   :demand t
-  :delight " Ⓖ"
+  :config (gcmh-mode t)
   :custom
-  (gcmh-mode 1)
   (gcmh-idle-delay 'auto)
   (gcmh-auto-idle-delay-factor 10)
   (gcmh-high-cons-threshold (* 16 1024 1024)))
@@ -468,8 +467,8 @@ To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package 
 #+begin_src emacs-lisp
 (use-package hydra-posframe
   :ensure (:host github :repo "Ladicle/hydra-posframe")
-  :after (pretty-hydra)
-  :hook (elpaca-after-init . hydra-posframe-mode)
+  :demand t
+  :config (hydra-posframe-mode t)
   :custom
   (hydra-posframe-border-width 2)
   (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))
@@ -591,8 +590,10 @@ Then we have another essential Hydra that we will tie our editing related comman
 
 #+begin_src emacs-lisp
 (use-feature windmove
-  :hook (elpaca-after-init . windmove-default-keybindings)
-  :config (windmove-default-keybindings 'meta))
+  :demand t 
+  :config
+  (windmove-default-keybindings)
+  (windmove-default-keybindings 'meta))
 #+end_src
 
 **** Winner: Memorize Window Settings
@@ -601,7 +602,8 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature winner
-  :hook (elpaca-after-init . winner-mode))
+  :demand t
+  :config (winner-mode t))
 #+end_src
 
 ***** Hydra: Window Navigation
@@ -627,7 +629,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :hook (elpaca-after-init . pixel-scroll-precision-mode)
+  :config (pixel-scroll-precision-mode t)
   :custom
   (auto-window-vscroll nil)
   (fast-but-imprecise-scrolling nil)
@@ -951,9 +953,10 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
+  :demand t
   :after (nerd-icons)
-  :hook ((elpaca-after-init  . doom-modeline-mode)
-         (doom-modeline-mode . display-time-mode))
+  :hook (doom-modeline-mode . display-time-mode)
+  :config (doom-modeline-mode t)
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)
@@ -970,8 +973,9 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package mini-echo
+  :demand t
   :after (nerd-icons)
-  :hook (elpaca-after-init . mini-echo-mode)
+  :config (mini-echo-mode t)
   :custom
   (mini-echo-default-segments
    '( :long ("evil" "major-mode" "vcs" "buffer-position" "envrc"
@@ -1054,7 +1058,8 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package tabspaces
-  :hook (elpaca-after-init . tabspaces-mode)
+  :demand t
+  :config (tabspaces-mode t)
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
   :custom
@@ -1091,7 +1096,8 @@ To ease the navigation between the growing tabs, we could add navigation binding
 
 #+begin_src emacs-lisp
 (use-feature tab-bar
-  :hook (elpaca-after-init . tab-bar-mode)
+  :demand t
+  :config (tab-bar-mode t)
   :bind (("C-<next>" . tab-next)
          ("C-<prior>" . tab-previous))
   :custom
@@ -1106,8 +1112,7 @@ To ease the navigation between the growing tabs, we could add navigation binding
 (use-package dashboard
   :after (nerd-icons)
   :commands (dashboard-refresh-buffer)
-  :hook ((elpaca-after-init . dashboard-open)
-         (dashboard-mode . hl-line-mode))
+  :hook (dashboard-mode . hl-line-mode)
   :custom-face
   (dashboard-heading           ((t (:weight regular))))
   (dashboard-banner-logo-title ((t (:weight regular))))
@@ -1166,7 +1171,7 @@ To ease the navigation between the growing tabs, we could add navigation binding
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Application"
-     (("RET" dashboard-open "Dashboard")))))
+     (("RET" dashboard-refresh-buffer "Dashboard")))))
 #+end_src
 
 ** Part 3: Expanding The Utility Box
@@ -1288,25 +1293,24 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 #+begin_src emacs-lisp
 (use-package popper
-  :hook (elpaca-after-init . (lambda ()
-                               (popper-mode t)
-                               (popper-echo-mode t)))
+  :demand t
+  :config
+  (popper-mode t)
+  (popper-echo-mode t)
   :custom
-  (popper-reference-buffers
-   '("\\*Messages\\*"
-     "Output\\*$"
-     "\\*Async Shell Command\\*"
-     help-mode
-     compilation-mode
+  (popper-reference-buffers '("\\*Messages\\*"
+                              "Output\\*$"
+                              "\\*Async Shell Command\\*"
+                              help-mode
+                              compilation-mode
 
-     ;; :NOTE| terminal-related
-     "^\\*eat.*\\*$"    eat-mode
-     "^\\*eshell.*\\*$" eshell-mode
-     "^\\*shell.*\\*$"  shell-mode
-     "^\\*term.*\\*$"   term-mode
-     "^\\*vterm.*\\*$"  vterm-mode))
-
-  (popper-group-function #'popper-group-by-projectile)
+                              ;; :NOTE| terminal-related
+                              "^\\*eat.*\\*$"    eat-mode
+                              "^\\*eshell.*\\*$" eshell-mode
+                              "^\\*shell.*\\*$"  shell-mode
+                              "^\\*term.*\\*$"   term-mode
+                              "^\\*vterm.*\\*$"  vterm-mode))
+  (popper-group-function #'popper-group-by-directory)
   (popper-display-function #'display-buffer-full-frame))
 #+end_src
 
@@ -1372,8 +1376,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-package dirvish
-  :commands (dirivish-side)
-  :hook (elpaca-after-init . dirvish-override-dired-mode)
+  :demand t
   :bind (("C-c f" . dirvish-side)
          :map dirvish-mode-map
          ("a"   . dirvish-quick-access)
@@ -1397,8 +1400,9 @@ Lastly, I want the different type of directories to have some form of syntax hig
          ("<mouse-2>" . dired-mouse-find-file-other-window)
          ("<mouse-3>" . dired-mouse-find-file))
   :config
-  (dirvish-peek-mode)
-  (dirvish-side-follow-mode)
+  (dirvish-override-dired-mode t)
+  (dirvish-peek-mode t)
+  (dirvish-side-follow-mode t)
   :custom
   (dirvish-side-width 30)
   (dirvish-use-header-line t)
@@ -1418,9 +1422,11 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-package which-key
+  :demand t
   :diminish which-key-mode
-  :hook ((elpaca-after-init . which-key-mode)
-         (which-key . which-key-setup-minibuffer))
+  :config
+  (which-key-mode t)
+  (which-key-setup-minibuffer)
   :custom
   (which-key-allow-evil-operators t)
   (which-key-idle-delay 0.3)
@@ -1557,7 +1563,9 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
 #+begin_src emacs-lisp
 (use-package vertico
   :ensure (:files (:defaults "extensions/*"))
-  :hook (elpaca-after-init . vertico-mode)
+  :demand t
+  :after (nerd-icons)
+  :config (vertico-mode t)
   :custom
   (vertico-cycle t)
   (vertico-multiform-categories
@@ -1626,7 +1634,8 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp
 (use-package marginalia
-  :hook (elpaca-after-init . marginalia-mode)
+  :demand t
+  :config (marginalia-mode t)
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))
@@ -2029,11 +2038,13 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil
-  :hook (elpaca-after-init . evil-mode)
-  :config (evil-set-undo-system 'undo-fu)
+  :demand t
+  :config (evil-mode)
   :custom
   (evil-respect-visual-line-mode t)
+  (evil-search-module 'evil-search)
   (evil-split-window-below t)
+  (evil-undo-system 'undo-fu)
   (evil-vsplit-window-right t)
   (evil-want-integration t)
   (evil-want-keybinding nil))
@@ -2043,10 +2054,10 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil-collection
+  :demand t
   :after (evil)
-  :hook (evil-mode . (lambda ()
-                       (evil-collection-init)
-                       (setq evil-want-keybinding t)))
+  :init (setq evil-collection-setup-minibuffer t)
+  :config (evil-collection-init)
   :custom
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
@@ -2070,29 +2081,18 @@ Related links:
 
 #+begin_src emacs-lisp
 (use-package evil-surround
+  :demand t
   :after (evil)
-  :hook (evil-mode . global-evil-surround-mode))
-#+end_src
-
-***** Quick EVIL Escape
-
-#+begin_src emacs-lisp
-(use-package evil-escape
-  :after (evil)
-  :delight (evil-escape-mode)
-  :hook (evil-mode . evil-escape-mode)
-  :custom
-  (evil-escape-key-sequence "jk")
-  (evil-escape-delay 0.1)
-  (evil-escape-unodered-key-sequence nil))
+  :config (global-evil-surround-mode))
 #+end_src
 
 ***** EVIL Action Highlight
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
+  :demand t
   :after (evil)
-  :hook (evil-mode . evil-goggles-mode)
+  :config (evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
 #+end_src
 
@@ -2129,7 +2129,6 @@ Related links:
 #+begin_src emacs-lisp
 (use-package meow
   :demand t
-  :hook (elpaca-after-init . meow-global-mode)
   :custom-face
   (meow-beacon-indicator ((t (:inherit telephone-line-evil-emacs))))
   (meow-insert-indicator ((t (:inherit telephone-line-evil-insert))))
@@ -2148,6 +2147,7 @@ Related links:
   (meow-esc-delay 0.001)
   (meow-expand-exclude-mode-list nil)
   :config
+  (meow-global-mode t)
   (meow-qwerty-setup)
   (meow-setup-indicator)
   (meow-setup-line-number)
@@ -2324,8 +2324,10 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-package direnv
-  :hook (elpaca-after-init . direnv-mode)
-  :config (add-to-list 'warning-suppress-types '(direnv))
+  :demand t
+  :config
+  (direnv-mode t)
+  (add-to-list 'warning-suppress-types '(direnv))
   :custom (direnv-always-show-summary nil))
 #+end_src
 
@@ -2414,8 +2416,9 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-package ligature
-  :hook (elpaca-after-init . global-ligature-mode)
+  :demand t 
   :config
+  (global-ligature-mode t)
   (ligature-set-ligatures 't '("www"))
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
   (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
@@ -2517,7 +2520,8 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-feature savehist
-  :hook (elpaca-after-init . savehist-mode)
+  :demand t
+  :config (savehist-mode t)
   :custom
   (savehist-autosave-interval 60)
   (savehist-file (no-littering-expand-var-file-name "savehist"))
@@ -2740,7 +2744,8 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package activities
   :ensure (:host github :repo "alphapapa/activities.el")
-  :hook (elpaca-after-init . activities-mode)
+  :demand t
+  :config (activities-mode t)
   :custom (activities-name-prefix "Emacs-NSP| ")) ;; XMonad Scratchpad
 #+end_src
 
@@ -2809,8 +2814,9 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package apheleia
+  :demand t
   :diminish apheleia-mode
-  :hook (elpaca-after-init . apheleia-global-mode))
+  :config (apheleia-global-mode t))
 #+end_src
 
 **** Hydra: Apheleia Bindings
@@ -2827,6 +2833,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
+  :demand t
   :preface
   (defun corfu-always-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -2836,13 +2843,13 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
       (setq-local corfu-echo-delay nil
                   corfu-popupinfo-delay nil)
       (corfu-mode 1)))
-  :hook ((elpaca-after-init . global-corfu-mode)
-         (minibuffer-setup . corfu-always-enable-in-minibuffer))
   :bind (:map corfu-map
               ("TAB" . corfu-next)
               ([tab] . corfu-next)
               ("S-TAB" . corfu-previous)
               ([backtab] . corfu-previous))
+  :hook (minibuffer-setup . corfu-always-enable-in-minibuffer)
+  :config (global-corfu-mode t)
   :custom
   (corfu-auto t)
   (corfu-cycle t)
@@ -3272,9 +3279,6 @@ There is another things that we could utilize to increase the responsiveness of 
 #+begin_src emacs-lisp
 (use-feature ob
   :after (org)
-  :preface
-  <<org-babel-language-on-demand>>
-  <<org-babel-execute-action>>
   :hook (org-babel-after-execute . org-display-inline-images)
   :custom
   (org-babel-default-header-args
@@ -3290,6 +3294,10 @@ There is another things that we could utilize to increase the responsiveness of 
   (org-export-use-babel nil)
   (org-confirm-babel-evaluate nil)
   :config
+  <<org-babel-language-on-demand>>
+  <<org-babel-execute-action>>
+  <<org-babel-tangle-config-on-save>>
+
   (with-eval-after-load 'evil
     (evil-define-key 'normal org-mode-map (kbd "<return>") #'irkalla/org-execute-action))
   (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
@@ -3342,6 +3350,20 @@ Related links:
       (_
        ;; Fallback to evil standard command
        (call-interactively #'forward-line)))))
+#+end_src
+
+***** Org-Babel Tangle Configuration On Save
+
+#+NAME: org-babel-tangle-config-on-save
+#+begin_src emacs-lisp :tangle no
+(defun irkalla/tangle-config-file ()
+  "Tangle Irkalla Emacs configuration file on save."
+  (when (and (eq major-mode 'org-mode)
+             (string= (buffer-file-name)
+                      (expand-file-name "config.org" irkalla/main-residence)))
+    (org-babel-tangle)))
+
+(add-hook 'after-save-hook 'irkalla/tangle-config-file)
 #+end_src
 
 **** Fragtog: LaTeX Rendering On Hover
