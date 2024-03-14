@@ -386,20 +386,6 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
     (string-trim-right (buffer-string))))
 #+end_src
 
-**** Informing Projectile About =~/Workspace= Projects
-
-#+begin_src emacs-lisp
-(defun irkalla/add-public-projects ()
-  "Add directories present in our /public directory to known projects."
-  (interactive)
-  (let ((base-dir (expand-file-name "~/Workspace/public")))
-    (mapc (lambda (dir)
-            (when (file-directory-p dir)
-              (projectile-add-known-project dir)))
-          (directory-files base-dir t "^[^.].*"))
-    (message "Directories inside ~/Workspace/public added as known projects.")))
-#+end_src
-
 *** Controlling Irkalla's Littering Habits
 
 **** Automated Garbage Collection
@@ -779,8 +765,8 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
-  :after (nerd-icons vertico)
-  :hook (vertico-mode . nerd-icons-completion-mode))
+  :after (nerd-icons marginalia)
+  :hook (marginalia-mode . nerd-icons-completion-mode))
 #+end_src
 
 *** SVG-Tag: Decorating Buffers With SVG
@@ -1564,7 +1550,6 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
 (use-package vertico
   :ensure (:files (:defaults "extensions/*"))
   :demand t
-  :after (nerd-icons)
   :config (vertico-mode t)
   :custom
   (vertico-cycle t)
