@@ -9,7 +9,7 @@
 * Table Of Contents :TOC:
 - [[#early-configurations][Early Configurations]]
   - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
-    - [[#defining-our-irkalla-group][Defining Our Irkalla Group]]
+    - [[#laying-the-foundations-of-irkalla][Laying The Foundations Of Irkalla]]
     - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
     - [[#maintaining-harmony-within-irkallas-directories][Maintaining Harmony Within Irkalla's Directories]]
   - [[#part-2-performance-enhancements][Part 2: Performance Enhancements]]
@@ -97,13 +97,29 @@
 
 ** Part 1: Defining The Boundaries Of Irkalla
 
-*** Defining Our Irkalla Group
+*** Laying The Foundations Of Irkalla
 
 #+begin_src emacs-lisp
 (defgroup ikralla nil
   "Irkalla might as well become a cult at this point."
   :link '(url-link "https://github.com/Icy-Thought/emacs.d/tree/main/irkalla")
   :group 'emacs)
+#+end_src
+
+#+begin_src emacs-lisp
+(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
+  "The directory where Irkalla resides in."
+  :type 'string
+  :group 'irkalla)
+#+end_src
+
+**** Check: Nix OR Guix Distribution?
+
+#+begin_src emacs-lisp
+(defconst IS-REPRO (and (eq system-type 'gnu/linux)
+                        (with-temp-buffer
+                          (insert-file-contents "/etc/os-release")
+                          (re-search-forward "ID=\\(?:nixos\\|guix\\)" nil t))))
 #+end_src
 
 *** Setting our UI Changes Early
@@ -123,31 +139,15 @@
 *** Maintaining Harmony Within Irkalla's Directories
 
 #+begin_src emacs-lisp
-(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
-  "The directory where Irkalla resides in."
-  :type 'string
-  :group 'irkalla)
 #+end_src
 
 **** Appending Directories To Load-Path
 
-#+begin_src emacs-lisp
-(let ((themes-dir (expand-file-name "themes" irkalla/main-residence)))
-  (when (file-directory-p themes-dir)
-    (add-to-list 'load-path themes-dir)
-    (add-to-list 'load-path (expand-file-name "template" themes-dir))))
-#+end_src
-
-**** Appending Custom Theme Dir. To Load Path
-
-#+begin_src emacs-lisp
-(add-to-list 'custom-theme-load-path (concat irkalla/main-residence "/themes"))
-#+end_src
-
 **** Move =custom.el= To The =./etc= Directory
 
 #+begin_src emacs-lisp
-(setq custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
+(setq custom-file
+      (expand-file-name "etc/custom.el" user-emacs-directory))
 
 (if (file-exists-p custom-file)
     (load custom-file 'noerror 'nomessage)
@@ -640,7 +640,18 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 *** Autothemer: Macros To Ease The Theming Process
 
-The themes that I have created with the help of [[https://github.com/jasonm23/autothemer][Autothemer]] can be found in the =./themes= directory of Irkalla.
+Add the Irkalla theme directory to Emacs ~load-path~. Necessary for [[https://github.com/jasonm23/autothemer][Autothemer]] to recognize my customized themes.
+
+#+begin_src emacs-lisp
+(let ((themes-dir (expand-file-name "themes" irkalla/main-residence)))
+  (when (file-directory-p themes-dir)
+    (add-to-list 'load-path themes-dir)
+    (add-to-list 'load-path (expand-file-name "template" themes-dir))))
+
+(add-to-list 'custom-theme-load-path (concat irkalla/main-residence "/themes"))
+#+end_src
+
+What remains of us is to load the theme of our choice.
 
 #+begin_src emacs-lisp
 (use-package autothemer
@@ -1763,23 +1774,22 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 ***** PDF Reader
 
 #+begin_src emacs-lisp
-(use-feature pdf-tools ;; <-^ fetched from Nixpkgs
-  :defer t
-  :init (push 'pdf-tools elpaca-ignored-dependencies)) ;; Allows proper detection of ~epdfinfo~
-#+end_src
-
-Let's sprinkle some beauty to the displayed PDF-files for more appropriate reading environment. (debatable)
-
-#+begin_src emacs-lisp
-(use-feature pdf-view
+(use-feature pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . (lambda ()
                            (when (featurep 'evil)
-                             ;; :NOTE| Set the PDF free from the unnecessary borders
+                             ;; :NOTE| Set the PDF free from the unnecessary borders.
                              (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
                            (pdf-view-themed-minor-mode)))
+  ;; :HACK| Resolves elpaca's failure to detect ~epdfinfo~
+  :init (add-to-list 'elpaca-ignored-dependencies 'pdf-tools)
   :config
+  ;; :NOTE| Load PDF-Tools utilities when installed from Nix || Guix.
+  (if IS-REPRO (let ((inhibit-message t))
+                 (load-library "pdf-tools-autoloads")))
+
+  ;; :NOTE|Auto center PDF page on zoom-in/out.
   (advice-add 'pdf-view-enlarge :after (lambda (&rest _args) (pdf-view-center-in-window)))
   (advice-add 'pdf-view-shrink :after (lambda (&rest _args) (pdf-view-center-in-window)))
   :custom
