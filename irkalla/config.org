@@ -664,10 +664,12 @@ The themes that I have created with the help of [[https://github.com/jasonm23/au
   :demand t
   :hook (kill-emacs . fontaine-store-latest-preset)
   :custom
-  (fontaine-presets `((default) ;; <- fallback values
+  (fontaine-presets `((default)
+                        ;; <- fallback values
                       (reading
-                       :variable-pitch-family "Amita"
-                       :variable-pitch-height 175
+                       :variable-pitch-family "Bitter"
+                       :variable-pitch-height 150
+                       :variable-pitch-slant normal
                        :variable-pitch-weight regular)
                       (large
                        :default-height 180
@@ -681,10 +683,12 @@ The themes that I have created with the help of [[https://github.com/jasonm23/au
                        :fixed-pitch-family nil
                        :fixed-pitch-height 145
                        :fixed-pitch-slant normal
+                       :fixed-pitch-weight semibold
 
                        :variable-pitch-family "VictorMono Nerd Font Mono"
                        :variable-pitch-height 1.00
-                       :variable-pitch-slant italic)))
+                       :variable-pitch-slant italic
+                       :variable-pitch-weight semibold)))
   :config (fontaine-set-preset (or (fontaine-restore-latest-preset) 'default)))
 #+end_src
 
@@ -1000,7 +1004,7 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :init (if (daemonp)
             (add-hook 'server-after-make-frame-hook #'centaur-tabs-mode)
-          (centaur-tabs-mode))
+          (add-hook 'elpaca-after-init-hook 'centaur-tabs-mode))
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-cycle-scope 'tabs)
