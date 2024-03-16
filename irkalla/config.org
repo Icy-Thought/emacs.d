@@ -1015,7 +1015,7 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :init (if (daemonp)
             (add-hook 'server-after-make-frame-hook #'centaur-tabs-mode)
-          (add-hook 'elpaca-after-init-hook 'centaur-tabs-mode))
+          (centaur-tabs-mode))
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-cycle-scope 'tabs)
@@ -2333,6 +2333,13 @@ Also, not all system environments will contain the necessary packages required t
   :ensure (:host github :repo "jdtsmith/indent-bars")
   :hook (prog-mode . indent-bars-mode)
   :custom (indent-bars-zigzag nil))
+#+end_src
+
+***** Painting Hex/RGB Colors
+
+#+begin_src emacs-lisp
+(use-package rainbow-mode
+  :hook (prog-mode . rainbow-mode))
 #+end_src
 
 ***** Highlight Current Line
