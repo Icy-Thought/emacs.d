@@ -1795,7 +1795,8 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   :custom
   (pdf-view-use-scaling t)
   (pdf-view-use-imagemagick nil)
-  (pdf-view-display-size 'fit-width))
+  (pdf-view-display-size 'fit-width)
+  (pdf-view-midnight-colors '("#cdd6f4" . "#1e1e2e")))
 #+end_src
 
 Instead of maintaining a bookmark for each PDF file I read, I decided to add a package to help me defer that process.
@@ -2365,18 +2366,17 @@ Also, not all system environments will contain the necessary packages required t
 #+begin_src emacs-lisp
 (use-feature whitespace
   :commands (whitespace-mode)
+  :hook (before-save . whitespace-cleanup)
   :custom
-  (whitespace-action '(cleanup auto-cleanup))
-  (whitespace-style
-   '(face spaces tabs newline trailing space-mark tab-mark newline-mark))
+  (whitespace-style '(face indentation trailing newline empty))
   (whitespace-display-mappings
-   '(;; space -> · else .
+   '(;; space (·) else (.)
      (space-mark 32 [183] [46])
-     ;; new line -> ¬ else $
+     ;; new line (¬) else ($)
      (newline-mark ?\n [172 ?\n] [36 ?\n])
-     ;; carriage return (Windows) -> ¶ else #
+     ;; carriage return (¶) else (#)
      (newline-mark ?\r [182] [35])
-     ;; tabs -> » else >
+     ;; tabs (») else (>)
      (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 #+end_src
 

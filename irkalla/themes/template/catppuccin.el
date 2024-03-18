@@ -66,12 +66,13 @@
      (window-divider                                    (:foreground surface0))
 
      ;; https://www.emacswiki.org/emacs/WhiteSpace
-     (whitespace-newline                                (:foreground mantle))
-     (whitespace-space                                  (:foreground mauve))
+     (whitespace-newline                                (:foreground overlay1))
+     (whitespace-space                                  (:foreground overlay1))
      (whitespace-trailing                               (:foreground maroon))
+     (whitespace-indentation                            (:foreground overlay1))
 
-     (trailing-whitespace                               (:background surface1))
-     (trailing-rosewaterspace                           (:background surface1))
+     (trailing-whitespace                               (:background overlay1))
+     (trailing-rosewaterspace                           (:background overlay1))
 
      ;; https://www.emacswiki.org/emacs/FontLockMode
      (elisp-shorthand-font-lock-face                    (:foreground peach))
@@ -124,11 +125,11 @@
 
      ;; https://github.com/nex3/perspective-el
      (persp-selected-face                               (:foreground blue :weight 'bold :italic t))
-     
+
      ;; https://www.emacswiki.org/emacs/Iedit
      (iedit-occurrence                                  (:background blue :foreground crust))
      (iedit-read-only-occurrence                        (:background yellow :foreground crust))
-     
+
      ;; https://github.com/seagle0128/doom-modeline
      (doom-modeline-battery-charging                    (:foreground overlay2))
      (doom-modeline-battery-critical                    (:inherit 'error))
@@ -167,7 +168,7 @@
      (telephone-line-evil-insert                        (:background mauve :foreground mantle :bold t))
 
      ;; https://www.emacswiki.org/emacs/eww
-     (eww-form-file                                     (:background mantle :foreground maroon)) 
+     (eww-form-file                                     (:background mantle :foreground maroon))
      (eww-form-text                                     (:background mantle :foreground text))
      (eww-form-select                                   (:background mantle :foreground pink))
      (eww-form-submit                                   (:background mantle :foreground yellow))
@@ -203,7 +204,7 @@
      (ement-room-self                                   (:foreground pink))
      (ement-room-self-message                           (:foreground text))
      (ement-room-quote                                  (:foreground lavender :italic t))
-     
+
      (ement-room-list-direct                            (:foreground peach :italic t))
      (ement-room-list-favourite                         (:foreground flamingo))
      (ement-room-list-recent                            (:foreground yellow :bold t))
@@ -211,7 +212,7 @@
      (ement-room-list-name                              (:inherit 'ement-room-name :italic t))
      (ement-room-list-very-recent                       (:foreground red :bold t))
 
-     ;; https://orgmode.org/org.html                                                            
+     ;; https://orgmode.org/org.html
      (org-block                                         (:inherit 'fixed-pitch :background mantle))
      (org-block-begin-line                              (:inherit 'fixed-pitch :background base   :foreground rosewater))
      (org-block-end-line                                (:inherit 'fixed-pitch :background base   :foreground maroon))
@@ -327,7 +328,7 @@
      (flycheck-error-list-error                         (:inheirt 'error :bold t))
      (flycheck-error-list-info                          (:inherit 'info :bold t))
      (flycheck-error-list-warning                       (:inherit 'warning :bold t))
-     
+
      (flycheck-fringe-error                             (:inherit 'error))
      (flycheck-fringe-info                              (:inherit 'info))
      (flycheck-fringe-warning                           (:inherit 'warning))
@@ -601,7 +602,7 @@
      ;; https://github.com/Artawower/blamer.el
      (blamer-face                                       (:foreground mauve :italic t))
      (blamer-pretty-border-face                         (:foreground pink))
-     (blamer-pretty-meta-data-face                      (:foreground peach)) 
+     (blamer-pretty-meta-data-face                      (:foreground peach))
      (blamer-pretty-meta-keywords-face                  (:foreground blue))
      (blamer-pretty-commit-message-face                 (:foreground green :italic t))
 
