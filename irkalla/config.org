@@ -1015,7 +1015,7 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :init (if (daemonp)
             (add-hook 'server-after-make-frame-hook #'centaur-tabs-mode)
-          (centaur-tabs-mode))
+          (add-hook 'elpaca-after-init #'centaur-tabs-mode))
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-cycle-scope 'tabs)
@@ -1282,10 +1282,22 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 #+begin_src emacs-lisp
 (use-package popper
+  :preface
+  (defun popper-display-vertical-popup (buffer &optional alist)
+    (display-buffer-in-side-window buffer (append alist
+                                                  `((window-width 0.5)
+                                                    (side . right)
+                                                    (slot . 1)))))
+
+  (defun popper-select-vertical-popup (buffer &optional alist)
+    (let ((window (popper-display-vertical-popup buffer alist)))
+      (select-window window)))
   :config
   (popper-mode t)
   (popper-echo-mode t)
   :custom
+  (popper-group-function #'popper-group-by-directory)
+  (popper-display-function #'popper-select-vertical-popup)
   (popper-reference-buffers '(help-mode
                               "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
@@ -1298,9 +1310,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
                               "^\\*eshell.*\\*$" eshell-mode
                               "^\\*shell.*\\*$"  shell-mode
                               "^\\*term.*\\*$"   term-mode
-                              "^\\*vterm.*\\*$"  vterm-mode))
-  (popper-group-function #'popper-group-by-directory)
-  (popper-display-function #'display-buffer-full-frame))
+                              "^\\*vterm.*\\*$"  vterm-mode)))
 #+end_src
 
 ***** Hydra: Adding Popper Bindings
@@ -2019,16 +2029,12 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 **** EVIL: VIM Layer For Emacs
 
-Related links:
-- https://github.com/emacs-evil/evil
-
 #+begin_src emacs-lisp
 (use-package evil
   :config (evil-mode)
   :custom
   (evil-respect-visual-line-mode t)
   (evil-search-module 'evil-search)
-  (evil-split-window-below t)
   (evil-undo-system 'undo-fu)
   (evil-vsplit-window-right t)
   (evil-want-integration t)
@@ -2104,9 +2110,6 @@ Related links:
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
 :END:
-
-Related links:
-- https://github.com/meow-edit/meow
 
 #+begin_src emacs-lisp
 (use-package meow
@@ -3285,8 +3288,7 @@ There is another things that we could utilize to increase the responsiveness of 
 
 ***** Org-Babel Language On Demand
 
-Related links:
-- https://emacs.stackexchange.com/a/20618
+Source: https://emacs.stackexchange.com/a/20618
 
 #+NAME: org-babel-language-on-demand
 #+begin_src emacs-lisp :tangle no
