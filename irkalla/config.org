@@ -1322,11 +1322,12 @@ Link: https://github.com/karthink/popper
   (popper-mode t)
   (popper-echo-mode t)
   :custom
-  (popper-reference-buffers '("\\*Messages\\*"
-                              "Output\\*$"
+  (popper-reference-buffers '(help-mode
+                              "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
-                              help-mode
-                              compilation-mode
+                              ("Output\\*$" . hide)
+                              ("*Python*" . hide)
+                              (compilation-list-mode . hide)
 
                               ;; :NOTE| terminal-related
                               "^\\*eat.*\\*$"    eat-mode
