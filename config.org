@@ -102,12 +102,12 @@
 #+begin_src emacs-lisp
 (defgroup ikralla nil
   "Irkalla might as well become a cult at this point."
-  :link '(url-link "https://github.com/Icy-Thought/emacs.d/tree/main/irkalla")
+  :link '(url-link "https://github.com/Icy-Thought/emacs.d")
   :group 'emacs)
 #+end_src
 
 #+begin_src emacs-lisp
-(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d/irkalla")
+(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d")
   "The directory where Irkalla resides in."
   :type 'string
   :group 'irkalla)
