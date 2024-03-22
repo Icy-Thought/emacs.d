@@ -1009,25 +1009,25 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :init (centaur-tabs-mode t)
-  :custom
-  (centaur-tabs-set-icons t)
-  (centaur-tabs-cycle-scope 'tabs)
-  (centaur-tabs-enable-key-bindings t)
-  (centaur-tabs-height 32)
-  (centaur-tabs-left-edge-margin nil)
-  (centaur-tabs-set-bar 'under)
-  (centaur-tabs-show-count nil)
-  (centaur-tabs-set-modified-marker t)
-  (centaur-tabs-show-navigation-buttons t)
-  (centaur-tabs-show-new-tab-button t)
-  (centaur-tabs-adjust-buffer-order t)
   :config
+  (setq centaur-tabs-set-icons t
+          centaur-tabs-cycle-scope 'tabs
+          centaur-tabs-enable-key-bindings t
+          centaur-tabs-height 32
+          centaur-tabs-left-edge-margin nil
+          centaur-tabs-set-bar 'under
+          centaur-tabs-show-count nil
+          centaur-tabs-set-modified-marker t
+          centaur-tabs-show-navigation-buttons t
+          centaur-tabs-show-new-tab-button t
+          centaur-tabs-adjust-buffer-order t)
+
   (centaur-tabs-headline-match)
   (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-group-by-projectile-project)
   (setq x-underline-at-descent-line t)
 
-  ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
+    ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
   (dolist (prefix '("*" " *" ;; all temporary buffers
                     "consult-partial-preview"
                     "Ement"
@@ -1782,6 +1782,8 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
+  :bind (:map pdf-view-mode-map
+              ([tab] . pdf-outline))
   ;; :HACK| Resolves elpaca's failure to detect ~epdfinfo~
   :init (add-to-list 'elpaca-ignored-dependencies 'pdf-tools)
   :config
