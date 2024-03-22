@@ -655,7 +655,8 @@ What remains of us is to load the theme of our choice.
 
 #+begin_src emacs-lisp
 (use-package autothemer
-  :init (load-theme 'catppuccin-mocha :no-confirm))
+  :defer 2
+  :init (load-theme 'catppuccin-mocha :NO-CONFIRM))
 #+end_src
 
 *** Prettified Symbols
@@ -957,6 +958,20 @@ We should also be able to complete the icons as we do on other platforms.
   (when (display-graphic-p) (doom-modeline-hud t)))
 #+end_src
 
+**** Spaceline: Powerline Styled Modeline
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package spaceline
+  :init (spaceline-spacemacs-theme)
+  :custom
+  (powerline-default-separator 'arrow)
+  (spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)
+  :config (spaceline-toggle-minor-modes-off))
+#+end_src
+
 **** Mini-Echo: Minimalism Inspired Modeline
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
@@ -979,26 +994,6 @@ We should also be able to complete the icons as we do on other platforms.
   (mini-echo-right-padding 1))
 #+end_src
 
-**** Telephone: Powerline Styled Modeline
-:PROPERTIES:
-:HEADER-ARGS: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package telephone-line
-  :hook ((prog-mode text-mode) . telephone-line-mode)
-  :custom
-  (telephone-line-height 26)
-  (when (featurep 'evil) (telephone-line-evil-use-short-tag t))
-  (when (featurep 'meow) (telephone-line-meow-use-short-tag t))
-  ;; Left separator
-  (telephone-line-primary-left-separator 'telephone-line-tan-left)
-  (telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left)
-  ;; Right separator
-  (telephone-line-primary-right-separator 'telephone-line-tan-right)
-  (telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right))
-#+end_src
-
 *** Tab Bar(s) -> A Header-Line For Buffers
 
 **** Centaur Tabs: A Header Line For Buffers
@@ -1013,9 +1008,7 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
-  :init (if (daemonp)
-            (add-hook 'server-after-make-frame-hook #'centaur-tabs-mode)
-          (add-hook 'elpaca-after-init #'centaur-tabs-mode))
+  :init (centaur-tabs-mode t)
   :custom
   (centaur-tabs-set-icons t)
   (centaur-tabs-cycle-scope 'tabs)
@@ -1788,14 +1781,15 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 (use-feature pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
-  :hook (pdf-view-mode . (lambda ()
-                           (when (featurep 'evil)
-                             ;; :NOTE| Set the PDF free from the unnecessary borders.
-                             (set (make-local-variable 'evil-normal-state-cursor) (list nil)))
-                           (pdf-view-themed-minor-mode)))
+  :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
   ;; :HACK| Resolves elpaca's failure to detect ~epdfinfo~
   :init (add-to-list 'elpaca-ignored-dependencies 'pdf-tools)
   :config
+  ;; :NOTE| Set the PDF free from the unnecessary borders.
+  (when (featurep 'evil)
+    (set (make-local-variable 'evil-normal-state-cursor)
+         (list nil)))
+
   ;; :NOTE| Load PDF-Tools utilities when installed from Nix || Guix.
   (if IS-REPRO (let ((inhibit-message t))
                  (load-library "pdf-tools-autoloads")))
@@ -1996,20 +1990,20 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   :hook ((shrface-mode . (lambda ()
                            (visual-line-mode)
                            (variable-pitch-mode)))
-         (eww-after-render . shrface-mode)
-         (nov-mode . (lambda ()
-                       (set nov-shr-rendering-functions '((img . nov-render-img)
-                                                          (title . nov-render-title)))
-                       (setq nov-shr-rendering-functions
-                             (append nov-shr-rendering-functions shr-external-rendering-functions))
-                       (shrface-mode t))))
+         (eww-after-render . shrface-mode))
   :custom
   (shrface-href-versatile t)
   (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star)))
   :config
   (shrface-basic)
   (shrface-trial)
-  (shrface-default-keybindings))
+  (shrface-default-keybindings)
+
+  ;; :NOTE| allow shrface to control nov.el buffers
+  (with-eval-after-load 'nov
+    (setq nov-shr-rendering-functions '((img . nov-render-img) (title . nov-render-title))
+          nov-shr-rendering-functions (append nov-shr-rendering-functions shr-external-rendering-functions))
+    (add-hook 'nov-mode-hook #'shrface-mode)))
 #+end_src
 
 I also would like for web-pages to properly render code blocks, and that is by displaying them with the appropriate syntax highlighting.
@@ -2977,6 +2971,7 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 #+begin_src emacs-lisp
 (use-package combobulate
   :ensure (:host github :repo "mickeynp/combobulate")
+  :commands (combobulate)
   :hook (tree-sitter-after-on . combobulate-mode))
 #+end_src
 

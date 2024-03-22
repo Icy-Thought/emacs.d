@@ -54,7 +54,7 @@
      (mode-line-inactive                                (:background base :foreground subtext1 :bold nil))
      (mode-line-active                                  (:background mantle :foreground subtext0 :bold t))
      (mode-line-highlight                               (:foreground flamingo))
-     (mode-line-buffer-id                               (:foreground green :bold t))
+     (mode-line-buffer-id                               (:foreground pink :bold t))
      (numbers                                           (:background green :foreground base))
      (region                                            (:inherit 'highlight :italic t))
      (separator-line                                    (:background base))
@@ -156,6 +156,29 @@
      (doom-modeline-panel                               (:inherit 'bold :background flamingo :foreground mantle))
      (doom-modeline-project-dir                         (:foreground peach))
      (doom-themes-visual-bell                           (:background red))
+
+     ;; https://github.com/TheBB/spaceline
+     (powerline-active0                                 (:background crust))
+     (powerline-active1                                 (:background mantle))
+     (powerline-active2                                 (:background base))
+
+     (powerline-inactive0                               (:background crust))
+     (powerline-inactive1                               (:background mantle))
+     (powerline-inactive2                               (:background base))
+
+     (spaceline-highlight-face                          (:background blue :foreground mantle))
+     (spaceline-modified                                (:background yellow))
+     (spaceline-unmodified                              (:background pink))
+     (spaceline-python-venv                             (:background rosewater))
+     (spaceline-read-only                               (:background red))
+
+     (spaceline-evil-emacs                              (:background pink     :foreground mantle))
+     (spaceline-evil-insert                             (:background green    :foreground mantle))
+     (spaceline-evil-motion                             (:background teal     :foreground mantle))
+     (spaceline-evil-normal                             (:background blue     :foreground mantle))
+     (spaceline-evil-operator                           (:background mauve    :foreground mantle))
+     (spaceline-evil-replace                            (:background yellow   :foreground mantle))
+     (spaceline-evil-visual                             (:background lavender :foreground mantle))
 
      ;; https://github.com/dbordak/telephone-line
      (telephone-line-accent-active                      (:background base :foreground pink :weight 'bold :italic t))
