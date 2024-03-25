@@ -1294,7 +1294,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (popper-reference-buffers '(help-mode
                               "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
-                              ("Output\\*$" . hide)
+                              "Output\\*$"
                               ("*Python*" . hide)
                               (compilation-list-mode . hide)
 
