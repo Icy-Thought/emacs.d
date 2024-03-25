@@ -2211,6 +2211,8 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '(")" . forward-sexp)
    '("[" . meow-beginning-of-thing)
    '("]" . meow-end-of-thing)
+   '("/" . meow-visit)
+   '("<escape>" . keyboard-quit)
 
    '("a" . meow-append)
    '("A" . meow-open-below)
@@ -2235,7 +2237,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("l" . meow-right)
    '("L" . meow-right-expand)
    '("m" . meow-join)
-   '("n" . meow-search)
+   '("v" . meow-search)
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
@@ -2248,15 +2250,13 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("t" . meow-till)
    '("u" . undo)
    '("U" . undo-redo)
-   '("v" . meow-visit)
    '("w" . meow-mark-word)
    '("W" . meow-mark-symbol)
    '("x" . meow-line)
    '("X" . meow-goto-line)
    '("y" . meow-save)
    '("Y" . meow-sync-grab)
-   '("z" . meow-pop-selection)
-   '("<escape>" . keyboard-quit)))
+   '("z" . meow-pop-selection)))
 #+end_src
 
 *** The Basic Requirements Of An Editor
