@@ -655,8 +655,7 @@ What remains of us is to load the theme of our choice.
 
 #+begin_src emacs-lisp
 (use-package autothemer
-  :defer 2
-  :init (load-theme 'catppuccin-mocha :NO-CONFIRM))
+  :init (load-theme 'catppuccin-mocha t))
 #+end_src
 
 *** Prettified Symbols
@@ -948,7 +947,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :init (doom-modeline-mode)
+  :init (doom-modeline-mode t)
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)
@@ -998,9 +997,18 @@ We should also be able to complete the icons as we do on other platforms.
 
 **** Centaur Tabs: A Header Line For Buffers
 
+Reference:
+- https://github.com/ema2159/centaur-tabs/issues/127#issuecomment-1848219082
+
 #+begin_src emacs-lisp
 (use-package centaur-tabs
-  :defer 2
+  :preface
+  (defun refresh-centaur-tabs ()
+    "Define Centaur-Tabs bar-line and later apply it."
+    (centaur-tabs-mode -1)
+    (centaur-tabs-mode 1)
+    (centaur-tabs-headline-match))
+  :hook (focus-in-hook . refresh-centaur-tabs)
   :bind (:map centaur-tabs-mode-map
               ("C-<prior>"   . #'centaur-tabs-backward-group)
               ("C-<next>"    . #'centaur-tabs-forward-group)
@@ -1011,23 +1019,22 @@ We should also be able to complete the icons as we do on other platforms.
   :init (centaur-tabs-mode t)
   :config
   (setq centaur-tabs-set-icons t
-          centaur-tabs-cycle-scope 'tabs
-          centaur-tabs-enable-key-bindings t
-          centaur-tabs-height 32
-          centaur-tabs-left-edge-margin nil
-          centaur-tabs-set-bar 'under
-          centaur-tabs-show-count nil
-          centaur-tabs-set-modified-marker t
-          centaur-tabs-show-navigation-buttons t
-          centaur-tabs-show-new-tab-button t
-          centaur-tabs-adjust-buffer-order t)
+        centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-enable-key-bindings t
+        centaur-tabs-height 32
+        centaur-tabs-left-edge-margin nil
+        centaur-tabs-set-bar 'under
+        centaur-tabs-show-count nil
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-show-new-tab-button t
+        centaur-tabs-adjust-buffer-order t)
 
-  (centaur-tabs-headline-match)
   (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-group-by-projectile-project)
   (setq x-underline-at-descent-line t)
 
-    ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
+  ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
   (dolist (prefix '("*" " *" ;; all temporary buffers
                     "consult-partial-preview"
                     "Ement"
