@@ -2534,7 +2534,7 @@ Also, not all system environments will contain the necessary packages required t
   (make-backup-files t))
 #+end_src
 
-***** History Ought To Be Saved
+***** Archive File History
 
 #+begin_src emacs-lisp
 (use-feature savehist
@@ -2547,7 +2547,7 @@ Also, not all system environments will contain the necessary packages required t
   (savehist-ignored-variables '(ement-room-message-history)))
 #+end_src
 
-***** Locations Should Be Memorized
+***** Memorize File Paths
 
 #+begin_src emacs-lisp
 (use-feature save-place
@@ -2563,7 +2563,8 @@ Also, not all system environments will contain the necessary packages required t
 (use-package undo-fu
   :if (>= emacs-major-version 29)
   :config
-  (setq undo-limit        (* 128 1024 1024)
+  (setq undo-no-redo      t
+        undo-limit        (* 128 1024 1024)
         undo-outer-limit  (* 128 1024 1024)
         undo-strong-limit (* 256 1024 1024)))
 #+end_src
