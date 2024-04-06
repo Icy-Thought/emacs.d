@@ -2154,25 +2154,26 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (meow-setup-line-number)
 
   ;; :NOTE| meow-things related bindings
-  (meow-thing-register 'tex-round    '(pair ("\\left(") ("\\right)"))     '(pair ("\\left(") ("\\right)")))
-  (meow-thing-register 'tex-square   '(pair ("\\left[") ("\\right]"))     '(pair ("\\left[") ("\\right]")))
-  (meow-thing-register 'tex-curly    '(pair ("\\left\\{") ("\\right\\}")) '(pair ("\\left\\{") ("\\right\\}")))
+  (meow-thing-register 'tex-round  '(pair ("\\left(") ("\\right)"))     '(pair ("\\left(") ("\\right)")))
+  (meow-thing-register 'tex-square '(pair ("\\left[") ("\\right]"))     '(pair ("\\left[") ("\\right]")))
+  (meow-thing-register 'tex-curly  '(pair ("\\left\\{") ("\\right\\}")) '(pair ("\\left\\{") ("\\right\\}")))
 
-  (meow-thing-register 'quote-gqq    '(pair ("„") ("“"))                  '(pair ("„") ("“")))
-  (meow-thing-register 'quote-gq     '(pair ("‚") ("‘"))                  '(pair ("‚") ("‘")))
-  (meow-thing-register 'quote-eqq    '(pair ("“") ("”"))                  '(pair ("“") ("”")))
-  (meow-thing-register 'quote-eq     '(pair ("‘") ("’"))                  '(pair ("‘") ("’")))
+  (meow-thing-register 'angle      '(pair ("<") (">")) '(pair ("<") (">")))
+  (meow-thing-register 'quote-gqq  '(pair ("„") ("“")) '(pair ("„") ("“")))
+  (meow-thing-register 'quote-gq   '(pair ("‚") ("‘")) '(pair ("‚") ("‘")))
+  (meow-thing-register 'quote-eqq  '(pair ("“") ("”")) '(pair ("“") ("”")))
+  (meow-thing-register 'quote-eq   '(pair ("‘") ("’")) '(pair ("‘") ("’")))
 
   ;; Later we inform Meow about our new changes
   (setq meow-char-thing-table
-        '((?\( . round)     (?\) . round)
-          (?\[ . square)    (?\] . square)
-          (?\{ . curly)     (?\} . curly)
-          (?r  . tex-round) (?s  . tex-square) (?c . tex-curly)
+        '((?\( . round)  (?\) . round)
+          (?\[ . square) (?\] . square)
+          (?\{ . curly)  (?\} . curly)
+          (?p  . paragraph) (?l  . line) (?\" . string)
           (?„  . quote-gqq) (?‚  . quote-gq)
           (?\“ . quote-eqq) (?\‘ . quote-eq)
-          (?s  . symbol)    (?.  . sentence)   (?b . buffer)
-          (?p  . paragraph) (?l  . line)       (?\" . string))))
+          (?s  . symbol)    (?.  . sentence) (?a . angle) (?b . buffer)
+          (?r  . tex-round) (?s  . tex-square) (?c . tex-curly))))
 #+end_src
 
 ***** QWERTY Layout
@@ -2181,17 +2182,26 @@ I also would like for web-pages to properly render code blocks, and that is by d
 (defun meow-qwerty-setup ()
   "Simple bindings intended to make our Meow workflow more fluid."
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-        meow-use-cursor-position-hack t)
+        meow-use-cursor-position-hack t
+        meow-selection-command-fallback '((meow-change . meow-change-char)
+                                          ;; (meow-kill . meow-C-k)
+                                          (meow-kill . meow-delete)
+                                          ;; (meow-cancel-selection . keyboard-quit)
+                                          (meow-cancel-selection . ignore)
+                                          (meow-pop-selection . meow-pop-grab)
+                                          (meow-beacon-change . meow-beacon-change-char)))
 
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
+   '("/" . consult-line)
    '("<escape>" . keyboard-quit))
 
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
    '("k" . "H-k")
+   '("/" . "H-/")
 
    ;; Use SPC (0-9) for digit arguments.
    '("1" . meow-digit-argument)
@@ -2204,7 +2214,6 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("8" . meow-digit-argument)
    '("9" . meow-digit-argument)
    '("0" . meow-digit-argument)
-
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
 
@@ -2232,8 +2241,10 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '(")" . forward-sexp)
    '("[" . meow-beginning-of-thing)
    '("]" . meow-end-of-thing)
-   '("/" . meow-visit)
-   '("<escape>" . keyboard-quit)
+   '("/" . consult-line)
+   '("?" . comment-dwim)
+   '("<next>" . consult-buffer)
+   '("<escape>" . meow-cancel-selection)
 
    '("a" . meow-append)
    '("A" . meow-open-below)
@@ -2245,8 +2256,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("e" . meow-next-word)
    '("E" . meow-next-symbol)
    '("f" . meow-find)
-   '("g" . meow-cancel-selection)
-   '("G" . meow-grab)
+   '("g" . meow-join)
    '("h" . meow-left)
    '("H" . meow-left-expand)
    '("i" . meow-insert)
@@ -2257,17 +2267,19 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("K" . meow-prev-expand)
    '("l" . meow-right)
    '("L" . meow-right-expand)
-   '("m" . meow-join)
-   '("v" . meow-search)
-   '("o" . meow-block)
-   '("O" . meow-to-block)
+   '("m" . execute-extended-command)
+   '("n" . meow-search)
+   '("v" . meow-block)
+   '("V" . meow-to-block)
+   '("o" . meow-open-below)
+   '("O" . meow-open-above)
    '("p" . meow-yank)
    '("P" . meow-yank-pop)
    '("q" . meow-quit)
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
    '("R" . meow-swap-grab)
-   '("s" . meow-kill)
+   '("s" . meow-grab)
    '("t" . meow-till)
    '("u" . undo)
    '("U" . undo-redo)
