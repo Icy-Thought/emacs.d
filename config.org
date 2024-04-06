@@ -1377,7 +1377,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 #+begin_src emacs-lisp
 (use-package dirvish
   :after (dired)
-  :bind (("C-c f" . dirvish-side)
+  :bind (([remap dired] . dirvish-side)
          :map dirvish-mode-map
          ("a"   . dirvish-quick-access)
          ("f"   . dirvish-file-info-menu)
