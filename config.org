@@ -58,7 +58,6 @@
     - [[#eldoc-documentation-of-symb][Eldoc: Documentation Of SYMB]]
     - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
     - [[#flymake-built-in-buffer-diagnostics][Flymake: Built-in Buffer Diagnostics]]
-    - [[#sideline-display-information-on-the-side][Sideline: Display Information On The Side]]
     - [[#dape-debug-adapter-protocol][Dape: Debug Adapter Protocol]]
     - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
     - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
@@ -2997,37 +2996,49 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-feature flymake
-  :hook (prog-mode . flymake-mode)
+  :hook (prog-mode . (lambda ()
+                       (flymake-mode +1)
+                       (setq left-margin-width 4)))
   :custom
   (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path))
+  (elisp-flymake-byte-compile-load-path load-path)
+  :config
+  <<flymake-fringe-override>>
+  <<flymake-fringe-symbols>>)
 #+end_src
 
-:TODO| more appropriate flymake symbols.
-#+begin_src emacs-lisp :tangle no
-(flymake-error-bitmap   '("" compilation-error))
-(flymake-note-bitmap    '("" compilation-info))
-(flymake-warning-bitmap '("" compilation-warning)))
-#+end_src
+***** Replacing Bitmaps With Nerd Icons
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
 
-*** Sideline: Display Information On The Side
+- Source: https://www.reddit.com/r/emacs/comments/1bawdau/making_flymake_supports_error_indicators_in_margin/
 
+#+NAME: flymake-fringe-override
 #+begin_src emacs-lisp
-(use-package sideline
-  :commands (sideline-mode)
-  :custom
-  (sideline-delay 0.2)
-  (sideline-display-backend-name nil)
-  (sideline-display-backend-type 'inner))
+(advice-add #'flymake--fringe-overlay-spec :override
+   (lambda (bitmap &optional recursed)
+     (if (and (symbolp bitmap)
+              (boundp bitmap)
+              (not recursed))
+         (flymake--fringe-overlay-spec (symbol-value bitmap) t)
+       (and flymake-fringe-indicator-position
+            bitmap (concat
+                    (propertize "!" 'display `((margin left-margin) ,bitmap))
+                    (propertize " " 'face    '(:inherit default :underline nil :stipple nil)
+                                    'display `((margin left-margin) (space :width 5))))))))
 #+end_src
 
-***** Flymake Diagnostics
+Now we tell Flymake about our new diagnostic icons.
 
+#+NAME: flymake-fringe-symbols
 #+begin_src emacs-lisp
-(use-package sideline-flymake
-  :requires (sideline)
-  :hook (flymake-mode  . sideline-mode)
-  :custom (sideline-backends-right '((sideline-flymake  . down))))
+(put 'flymake-error 'flymake-bitmap
+     (propertize "  " 'face `(:inherit (flymake-error default) :underline nil)))
+(put 'flymake-warning 'flymake-bitmap
+     (propertize "  " 'face `(:inherit (flymake-warning default) :underline nil)))
+(put 'flymake-note 'flymake-bitmap
+     (propertize "  " 'face `(:inherit (flymake-note default) :underline nil)))
 #+end_src
 
 *** Dape: Debug Adapter Protocol
