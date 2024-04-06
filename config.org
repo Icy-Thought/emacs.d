@@ -1975,6 +1975,21 @@ I also want to write a function that could later be used to spawn an Emacs (matr
                 (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
 #+end_src
 
+***** Circle: IRC Client
+
+#+begin_src emacs-lisp
+(use-package circe
+  :commands (circe circe-set-display-handler)
+  :config (enable-circe-color-nicks)
+  :custom (circe-reduce-lurker-spam t)
+  (circe-network-options '(("Libera Chat"
+                            :tls t
+                            :nick "Icy-Thought"
+                            :sasl-username "icy-thought"
+                            ;; :sasl-password (irkalla/read-secret-file "IRC")
+                            :channels ("#guix")))))
+#+end_src
+
 **** Browsing The Web
 
 ***** GNU Emacs Web Browser (EWW)
