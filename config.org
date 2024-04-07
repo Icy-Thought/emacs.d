@@ -674,8 +674,7 @@ What remains of us is to load the theme of our choice.
   :demand t
   :hook (kill-emacs . fontaine-store-latest-preset)
   :custom
-  (fontaine-presets `((default)
-                        ;; <- fallback values
+  (fontaine-presets `((default) ;; <- fallback values
                       (reading
                        :variable-pitch-family "Bitter"
                        :variable-pitch-height 150
@@ -1283,10 +1282,10 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 (use-package popper
   :preface
   (defun popper-display-vertical-popup (buffer &optional alist)
-    (display-buffer-in-side-window buffer (append alist
-                                                  `((window-width 0.5)
-                                                    (side . right)
-                                                    (slot . 1)))))
+    (display-buffer-in-side-window
+     buffer (append alist `((window-width 0.5)
+                            (side . right)
+                            (slot . 1)))))
 
   (defun popper-select-vertical-popup (buffer &optional alist)
     (let ((window (popper-display-vertical-popup buffer alist)))
@@ -1861,7 +1860,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
     (newsticker-treeview-quit)
     (newsticker-stop)
     (tab-close))
-  :hook (newsticker-treeview-item-mode . visual-line-mode)
+  :hook (newsticker-treeview-item-mode . visual-line-fill-column-mode)
   :bind (:map newsticker-treeview-mode-map
               ("o" . newsticker-treeview-browse-url)
               ("q" . irkalla/newsticker-quit-newTab))
@@ -1917,7 +1916,7 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 #+begin_src emacs-lisp
 (use-package ement
   :commands (ement-connect)
-  :hook (ement-room-mode . visual-line-mode)
+  :hook (ement-room-mode . visual-line-fill-column-mode)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
               ([remap pixel-scroll-interpolate-down] . ement-room-scroll-up-mark-read))
@@ -1961,7 +1960,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 #+begin_src emacs-lisp
 (use-feature telega ;; <-^ fetched from Nixpkgs
   :commands (telega)
-  :hook (telega-chat-mode . visual-line-mode)
+  :hook (telega-chat-mode . visual-line-fill-column-mode)
   :custom
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t)
@@ -2011,7 +2010,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 (use-package shrface
   :after (shr)
   :hook ((shrface-mode . (lambda ()
-                           (visual-line-mode)
+                           (visual-fill-column-mode)
                            (variable-pitch-mode)))
          (eww-after-render . shrface-mode))
   :custom
@@ -2296,7 +2295,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :hook (text-mode . visual-line-mode)
+  :hook (text-mode . visual-line-fill-column-mode)
   :custom
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
@@ -2426,8 +2425,6 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-feature visual-fill-column
-  :commands (visual-fill-column-mode)
-  :hook ((visual-line-mode . (lambda () (unless (minibufferp) (visual-fill-column-mode)))))
   :custom (visual-fill-column-center-text t))
 #+end_src
 
@@ -2957,7 +2954,6 @@ Instead of defining all of our snippets manually, we could use the help of an ex
 
 #+begin_src emacs-lisp
 (use-feature eldoc
-  :commands (eldoc)
   :hook (eglot-managed-mode . eldoc-mode)
   :custom
   (eldoc-idle-delay 1.0)
@@ -3026,10 +3022,8 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 (use-feature flymake
   :hook (prog-mode . (lambda ()
                        (flymake-mode +1)
-                       (setq left-margin-width 4)))
-  :custom
-  (flymake-fringe-indicator-position 'right-fringe)
-  (elisp-flymake-byte-compile-load-path load-path)
+                       (setq-local left-margin-width 4)))
+  :custom (elisp-flymake-byte-compile-load-path load-path)
   :config
   <<flymake-fringe-override>>
   <<flymake-fringe-symbols>>)
