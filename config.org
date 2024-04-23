@@ -1047,46 +1047,50 @@ Reference:
 
 #+begin_src emacs-lisp
 (use-package tabspaces
-  :config (tabspaces-mode t)
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
+  :config
+  (tabspaces-mode t)
+  <<tabspaces-consult-buffers>>
   :custom
+  (tabspaces-session t)
   (tabspaces-keymap-prefix "C-c p")
-  (tabspaces-use-filtered-buffers-as-default t)
   (tabspaces-default-tab "Default")
   (tabspaces-remove-to-default t)
   (tabspaces-include-buffers '("*scratch*"))
   (tabspaces-initialize-project-with-todo t)
   (tabspaces-todo-file-name "project-todo.org")
-  (tabspaces-session t)
-  :config
-  ;; ~Consult-Buffer~ -> filter buffers by workspace
-  (with-eval-after-load 'consult
-    (consult-customize consult--source-buffer :hidden t :default nil)
-    (defvar consult--source-workspace
-      (list :name     "Workspace Buffers"
-            :narrow   ?w
-            :history  'buffer-name-history
-            :category 'buffer
-            :state    #'consult--buffer-state
-            :default  t
-            :items    (lambda ()
-                        (consult--buffer-query
-                         :predicate #'tabspaces--local-buffer-p
-                         :sort 'visibility
-                         :as #'buffer-name)))
+  (tabspaces-use-filtered-buffers-as-default t))
+#+end_src
 
-      "Set workspace buffer list for consult-buffer.")
-    (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
+We also want consult to be able to track our separated buffers properly and not mix them togheter.
+
+#+NAME: tabspaces-consult-buffers
+#+begin_src emacs-lisp :tangle no
+(with-eval-after-load 'consult
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  (defvar consult--source-workspace
+    (list :name     "Workspace Buffers"
+          :narrow   ?w
+          :history  'buffer-name-history
+          :category 'buffer
+          :state    #'consult--buffer-state
+          :default  t
+          :items    (lambda ()
+                      (consult--buffer-query
+                       :predicate #'tabspaces--local-buffer-p
+                       :sort 'visibility
+                       :as #'buffer-name))))
+  (add-to-list 'consult-buffer-sources 'consult--source-workspace))
 #+end_src
 
 To ease the navigation between the growing tabs, we could add navigation bindings akin to the once we have for windows in browsers.
 
 #+begin_src emacs-lisp
 (use-feature tab-bar
-  :config (tab-bar-mode t)
   :bind (("C-<next>" . tab-next)
          ("C-<prior>" . tab-previous))
+  :config (tab-bar-mode t)
   :custom
   (tab-bar-show 1)
   (tab-bar-tab-hints t)
