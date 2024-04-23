@@ -3502,20 +3502,31 @@ Also, allow =Embark= to interact with those citations.
 
 *** Haskell: Purely Functional
 
+Issues:
+1. eldoc(+box) not working..
+2. missing inline hints
+
 #+begin_src emacs-lisp
 (use-package haskell-mode
-  :mode ("\\.hs\\'" . haskell-mode)
-  :hook (haskell-mode . eglot-ensure))
+  :mode (("\\.hs\\(c\\|-boot\\)?\\'" . haskell-mode)
+         ("\\.lhs\\'" . haskell-literate-mode)
+         ("\\.cabal\\'" . haskell-cabal-mode))
+  :hook (haskell-mode . eglot-ensure)
+  :custom
+  (haskell-notify-p t)
+  (haskell-process-auto-import-loaded-modules t)
+  (haskell-process-log t)
+  (haskell-process-suggest-remove-import-lines t))
 #+end_src
 
 **** Apheleia: Haskell Formatter
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'apheleia
-  (when (executable-find "stylish-haskell")
-    (setf (alist-get 'stylish-haskell apheleia-formatters)
-          '("stylish-haskell" "-"))
-    (add-to-list 'apheleia-mode-alist '(haskell-mode . stylish-haskell))))
+  (when (executable-find "fourmolu")
+    (setf (alist-get 'fourmolu apheleia-formatters)
+          '("fourmolu" "--stdin-input-file" "-"))
+    (add-to-list 'apheleia-mode-alist '(haskell-mode . fourmolu))))
 #+end_src
 
 *** Rust: Statically & Storngly Typed
