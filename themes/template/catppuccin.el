@@ -600,6 +600,14 @@
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
      (tab-line                                          (:background mantle))
+     (tab-line-tab-modified                             (:background base :foreground yellow :underline (:color peach)))
+     (tab-line-tab-current                              (:background base :foreground pink :underline (:color maroon)))
+     (tab-line-tab-inactive                             (:background base :foreground overlay2))
+     (tab-line-tab-inactive-alternate                   (:inherit 'tab-line-tab-inactive))
+     (tab-line-close-highlight                          (:background nil :foreground red))
+     (tab-line-highlight                                (:background base :foreground flamingo :underline t))
+     (tab-line-tab-special                              (:background base :foreground green :italic t))
+     (tab-line-tab-group                                (:background base :foreground blue :strike-through t))
 
      ;; https://www.emacswiki.org/emacs/TabBarMode
      (tab-bar                                           (:background mantle  :foreground surface0))
