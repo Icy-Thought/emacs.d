@@ -1808,8 +1808,9 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   :config
   ;; :NOTE| Set the PDF free from the unnecessary borders.
   (when (featurep 'evil)
-    (set (make-local-variable 'evil-normal-state-cursor)
-         (list nil)))
+    (add-hook 'pdf-view-mode-hook
+              (lambda () (set (make-local-variable 'evil-normal-state-cursor)
+                              (list nil)))))
 
   ;; :NOTE| Load PDF-Tools utilities when installed from Nix || Guix.
   (if IS-REPRO (let ((inhibit-message t))
