@@ -1341,8 +1341,14 @@ Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall a
   :config
   (setq mouse-drag-and-drop-region-cross-program t
         mouse-1-click-follows-link nil)
+
+  ;; :NOTE| prevent centaur-tabs from displaying inside dired dictionaries
+  (when (featurep 'centaur-tabs)
+    (add-hook 'dired-mode-hook #'centaur-tabs-local-mode))
   :custom (dired-mouse-drag-files t))
 #+end_src
+
+#+RESULTS:
 
 I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
 
@@ -1405,9 +1411,14 @@ Lastly, I want the different type of directories to have some form of syntax hig
   (dirvish-override-dired-mode t)
   (dirvish-peek-mode t)
   (dirvish-side-follow-mode t)
+
+  ;; :NOTE| We do not want centaur-tabs to display inside dirvish, do we?
+  (when (featurep 'centaur-tabs)
+    (add-hook 'dirvish-directory-view-mode #'centaur-tabs-local-mode))
   :custom
   (dirvish-side-width 30)
   (dirvish-use-header-line t)
+  (dirvish-use-mode-line nil)
   (dirvish-fd-default-dir "~/")
   (dirvish-quick-access-entries
    '(("h" "~/"                          "Home")
@@ -1415,7 +1426,6 @@ Lastly, I want the different type of directories to have some form of syntax hig
      ("m" "/mnt/"                       "Drives")
      ("l" "~/Library/unexplored"        "Library")
      ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
-  (dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
   (dirvish-attributes '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
   (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
 #+end_src
