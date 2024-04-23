@@ -3180,7 +3180,7 @@ Now we tell Flymake about our new diagnostic icons.
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
   (eglot-extend-to-xref t)
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider :inlayHintProvider))
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-menu-string (if (featurep 'nerd-icons) (nerd-icons-faicon "nf-fa-code") "LSP")))
 
 (with-eval-after-load 'pretty-hydra
