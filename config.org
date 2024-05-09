@@ -63,6 +63,7 @@
     - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
   - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
     - [[#emacs-lisp-the-mother-tounge-of-emacs][Emacs Lisp: The Mother-Tounge Of Emacs]]
+    - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
     - [[#haskell-purely-functional][Haskell: Purely Functional]]
     - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
@@ -1305,6 +1306,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
                               "\\*Async Shell Command\\*"
                               "Output\\*$"
                               ("*Python*" . hide)
+                              ("^\\*Geiser.*REPL\\*" . hide)
                               (compilation-list-mode . hide)
 
                               ;; :NOTE| terminal-related
@@ -1486,12 +1488,12 @@ Allowing consult to interact with my ever-growing projects is something I consid
     ("Main"
      (("f" consult-fd                        "Find files by NAME")
       ("r" consult-recent-file               "Recent files")
-      ("p" consult-projectile-switch-project "Switch project")
+      ("s" consult-projectile-switch-project "Switch project")
       ("/" consult-ripgrep                   "Grep <- REGEXP"))
      "Action"
      (("B" consult-bookmark                  "Open named bookmark")
       ("h" consult-history                   "Insert STR from hist.")
-      ("y" consult-yank-pop                  "Paste yank <- reg.")
+      ("p" consult-yank-pop                  "Paste yank <- reg.")
       ("t" consult-theme                     "Switch Theme"))))
 
   (pretty-hydra-define+ main-hydra ()
@@ -2954,7 +2956,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
     (add-to-list 'completion-at-point-functions #'tempel-complete))
   :hook ((conf-mode prog-mode text-mode) . setup-capf-tempel)
   :custom
-  (tempel-trigger-prefix "<")
+  (tempel-trigger-prefix ",")
   (tempel-path (concat irkalla/main-residence "/snippets/*.eld")))
 #+end_src
 
@@ -3226,6 +3228,13 @@ There is another things that we could utilize to increase the responsiveness of 
   (pretty-hydra-define+ editor-hydra ()
     ("Programming"
      (("x" emacs-lisp-hydra/body "Emacs Lisp")))))
+#+end_src
+
+*** Guile: Yet Another Lisp Variant
+
+#+begin_src emacs-lisp
+(use-package geiser)
+(use-package geiser-guile)
 #+end_src
 
 *** Org-Mode: The Superior Documentation Format
