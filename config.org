@@ -3237,8 +3237,8 @@ There is another things that we could utilize to increase the responsiveness of 
 *** Guile: Yet Another Lisp Variant
 
 #+begin_src emacs-lisp
-(use-package geiser)
-(use-package geiser-guile)
+(use-package geiser-guile
+  :defer t)
 #+end_src
 
 *** Org-Mode: The Superior Documentation Format
