@@ -1929,12 +1929,26 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   :defer t)
 #+end_src
 
+***** NotMuch: Tag Based E-Mail Client
+
+#+begin_src emacs-lisp
+(use-package notmuch
+  :hook (notmuch-show-mode . visual-fill-column-mode)
+  :config
+  ;; :NOTE| Configure NotMuch to send E-Mails!
+  (setq send-mail-function #'sendmail-send-it
+        sendmail-program (executable-find "msmtp")
+        mail-specify-envelope-from t
+        mail-envelope-from 'header
+        message-sendmail-envelope-from 'header))
+#+end_src
+
 ***** Matrix: Secure & Interoperable Communication
 
 #+begin_src emacs-lisp
 (use-package ement
   :commands (ement-connect)
-  :hook (ement-room-mode . visual-line-fill-column-mode)
+  :hook (ement-room-mode . visual-fill-column-mode)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
               ([remap pixel-scroll-interpolate-down] . ement-room-scroll-up-mark-read))
