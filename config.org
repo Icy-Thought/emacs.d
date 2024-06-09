@@ -896,25 +896,27 @@ We should also be able to complete the icons as we do on other platforms.
                                   (svg-progress-count (substring tag 1 -1)))))
 
 ;; Org TAGS
-(":TODO:"              . ((lambda (tag) (svg-tag-make "TODO"         :face 'org-todo))))
-(":WIP:"               . ((lambda (tag) (svg-tag-make "WIP"          :face 'org-cite))))
-(":DONE:"              . ((lambda (tag) (svg-tag-make "DONE"         :face 'org-done))))
-(":NOTE:"              . ((lambda (tag) (svg-tag-make "NOTE"))))
-("SCHEDULED:"          . ((lambda (tag) (svg-tag-make "SCHEDULED"    :face 'org-warning))))
-("DEADLINE:"           . ((lambda (tag) (svg-tag-make "DEADLINE"     :face 'org-priority))))
-("^#\\+begin_src"      . ((lambda (tag) (svg-tag-make "BEGIN_SRC"    :face 'org-block-begin-line))))
-("^#\\+end_src"        . ((lambda (tag) (svg-tag-make "END_SRC"      :face 'org-block-end-line))))
-("^#\\+begin_export"   . ((lambda (tag) (svg-tag-make "BEGIN_EXPORT" :face 'org-block-begin-line))))
-("^#\\+end_export"     . ((lambda (tag) (svg-tag-make "END_EXPORT"   :face 'org-block-end-line))))
-("^#\\+begin_example"  . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-begin-line))))
-("^#\\+end_example"    . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-end-line))))
-("^#\\+begin_quote"    . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
-("^#\\+end_quote"      . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
-("^#\\+begin_sidenote" . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
-("^#\\+end_sidenote"   . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
-("^#\\+RESULTS:"       . ((lambda (tag) (svg-tag-make "RESULTS"      :face 'org-done :underline nil))))
-(":X"                  . ((lambda (tag) (svg-tag-make "[X]"          :face 'org-checkbox-statistics-done))))
-(":-"                  . ((lambda (tag) (svg-tag-make "[-]"          :face 'org-checkbox))))
+(":TODO:"               . ((lambda (tag) (svg-tag-make "TODO"         :face 'org-todo))))
+(":WIP:"                . ((lambda (tag) (svg-tag-make "WIP"          :face 'org-cite))))
+(":DONE:"               . ((lambda (tag) (svg-tag-make "DONE"         :face 'org-done))))
+(":NOTE:"               . ((lambda (tag) (svg-tag-make "NOTE"))))
+("SCHEDULED:"           . ((lambda (tag) (svg-tag-make "SCHEDULED"    :face 'org-warning))))
+("DEADLINE:"            . ((lambda (tag) (svg-tag-make "DEADLINE"     :face 'org-priority))))
+("^#\\+begin_src"       . ((lambda (tag) (svg-tag-make "BEGIN_SRC"    :face 'org-block-begin-line))))
+("^#\\+end_src"         . ((lambda (tag) (svg-tag-make "END_SRC"      :face 'org-block-end-line))))
+("^#\\+begin_export"    . ((lambda (tag) (svg-tag-make "BEGIN_EXPORT" :face 'org-block-begin-line))))
+("^#\\+end_export"      . ((lambda (tag) (svg-tag-make "END_EXPORT"   :face 'org-block-end-line))))
+("^#\\+begin_example"   . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-begin-line))))
+("^#\\+end_example"     . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-end-line))))
+("^#\\+begin_quote"     . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
+("^#\\+end_quote"       . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
+("^#\\+begin_signature" . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
+("^#\\+end_signature"   . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
+("^#\\+begin_sidenote"  . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
+("^#\\+end_sidenote"    . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
+("^#\\+RESULTS:"        . ((lambda (tag) (svg-tag-make "RESULTS"      :face 'org-done :underline nil))))
+(":X"                   . ((lambda (tag) (svg-tag-make "[X]"          :face 'org-checkbox-statistics-done))))
+(":-"                   . ((lambda (tag) (svg-tag-make "[-]"          :face 'org-checkbox))))
 
 ;; Citation of the form [cite:@Knuth:1984]
 ("\\(\\[cite:@[A-Za-z]+:\\)" . ((lambda (tag)
@@ -1934,13 +1936,44 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 #+begin_src emacs-lisp
 (use-package notmuch
   :hook (notmuch-show-mode . visual-fill-column-mode)
+  :custom (notmuch-search-oldest-first nil)
   :config
   ;; :NOTE| Configure NotMuch to send E-Mails!
   (setq send-mail-function #'sendmail-send-it
+        message-send-mail-function 'message-send-mail-with-sendmail
         sendmail-program (executable-find "msmtp")
+
+        message-fill-column fill-column
         mail-specify-envelope-from t
         mail-envelope-from 'header
         message-sendmail-envelope-from 'header))
+#+end_src
+
+
+
+****** Org-MSG: Compose Org Formatted Messages
+
+#+begin_src emacs-lisp
+(use-package org-msg
+  :after (notmuch)
+  :config
+  (org-msg-mode)
+  (org-msg-mode-notmuch)
+  :custom
+  (org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil title:nil email:nil tex:imagemagick")
+  (org-msg-startup "hidestars indent inlineimages")
+  (org-msg-greeting-name-limit 3)
+  (org-msg-default-alternatives
+   '((new           . (utf-8 html))
+     (reply-to-text . (utf-8))
+     (reply-to-html . (utf-8 html))))
+  (org-msg-convert-citation t)
+  (org-msg-signature "
+Kind Regards,
+
+#+begin_signature
+-- *Icy-Thought*
+#+end_signature"))
 #+end_src
 
 ***** Matrix: Secure & Interoperable Communication
