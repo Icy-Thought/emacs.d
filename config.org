@@ -1878,7 +1878,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
     (newsticker-treeview-quit)
     (newsticker-stop)
     (tab-close))
-  :hook (newsticker-treeview-item-mode . visual-line-fill-column-mode)
+  :hook (newsticker-treeview-item-mode . visual-fill-column-mode)
   :bind (:map newsticker-treeview-mode-map
               ("o" . newsticker-treeview-browse-url)
               ("q" . irkalla/newsticker-quit-newTab))
@@ -1920,7 +1920,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
      (("n" irkalla/newsticker-start-newTab "Newsticker (RSS)")))))
 #+end_src
 
-**** Socializing Is Alright
+**** Communication With The Outside World
 
 Syntax highlighting is a nice feature to have in our different chat clients.
 
@@ -1978,7 +1978,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 #+begin_src emacs-lisp
 (use-feature telega ;; <-^ fetched from Nixpkgs
   :commands (telega)
-  :hook (telega-chat-mode . visual-line-fill-column-mode)
+  :hook (telega-chat-mode . visual-fill-column-mode)
   :custom
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t)
@@ -2313,7 +2313,6 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :hook (text-mode . visual-line-fill-column-mode)
   :custom
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
@@ -2439,13 +2438,6 @@ Also, not all system environments will contain the necessary packages required t
      (("w" whitespace-mode "Whitespace Mode" :toggle t)))))
 #+end_src
 
-***** Soft Line Wrapping
-
-#+begin_src emacs-lisp
-(use-feature visual-fill-column
-  :custom (visual-fill-column-center-text t))
-#+end_src
-
 ***** Ligatures: Cleaner Display Of SYMB
 
 #+begin_src emacs-lisp
@@ -2467,6 +2459,16 @@ Also, not all system environments will contain the necessary packages required t
                                        "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                                        "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                        "\\\\" "://")))
+#+end_src
+
+***** Visual Fill Column:
+
+#+begin_src emacs-lisp
+(use-package visual-fill-column
+  :commands (visual-fill-column-mode)
+  :hook ((visual-fill-column-mode . visual-line-mode)
+         (text-mode . visual-fill-column-mode))
+  :custom (visual-fill-column-center-text t))
 #+end_src
 
 **** Elec-Pair: Insert Matching SYMB
