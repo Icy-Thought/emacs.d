@@ -2360,6 +2360,8 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
+  :init (with-eval-after-load 'projectile
+          (projectile-mode t))
   :custom
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
