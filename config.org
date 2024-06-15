@@ -1949,7 +1949,18 @@ Syntax highlighting is a nice feature to have in our different chat clients.
         message-sendmail-envelope-from 'header))
 #+end_src
 
+Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
 
+#+begin_src emacs-lisp
+(use-package consult-notmuch
+  :after (notmuch)
+  :commands (consult-notmuch))
+
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ consult-hydra ()
+      ("External"
+       (("m" consult-notmuch "Query E-Mail")))))
+#+end_src
 
 ****** Org-MSG: Compose Org Formatted Messages
 
