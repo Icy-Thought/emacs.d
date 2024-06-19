@@ -1308,6 +1308,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
                               "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
                               "Output\\*$"
+                              "\\*typst-ts-compilation\\*"
                               ("*Python*" . hide)
                               ("^\\*Geiser.*REPL\\*" . hide)
                               (compilation-list-mode . hide)
@@ -3794,9 +3795,9 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'apheleia
-  (when (executable-find "typstfmt")
-    (setf (alist-get 'typstfmt apheleia-formatters) '("typstfmt"))
-    (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstfmt))))
+  (when (executable-find "typstyle")
+    (setf (alist-get 'typstyle apheleia-formatters) '("typstyle"))
+    (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstyle))))
 #+end_src
 
 **** Hydra: Typst Bindings
