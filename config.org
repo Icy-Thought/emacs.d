@@ -69,6 +69,7 @@
     - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
     - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
     - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
+    - [[#kotlin-language-of-dem-android][Kotlin: Language of Dem Android]]
     - [[#python-high-level-language][Python: High Level Language]]
     - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
     - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
@@ -243,6 +244,7 @@
 
 #+begin_src emacs-lisp
 (setq initial-major-mode 'fundamental-mode
+      initial-scratch-message nil
       select-enable-clipboard nil
       command-line-x-option-alist nil
       default-input-method nil
@@ -1308,7 +1310,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
                               "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
                               "Output\\*$"
-                              "\\*typst-ts-compilation\\*"
+                              "\\*.*compilation.*\\*"
                               ("*Python*" . hide)
                               ("^\\*Geiser.*REPL\\*" . hide)
                               (compilation-list-mode . hide)
@@ -3690,8 +3692,9 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   :preface
   (defun eglot-nix-setup ()
     (with-eval-after-load 'eglot
-      (when (executable-find "nil")
-        (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil")))))
+      (let ((langserv "nil"))
+        (when (executable-find langserv)
+          (add-to-list 'eglot-server-programs '(nix-ts-mode . langserv)))))
     (eglot-ensure))
   :hook (nix-ts-mode . eglot-nix-setup))
 #+end_src
@@ -3714,8 +3717,9 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   :preface
   (defun eglot-lua-setup ()
     (with-eval-after-load 'eglot
-      (when (executable-find "lua-language-server")
-        (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))))
+      (let ((langserv "lua-language-server"))
+        (when (executable-find langserv)
+          (add-to-list 'eglot-server-programs '(lua-mode . langserv)))))
     (eglot-ensure))
   :hook (lua-mode . eglot-lua-setup))
 #+end_src
@@ -3728,6 +3732,32 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (setf (alist-get 'stylua apheleia-formatters)
           '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
     (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
+#+end_src
+
+*** Kotlin: Language of Dem Android
+
+#+begin_src emacs-lisp
+(use-package kotlin-mode
+  :mode (("\\.kt\\'" . kotlin-mode)
+         ("\\.kts\\'" . kotlin-mode))
+  :preface
+  (defun eglot-kotlin-setup ()
+    (with-eval-after-load 'eglot
+      (let ((langserv "kotlin-language-server"))
+        (when (executable-find lsp)
+          (add-to-list 'eglot-server-programs '(kotlin-mode . langserv)))))
+    (eglot-ensure))
+  :hook (lua-mode . eglot-kotlin-setup))
+#+end_src
+
+**** Apheleia: Kotlin Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "ktlint")
+    (setf (alist-get 'ktlint apheleia-formatters)
+          '("ktlint" "--log-level=none" "--stdin" "-F" "-"))
+    (add-to-list 'apheleia-mode-alist '(kotlin-mode . ktlint))))
 #+end_src
 
 *** Python: High Level Language
@@ -3774,8 +3804,9 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   :preface
   (defun eglot-typst-setup ()
     (with-eval-after-load 'eglot
-      (when (executable-find "typst-lsp")
-        (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst-lsp")))))
+      (let ((langserv "typst-lsp"))
+        (when (executable-find langserv)
+          (add-to-list 'eglot-server-programs '(typst-ts-mode . langserv)))))
     (eglot-ensure))
   :hook (typst-ts-mode . eglot-typst-setup)
   :custom
@@ -3862,8 +3893,9 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   :preface
   (defun eglot-zig-setup ()
     (with-eval-after-load 'eglot
-      (when (executable-find "zls")
-        (add-to-list 'eglot-server-programs `((zig-mode zig-ts-mode) . ("zls")))))
+      (let ((langserv "zls"))
+        (when (executable-find langserv)
+          (add-to-list 'eglot-server-programs `((zig-mode zig-ts-mode) . langserv)))))
     (eglot-ensure))
   :hook ((zig-mode zig-ts-mode) . eglot-zig-setup))
 #+end_src
