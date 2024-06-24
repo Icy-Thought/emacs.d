@@ -1312,7 +1312,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
                               "Output\\*$"
                               "\\*.*compilation.*\\*"
                               ("*Python*" . hide)
-                              ("^\\*Geiser.*REPL\\*" . hide)
+                              ("\\*.*REPL.*\\*" . hide)
                               (compilation-list-mode . hide)
 
                               ;; :NOTE| terminal-related
