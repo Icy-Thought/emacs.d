@@ -488,7 +488,11 @@ Then we have another essential Hydra that we will tie our editing related comman
   (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
           :color teal :quit-key "q")
   ("Action"
-   (("b" eval-buffer "Eval Buf."))))
+   (("b" eval-buffer "Eval Buf."))
+   "Programming"
+   (("RET" (if (derived-mode-p 'prog-mode)
+               (call-interactively #'compile)
+             (message "Buffer /= PROG buffer...")) "Compile"))))
 
 (pretty-hydra-define visual-editor-hydra
   (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
