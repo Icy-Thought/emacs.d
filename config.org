@@ -7,6 +7,76 @@
 #+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
 [[../.github/assets/themes/catppuccin/irkalla.png]]
 
+* Table Of Contents :TOC:
+- [[#early-configurations][Early Configurations]]
+  - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
+    - [[#laying-the-foundations-of-irkalla][Laying The Foundations Of Irkalla]]
+    - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
+    - [[#maintaining-harmony-within-irkallas-directories][Maintaining Harmony Within Irkalla's Directories]]
+  - [[#part-2-performance-enhancements][Part 2: Performance Enhancements]]
+    - [[#increase-the-cpu-processing-restrictions][Increase the CPU processing restrictions]]
+    - [[#native-comp---quicker-emacs-byte-compile][Native-Comp -> Quicker Emacs (Byte-Compile)]]
+    - [[#collect-the-ever-growing-garbage][Collect The Ever-Growing Garbage...]]
+  - [[#part-3-setting-our-ever-growing-options][Part 3: Setting Our Ever-Growing Options]]
+    - [[#debugging--error-handling][Debugging & Error Handling]]
+    - [[#user-interface--startup][User Interface & Startup]]
+    - [[#display--fonts][Display & Fonts]]
+    - [[#file-handling--version-control][File Handling & Version Control]]
+    - [[#miscellaneous][Miscellaneous]]
+  - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
+- [[#late-configurations][Late Configurations]]
+  - [[#part-1-beginning-of-a-journey][Part 1: Beginning Of A Journey]]
+    - [[#elpaca-package-manager][Elpaca: Package Manager]]
+    - [[#functions--macros-to-ameliorate-irkalla][Functions & Macros To Ameliorate Irkalla]]
+    - [[#controlling-irkallas-littering-habits][Controlling Irkalla's Littering Habits]]
+    - [[#hydra-windows-that-contain-our-keybindings][Hydra: Windows That Contain Our Keybindings]]
+    - [[#managing-irkallas-frame][Managing Irkalla's Frame]]
+    - [[#maintaining-a-sane-scroll-pattern][Maintaining A Sane Scroll Pattern]]
+    - [[#24-hour-time-format--other-formats][24-Hour Time Format >> Other Formats]]
+  - [[#part-2-decorating-irkalla][Part 2: Decorating Irkalla]]
+    - [[#autothemer-macros-to-ease-the-theming-process][Autothemer: Macros To Ease The Theming Process]]
+    - [[#prettified-symbols][Prettified Symbols]]
+    - [[#typefaces--saner-fonts][Typeface's & Saner Fonts]]
+    - [[#adding-a-sprinkle-of-icons][Adding A Sprinkle Of Icons]]
+    - [[#svg-tag-decorating-buffers-with-svg][SVG-Tag: Decorating Buffers With SVG]]
+    - [[#modelines---status-bars-for-emacs][Modeline(s) -> Status-Bar(s) For Emacs]]
+    - [[#tab-bars---a-header-line-for-buffers][Tab Bar(s) -> A Header-Line For Buffers]]
+    - [[#dashboard-a-welcoming-buffer-for-new-frames][Dashboard: A Welcoming Buffer For New Frames]]
+  - [[#part-3-expanding-the-utility-box][Part 3: Expanding The Utility Box]]
+    - [[#introducing-the-basics][Introducing The Basics]]
+    - [[#new--extension-of-built-in-features][New & Extension Of Built-in Features]]
+    - [[#trivial-changes-to-extend-workflow][Trivial Changes To Extend Workflow]]
+  - [[#part-4-editing-environment][Part 4: Editing Environment]]
+    - [[#alternative-editing-bindings][Alternative Editing Bindings]]
+    - [[#the-basic-requirements-of-an-editor][The Basic Requirements Of An Editor]]
+    - [[#expanding-on-the-basic-requirements][Expanding On The Basic Requirements]]
+  - [[#part-5-completion--debugging][Part 5: Completion & Debugging]]
+    - [[#orderless-completion-candidate-matching][Orderless: Completion Candidate Matching]]
+    - [[#breadcrumb-location-indicator-for-larger-projects][Breadcrumb: Location Indicator For Larger Projects]]
+    - [[#apheleia-code-formatter][Apheleia: Code Formatter]]
+    - [[#corfu-elegant-completion-ui][Corfu: Elegant Completion UI]]
+    - [[#tempel-snippet-completion][Tempel: Snippet Completion]]
+    - [[#eldoc-documentation-of-symb][Eldoc: Documentation Of SYMB]]
+    - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
+    - [[#flymake-built-in-buffer-diagnostics][Flymake: Built-in Buffer Diagnostics]]
+    - [[#dape-debug-adapter-protocol][Dape: Debug Adapter Protocol]]
+    - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
+    - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
+  - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
+    - [[#emacs-lisp-the-mother-tounge-of-emacs][Emacs Lisp: The Mother-Tounge Of Emacs]]
+    - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
+    - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
+    - [[#haskell-purely-functional][Haskell: Purely Functional]]
+    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
+    - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
+    - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
+    - [[#kotlin-language-of-dem-android][Kotlin: Language of Dem Android]]
+    - [[#python-high-level-language][Python: High Level Language]]
+    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
+    - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
+    - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
+  - [[#part-6-concluding-our-emacs-journey][Part 6: Concluding Our Emacs Journey!]]
+
 * Early Configurations
 :PROPERTIES:
 :HEADER-ARGS: :tangle ~/.config/emacs/early-init.el
@@ -3426,6 +3496,15 @@ Source: https://emacs.stackexchange.com/a/20618
     (org-babel-tangle)))
 
 (add-hook 'after-save-hook 'irkalla/tangle-config-file)
+#+end_src
+
+**** TOC: Auto-Generate Table Of Contents
+
+#+begin_src emacs-lisp
+(use-package toc-org
+  :after (org)
+  :hook (org-mode . toc-org-mode)
+  :custom (toc-org-max-depth 3))
 #+end_src
 
 **** Fragtog: LaTeX Rendering On Hover
