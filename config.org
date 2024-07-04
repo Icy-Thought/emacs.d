@@ -1,11 +1,10 @@
 #+title: Irkalla Emacs
 #+author: Icy-Thought
 #+language: en
-#+OPTIONS: toc:2
 
 #+NAME: fig:Irkalla Emacs
 #+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
-[[../.github/assets/themes/catppuccin/irkalla.png]]
+[[.github/assets/themes/catppuccin/irkalla.png]]
 
 * Table Of Contents :TOC:
 - [[#early-configurations][Early Configurations]]
