@@ -1,80 +1,11 @@
 #+title: Irkalla Emacs
 #+author: Icy-Thought
 #+language: en
+#+OPTIONS: toc:2
 
 #+NAME: fig:Irkalla Emacs
 #+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
 [[../.github/assets/themes/catppuccin/irkalla.png]]
-
-* Table Of Contents :TOC:
-- [[#early-configurations][Early Configurations]]
-  - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
-    - [[#laying-the-foundations-of-irkalla][Laying The Foundations Of Irkalla]]
-    - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
-    - [[#maintaining-harmony-within-irkallas-directories][Maintaining Harmony Within Irkalla's Directories]]
-  - [[#part-2-performance-enhancements][Part 2: Performance Enhancements]]
-    - [[#increase-the-cpu-processing-restrictions][Increase the CPU processing restrictions]]
-    - [[#native-comp---quicker-emacs-byte-compile][Native-Comp -> Quicker Emacs (Byte-Compile)]]
-    - [[#collect-the-ever-growing-garbage][Collect The Ever-Growing Garbage...]]
-  - [[#part-3-setting-our-ever-growing-options][Part 3: Setting Our Ever-Growing Options]]
-    - [[#debugging--error-handling][Debugging & Error Handling]]
-    - [[#user-interface--startup][User Interface & Startup]]
-    - [[#display--fonts][Display & Fonts]]
-    - [[#file-handling--version-control][File Handling & Version Control]]
-    - [[#miscellaneous][Miscellaneous]]
-  - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
-- [[#late-configurations][Late Configurations]]
-  - [[#part-1-beginning-of-a-journey][Part 1: Beginning Of A Journey]]
-    - [[#elpaca-package-manager][Elpaca: Package Manager]]
-    - [[#defuns-to-ameliorate-irkalla][~defun~'s To Ameliorate Irkalla]]
-    - [[#controlling-irkallas-littering-habits][Controlling Irkalla's Littering Habits]]
-    - [[#hydra-windows-that-contain-our-keybindings][Hydra: Windows That Contain Our Keybindings]]
-    - [[#managing-irkallas-frame][Managing Irkalla's Frame]]
-    - [[#maintaining-a-sane-scroll-pattern][Maintaining A Sane Scroll Pattern]]
-    - [[#24-hour-time-format--other-formats][24-Hour Time Format >> Other Formats]]
-  - [[#part-2-decorating-irkalla][Part 2: Decorating Irkalla]]
-    - [[#autothemer-macros-to-ease-the-theming-process][Autothemer: Macros To Ease The Theming Process]]
-    - [[#prettified-symbols][Prettified Symbols]]
-    - [[#typefaces--saner-fonts][Typeface's & Saner Fonts]]
-    - [[#adding-a-sprinkle-of-icons][Adding A Sprinkle Of Icons]]
-    - [[#svg-tag-decorating-buffers-with-svg][SVG-Tag: Decorating Buffers With SVG]]
-    - [[#modelines---status-bars-for-emacs][Modeline(s) -> Status-Bar(s) For Emacs]]
-    - [[#tab-bars---a-header-line-for-buffers][Tab Bar(s) -> A Header-Line For Buffers]]
-    - [[#dashboard-a-welcoming-buffer-for-new-frames][Dashboard: A Welcoming Buffer For New Frames]]
-  - [[#part-3-expanding-the-utility-box][Part 3: Expanding The Utility Box]]
-    - [[#introducing-the-basics][Introducing The Basics]]
-    - [[#new--extension-of-built-in-features][New & Extension Of Built-in Features]]
-    - [[#trivial-changes-to-extend-workflow][Trivial Changes To Extend Workflow]]
-  - [[#part-4-editing-environment][Part 4: Editing Environment]]
-    - [[#alternative-editing-bindings][Alternative Editing Bindings]]
-    - [[#the-basic-requirements-of-an-editor][The Basic Requirements Of An Editor]]
-    - [[#expanding-on-the-basic-requirements][Expanding On The Basic Requirements]]
-  - [[#part-5-completion--debugging][Part 5: Completion & Debugging]]
-    - [[#orderless-completion-candidate-matching][Orderless: Completion Candidate Matching]]
-    - [[#breadcrumb-location-indicator-for-larger-projects][Breadcrumb: Location Indicator For Larger Projects]]
-    - [[#apheleia-code-formatter][Apheleia: Code Formatter]]
-    - [[#corfu-elegant-completion-ui][Corfu: Elegant Completion UI]]
-    - [[#tempel-snippet-completion][Tempel: Snippet Completion]]
-    - [[#eldoc-documentation-of-symb][Eldoc: Documentation Of SYMB]]
-    - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
-    - [[#flymake-built-in-buffer-diagnostics][Flymake: Built-in Buffer Diagnostics]]
-    - [[#dape-debug-adapter-protocol][Dape: Debug Adapter Protocol]]
-    - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
-    - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
-  - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
-    - [[#emacs-lisp-the-mother-tounge-of-emacs][Emacs Lisp: The Mother-Tounge Of Emacs]]
-    - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
-    - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
-    - [[#haskell-purely-functional][Haskell: Purely Functional]]
-    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
-    - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
-    - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
-    - [[#kotlin-language-of-dem-android][Kotlin: Language of Dem Android]]
-    - [[#python-high-level-language][Python: High Level Language]]
-    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
-    - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
-    - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
-  - [[#part-6-concluding-our-emacs-journey][Part 6: Concluding Our Emacs Journey!]]
 
 * Early Configurations
 :PROPERTIES:
@@ -375,9 +306,9 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 (elpaca-wait)
 #+end_src
 
-*** ~defun~'s To Ameliorate Irkalla
+*** Functions & Macros To Ameliorate Irkalla
 
-**** Allow Irkalla To Read Agenix Secrets (🤫)
+**** Permit Irkalla To Read Secrets? (🤫)
 
 #+begin_src emacs-lisp
 (defun irkalla/read-secret-file (filename)
@@ -1851,7 +1782,9 @@ Instead of maintaining a bookmark for each PDF file I read, I decided to add a p
 #+begin_src emacs-lisp
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . (lambda () (toggle-scroll-bar t)))
+  :config
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'nov-mode-hook #'visual-fill-column-mode))
   :custom (nov-text-width t))
 #+end_src
 
@@ -1887,10 +1820,12 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
     (newsticker-treeview-quit)
     (newsticker-stop)
     (tab-close))
-  :hook (newsticker-treeview-item-mode . visual-fill-column-mode)
   :bind (:map newsticker-treeview-mode-map
               ("o" . newsticker-treeview-browse-url)
               ("q" . irkalla/newsticker-quit-newTab))
+  :config
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'newsticker-treeview-item-mode-hook #'visual-fill-column-mode))
   :custom
   (newsticker-automatically-mark-items-as-old nil)
   (newsticker-automatically-mark-visited-items-as-old t)
@@ -1942,9 +1877,12 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 
 #+begin_src emacs-lisp
 (use-package notmuch
-  :hook (notmuch-show-mode . visual-fill-column-mode)
+  :defer t
   :custom (notmuch-search-oldest-first nil)
   :config
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'notmuch-show-mode-hook #'visual-fill-column-mode))
+
   ;; :NOTE| Configure NotMuch to send E-Mails!
   (setq send-mail-function #'sendmail-send-it
         message-send-mail-function 'message-send-mail-with-sendmail
@@ -1953,7 +1891,28 @@ Syntax highlighting is a nice feature to have in our different chat clients.
         message-fill-column fill-column
         mail-specify-envelope-from t
         mail-envelope-from 'header
-        message-sendmail-envelope-from 'header))
+        message-sendmail-envelope-from 'header
+
+        notmuch-saved-searches '((:name "Unread"
+                                  :query "tag:inbox and tag:unread"
+                                  :count-query "tag:inbox and tag:unread"
+                                  :sort-order newest-first)
+                                 (:name "Inbox"
+                                  :query "tag:inbox"
+                                  :count-query "tag:inbox"
+                                  :sort-order newest-first)
+                                 (:name "Archive"
+                                  :query "tag:archive"
+                                  :count-query "tag:archive"
+                                  :sort-order newest-first)
+                                 (:name "Sent"
+                                  :query "tag:sent or tag:replied"
+                                  :count-query "tag:sent or tag:replied"
+                                  :sort-order newest-first)
+                                 (:name "Trash"
+                                  :query "tag:deleted"
+                                  :count-query "tag:deleted"
+                                  :sort-order newest-first))))
 #+end_src
 
 Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
@@ -1977,9 +1936,11 @@ Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
   :config
   (org-msg-mode)
   (org-msg-mode-notmuch)
+  (setq mail-user-agent 'notmuch-user-agent)
   :custom
   (org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil title:nil email:nil tex:imagemagick")
   (org-msg-startup "hidestars indent inlineimages")
+  (org-msg-greeting-fmt "\nGreetings %s,\n\n")
   (org-msg-greeting-name-limit 3)
   (org-msg-default-alternatives
    '((new           . (utf-8 html))
@@ -1999,10 +1960,19 @@ Kind Regards,
 #+begin_src emacs-lisp
 (use-package ement
   :commands (ement-connect)
-  :hook (ement-room-mode . visual-fill-column-mode)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
               ([remap pixel-scroll-interpolate-down] . ement-room-scroll-up-mark-read))
+  :config
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'ement-room-mode-hook #'visual-fill-column-mode))
+
+  ;; :NOTE| Enable dictionary + emoji suggestions in compose area
+  (add-hook 'ement-room-read-string-setup-hook
+            (lambda ()
+              (when (featurep 'cape)
+                (add-hook 'completion-at-point-functions #'cape-dict nil t)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
   ;; :NOTE| Notifications ought to be limited to @mentions only!
   (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
@@ -2010,13 +1980,7 @@ Kind Regards,
   (ement-room-images t)
   (ement-room-message-format-spec "%S>%L %B%r%R[%t]")
   (ement-room-send-message-filter #'ement-room-send-org-filter)
-  (ement-save-sessions t)
-  :config
-  (add-hook 'ement-room-read-string-setup-hook
-            (lambda ()
-              (when (featurep 'cape)
-                (add-hook 'completion-at-point-functions #'cape-dict nil t)
-                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
+  (ement-save-sessions t))
 #+end_src
 
 I also want to write a function that could later be used to spawn an Emacs (matrix) frame by XMonad or other window managers.
@@ -2043,18 +2007,21 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 #+begin_src emacs-lisp
 (use-feature telega ;; <-^ fetched from Nixpkgs
   :commands (telega)
-  :hook (telega-chat-mode . visual-fill-column-mode)
-  :custom
-  (telega-directory (no-littering-expand-var-file-name "telega/"))
-  (telega-chat-bidi-display-reordering t)
-  (telega-notifications-mode t)
-  (telega-emoji-use-images nil) ;; recent libsvg issue..
   :config
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'telega-chat-mode-hook #'visual-fill-column-mode))
+
+  ;; :NOTE| Enable dictionary + emoji suggestions in compose area
   (when (featurep 'cape)
     (add-hook 'telega-chat-mode-hook
               (lambda ()
                 (add-hook 'completion-at-point-functions #'cape-dict nil t)
-                (add-hook 'completion-at-point-functions #'cape-emoji nil t)))))
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
+  :custom
+  (telega-directory (no-littering-expand-var-file-name "telega/"))
+  (telega-chat-bidi-display-reordering t)
+  (telega-notifications-mode t)
+  (telega-emoji-use-images nil)) ;; recent libsvg issue..
 #+end_src
 
 ***** Circle: IRC Client
@@ -2092,23 +2059,24 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 #+begin_src emacs-lisp
 (use-package shrface
   :after (shr)
-  :hook ((shrface-mode . (lambda ()
-                           (visual-fill-column-mode)
-                           (variable-pitch-mode)))
+  :hook ((shrface-mode . variable-pitch-mode)
          (eww-after-render . shrface-mode))
-  :custom
-  (shrface-href-versatile t)
-  (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star)))
   :config
   (shrface-basic)
   (shrface-trial)
   (shrface-default-keybindings)
 
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'shrface-mode-hook #'visual-fill-column-mode))
+
   ;; :NOTE| allow shrface to control nov.el buffers
   (with-eval-after-load 'nov
     (setq nov-shr-rendering-functions '((img . nov-render-img) (title . nov-render-title))
           nov-shr-rendering-functions (append nov-shr-rendering-functions shr-external-rendering-functions))
-    (add-hook 'nov-mode-hook #'shrface-mode)))
+    (add-hook 'nov-mode-hook #'shrface-mode))
+  :custom
+  (shrface-href-versatile t)
+  (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star))))
 #+end_src
 
 I also would like for web-pages to properly render code blocks, and that is by displaying them with the appropriate syntax highlighting.
@@ -2130,7 +2098,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil
-  :config (evil-mode)
+  :init (evil-mode)
   :custom
   (evil-respect-visual-line-mode t)
   (evil-search-module 'evil-search)
@@ -2140,7 +2108,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (evil-want-keybinding nil))
 #+end_src
 
-***** A Collection Of Evil Bindings
+***** Evil-Collection: A Collection Of Many Evil Bindings
 
 #+begin_src emacs-lisp
 (use-package evil-collection
@@ -3364,9 +3332,9 @@ There is another things that we could utilize to increase the responsiveness of 
     (:title (pretty-hydra-title "──｢ Langspec: Org-Mode ｣──" 'sucicon "nf-custom-orgmode")
             :color teal :quit-key "q")
     ("Buffer"
-     (("e" org-edit-special "Specialized Edit")
-      ("t" org-babel-tangle "Tangle")
-      ("c" org-capture      "Capture"))))
+     (("c" org-capture         "Capture")
+      ("e" org-export-dispatch "Export")
+      ("t" org-babel-tangle    "Tangle"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Markup"
@@ -3468,13 +3436,19 @@ Source: https://emacs.stackexchange.com/a/20618
   :hook (org-mode . org-fragtog-mode))
 #+end_src
 
-**** Auto Generate Table Of Contents
+**** Super-Agenda: Supercharge Your Agendas
 
 #+begin_src emacs-lisp
-(use-package toc-org
+(use-package org-super-agenda
   :after (org)
-  :hook (org-mode . toc-org-enable)
-  :custom (toc-org-max-depth 3))
+  :hook (org-agenda-mode .  org-super-agenda-mode)
+  :custom
+  (org-super-agenda-groups
+   '((:name "Today" :time-grid t :todo "TODAY")
+     (:name "Important" :tag "bills" :priority "A")
+     (:todo "WAITING" :order 8)
+     (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING") :order 9)
+     (:priority<= "B" :order 1))))
 #+end_src
 
 **** Modernize Org-Mode Buffers
