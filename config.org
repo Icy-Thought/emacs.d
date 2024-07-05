@@ -683,12 +683,12 @@ What remains of us is to load the theme of our choice.
   :custom
   (fontaine-presets `((default) ;; <- fallback values
                       (reading
-                       :variable-pitch-family "Bitter"
-                       :variable-pitch-height 150
+                       :variable-pitch-family "Cardo"
+                       :variable-pitch-height 185
                        :variable-pitch-slant normal
                        :variable-pitch-weight regular)
                       (large
-                       :default-height 180
+                       :default-height 175
                        :default-weight semibold)
                       (t
                        :default-family "VictorMono Nerd Font"
@@ -3677,17 +3677,17 @@ Issues:
     (with-eval-after-load 'eglot
       (when (executable-find "rust-analyzer")
         (add-to-list 'eglot-server-programs
-                     `((rust-mode rust-ts-mode)
-                       . ("rust-analyzer"
-                          ;; https://rust-analyzer.github.io/manual.html
-                          :initializationOptions ( :cargo       (:features "all")
-                                                   :completion  (:callable (:snippets "fill_arguments"))
-                                                   :checkOnSave (:command "clippy" :allTargets :json-false)))))))
+                     '(rust-mode . (;; https://rust-analyzer.github.io/manual.html
+                                    "rust-analyzer"
+                                    :initializationOptions (:cargo       (:features "all")
+                                                            :completion  (:callable (:snippets "fill_arguments"))
+                                                            :checkOnSave (:command "clippy" :allTargets :json-false)))))))
     (eglot-ensure))
-  :hook ((rust-mode rust-ts-mode) . (lambda ()
-                                      (eglot-rust-setup)
-                                      (indent-tabs-mode -1)
-                                      (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml))))
+  :hook (rust-mode . (lambda ()
+                       (eglot-rust-setup)
+                       (indent-tabs-mode -1)
+                       (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
+  :custom (rust-mode-treesitter-derive t))
 #+end_src
 
 Cargo commands should be available to the user at all time when working with rust projects!
@@ -3723,9 +3723,9 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
             :color teal :quit-key "q")
     ("Interactive"
-     (("l" rust-run-clippy     "cargo clippy")
-      ("r" rust-run            "project")
-      ("t" rust-test           "tests on project"))
+     (("l" rust-run-clippy     "clippy")
+      ("r" rust-run            "run project")
+      ("t" rust-test           "test project"))
      "Build"
      (("c" rust-compile        "Compile project")
       ("d" rust-check          "Compile & Check"))
@@ -3826,13 +3826,16 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (with-eval-after-load 'eglot
       (when (executable-find "pylyzer")
         (add-to-list 'eglot-server-programs
-                     `((python-mode python-ts-mode)
-                       . ("pylyzer" "--server" :initializationOptions ( :diagnostics t
-                                                                        :inlineHints t
-                                                                        :smartCompletion t)))))
+                     '((python-mode python-ts-mode)
+                       . ("pylyzer" "--server"
+                          :initializationOptions (:diagnostics t
+                                                  :inlineHints t
+                                                  :smartCompletion t)))))
       (when (executable-find "pyright-langserver")
         (add-to-list 'eglot-server-programs
-                     `((python-mode python-ts-mode) . ("pyright-langserver" "--stdio" :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
+                     '((python-mode python-ts-mode)
+                       . ("pyright-langserver" "--stdio"
+                          :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
     (eglot-ensure))
   :hook ((python-mode python-ts-mode) . eglot-python-setup))
 #+end_src
@@ -3951,7 +3954,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
     (with-eval-after-load 'eglot
       (let ((langserv "zls"))
         (when (executable-find langserv)
-          (add-to-list 'eglot-server-programs `((zig-mode zig-ts-mode) . langserv)))))
+          (add-to-list 'eglot-server-programs '((zig-mode zig-ts-mode) . langserv)))))
     (eglot-ensure))
   :hook ((zig-mode zig-ts-mode) . eglot-zig-setup))
 #+end_src
