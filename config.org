@@ -66,13 +66,13 @@
     - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
     - [[#haskell-purely-functional][Haskell: Purely Functional]]
-    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
-    - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
-    - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
     - [[#kotlin-language-of-dem-android][Kotlin: Language of Dem Android]]
-    - [[#python-high-level-language][Python: High Level Language]]
-    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
+    - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
     - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
+    - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
+    - [[#python-high-level-language][Python: High Level Language]]
+    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
+    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
   - [[#part-6-concluding-our-emacs-journey][Part 6: Concluding Our Emacs Journey!]]
 
@@ -3328,6 +3328,7 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package geiser-guile
+  :mode ("\\.scm\\'" . geiser-mode)
   :defer t)
 #+end_src
 
@@ -3635,10 +3636,6 @@ Also, allow =Embark= to interact with those citations.
 
 *** Haskell: Purely Functional
 
-Issues:
-1. eldoc(+box) not working..
-2. missing inline hints
-
 #+begin_src emacs-lisp
 (use-package haskell-mode
   :mode (("\\.hs\\(c\\|-boot\\)?\\'" . haskell-mode)
@@ -3662,31 +3659,169 @@ Issues:
     (add-to-list 'apheleia-mode-alist '(haskell-mode . fourmolu))))
 #+end_src
 
+*** Kotlin: Language of Dem Android
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package kotlin-mode
+  :mode (("\\.kt\\'" . kotlin-mode)
+         ("\\.kts\\'" . kotlin-mode))
+  :preface
+  (defun eglot-kotlin-setup ()
+    (with-eval-after-load 'eglot
+      (let ((server "kotlin-language-server"))
+        (when (executable-find lsp)
+          (add-to-list 'eglot-server-programs `(kotlin-mode ,server)))))
+    (eglot-ensure))
+  :hook (lua-mode . eglot-kotlin-setup))
+#+end_src
+
+**** Apheleia: Kotlin Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "ktlint")
+    (setf (alist-get 'ktlint apheleia-formatters)
+          '("ktlint" "--log-level=none" "--stdin" "-F" "-"))
+    (add-to-list 'apheleia-mode-alist '(kotlin-mode . ktlint))))
+#+end_src
+
+*** Lua: Embedded Scripting Language
+
+#+begin_src emacs-lisp
+(use-package lua-mode
+  :mode ("\\.lua\\'" . lua-mode)
+  :preface
+  (defun eglot-lua-setup ()
+    (with-eval-after-load 'eglot
+      (let ((server "lua-language-server"))
+        (when (executable-find server)
+          (add-to-list 'eglot-server-programs `(lua-mode ,server)))))
+    (eglot-ensure))
+  :hook (lua-mode . eglot-lua-setup))
+#+end_src
+
+**** Apheleia: Lua Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "stylua")
+    (setf (alist-get 'stylua apheleia-formatters)
+          '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
+    (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
+#+end_src
+
+*** Markdown: Minimal Markup Language
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode)
+  :custom-face
+  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
+  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
+  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
+  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
+  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
+  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
+  :custom (markdown-command "multimarkdown"))
+#+end_src
+
+**** Hydra: Markdown Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define markdown-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
+            :color teal :quit-key "q")
+    ("Interactive"
+     (("d" markdown-do "Perform -> action"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Markup"
+     (("m" (if (eq major-mode 'markdown-mode)
+               (markdown-hydra/body)
+             (message "You are not in a markdown buffer.")) "Markdown")))))
+#+end_src
+
+*** Nix: Purely Functional DSL
+
+#+begin_src emacs-lisp
+(use-package nix-ts-mode
+  :mode ("\\.nix\\'" . nix-ts-mode)
+  :preface
+  (defun eglot-nix-setup ()
+    (with-eval-after-load 'eglot
+      (let ((server "nil"))
+        (when (executable-find server)
+          (add-to-list 'eglot-server-programs `(nix-ts-mode ,server)))))
+    (eglot-ensure))
+  :hook (nix-ts-mode . eglot-nix-setup))
+#+end_src
+
+**** Apheleia: Nix Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "alejandra")
+    (setf (alist-get 'alejandra apheleia-formatters)
+          '("alejandra" "--quiet" "-"))
+    (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra))))
+#+end_src
+
+*** Python: High Level Language
+
+#+begin_src emacs-lisp
+(use-package python-mode
+  :mode ("\\.py\\'" . python-mode)
+  :preface
+  (defun eglot-python-setup ()
+    (with-eval-after-load 'eglot
+      (when (executable-find "pylyzer")
+        (add-to-list 'eglot-server-programs
+                     '((python-mode python-ts-mode)
+                       . ("pylyzer" "--server"
+                          :initializationOptions (:diagnostics t
+                                                  :inlineHints t
+                                                  :smartCompletion t)))))
+      (when (executable-find "pyright-langserver")
+        (add-to-list 'eglot-server-programs
+                     '((python-mode python-ts-mode)
+                       . ("pyright-langserver" "--stdio"
+                          :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
+    (eglot-ensure))
+  :hook ((python-mode python-ts-mode) . eglot-python-setup))
+#+end_src
+**** Apheleia: Python Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "isort")
+    (setf (alist-get 'isort apheleia-formatters)
+          '("isort" "--profile black" "--stdout"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
+
+  (when (executable-find "black")
+    (setf (alist-get 'black apheleia-formatters)
+          '("black" "-"))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
+#+end_src
+
 *** Rust: Statically & Storngly Typed
 
 #+begin_src emacs-lisp
 (use-package rust-mode
-  :mode ("\\.rs$" . rust-mode)
+  :mode ("\\.rs\\'" . rust-mode)
   :preface
-  (defun irkalla/locate-cargo-toml (dir)
-    "Locate the missing Rust project Cargo.toml."
-    (if-let ((root (locate-dominating-file dir "Cargo.toml")))
-        (list 'vc 'Git root)))
-
   (defun eglot-rust-setup ()
     (with-eval-after-load 'eglot
-      (when (executable-find "rust-analyzer")
-        (add-to-list 'eglot-server-programs
-                     '(rust-mode . (;; https://rust-analyzer.github.io/manual.html
-                                    "rust-analyzer"
-                                    :initializationOptions (:cargo       (:features "all")
-                                                            :completion  (:callable (:snippets "fill_arguments"))
-                                                            :checkOnSave (:command "clippy" :allTargets :json-false)))))))
+      (let ((server "rust-analyzer"))
+        (when (executable-find server)
+          (add-to-list 'eglot-server-programs `((rust-mode rust-ts-mode) ,server)))))
     (eglot-ensure))
-  :hook (rust-mode . (lambda ()
-                       (eglot-rust-setup)
-                       (indent-tabs-mode -1)
-                       (add-to-list 'project-find-functions #'irkalla/locate-cargo-toml)))
+  :hook (rust-mode . eglot-rust-setup)
+  :init (add-to-list 'project-vc-extra-root-markers '("Cargo.toml"))
   :custom (rust-mode-treesitter-derive t))
 #+end_src
 
@@ -3740,120 +3875,6 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
              (message "You are not in a rust buffer.")) "Rust")))))
 #+end_src
 
-*** Nix: Purely Functional DSL
-
-#+begin_src emacs-lisp
-(use-package nix-ts-mode
-  :mode ("\\.nix\\'" . nix-ts-mode)
-  :preface
-  (defun eglot-nix-setup ()
-    (with-eval-after-load 'eglot
-      (let ((langserv "nil"))
-        (when (executable-find langserv)
-          (add-to-list 'eglot-server-programs '(nix-ts-mode . langserv)))))
-    (eglot-ensure))
-  :hook (nix-ts-mode . eglot-nix-setup))
-#+end_src
-
-**** Apheleia: Nix Formatter
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "alejandra")
-    (setf (alist-get 'alejandra apheleia-formatters)
-          '("alejandra" "--quiet" "-"))
-    (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra))))
-#+end_src
-
-*** Lua: Embedded Scripting Language
-
-#+begin_src emacs-lisp
-(use-package lua-mode
-  :mode ("\\.lua\\'" . lua-mode)
-  :preface
-  (defun eglot-lua-setup ()
-    (with-eval-after-load 'eglot
-      (let ((langserv "lua-language-server"))
-        (when (executable-find langserv)
-          (add-to-list 'eglot-server-programs '(lua-mode . langserv)))))
-    (eglot-ensure))
-  :hook (lua-mode . eglot-lua-setup))
-#+end_src
-
-**** Apheleia: Lua Formatter
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "stylua")
-    (setf (alist-get 'stylua apheleia-formatters)
-          '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
-    (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
-#+end_src
-
-*** Kotlin: Language of Dem Android
-
-#+begin_src emacs-lisp
-(use-package kotlin-mode
-  :mode (("\\.kt\\'" . kotlin-mode)
-         ("\\.kts\\'" . kotlin-mode))
-  :preface
-  (defun eglot-kotlin-setup ()
-    (with-eval-after-load 'eglot
-      (let ((langserv "kotlin-language-server"))
-        (when (executable-find lsp)
-          (add-to-list 'eglot-server-programs '(kotlin-mode . langserv)))))
-    (eglot-ensure))
-  :hook (lua-mode . eglot-kotlin-setup))
-#+end_src
-
-**** Apheleia: Kotlin Formatter
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "ktlint")
-    (setf (alist-get 'ktlint apheleia-formatters)
-          '("ktlint" "--log-level=none" "--stdin" "-F" "-"))
-    (add-to-list 'apheleia-mode-alist '(kotlin-mode . ktlint))))
-#+end_src
-
-*** Python: High Level Language
-
-#+begin_src emacs-lisp
-(use-package python-mode
-  :mode ("\\.py\\'" . python-mode)
-  :preface
-  (defun eglot-python-setup ()
-    (with-eval-after-load 'eglot
-      (when (executable-find "pylyzer")
-        (add-to-list 'eglot-server-programs
-                     '((python-mode python-ts-mode)
-                       . ("pylyzer" "--server"
-                          :initializationOptions (:diagnostics t
-                                                  :inlineHints t
-                                                  :smartCompletion t)))))
-      (when (executable-find "pyright-langserver")
-        (add-to-list 'eglot-server-programs
-                     '((python-mode python-ts-mode)
-                       . ("pyright-langserver" "--stdio"
-                          :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
-    (eglot-ensure))
-  :hook ((python-mode python-ts-mode) . eglot-python-setup))
-#+end_src
-**** Apheleia: Python Formatter
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "isort")
-    (setf (alist-get 'isort apheleia-formatters)
-          '("isort" "--profile black" "--stdout"))
-    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
-
-  (when (executable-find "black")
-    (setf (alist-get 'black apheleia-formatters)
-          '("black" "-"))
-    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
-#+end_src
-
 *** Typst: A More Powerful LaTeX Alt.
 
 #+begin_src emacs-lisp
@@ -3863,10 +3884,10 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   :preface
   (defun eglot-typst-setup ()
     (with-eval-after-load 'eglot
-      (let ((langserv "typst-lsp"))
-        (when (executable-find langserv)
-          (add-to-list 'eglot-server-programs '(typst-ts-mode . langserv)))))
-    (eglot-ensure))
+      (let ((server "typst-lsp"))
+        (when (executable-find server)
+          (add-to-list 'eglot-server-programs `(typst-ts-mode ,server))))
+      (eglot-ensure)))
   :hook (typst-ts-mode . eglot-typst-setup)
   :custom
   (typst-ts-mode-watch-options "--open")
@@ -3909,38 +3930,6 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
              (message "You are not in a typst buffer."))  "Typst")))))
 #+end_src
 
-*** Markdown: Minimal Markup Language
-
-#+begin_src emacs-lisp
-(use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode)
-  :custom-face
-  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
-  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
-  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
-  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
-  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
-  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
-  :custom (markdown-command "multimarkdown"))
-#+end_src
-
-**** Hydra: Markdown Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define markdown-hydra
-    (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
-            :color teal :quit-key "q")
-    ("Interactive"
-     (("d" markdown-do "Perform -> action"))))
-
-  (pretty-hydra-define+ editor-hydra ()
-    ("Markup"
-     (("m" (if (eq major-mode 'markdown-mode)
-               (markdown-hydra/body)
-             (message "You are not in a markdown buffer.")) "Markdown")))))
-#+end_src
-
 *** Zig: Imperative & Statically Compiled
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
@@ -3948,13 +3937,13 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
 
 #+begin_src emacs-lisp
 (use-package zig-mode
-  :mode ("\\.zig$" . zig-mode)
+  :mode ("\\.zig\\'" . zig-mode)
   :preface
   (defun eglot-zig-setup ()
     (with-eval-after-load 'eglot
-      (let ((langserv "zls"))
-        (when (executable-find langserv)
-          (add-to-list 'eglot-server-programs '((zig-mode zig-ts-mode) . langserv)))))
+      (let ((server "zls"))
+        (when (executable-find server)
+          (add-to-list 'eglot-server-programs `((zig-mode zig-ts-mode) ,server)))))
     (eglot-ensure))
   :hook ((zig-mode zig-ts-mode) . eglot-zig-setup))
 #+end_src
