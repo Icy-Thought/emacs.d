@@ -3259,6 +3259,7 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-feature eglot
+  :demand t
   :pretty-hydra
   ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
            :color teal :quit-key "q")
@@ -3666,16 +3667,9 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package kotlin-mode
-  :mode (("\\.kt\\'" . kotlin-mode)
-         ("\\.kts\\'" . kotlin-mode))
-  :preface
-  (defun eglot-kotlin-setup ()
-    (with-eval-after-load 'eglot
-      (let ((server "kotlin-language-server"))
-        (when (executable-find lsp)
-          (add-to-list 'eglot-server-programs `(kotlin-mode ,server)))))
-    (eglot-ensure))
-  :hook (lua-mode . eglot-kotlin-setup))
+  :mode (("\\.kt\\'" . kotlin-ts-mode)
+         ("\\.kts\\'" . kotlin-ts-mode))
+  :hook (kotlin-ts-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Kotlin Formatter
@@ -3692,15 +3686,8 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package lua-mode
-  :mode ("\\.lua\\'" . lua-mode)
-  :preface
-  (defun eglot-lua-setup ()
-    (with-eval-after-load 'eglot
-      (let ((server "lua-language-server"))
-        (when (executable-find server)
-          (add-to-list 'eglot-server-programs `(lua-mode ,server)))))
-    (eglot-ensure))
-  :hook (lua-mode . eglot-lua-setup))
+  :mode ("\\.lua\\'" . lua-ts-mode)
+  :hook (lua-ts-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Lua Formatter
@@ -3750,14 +3737,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package nix-ts-mode
   :mode ("\\.nix\\'" . nix-ts-mode)
-  :preface
-  (defun eglot-nix-setup ()
-    (with-eval-after-load 'eglot
-      (let ((server "nil"))
-        (when (executable-find server)
-          (add-to-list 'eglot-server-programs `(nix-ts-mode ,server)))))
-    (eglot-ensure))
-  :hook (nix-ts-mode . eglot-nix-setup))
+  :hook (nix-ts-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Nix Formatter
@@ -3774,25 +3754,13 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package python-mode
-  :mode ("\\.py\\'" . python-mode)
-  :preface
-  (defun eglot-python-setup ()
-    (with-eval-after-load 'eglot
-      (when (executable-find "pylyzer")
-        (add-to-list 'eglot-server-programs
-                     '((python-mode python-ts-mode)
-                       . ("pylyzer" "--server"
-                          :initializationOptions (:diagnostics t
-                                                  :inlineHints t
-                                                  :smartCompletion t)))))
-      (when (executable-find "pyright-langserver")
-        (add-to-list 'eglot-server-programs
-                     '((python-mode python-ts-mode)
-                       . ("pyright-langserver" "--stdio"
-                          :initializationOptions (:pyright (:typeCheckingMode "strict")))))))
-    (eglot-ensure))
-  :hook ((python-mode python-ts-mode) . eglot-python-setup))
+  :mode ("\\.py\\'" . python-ts-mode)
+  :hook (python-ts-mode . eglot-ensure)
+  :custom
+  (python-shell-interpreter "ipython")
+  (python-shell-interpreter-args "--simple-prompt"))
 #+end_src
+
 **** Apheleia: Python Formatter
 
 #+begin_src emacs-lisp
@@ -3811,33 +3779,15 @@ Also, allow =Embark= to interact with those citations.
 *** Rust: Statically & Storngly Typed
 
 #+begin_src emacs-lisp
-(use-package rust-mode
-  :mode ("\\.rs\\'" . rust-mode)
-  :preface
-  (defun eglot-rust-setup ()
-    (with-eval-after-load 'eglot
-      (let ((server "rust-analyzer"))
-        (when (executable-find server)
-          (add-to-list 'eglot-server-programs `((rust-mode rust-ts-mode) ,server)))))
-    (eglot-ensure))
-  :hook (rust-mode . eglot-rust-setup)
-  :init (add-to-list 'project-vc-extra-root-markers '("Cargo.toml"))
-  :custom (rust-mode-treesitter-derive t))
-#+end_src
-
-Cargo commands should be available to the user at all time when working with rust projects!
-
-#+begin_src emacs-lisp
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode)
-  :custom (cargo-process--command-clippy "clippy"))
-#+end_src
-
-Also, let us not forget that we want to interact with rust code-blocks defined within org-mode files!
-
-#+begin_src emacs-lisp
-(use-package ob-rust
-  :after (rust-mode ob))
+(use-package rustic
+  :mode ("\\.rs\\'" . rustic-mode)
+  :init
+  (setq rust-mode-treesitter-derive t) ;; <- derived from rust-mode
+  (add-to-list 'project-vc-extra-root-markers "Cargo.toml")
+  :custom
+  (rustic-lsp-client 'eglot)
+  (rustic-cargo-bin (executable-find "cargo"))
+  (rustic-rustfmt-bin (executable-find "rustfmt")))
 #+end_src
 
 **** Apheleia: Rust Formatter
@@ -3857,22 +3807,27 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
   (pretty-hydra-define rust-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
             :color teal :quit-key "q")
-    ("Interactive"
-     (("l" rust-run-clippy     "clippy")
-      ("r" rust-run            "run project")
-      ("t" rust-test           "test project"))
+    ("Clippy"
+     (("c" rustic-cargo-clippy               "View Results")
+      ("f" rustic-cargo-clippy-fix           "Fix"))
      "Build"
-     (("c" rust-compile        "Compile project")
-      ("d" rust-check          "Compile & Check"))
-     "Process"
-     (("a" cargo-process-add   "Add")
-      ("c" cargo-process-clean "Clean"))))
+     (("b" rustic-compile                    "Build Project")
+      ("B" rustic-recompile                  "Build Project")
+      ("r" rustic-cargo-run                  "Run Project")
+      ("t" rustic-cargo-test                 "Test Project")
+      ("T" rustic-cargo-test-rerun           "Test Project")
+      ("v" rustic-compile-backtrace          "Backtrace Verbosity"))
+     "Cargo"
+     (("a" rustic-cargo-add                  "Add")
+      ("?" rustic-cargo-missing-dependencies "+Missing Deps??")
+      ("d" rustic-cargo-rm                   "Remove")
+      ("u" rustic-cargo-upgrade              "Upgrade"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Programming"
-     (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
+     (("r" (if (memq major-mode '(rustic-mode))
                (rust-hydra/body)
-             (message "You are not in a rust buffer.")) "Rust")))))
+             (message "You are not in a Rust buffer.")) "Rust")))))
 #+end_src
 
 *** Typst: A More Powerful LaTeX Alt.
@@ -3881,25 +3836,21 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
 (use-package typst-ts-mode
   :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
-  :preface
-  (defun eglot-typst-setup ()
-    (with-eval-after-load 'eglot
-      (let ((server "typst-lsp"))
-        (when (executable-find server)
-          (add-to-list 'eglot-server-programs `(typst-ts-mode ,server))))
-      (eglot-ensure)))
-  :hook (typst-ts-mode . eglot-typst-setup)
-  :custom
-  (typst-ts-mode-watch-options "--open")
-  (typst-ts-mode-enable-raw-blocks-highlight t)
-  (typst-ts-mode-highlight-raw-blocks-at-startup t)
+  :hook (typst-ts-mode . (lambda ()
+                           (when (executable-find "typst-lsp")
+                             (add-to-list 'eglot-server-programs "typst-lsp")
+                             (eglot-ensure))))
   :config
   (with-eval-after-load 'consult-imenu
     (setq consult-imenu-config
           (append consult-imenu-config '((typst-ts-mode
                                           :topLevel "Headings"
-                                          :types ((?h "Headings" typst-ts-markup-header-face)
-                                                  (?f "Functions" font-lock-function-name-face))))))))
+                                          :types ((?h "Headings" typst-ts-markup-header-face)))))))
+  :custom
+  (typst-ts-mode-watch-options "--open")
+  (typst-ts-mode-enable-raw-blocks-highlight t)
+  (typst-ts-mode-highlight-raw-blocks-at-startup t
+                                                 (?f "Functions" font-lock-function-name-face)))
 #+end_src
 
 **** Apheleia: Typst Formatter
@@ -3938,14 +3889,7 @@ Also, let us not forget that we want to interact with rust code-blocks defined w
 #+begin_src emacs-lisp
 (use-package zig-mode
   :mode ("\\.zig\\'" . zig-mode)
-  :preface
-  (defun eglot-zig-setup ()
-    (with-eval-after-load 'eglot
-      (let ((server "zls"))
-        (when (executable-find server)
-          (add-to-list 'eglot-server-programs `((zig-mode zig-ts-mode) ,server)))))
-    (eglot-ensure))
-  :hook ((zig-mode zig-ts-mode) . eglot-zig-setup))
+  :hook (zig-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Zig Formatter
