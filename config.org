@@ -1314,6 +1314,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
                               "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
                               "Output\\*$"
+                              "^\\*apheleia.*\\*$"
                               "\\*.*compilation.*\\*"
                               ("*Python*" . hide)
                               ("\\*.*REPL.*\\*" . hide)
@@ -2963,9 +2964,8 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package apheleia
-  :defer 2
-  :diminish apheleia-mode
-  :config (apheleia-global-mode t))
+  :defer t
+  :commands (apheleia-format-buffer))
 #+end_src
 
 **** Hydra: Apheleia Bindings
