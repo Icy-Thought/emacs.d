@@ -500,10 +500,10 @@
      (diff-hl-margin-insert                             (:background yellow :foreground mantle))
 
      ;; (related) https://github.com/emacs-evil/evil
-     (evil-ex-lazy-highlight                            (:foreground yellow :bold t))
+     (evil-ex-info                                      (:foreground blue))
+     (evil-ex-lazy-highlight                            (:inherit 'isearch :bold t))
      (evil-ex-substitute-matches                        (:foreground red :strike-through t))
-     (evil-ex-substitute-replacement                    (:foreground blue :bold t))
-     (evil-search-highlight-persist-highlight-face      (:background yellow))
+     (evil-ex-substitute-replacement                    (:foreground yellow :bold t))
 
      ;; https://github.com/blorbx/evil-quickscope
      (evil-quickscope-first-face                        (:foreground yellow :underline t))
