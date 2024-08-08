@@ -2168,10 +2168,19 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil
-  :init (evil-mode)
+  :preface
+  (defun irkalla/extended-escape ()
+    (interactive)
+    (if (evil-ex-hl-active-p 'evil-ex-search)
+        (evil-ex-nohighlight)
+      (evil-force-normal-state)))
+  :bind (:map evil-normal-state-map
+              ("<escape>" . irkalla/extended-escape))
+  :init
+  (setq evil-search-module 'evil-search)
+  (evil-mode)
   :custom
   (evil-respect-visual-line-mode t)
-  (evil-search-module 'evil-search)
   (evil-undo-system 'undo-fu)
   (evil-vsplit-window-right t)
   (evil-want-integration t)
