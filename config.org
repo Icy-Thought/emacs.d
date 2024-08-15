@@ -761,7 +761,8 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   (font-lock-function-name-face ((t (:slant italic :weight bold))))
   (font-lock-keyword-face       ((t (:slant italic))))
   (font-lock-preprocessor-face  ((t (:weight bold))))
-  (font-lock-string-face        ((t (:slant italic)))))
+  (font-lock-string-face        ((t (:slant italic))))
+  :custom (font-lock-maximum-decoration t))
 #+end_src
 
 *** Adding A Sprinkle Of Icons
@@ -3120,10 +3121,6 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 *** Tree-Sitter: Parser Generator Tool
 
 #+begin_src emacs-lisp
-(use-feature tree-sitter
-  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
-  :custom (font-lock-maximum-decoration t))
-
 (use-package treesit-auto
   :hook (prog-mode . global-treesit-auto-mode)
   :custom (treesit-auto-install nil)
@@ -3132,15 +3129,18 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
               :filter-return (lambda (mode)
                                (pcase (assoc mode major-mode-remap-alist)
                                  (`(,mode . ,ts-mode) ts-mode) (_ mode))))
-  (treesit-auto-add-to-auto-mode-alist))
+  (treesit-auto-add-to-auto-mode-alist 'all))
 #+end_src
 
 **** Tree-Sitter Folding Of Code-Blocks
 
 #+begin_src emacs-lisp
-(use-package ts-fold
-  :ensure (:host github :repo "emacs-tree-sitter/ts-fold")
-  :hook (tree-sitter-after-on . ts-fold-mode))
+(use-package treesit-fold
+  :ensure (:host github :repo "emacs-tree-sitter/treesit-fold")
+  :hook (prog-mode . (lambda ()
+                       (when (and (treesit-available-p)
+                                  (treesit-parser-list))
+                         (treesit-fold-mode t)))))
 #+end_src
 
 **** Combobulate: Structured Editing & Navigation
