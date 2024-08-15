@@ -3122,14 +3122,14 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-package treesit-auto
-  :hook (prog-mode . global-treesit-auto-mode)
-  :custom (treesit-auto-install nil)
   :config
   (advice-add 'org-src-get-lang-mode
               :filter-return (lambda (mode)
                                (pcase (assoc mode major-mode-remap-alist)
                                  (`(,mode . ,ts-mode) ts-mode) (_ mode))))
-  (treesit-auto-add-to-auto-mode-alist 'all))
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode)
+  :custom (treesit-auto-install nil))
 #+end_src
 
 **** Tree-Sitter Folding Of Code-Blocks
@@ -3676,9 +3676,9 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package kotlin-mode
-  :mode (("\\.kt\\'" . kotlin-ts-mode)
-         ("\\.kts\\'" . kotlin-ts-mode))
-  :hook (kotlin-ts-mode . eglot-ensure))
+  :mode (("\\.kt\\'" . kotlin-mode)
+         ("\\.kts\\'" . kotlin-mode))
+  :hook (kotlin-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Kotlin Formatter
@@ -3695,8 +3695,8 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package lua-mode
-  :mode ("\\.lua\\'" . lua-ts-mode)
-  :hook (lua-ts-mode . eglot-ensure))
+  :mode ("\\.lua\\'" . lua-mode)
+  :hook (lua-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Lua Formatter
@@ -3763,8 +3763,8 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package python-mode
-  :mode ("\\.py\\'" . python-ts-mode)
-  :hook (python-ts-mode . eglot-ensure)
+  :mode ("\\.py\\'" . python-mode)
+  :hook (python-mode . eglot-ensure)
   :custom
   (python-shell-interpreter "ipython")
   (python-shell-interpreter-args "--simple-prompt"))
@@ -3777,12 +3777,12 @@ Also, allow =Embark= to interact with those citations.
   (when (executable-find "isort")
     (setf (alist-get 'isort apheleia-formatters)
           '("isort" "--profile black" "--stdout"))
-    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . isort)))
+    (add-to-list 'apheleia-mode-alist '(python-mode . isort)))
 
   (when (executable-find "black")
     (setf (alist-get 'black apheleia-formatters)
           '("black" "-"))
-    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . black))))
+    (add-to-list 'apheleia-mode-alist '(python-mode . black))))
 #+end_src
 
 *** Rust: Statically & Storngly Typed
@@ -3790,9 +3790,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package rustic
   :mode ("\\.rs\\'" . rustic-mode)
-  :init
-  (setq rust-mode-treesitter-derive t) ;; <- derived from rust-mode
-  (add-to-list 'project-vc-extra-root-markers "Cargo.toml")
+  :init (add-to-list 'project-vc-extra-root-markers "Cargo.toml")
   :custom
   (rustic-lsp-client 'eglot)
   (rustic-cargo-bin (executable-find "cargo"))
@@ -3806,7 +3804,7 @@ Also, allow =Embark= to interact with those citations.
   (when (executable-find "rustfmt")
     (setf (alist-get 'rustfmt apheleia-formatters)
           '("rustfmt" "--quiet" "--emit" "stdout"))
-    (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt))))
+    (add-to-list 'apheleia-mode-alist '(rust-mode . rustfmt))))
 #+end_src
 
 **** Hydra: Rust Bindings
@@ -3908,7 +3906,7 @@ Also, allow =Embark= to interact with those citations.
   (when (executable-find "zig")
     (setf (alist-get 'zigfmt apheleia-formatters)
           '("zig" "fmt" "--stdin"))
-    (add-to-list 'apheleia-mode-alist '((zig-mode zig-ts-mode) . zigfmt))))
+    (add-to-list 'apheleia-mode-alist '(zig-mode . zigfmt))))
 #+end_src
 
 ** Part 6: Concluding Our Emacs Journey!
