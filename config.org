@@ -1027,7 +1027,8 @@ Reference:
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :init (centaur-tabs-mode t)
   :config
-  (setq centaur-tabs-set-icons t
+  (setq x-underline-at-descent-line t
+        centaur-tabs-set-icons t
         centaur-tabs-cycle-scope 'tabs
         centaur-tabs-enable-key-bindings t
         centaur-tabs-height 32
@@ -1038,10 +1039,7 @@ Reference:
         centaur-tabs-show-navigation-buttons t
         centaur-tabs-show-new-tab-button t
         centaur-tabs-adjust-buffer-order t)
-
   (centaur-tabs-enable-buffer-reordering)
-  (centaur-tabs-group-by-projectile-project)
-  (setq x-underline-at-descent-line t)
 
   ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
   (dolist (prefix '("*" " *" ;; all temporary buffers
@@ -3675,10 +3673,10 @@ Also, allow =Embark= to interact with those citations.
 :END:
 
 #+begin_src emacs-lisp
-(use-package kotlin-mode
-  :mode (("\\.kt\\'" . kotlin-mode)
-         ("\\.kts\\'" . kotlin-mode))
-  :hook (kotlin-mode . eglot-ensure))
+(use-package kotlin-ts-mode
+  :mode (("\\.kt\\'" . kotlin-ts-mode)
+         ("\\.kts\\'" . kotlin-ts-mode))
+  :hook (kotlin-ts-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Kotlin Formatter
@@ -3696,7 +3694,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package lua-mode
   :mode ("\\.lua\\'" . lua-mode)
-  :hook (lua-mode . eglot-ensure))
+  :hook ((lua-mode lua-ts-mode) . eglot-ensure))
 #+end_src
 
 **** Apheleia: Lua Formatter
@@ -3764,7 +3762,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
-  :hook (python-mode . eglot-ensure)
+  :hook ((python-mode python-ts-mode) . eglot-ensure)
   :custom
   (python-shell-interpreter "ipython")
   (python-shell-interpreter-args "--simple-prompt"))
@@ -3896,7 +3894,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package zig-mode
   :mode ("\\.zig\\'" . zig-mode)
-  :hook (zig-mode . eglot-ensure))
+  :hook ((zig-mode zig-ts-mode) . eglot-ensure))
 #+end_src
 
 **** Apheleia: Zig Formatter
