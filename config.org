@@ -2793,7 +2793,10 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 (use-package magit
   :if (executable-find "git")
   :commands (magit)
-  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+  :custom
+  (magit-refs-show-commit-count 'all)
+  (magit-save-repository-buffers 'dontask)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 #+end_src
 
 ***** File-Icons: Buffer Specific Icons
