@@ -2130,22 +2130,23 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   :after (shr)
   :hook ((shrface-mode . variable-pitch-mode)
          (eww-after-render . shrface-mode))
+  :custom (shrface-href-versatile t)
   :config
   (shrface-basic)
   (shrface-trial)
   (shrface-default-keybindings)
-
-  (with-eval-after-load 'visual-fill-column
-    (add-hook 'shrface-mode-hook #'visual-fill-column-mode))
 
   ;; :NOTE| allow shrface to control nov.el buffers
   (with-eval-after-load 'nov
     (setq nov-shr-rendering-functions '((img . nov-render-img) (title . nov-render-title))
           nov-shr-rendering-functions (append nov-shr-rendering-functions shr-external-rendering-functions))
     (add-hook 'nov-mode-hook #'shrface-mode))
-  :custom
-  (shrface-href-versatile t)
-  (shrface-bullets-bullet-list (when (featurep 'org-modern) (string-glyph-split org-modern-star))))
+
+  (with-eval-after-load 'visual-fill-column
+    (add-hook 'shrface-mode-hook #'visual-fill-column-mode))
+
+  (with-eval-after-load 'org-modern
+    (setq shrface-bullets-bullet-list (string-glyph-split org-modern-replace-stars))))
 #+end_src
 
 I also would like for web-pages to properly render code blocks, and that is by displaying them with the appropriate syntax highlighting.
