@@ -487,12 +487,12 @@ Then we have another essential Hydra that we will tie our editing related comman
 (pretty-hydra-define editor-hydra
   (:title (pretty-hydra-title "──｢ Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
           :color teal :quit-key "q")
-  ("Action"
-   (("b" eval-buffer "Eval Buf."))
-   "Programming"
+  ("Programming"
    (("RET" (if (derived-mode-p 'prog-mode)
                (call-interactively #'compile)
-             (message "Buffer /= PROG buffer...")) "Compile"))))
+             (message "Buffer /= PROG buffer...")) "Compile"))
+   "Action"
+   (("b" eval-buffer "Eval Buf."))))
 
 (pretty-hydra-define visual-editor-hydra
   (:title (pretty-hydra-title "──｢ (Visual) Chrysaora Melanaster ｣──" 'mdicon "nf-md-graph_outline")
@@ -2028,6 +2028,7 @@ Kind Regards,
 
 #+begin_src emacs-lisp
 (use-package ement
+  :ensure (:host github :repo "phil-s/ement.el" :branch "phil-s/ement-sync-watchdog-mode")
   :commands (ement-connect)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
@@ -2985,7 +2986,9 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
-    ("Action"
+    ("Programming"
+     (("!" apheleia-mode "Fmt On Save" :toggle t))
+     "Action"
      (("=" apheleia-format-buffer "Buf. Format")))))
 #+end_src
 
@@ -3217,7 +3220,7 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
       ("p" dape-pause "Pause")
       ("r" dape-restart "Restart"))
      "Breakpoint"
-     (("b" dape-breakpoint-toggle "Toggle")
+     (("b" dape-breakpoint-toggle "Toggle" :toggle t)
       ("l" dape-breakpoint-log "Log")
       ("e" dape-breakpoint-expression "Expression")
       ("B" dape-breakpoint-remove-all "Clear"))
@@ -3622,7 +3625,7 @@ Source: https://emacs.stackexchange.com/a/20618
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ org-hydra ()
     ("Org-Roam"
-     (("l" org-roam-buffer-toggle "Toggle -> buffer")
+     (("l" org-roam-buffer-toggle "Toggle -> buffer" :toggle t)
       ("g" org-roam-graph         "Node <- display graph")
       ("f" org-roam-node-find     "Node <- find")
       ("i" org-roam-node-insert   "Node <- insert ':id' link")
