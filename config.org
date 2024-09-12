@@ -2001,7 +2001,6 @@ Kind Regards,
 
 #+begin_src emacs-lisp
 (use-package ement
-  :ensure (:host github :repo "phil-s/ement.el" :branch "phil-s/ement-sync-watchdog-mode")
   :commands (ement-connect)
   :bind (:map ement-room-mode-map
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
@@ -2768,6 +2767,10 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 (use-package magit
   :if (executable-find "git")
   :commands (magit)
+  :init
+  (with-eval-after-load 'elpaca
+    (setq elpaca-ignored-dependencies ;; :NOTE| Too many Transient complaints to ignore...
+          (delq 'transient elpaca-ignored-dependencies)))
   :custom
   (magit-refs-show-commit-count 'all)
   (magit-save-repository-buffers 'dontask)
@@ -2794,9 +2797,10 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
     (:title (pretty-hydra-title "──｢ Editor: Version Control ｣──" 'mdicon "nf-md-git")
             :color teal :quit-key "q")
     ("Magit"
-     (("g" magit                            "Open Magit")
-      ("s" magit-stage-buffer-file          "Stage file")
-      ("u" magit-unstage-buffer-file        "Unstage file"))))
+     (("g" magit                     "Open Magit")
+      ("s" magit-stage-buffer-file   "Stage file")
+      ("u" magit-unstage-buffer-file "Unstage file")
+      ("b" magit-branch-checkout     "Checkout Branch"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Control"
@@ -3100,14 +3104,14 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-package treesit-auto
+  :custom (treesit-auto-install nil)
   :config
   (advice-add 'org-src-get-lang-mode
               :filter-return (lambda (mode)
                                (pcase (assoc mode major-mode-remap-alist)
                                  (`(,mode . ,ts-mode) ts-mode) (_ mode))))
   (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode)
-  :custom (treesit-auto-install nil))
+  (global-treesit-auto-mode))
 #+end_src
 
 **** Tree-Sitter Folding Of Code-Blocks
@@ -3731,10 +3735,8 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'apheleia
-  (when (executable-find "alejandra")
-    (setf (alist-get 'alejandra apheleia-formatters)
-          '("alejandra" "--quiet" "-"))
-    (add-to-list 'apheleia-mode-alist '(nix-ts-mode . alejandra))))
+  (when (executable-find "nixfmt")
+    (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))))
 #+end_src
 
 *** Python: High Level Language
@@ -3758,8 +3760,7 @@ Also, allow =Embark= to interact with those citations.
     (add-to-list 'apheleia-mode-alist '(python-mode . isort)))
 
   (when (executable-find "black")
-    (setf (alist-get 'black apheleia-formatters)
-          '("black" "-"))
+    (setf (alist-get 'black apheleia-formatters) '("black" "-"))
     (add-to-list 'apheleia-mode-alist '(python-mode . black))))
 #+end_src
 
@@ -3882,8 +3883,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (with-eval-after-load 'apheleia
   (when (executable-find "zig")
-    (setf (alist-get 'zigfmt apheleia-formatters)
-          '("zig" "fmt" "--stdin"))
+    (setf (alist-get 'zigfmt apheleia-formatters) '("zig" "fmt" "--stdin"))
     (add-to-list 'apheleia-mode-alist '(zig-mode . zigfmt))))
 #+end_src
 
