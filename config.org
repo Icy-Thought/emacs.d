@@ -991,13 +991,6 @@ Reference:
 
 #+begin_src emacs-lisp
 (use-package centaur-tabs
-  :preface
-  (defun refresh-centaur-tabs ()
-    "Define Centaur-Tabs bar-line and later apply it."
-    (centaur-tabs-mode -1)
-    (centaur-tabs-mode 1)
-    (centaur-tabs-headline-match))
-  :hook (focus-in-hook . refresh-centaur-tabs)
   :bind (:map centaur-tabs-mode-map
               ("C-<prior>"   . #'centaur-tabs-backward-group)
               ("C-<next>"    . #'centaur-tabs-forward-group)
