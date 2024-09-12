@@ -966,40 +966,20 @@ We should also be able to complete the icons as we do on other platforms.
   (when (display-graphic-p) (doom-modeline-hud t)))
 #+end_src
 
-**** Spaceline: Powerline Styled Modeline
+**** Modifying The Built-in Modeline
 :PROPERTIES:
 :HEADER-ARGS: :tangle no
 :END:
 
 #+begin_src emacs-lisp
-(use-package spaceline
-  :init (spaceline-spacemacs-theme)
-  :custom
-  (powerline-default-separator 'arrow)
-  (spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)
-  :config (spaceline-toggle-minor-modes-off))
-#+end_src
+(use-package minions
+  :init (minions-mode t))
 
-**** Mini-Echo: Minimalism Inspired Modeline
-:PROPERTIES:
-:HEADER-ARGS: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package mini-echo
-  :after (nerd-icons)
-  :config (mini-echo-mode t)
-  :custom
-  (mini-echo-default-segments
-   '( :long ("evil" "major-mode" "vcs" "buffer-position" "envrc"
-             "buffer-size" "flymake" "process" "selection-info"
-             "narrow" "macro" "profiler" "repeat")
-      :short ("evil" "major-mode" "buffer-position"
-              "flymake" "process" "selection-info" "narrow"
-              "macro" "profiler" "repeat")))
-  (mini-echo-separator " ")
-  (mini-echo-update-interval 0.2)
-  (mini-echo-right-padding 1))
+(use-package moody
+  :config
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
 #+end_src
 
 *** Tab Bar(s) -> A Header-Line For Buffers
