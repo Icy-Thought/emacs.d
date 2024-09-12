@@ -3147,22 +3147,15 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-feature flymake
-  :after (nerd-icons)
-  :custom
-  (elisp-flymake-byte-compile-load-path load-path)
-  (flymake-indicator-type 'margins)
-  (flymake-margin-indicators-string
-   `((error ,(nerd-icons-codicon "nf-cod-error") compilation-error)
-     (warning ,(nerd-icons-codicon "nf-cod-warning") compilation-warning)
-     (note ,(nerd-icons-codicon "nf-cod-info") compilation-info)))
   :config
-  (advice-add #'flymake--indicator-overlay-spec
-              :filter-return
-              (lambda (indicator)
-                (concat indicator (propertize
-                                   " "
-                                   'face 'default
-                                   'display `((margin left-margin) (space :width 5)))))))
+  (setq flymake-indicator-type 'margins
+        flymake-autoresize-margins t)
+
+  (with-eval-after-load 'nerd-icons
+    (setq flymake-margin-indicators-string
+          '((error   "  " compilation-error)
+            (warning "  " compilation-warning)
+            (note    "  " compilation-info)))))
 #+end_src
 
 *** Dape: Debug Adapter Protocol
