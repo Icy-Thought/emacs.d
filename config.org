@@ -3082,7 +3082,6 @@ Instead of defining all of our snippets manually, we could use the help of an ex
 
 #+begin_src emacs-lisp
 (use-feature eldoc
-  :hook (eglot-managed-mode . eldoc-mode)
   :custom
   (eldoc-idle-delay 1.0)
   (eldoc-echo-area-display-truncation-message nil)
@@ -3095,9 +3094,8 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-package eldoc-box
-  :after (eldoc)
   :commands (eldoc-box-help-at-point)
-  :hook (eldoc-mode . eldoc-box-hover-at-point-mode))
+  :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 #+end_src
 
 *** Tree-Sitter: Parser Generator Tool
