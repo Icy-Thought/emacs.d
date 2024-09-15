@@ -1490,18 +1490,16 @@ Allowing consult to interact with my ever-growing projects is something I consid
 
 #+begin_src emacs-lisp
 (use-package embark
-  :hook (eldoc-documentation-functions . embark-eldoc-first-target)
-  :custom
-  (embark-prompter #'embark-completing-read-prompter)
-  (embark-indicators '(embark-highlight-indicator
-                       embark-isearch-highlight-indicator))
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
-  ;; Hide the mode line of the Embark live/completions buffers
+  ;; :NOTE| Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
-                 (window-parameters (mode-line-format . none)))))
+                 (window-parameters (mode-line-format . none))))
+  :custom
+  (embark-prompter #'embark-completing-read-prompter)
+  (embark-indicators '(embark-highlight-indicator embark-isearch-highlight-indicator)))
 #+end_src
 
 Well, since =Embark= and =Consult= can be linked... I do not see a reason for their seperation.
