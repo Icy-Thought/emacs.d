@@ -54,6 +54,7 @@
     - [[#breadcrumb-location-indicator-for-larger-projects][Breadcrumb: Location Indicator For Larger Projects]]
     - [[#apheleia-code-formatter][Apheleia: Code Formatter]]
     - [[#corfu-elegant-completion-ui][Corfu: Elegant Completion UI]]
+    - [[#cape-controlling-suggestion-output][Cape: Controlling Suggestion Output]]
     - [[#tempel-snippet-completion][Tempel: Snippet Completion]]
     - [[#eldoc-documentation-of-symb][Eldoc: Documentation Of SYMB]]
     - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
@@ -553,7 +554,7 @@ Then we have another essential Hydra that we will tie our editing related comman
 
 *** Managing Irkalla's Frame
 
-**** Ability To Opacify Frames On Demand
+**** Opaque Frames On Demand
 
 #+begin_src emacs-lisp
 (use-feature emacs
@@ -573,7 +574,7 @@ Then we have another essential Hydra that we will tie our editing related comman
     (irkalla/opacify-frame)))
 #+end_src
 
-**** Navigating Split Windows Should Be Easy
+**** Easier Split Windows Navigation
 
 #+begin_src emacs-lisp
 (use-feature windmove
@@ -616,20 +617,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 #+begin_src emacs-lisp
 (use-feature emacs
   :config (pixel-scroll-precision-mode t)
-  :custom
-  (auto-window-vscroll nil)
-  (fast-but-imprecise-scrolling nil)
-  (hscroll-margin 1)
-  (hscroll-step 1)
-  (lazy-lock-defer-on-scrolling t)
-  (mouse-wheel-progressive-speed nil)
-  (mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-  (scroll-conservatively 101)
-  (scroll-down-aggressively 0.01)
-  (scroll-margin 3)
-  (scroll-preserve-screen-position t)
-  (scroll-step 1)
-  (scroll-up-aggressively 0.01))
+  :custom (scroll-preserve-screen-position t))
 #+end_src
 
 *** 24-Hour Time Format >> Other Formats
@@ -638,8 +626,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 (use-feature time
   :custom
   (display-time-24hr-format t)
-  (display-time-day-and-date t)
-  (display-time-default-load-average nil))
+  (display-time-day-and-date t))
 #+end_src
 
 ** Part 2: Decorating Irkalla
@@ -780,8 +767,10 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
-  :after (marginalia)
-  :hook (marginalia-mode . nerd-icons-completion-mode))
+  :config
+  (nerd-icons-completion-mode)
+  (with-eval-after-load 'marginalia
+    (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)))
 #+end_src
 
 *** SVG-Tag: Decorating Buffers With SVG
@@ -1168,7 +1157,7 @@ To ease the navigation between the growing tabs, we could add navigation binding
   :custom (esup-depth 0))
 #+end_src
 
-**** ~C-h~ On Steroids
+**** Helpful: ~C-h~ On Steroids
 
 #+begin_src emacs-lisp
 (use-package helpful
@@ -1199,16 +1188,6 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
   (pretty-hydra-define+ main-hydra ()
     ("Main"
      (("h" helpful-hydra/body "Helpful")))))
-#+end_src
-
-**** A Minimal Capture Toolkit
-
-As of now, screenshot is not useful because of how I maintain my system clipboard. (~cb~ instead of ~xclip~)
-
-#+begin_src emacs-lisp
-(use-package screenshot
-  :ensure (:host github :repo "tecosaur/screenshot")
-  :commands (screenshot))
 #+end_src
 
 **** Controlling Recent Files
@@ -1252,7 +1231,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 #+begin_src emacs-lisp
 (use-package pyim-basedict
-  :after (pyim)
+  :requires (pyim)
   :hook (pyim-mode . pyim-basedict-enable))
 
 (use-package youdao-dictionary
@@ -1333,8 +1312,6 @@ Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall a
   :custom (dired-mouse-drag-files t))
 #+end_src
 
-#+RESULTS:
-
 I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
 
 #+begin_src emacs-lisp
@@ -1360,7 +1337,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-package diredfl
-  :after (dirvish)
+  :after (dired)
   :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
   :custom-face (diredfl-dir-name ((t :bold t))))
 #+end_src
@@ -1458,7 +1435,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
 
 #+begin_src emacs-lisp
 (use-package consult-projectile
-  :after (consult projectile))
+  :requires (consult projectile))
 #+end_src
 
 ***** Hydra: Consult Bindings
@@ -1532,7 +1509,7 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
 
 #+begin_src emacs-lisp
 (use-package embark-consult
-  :after (embark consult)
+  :requires (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
@@ -1580,6 +1557,7 @@ Items displayed within =Vertico= should be clickable by the mouse, for whatever 
 
 #+begin_src emacs-lisp
 (use-feature vertico-mouse
+  :requires (vertico)
   :hook (vertico-mode . vertico-mouse-mode))
 #+end_src
 
@@ -1587,7 +1565,7 @@ Directory navigation within =Vertico= is not idle by default.. therefore I choos
 
 #+begin_src emacs-lisp
 (use-feature vertico-directory
-  :after (vertico)
+  :requires (vertico)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :bind (:map vertico-map
               ("RET"   . vertico-directory-enter)
@@ -1617,6 +1595,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp :tangle no
 (use-package vertico-posframe
+  :requires (vertico)
   :hook (vertico-mode . vertico-posframe-mode)
   :custom
   (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
@@ -1627,7 +1606,6 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp
 (use-package marginalia
-  :after (vertico)
   :config (marginalia-mode t)
   :custom
   (marginalia-max-relative-age 0)
@@ -1961,7 +1939,7 @@ Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
 
 #+begin_src emacs-lisp
 (use-package consult-notmuch
-  :after (notmuch)
+  :requires (consult notmuch)
   :commands (consult-notmuch))
 
 (with-eval-after-load 'pretty-hydra
@@ -1974,7 +1952,7 @@ Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
 
 #+begin_src emacs-lisp
 (use-package org-msg
-  :after (notmuch)
+  :requires (notmuch)
   :config
   (org-msg-mode)
   (org-msg-mode-notmuch)
@@ -2126,7 +2104,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package shr-tag-pre-highlight
-  :after (shrface)
+  :requires (shrface)
   :hook (eww-after-render . (lambda ()
                               (require 'shr-tag-pre-highlight)
                               (add-to-list 'shr-external-rendering-functions
@@ -2164,7 +2142,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-collection
-  :after (evil)
+  :requires (evil)
   :init (setq evil-collection-setup-minibuffer t)
   :config (evil-collection-init)
   :custom
@@ -2176,7 +2154,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-snipe
-  :after (evil)
+  :requires (evil)
   :hook (((prog-mode text-mode) . evil-snipe-local-mode)
          (evil-snipe-local-mode . evil-snipe-override-local-mode))
   :custom
@@ -2190,7 +2168,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-surround
-  :after (evil)
+  :requires (evil)
   :config (global-evil-surround-mode))
 #+end_src
 
@@ -2198,7 +2176,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
-  :after (evil)
+  :requires (evil)
   :config (evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
 #+end_src
@@ -2207,7 +2185,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
-  :after (evil)
+  :requires (evil)
   :commands (evilnc-comment-or-uncomment-lines
              evilnc-comment-or-uncomment-paragraphs))
 #+end_src
@@ -2677,7 +2655,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package undo-fu-session
-  :after (undo-fu)
+  :requires (undo-fu)
   :hook ((prog-mode text-mode) . global-undo-fu-session-mode)
   :custom
   (undo-fu-session-directory (no-littering-expand-var-file-name "undo-fu-session/"))
@@ -2781,7 +2759,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package magit-file-icons
-  :after (magit)
+  :requires (magit)
   :config (magit-file-icons-mode t)
   :custom
   (magit-file-icons-enable-diff-file-section-icons t)
@@ -2814,7 +2792,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :ensure (hl-todo :version (lambda (_) "3.6.0"))) ;; elpaca
 
 (use-package magit-todos
-  :after (magit)
+  :requires (magit)
   :hook (magit-mode . magit-todos-mode)
   :custom
   (magit-todos-recursive t)
@@ -3042,7 +3020,7 @@ Instead of defining all of our snippets manually, we could use the help of an ex
 
 #+begin_src emacs-lisp
 (use-package tempel-collection
-  :after (tempel))
+  :requires (tempel))
 #+end_src
 
 *** Eldoc: Documentation Of SYMB
@@ -3113,14 +3091,14 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 #+begin_src emacs-lisp
 (use-feature flymake
   :config
-  (setq flymake-indicator-type 'margins
-        flymake-autoresize-margins t)
-
   (with-eval-after-load 'nerd-icons
     (setq flymake-margin-indicators-string
           '((error   "  " compilation-error)
             (warning "  " compilation-warning)
-            (note    "  " compilation-info)))))
+            (note    "  " compilation-info))))
+  :custom
+  (flymake-indicator-type 'margins)
+  (flymake-margin-indicator-position 'right-margin))
 #+end_src
 
 *** Dape: Debug Adapter Protocol
@@ -3244,7 +3222,7 @@ There is another things that we could utilize to increase the responsiveness of 
   :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after (eglot)
   :if (executable-find "emacs-lsp-booster")
-  :config (eglot-booster-mode t))
+  :config (eglot-booster-mode))
 #+end_src
 
 *** Emacs Lisp: The Mother-Tounge Of Emacs
@@ -3330,7 +3308,6 @@ There is another things that we could utilize to increase the responsiveness of 
   (org-insert-heading-respect-content t)
   (org-latex-tables-centered t)
   (org-special-ctrl-a/e t)
-  (org-startup-folded 'overview)
   (org-startup-indented t)
   (org-startup-with-inline-images t)
   (org-support-shift-select t)
@@ -3469,7 +3446,7 @@ Source: https://emacs.stackexchange.com/a/20618
 
 #+begin_src emacs-lisp
 (use-package org-super-agenda
-  :after (org)
+  :requires (org-agenda)
   :hook (org-agenda-mode .  org-super-agenda-mode)
   :custom
   (org-super-agenda-groups
@@ -3485,7 +3462,8 @@ Source: https://emacs.stackexchange.com/a/20618
 #+begin_src emacs-lisp
 (use-package org-modern
   :after (org)
-  :hook (org-mode . org-modern-mode)
+  :hook ((org-mode . org-modern-mode)
+         (org-agenda-finalize . org-modern-agenda))
   :custom-face (org-modern-symbol ((t (:family "DejaVu Sans"))))
   :custom
   ;; :NOTE| Settings replaced by svg-tag-mode
@@ -3523,6 +3501,7 @@ Source: https://emacs.stackexchange.com/a/20618
 
 #+begin_src emacs-lisp
 (use-package org-roam
+  :after (org)
   :commands (org-roam-graph)
   :custom
   (org-roam-directory (file-truename "~/Workspace/memorandum/org-mode/org-roam"))
@@ -3546,7 +3525,7 @@ Source: https://emacs.stackexchange.com/a/20618
 
 #+begin_src emacs-lisp
 (use-package org-roam-ui
-  :after (org-roam)
+  :requires (org-roam)
   :custom
   (org-roam-ui-sync-theme t)
   (org-roam-ui-follow t)
@@ -3579,7 +3558,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package citar-embark
-  :after (citar embark)
+  :requires (citar embark)
   :hook (org-mode . citar-embark-mode)
   :config (setq citar-at-point-function 'embark-act))
 #+end_src
