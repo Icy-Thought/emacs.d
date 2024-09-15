@@ -2857,16 +2857,12 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package git-gutter
   :if (executable-find "git")
-  :diminish git-gutter-mode
   :hook (prog-mode . git-gutter-mode)
-  :custom (git-gutter:update-interval 0.05))
-
-(use-package git-gutter-fringe
-  :after (git-gutter)
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+  :custom
+  (git-gutter:modified-sign "┃")
+  (git-gutter:added-sign "┃")
+  (git-gutter:deleted-sign "┃")
+  (git-gutter:update-interval 0.05))
 #+end_src
 
 ****** Hydra: Git Gutter Bindings
