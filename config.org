@@ -1493,8 +1493,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
   :hook (eldoc-documentation-functions . embark-eldoc-first-target)
   :custom
   (embark-prompter #'embark-completing-read-prompter)
-  (embark-indicators '(embark-minimal-indicator
-                       embark-highlight-indicator
+  (embark-indicators '(embark-highlight-indicator
                        embark-isearch-highlight-indicator))
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
@@ -3198,14 +3197,14 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
      ("f" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
   :config
-  (fset #'jsonrpc--log-event #'ignore) ;; noticable perf. diff!
-  (setf (plist-get eglot-events-buffer-config :size) 0) ;; noticable perf. diff!
+  (fset #'jsonrpc--log-event #'ignore) ;; noticeable perf. diff!
+  (setf (plist-get eglot-events-buffer-config :size) 0) ;; noticeable perf. diff!
+  (with-eval-after-load 'nerd-icons (setq eglot-menu-string " "))
   :custom
   (eglot-autoshutdown t)
-  (eglot-confirm-server-initiated-edits nil)
   (eglot-extend-to-xref t)
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (eglot-menu-string (if (featurep 'nerd-icons) (nerd-icons-faicon "nf-fa-code") "LSP")))
+  (eglot-confirm-server-initiated-edits nil)
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
 
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
