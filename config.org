@@ -865,10 +865,10 @@ We should also be able to complete the icons as we do on other platforms.
                                                                    (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
 ("\\([:]\\(?:NOTE\\|note\\)|.*\\)" . ((lambda (tag)
-                                        (svg-tag-make tag :face 'org-footnote :inverse t :crop-right t :beg 6))))
+                                        (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
 
 ("\\([:]\\(?:NOTE\\|note\\)*|\\)" . ((lambda (tag)
-                                       (svg-tag-make tag :face 'org-footnote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+                                       (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 #+end_src
 
 ***** SVG Tagging: Org-Mode
