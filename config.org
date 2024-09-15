@@ -2924,22 +2924,24 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
   (compilation-scroll-output t)
-  (compilation-scroll-output t))
+  (compilation-scroll-output t)
+
+  (tab-always-indent 'complete)
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (read-extended-command-predicate #'command-completion-default-include-p))
 #+end_src
 
 *** Orderless: Completion Candidate Matching
 
 #+begin_src emacs-lisp
 (use-package orderless
-  :config
-  (setq completion-category-defaults nil
-        completion-category-overrides '((file  (styles . (orderless flex)))
-                                        (eglot (styles . (orderless flex))))
-        completion-styles '(orderless partial-completion basic)
-        completions-detailed t
-        completion-ignore-case t
-        read-buffer-completion-ignore-case t
-        read-file-name-completion-ignore-case t))
+  :custom
+  (completion-category-defaults nil)
+  (completion-styles '(orderless basic partial-completion))
+  (completion-category-overrides '((file  (styles . (orderless flex)))))
+  (completions-detailed t)
+  (completion-ignore-case t))
 #+end_src
 
 *** Breadcrumb: Location Indicator For Larger Projects
@@ -2974,69 +2976,38 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
-  :preface
-  (defun corfu-always-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active)
-                (bound-and-true-p vertico--input)
-                (eq (current-local-map) read-passwd-map))
-      (setq-local corfu-echo-delay nil
-                  corfu-popupinfo-delay nil)
-      (corfu-mode 1)))
   :bind (:map corfu-map
               ("TAB" . corfu-next)
               ([tab] . corfu-next)
               ("S-TAB" . corfu-previous)
               ([backtab] . corfu-previous))
-  :hook (minibuffer-setup . corfu-always-enable-in-minibuffer)
-  :init (global-corfu-mode t)
+  :init (global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-cycle t)
-  (corfu-preselect t)
   (corfu-auto-prefix 1)
   (corfu-auto-delay 0.05)
-  (corfu-count 16)
-  (corfu-scroll-margin 5)
-  (corfu-separator ?\s)
-  (corfu-on-exact-match nil)
-  (corfu-preview-current 'insert)
   (corfu-quit-no-match 'separator))
 #+end_src
 
-**** Completion Menu For Terminal Activity
-
-#+begin_src emacs-lisp
-(use-package corfu-terminal
-  :unless window-system
-  :after (corfu)
-  :hook (corfu-mode . corfu-terminal-mode))
-#+end_src
-
-**** Popup For SYMB Information
+**** Popup $SYMB Information
 
 #+begin_src emacs-lisp
 (use-feature corfu-popupinfo
-  :after (corfu)
+  :requires (corfu)
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 #+end_src
 
-**** Completion Menu Icons
+**** Icons For Completion Menu Item(s)
 
 #+begin_src emacs-lisp
 (use-package kind-icon
-  :after (corfu)
-  :custom
-  (kind-icon-default-face 'corfu-default)
-  (kind-icon-blend-background nil)
-  (kind-icon-blend-frac 0.08)
-  :config
-  (when (featurep 'corfu)
-    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)))
+  :requires (corfu)
+  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  :custom (kind-icon-default-face 'corfu-default))
 #+end_src
 
-**** Controlling Suggestion Output
+*** Cape: Controlling Suggestion Output
 
 #+begin_src emacs-lisp
 (use-package cape
