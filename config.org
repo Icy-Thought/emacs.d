@@ -1532,9 +1532,15 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
 
 #+begin_src emacs-lisp
 (use-package vertico
-  :config (vertico-mode t)
+  :bind (:map vertico-map
+              ("RET"   . vertico-directory-enter)
+              ("DEL"   . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :init (vertico-mode t)
   :custom
   (vertico-cycle t)
+  (vertico-mouse-mode t)
   (vertico-multiform-categories
    '((file grid reverse)
      (consult-location buffer)
@@ -1548,26 +1554,6 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
      (execute-extended-command flat)
      (embark-prefix-help-command reverse)
      (completion-at-point reverse))))
-#+end_src
-
-Items displayed within =Vertico= should be clickable by the mouse, for whatever reason I choose to use the mouse.
-
-#+begin_src emacs-lisp
-(use-feature vertico-mouse
-  :requires (vertico)
-  :hook (vertico-mode . vertico-mouse-mode))
-#+end_src
-
-Directory navigation within =Vertico= is not idle by default.. therefore I choose to take care of it.
-
-#+begin_src emacs-lisp
-(use-feature vertico-directory
-  :requires (vertico)
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  :bind (:map vertico-map
-              ("RET"   . vertico-directory-enter)
-              ("DEL"   . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word)))
 #+end_src
 
 Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
