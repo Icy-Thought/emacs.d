@@ -3711,13 +3711,22 @@ Also, allow =Embark= to interact with those citations.
 *** Rust: Statically & Storngly Typed
 
 #+begin_src emacs-lisp
-(use-package rustic
-  :mode ("\\.rs\\'" . rustic-mode)
+(use-package rust-mode
+  :mode ("\\.rs\\'" . rust-mode)
+  :hook ((rust-mode rust-ts-mode) . eglot-ensure)
   :init (add-to-list 'project-vc-extra-root-markers "Cargo.toml")
-  :custom
-  (rustic-lsp-client 'eglot)
-  (rustic-cargo-bin (executable-find "cargo"))
-  (rustic-rustfmt-bin (executable-find "rustfmt")))
+  :custom (rust-mode-treesitter-derive t))
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode)
+  :custom (cargo-process--command-clippy "clippy"))
+#+end_src
+
+Also, I would like to have the ability to interact with rust code-blocks defined within org-mode files.
+
+#+begin_src emacs-lisp
+(use-package ob-rust
+  :after (rust-mode ob))
 #+end_src
 
 **** Apheleia: Rust Formatter
