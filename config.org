@@ -2907,6 +2907,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package breadcrumb
   :hook (prog-mode . breadcrumb-local-mode)
+  :config (fset 'breadcrumb--project-crumbs-1 #'ignore)
   :custom (breadcrumb-project-max-length -1))
 #+end_src
 
