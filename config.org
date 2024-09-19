@@ -24,8 +24,11 @@
     - [[#miscellaneous][Miscellaneous]]
   - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
 - [[#core-configurations][Core Configuration(s)]]
+  - [[#part-1-elpaca-package-manager][Part-1: Elpaca Package Manager]]
+  - [[#part-2-wrapping-up-core-changes][Part 2: Wrapping Up Core Changes]]
+- [[#powering-up-with-packages][Powering Up with Packages]]
   - [[#part-1-beginning-of-a-journey][Part 1: Beginning Of A Journey]]
-    - [[#elpaca-package-manager][Elpaca: Package Manager]]
+    - [[#automatically-compile-conf][Automatically Compile Conf]]
     - [[#functions--macros-to-ameliorate-irkalla][Functions & Macros To Ameliorate Irkalla]]
     - [[#controlling-littering-habits][Controlling Littering Habits]]
     - [[#hydra-windows-that-contain-our-keybindings][Hydra: Windows That Contain Our Keybindings]]
@@ -184,7 +187,13 @@
 
   ;; :NOTE| Prevent unwanted runtime builds + reduce noise
   (setq native-comp-deferred-compilation nil
-        native-comp-async-report-warnings-errors nil))
+        native-comp-async-report-warnings-errors 'silent))
+#+end_src
+
+Also, we should prefer to load newer files.
+
+#+begin_src emacs-lisp
+(setq load-prefer-newer noninteractive)
 #+end_src
 
 *** Collect The Ever-Growing Garbage...
@@ -249,8 +258,7 @@
       command-line-x-option-alist nil
       default-input-method nil
       ring-bell-function 'ignore
-      select-active-regions 'only
-      load-prefer-newer noninteractive)
+      select-active-regions 'only)
 #+end_src
 
 We might as well set our default Emacs environment to ~UTF-8~.
@@ -285,9 +293,7 @@ We might as well set our default Emacs environment to ~UTF-8~.
 ;;; Code:
 #+end_src
 
-
-** Part 1: Beginning Of A Journey
-*** Elpaca: Package Manager
+** Part-1: Elpaca Package Manager
 
 **** Informing Elpaca About Irkalla's Build Time
 
@@ -373,6 +379,47 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 
 #+begin_src emacs-lisp
 (elpaca-wait)
+#+end_src
+
+** Part 2: Wrapping Up Core Changes
+
+#+begin_src emacs-lisp
+(load-file (locate-user-emacs-file "packages.el"))
+
+;;; init.el ends here
+#+end_src
+
+* Powering Up with Packages
+:PROPERTIES:
+:HEADER-ARGS: :tangle ~/.config/emacs/packages.el
+:END:
+
+#+begin_src emacs-lisp
+;;; packages.el --- The endless hunt for packages -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2023-2023 Icy-Thought
+
+;; Author: Icy-Thought <icy-thought@pm.me>
+;; Keywords: internal
+;; URL: https://icy-thought.github.io/
+
+;;; Commentary:
+;; The file that harbors the packages that survived the experimentations with my workflow.
+
+;;; Code:
+#+end_src
+
+** Part 1: Beginning Of A Journey
+
+*** Automatically Compile Conf
+
+#+begin_src emacs-lisp
+(use-package auto-compile
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode)
+  (setq auto-compile-display-buffer nil
+        auto-compile-mode-line-counter t))
 #+end_src
 
 *** Functions & Macros To Ameliorate Irkalla
@@ -557,7 +604,6 @@ Then we have another essential Hydra that we will tie our editing related comman
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :custom (window-combination-resize t)
   :config
   (defun irkalla/opacify-frame ()
     (let ((alpha-value
@@ -570,7 +616,8 @@ Then we have another essential Hydra that we will tie our editing related comman
     "Toggle (on/off) Emacs frame transparency on demand!"
     :group 'irkalla
     :global nil
-    (irkalla/opacify-frame)))
+    (irkalla/opacify-frame))
+  :custom (window-combination-resize t))
 #+end_src
 
 **** Easier Split Windows Navigation
@@ -588,7 +635,6 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature winner
-  :defer t
   :config (winner-mode t))
 #+end_src
 
@@ -3826,5 +3872,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 ** Part 6: Concluding Our Endless Package Hunt!
 
 #+begin_src emacs-lisp
-;;; init.el ends here
+(provide 'packages)
+;;; packages.el ends here
 #+end_src
