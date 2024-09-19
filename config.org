@@ -7,7 +7,7 @@
 [[.github/assets/themes/catppuccin/irkalla.png]]
 
 * Table Of Contents :TOC:
-- [[#early-configurations][Early Configurations]]
+- [[#early-initialization-of-irkalla][Early Initialization of Irkalla]]
   - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries Of Irkalla]]
     - [[#laying-the-foundations-of-irkalla][Laying The Foundations Of Irkalla]]
     - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
@@ -23,13 +23,13 @@
     - [[#file-handling--version-control][File Handling & Version Control]]
     - [[#miscellaneous][Miscellaneous]]
   - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
-- [[#late-configurations][Late Configurations]]
+- [[#core-configurations][Core Configuration(s)]]
   - [[#part-1-beginning-of-a-journey][Part 1: Beginning Of A Journey]]
     - [[#elpaca-package-manager][Elpaca: Package Manager]]
     - [[#functions--macros-to-ameliorate-irkalla][Functions & Macros To Ameliorate Irkalla]]
-    - [[#controlling-irkallas-littering-habits][Controlling Irkalla's Littering Habits]]
+    - [[#controlling-littering-habits][Controlling Littering Habits]]
     - [[#hydra-windows-that-contain-our-keybindings][Hydra: Windows That Contain Our Keybindings]]
-    - [[#managing-irkallas-frame][Managing Irkalla's Frame]]
+    - [[#managing-the-ever-growing-frames][Managing The Ever-growing Frame(s)]]
     - [[#maintaining-a-sane-scroll-pattern][Maintaining A Sane Scroll Pattern]]
     - [[#24-hour-time-format--other-formats][24-Hour Time Format >> Other Formats]]
   - [[#part-2-decorating-irkalla][Part 2: Decorating Irkalla]]
@@ -75,15 +75,15 @@
     - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
     - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
-  - [[#part-6-concluding-our-emacs-journey][Part 6: Concluding Our Emacs Journey!]]
+  - [[#part-6-concluding-our-endless-package-hunt][Part 6: Concluding Our Endless Package Hunt!]]
 
-* Early Configurations
+* Early Initialization of Irkalla
 :PROPERTIES:
 :HEADER-ARGS: :tangle ~/.config/emacs/early-init.el
 :END:
 
 #+begin_src emacs-lisp
-;;; early-init.el --- Icy-Thoughts's Irkalla Emacs Early Initiliazation -*- lexical-binding: t; -*-
+;;; early-init.el --- Welcome To Irkalla Emacs -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -183,8 +183,7 @@
           native-compile-target-directory path))
 
   ;; :NOTE| Prevent unwanted runtime builds + reduce noise
-  (setq comp-deferred-compilation nil
-        native-comp-deferred-compilation nil
+  (setq native-comp-deferred-compilation nil
         native-comp-async-report-warnings-errors nil))
 #+end_src
 
@@ -266,13 +265,13 @@ We might as well set our default Emacs environment to ~UTF-8~.
 ;;; early-init.el ends here
 #+end_src
 
-* Late Configurations
+* Core Configuration(s)
 :PROPERTIES:
 :HEADER-ARGS: :tangle ~/.config/emacs/init.el
 :END:
 
 #+begin_src emacs-lisp
-;;; init.el --- Initialization: Where It All Begins -*- lexical-binding: t; -*-
+;;; init.el --- Core: laboratory of Irkalla -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023-2023 Icy-Thought
 
@@ -281,13 +280,13 @@ We might as well set our default Emacs environment to ~UTF-8~.
 ;; URL: https://icy-thought.github.io/
 
 ;;; Commentary:
-;; The main file where we include our (increasing?) Emacs modules & configurations.
+;; The main file where I include my (increasing?) Emacs modules & configurations.
 
 ;;; Code:
 #+end_src
 
-** Part 1: Beginning Of A Journey
 
+** Part 1: Beginning Of A Journey
 *** Elpaca: Package Manager
 
 **** Informing Elpaca About Irkalla's Build Time
@@ -388,7 +387,7 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
     (string-trim-right (buffer-string))))
 #+end_src
 
-*** Controlling Irkalla's Littering Habits
+*** Controlling Littering Habits
 
 **** Automated Garbage Collection
 
@@ -552,7 +551,7 @@ Then we have another essential Hydra that we will tie our editing related comman
       ("a" elpaca-merge-all "All packages")))))
 #+end_src
 
-*** Managing Irkalla's Frame
+*** Managing The Ever-growing Frame(s)
 
 **** Opaque Frames On Demand
 
@@ -654,7 +653,7 @@ What remains of us is to load the theme of our choice.
 *** Prettified Symbols
 
 #+begin_src emacs-lisp
-(use-feature prettify-symbols
+(use-feature emacs
   :hook (emacs-lisp-mode . prettify-symbols-mode)
   :custom (prettify-symbols-unprettify-at-point 'right-edge))
 #+end_src
@@ -1079,29 +1078,21 @@ To ease the navigation between the growing tabs, we could add navigation binding
   (dashboard-heading           ((t (:weight regular))))
   (dashboard-banner-logo-title ((t (:weight regular))))
   :custom
-  (initial-buffer-choice (lambda ()
-                           (dashboard-refresh-buffer)
-                           (get-buffer dashboard-buffer-name)))
-
+  (initial-buffer-choice (lambda () (dashboard-refresh-buffer) (get-buffer dashboard-buffer-name)))
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
-
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
   (dashboard-center-content t)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book")))
+  (dashboard-modify-heading-icons '((recents . "file-text") (bookmarks . "book")))
   (dashboard-startup-banner (concat irkalla/main-residence "/logos/owl-skull.svg"))
   (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-set-init-info t)
-  ;; (dashboard-projects-switch-function 'irkalla/switch-project-by-name) ;; :TODO| setup a projectile consult switcher
   (dashboard-week-agenda t)
-
   (dashboard-set-navigator t)
   (dashboard-navigator-buttons
-   `(
-     ((,(nerd-icons-octicon "nf-oct-mark_github" :height 1.2 :v-adjust 0.0)
+   `(((,(nerd-icons-octicon "nf-oct-mark_github" :height 1.2 :v-adjust 0.0)
        "Homepage"
        "Browse my personal GitHub profile home."
        (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
@@ -1217,8 +1208,7 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
 
 #+begin_src emacs-lisp
 (use-package pyim
-  :bind (:map text-mode-map
-              ("M-j" pyim-convert-string-at-point))
+  :bind (:map text-mode-map ("M-j" pyim-convert-string-at-point))
   :custom
   (pyim-default-scheme 'quanpin)
   (pyim-page-tooltip 'posframe)
@@ -1463,12 +1453,12 @@ Allowing consult to interact with my ever-growing projects is something I consid
   (pretty-hydra-define editor-consult-hydra
     (:title (pretty-hydra-title "──｢ Utilities: Consult ｣──" 'mdicon "nf-md-console")
             :color teal :quit-key "q")
-    ("Language Server"
-     (("m" consult-mark                      "Jump -> marker")
-      ("M" consult-global-mark               "Glob. jump -> marker")
-      ("o" consult-outline                   "Jump -> buffer outlines")
-      ("[" consult-flymake                   "Jump -> Flymake diagnostics")
-      ("]" consult-compile-error             "Jump -> compile-error in buffer"))))
+    ("Jump To"
+     (("m" consult-mark                      "Marker")
+      ("M" consult-global-mark               "Glob. Marker")
+      ("o" consult-outline                   "Buffer Outlines")
+      ("f" consult-flymake                   "Flymake Diagnostics")
+      ("e" consult-compile-error             "Buffer Compile Errors"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Control"
@@ -1476,14 +1466,14 @@ Allowing consult to interact with my ever-growing projects is something I consid
 
   (pretty-hydra-define+ buffer-hydra ()
     ("Consult"
-     (("b" consult-buffer                    "Switch buffer")
-      ("B" consult-projectile-buffer         "Switch -> project buffer")
-      ("w" consult-buffer-other-window       "Buf. switch -> Split"))))
+     (("b" consult-buffer                    "Switch Buffer")
+      ("B" consult-projectile-buffer         "Project Buf. Switch")
+      ("w" consult-buffer-other-window       "Split Buf. Switch"))))
 
   (pretty-hydra-define+ helpful-hydra ()
     ("Action"
-     (("?" consult-man                       "Consult 'MAN'-page(s)")
-      ("i" consult-info                      "Consult 'MANUAL'")))))
+     (("?" consult-man                       "Consult MAN-page(s)")
+      ("i" consult-info                      "Consult MANUAL")))))
 #+end_src
 
 **** Embark: Mini-Buffer Actions
@@ -1747,8 +1737,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
-  :bind (:map pdf-view-mode-map
-              ([tab] . pdf-outline))
+  :bind (:map pdf-view-mode-map ([tab] . pdf-outline))
   ;; :HACK| Resolves elpaca's failure to detect ~epdfinfo~
   :init (add-to-list 'elpaca-ignored-dependencies 'pdf-tools)
   :config
@@ -1796,9 +1785,9 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
 #+begin_src emacs-lisp
 (use-package nov-xwidget
   :ensure (:host github :repo "chenyanming/nov-xwidget")
+  :requires (nov)
   :hook (nov-mode . nov-xwidget-inject-all-files)
-  :bind (:map nov-mode-map
-              ("o" . #'nov-xwdiget-view)))
+  :bind (:map nov-mode-map ("o" . #'nov-xwdiget-view)))
 #+end_src
 
 ***** RSS Reader
@@ -1935,11 +1924,12 @@ Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
 
 #+begin_src emacs-lisp
 (use-package org-msg
-  :requires (notmuch)
+  :after (notmuch)
   :config
   (org-msg-mode)
-  (org-msg-mode-notmuch)
-  (setq mail-user-agent 'notmuch-user-agent)
+  (with-eval-after-load 'notmuch
+    (org-msg-mode-notmuch)
+    (setq mail-user-agent 'notmuch-user-agent))
   :custom
   (org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil title:nil email:nil tex:imagemagick")
   (org-msg-startup "hidestars indent inlineimages")
@@ -2108,17 +2098,15 @@ I also would like for web-pages to properly render code blocks, and that is by d
     (if (evil-ex-hl-active-p 'evil-ex-search)
         (evil-ex-nohighlight)
       (evil-force-normal-state)))
-  :bind (:map evil-normal-state-map
-              ("<escape>" . irkalla/extended-escape))
+  :bind (:map evil-normal-state-map ("<escape>" . irkalla/extended-escape))
   :init
-  (setq evil-search-module 'evil-search)
-  (evil-mode)
+  (setq evil-want-keybinding nil)
+  (evil-mode t)
   :custom
+  (evil-search-module 'evil-search)
   (evil-respect-visual-line-mode t)
   (evil-undo-system 'undo-fu)
-  (evil-vsplit-window-right t)
-  (evil-want-integration t)
-  (evil-want-keybinding nil))
+  (evil-vsplit-window-right t))
 #+end_src
 
 ***** Evil-Collection: A Collection Of Many Evil Bindings
@@ -2126,9 +2114,9 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-package evil-collection
   :requires (evil)
-  :init (setq evil-collection-setup-minibuffer t)
   :config (evil-collection-init)
   :custom
+  (evil-collection-setup-minibuffer t)
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
 #+end_src
@@ -2380,7 +2368,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 **** Update Files When Changed
 
 #+begin_src emacs-lisp
-(use-feature auto-revert
+(use-feature autorevert
   :hook ((prog-mode text-mode) . auto-revert-mode)
   :custom
   (auto-revert-interval 1)
@@ -2450,7 +2438,7 @@ Also, not all system environments will contain the necessary packages required t
 ***** Window Frames
 
 #+begin_src emacs-lisp
-(use-feature frames
+(use-feature frame
   :hook ((prog-mode text-mode) . window-divider-mode)
   :custom
   (window-divider-default-places t)
@@ -2615,7 +2603,7 @@ Also, not all system environments will contain the necessary packages required t
 ***** Memorize File Paths
 
 #+begin_src emacs-lisp
-(use-feature save-place
+(use-feature saveplace
   :hook ((prog-mode text-mode) . save-place-mode)
   :custom
   (save-place-file (no-littering-expand-var-file-name "saveplace"))
@@ -2707,7 +2695,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 ***** Highlight Matching Parentheses
 
 #+begin_src emacs-lisp
-(use-feature parens
+(use-feature paren
   :hook (prog-mode . show-paren-mode)
   :custom
   (show-paren-style 'parenthesis)
@@ -2884,7 +2872,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (compilation-scroll-output t)
   (compilation-scroll-output t)
 
-  (tab-always-indent 'complete)
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (read-extended-command-predicate #'command-completion-default-include-p))
@@ -3090,7 +3077,6 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-package dape
-  :after (eglot eldoc)
   :commands (dape)
   :custom
   (dape-key-prefix "\C-x\C-a")
@@ -3712,12 +3698,13 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package rust-mode
-  :mode ("\\.rs\\'" . rust-mode)
+  :mode ("\\.rs\\'" . rust-ts-mode)
   :hook ((rust-mode rust-ts-mode) . eglot-ensure)
   :init (add-to-list 'project-vc-extra-root-markers "Cargo.toml")
   :custom (rust-mode-treesitter-derive t))
 
 (use-package cargo
+  :requires (rust-mode)
   :hook (rust-mode . cargo-minor-mode)
   :custom (cargo-process--command-clippy "clippy"))
 #+end_src
@@ -3726,7 +3713,8 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-package ob-rust
-  :after (rust-mode ob))
+  :requires (rust-mode)
+  :after (ob))
 #+end_src
 
 **** Apheleia: Rust Formatter
@@ -3746,27 +3734,22 @@ Also, I would like to have the ability to interact with rust code-blocks defined
   (pretty-hydra-define rust-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
             :color teal :quit-key "q")
-    ("Clippy"
-     (("c" rustic-cargo-clippy               "View Results")
-      ("f" rustic-cargo-clippy-fix           "Fix"))
+    ("Interactive"
+     (("l" rust-run-clippy     "cargo clippy")
+      ("r" rust-run            "project")
+      ("t" rust-test           "tests on project"))
      "Build"
-     (("b" rustic-compile                    "Build Project")
-      ("B" rustic-recompile                  "Build Project")
-      ("r" rustic-cargo-run                  "Run Project")
-      ("t" rustic-cargo-test                 "Test Project")
-      ("T" rustic-cargo-test-rerun           "Test Project")
-      ("v" rustic-compile-backtrace          "Backtrace Verbosity"))
-     "Cargo"
-     (("a" rustic-cargo-add                  "Add")
-      ("?" rustic-cargo-missing-dependencies "+Missing Deps??")
-      ("d" rustic-cargo-rm                   "Remove")
-      ("u" rustic-cargo-upgrade              "Upgrade"))))
+     (("c" rust-compile        "Compile project")
+      ("d" rust-check          "Compile & Check"))
+     "Process"
+     (("a" cargo-process-add   "Add")
+      ("c" cargo-process-clean "Clean"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Programming"
-     (("r" (if (memq major-mode '(rustic-mode))
+     (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
                (rust-hydra/body)
-             (message "You are not in a Rust buffer.")) "Rust")))))
+             (message "You are not in a rust buffer.")) "Rust")))))
 #+end_src
 
 *** Typst: A More Powerful LaTeX Alt.
@@ -3840,7 +3823,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
     (add-to-list 'apheleia-mode-alist '(zig-mode . zigfmt))))
 #+end_src
 
-** Part 6: Concluding Our Emacs Journey!
+** Part 6: Concluding Our Endless Package Hunt!
 
 #+begin_src emacs-lisp
 ;;; init.el ends here
