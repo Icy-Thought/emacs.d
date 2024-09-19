@@ -557,7 +557,6 @@ Then we have another essential Hydra that we will tie our editing related comman
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :custom (window-combination-resize t)
   :config
   (defun irkalla/opacify-frame ()
     (let ((alpha-value
@@ -570,7 +569,8 @@ Then we have another essential Hydra that we will tie our editing related comman
     "Toggle (on/off) Emacs frame transparency on demand!"
     :group 'irkalla
     :global nil
-    (irkalla/opacify-frame)))
+    (irkalla/opacify-frame))
+  :custom (window-combination-resize t))
 #+end_src
 
 **** Easier Split Windows Navigation
@@ -588,7 +588,6 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature winner
-  :defer t
   :config (winner-mode t))
 #+end_src
 
@@ -2418,7 +2417,10 @@ Also, not all system environments will contain the necessary packages required t
 (use-package indent-bars
   :ensure (:host github :repo "jdtsmith/indent-bars")
   :hook (prog-mode . indent-bars-mode)
-  :custom (indent-bars-zigzag nil))
+  :custom
+  (indent-bars-zigzag nil)
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module")))
 #+end_src
 
 ***** Painting Hex/RGB Colors
@@ -2731,7 +2733,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package magit-file-icons
   :requires (magit)
-  :config (magit-file-icons-mode t)
+  :hook (magit-status-mode . magit-file-icons-mode)
   :custom
   (magit-file-icons-enable-diff-file-section-icons t)
   (magit-file-icons-enable-untracked-icons t)
