@@ -3226,11 +3226,14 @@ There is another things that we could utilize to increase the responsiveness of 
 #+end_src
 
 *** Guile: Yet Another Lisp Variant
+:PROPERTIES:
+:HEADER-ARGS: :tangle no
+:END:
 
 #+begin_src emacs-lisp
 (use-package geiser-guile
-  :mode ("\\.scm\\'" . geiser-mode)
-  :defer t)
+  :defer t
+  :mode ("\\.scm\\'" . geiser-mode))
 #+end_src
 
 *** Org-Mode: The Superior Documentation Format
