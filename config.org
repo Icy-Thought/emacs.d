@@ -72,7 +72,7 @@
     - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
     - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
     - [[#python-high-level-language][Python: High Level Language]]
-    - [[#rust-statically--storngly-typed][Rust: Statically & Storngly Typed]]
+    - [[#rust-statically--strongly-typed][Rust: Statically & Strongly Typed]]
     - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
   - [[#part-6-concluding-our-endless-package-hunt][Part 6: Concluding Our Endless Package Hunt!]]
@@ -3699,19 +3699,19 @@ Also, allow =Embark= to interact with those citations.
     (add-to-list 'apheleia-mode-alist '(python-mode . black))))
 #+end_src
 
-*** Rust: Statically & Storngly Typed
+*** Rust: Statically & Strongly Typed
 
 #+begin_src emacs-lisp
 (use-package rust-mode
-  :mode ("\\.rs\\'" . rust-ts-mode)
+  :mode ("\\.rs\\'" . rust-mode)
   :hook ((rust-mode rust-ts-mode) . eglot-ensure)
-  :init (add-to-list 'project-vc-extra-root-markers "Cargo.toml")
-  :custom (rust-mode-treesitter-derive t))
+  :init
+  (require 'rust-mode) ;; Somehow it won't load anything...
+  (add-to-list 'project-vc-extra-root-markers "Cargo.toml"))
 
 (use-package cargo
   :requires (rust-mode)
-  :hook (rust-mode . cargo-minor-mode)
-  :custom (cargo-process--command-clippy "clippy"))
+  :hook ((rust-mode rust-ts-mode) . cargo-minor-mode))
 #+end_src
 
 Also, I would like to have the ability to interact with rust code-blocks defined within org-mode files.
@@ -3739,16 +3739,24 @@ Also, I would like to have the ability to interact with rust code-blocks defined
   (pretty-hydra-define rust-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
             :color teal :quit-key "q")
-    ("Interactive"
-     (("l" rust-run-clippy     "cargo clippy")
-      ("r" rust-run            "project")
-      ("t" rust-test           "tests on project"))
+    ("Actions"
+     (("d" rust-promote-module-into-dir "Module -> Dir")
+      ("p" rust-playpen-region          "Region -> Playground")
+      ("P" rust-playpen-buffer          "Buf -> Playground"))
      "Build"
-     (("c" rust-compile        "Compile project")
-      ("d" rust-check          "Compile & Check"))
-     "Process"
-     (("a" cargo-process-add   "Add")
-      ("c" cargo-process-clean "Clean"))))
+     (("r" rust-run                     "Run Project")
+      ("R" rust-run-releae              "Run Release")
+      ("t" rust-test                    "Tests Project")
+      ("l" rust-run-clippy              "Run Clippy")
+      ("c" rust-compile                 "Compile")
+      ("C" rust-compile-release         "Compile Release")
+      ("e" rust-check                   "Check for Errors"))
+     "Cargo"
+     (("a" cargo-process-add            "Add")
+      ("x" cargo-process-rm             "Delete")
+      ("c" cargo-process-clean          "Clean")
+      ("h" cargo-process-doc            "Docs")
+      ("u" cargo-process-update         "Update"))))
 
   (pretty-hydra-define+ editor-hydra ()
     ("Programming"
