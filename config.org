@@ -3703,9 +3703,7 @@ Also, allow =Embark= to interact with those citations.
 (use-package rust-mode
   :mode ("\\.rs\\'" . rust-mode)
   :hook ((rust-mode rust-ts-mode) . eglot-ensure)
-  :init
-  (require 'rust-mode) ;; Somehow it won't load anything...
-  (add-to-list 'project-vc-extra-root-markers "Cargo.toml"))
+  :init (add-to-list 'project-vc-extra-root-markers "Cargo.toml"))
 
 (use-package cargo
   :requires (rust-mode)
