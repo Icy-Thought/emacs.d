@@ -1247,7 +1247,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (popper-echo-mode t)
   :custom
   (popper-group-function #'popper-group-by-directory)
-  (popper-display-function #'popper-select-vertical-popup)
+  (popper-display-function #'popper-display-vertical-popup)
   (popper-reference-buffers '(help-mode
                               "\\*Messages\\*"
                               "\\*Async Shell Command\\*"
