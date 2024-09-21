@@ -1237,9 +1237,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   :preface
   (defun popper-display-vertical-popup (buffer &optional alist)
     (display-buffer-in-side-window
-     buffer (append alist `((window-width 0.5)
-                            (side . right)
-                            (slot . 1)))))
+     buffer (append alist `((window-width 0.5) (side . right) (slot . 1)))))
 
   (defun popper-select-vertical-popup (buffer &optional alist)
     (let ((window (popper-display-vertical-popup buffer alist)))
@@ -2023,12 +2021,13 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   :commands (circe circe-set-display-handler)
   :config (enable-circe-color-nicks)
   :custom (circe-reduce-lurker-spam t)
-  (circe-network-options '(("Libera Chat"
-                            :tls t
-                            :nick "Icy-Thought"
-                            :sasl-username "icy-thought"
-                            ;; :sasl-password (irkalla/read-secret-file "IRC")
-                            :channels ("#guix")))))
+  (circe-network-options
+   '(("Libera Chat"
+      :tls t
+      :nick "Icy-Thought"
+      :sasl-username "icy-thought"
+      ;; :sasl-password (irkalla/read-secret-file "IRC")
+      :channels ("#guix")))))
 #+end_src
 
 **** Browsing The Web
@@ -2933,8 +2932,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 1)
-  (corfu-auto-delay 0.05)
-  (corfu-quit-no-match 'separator))
+  (corfu-auto-delay 0.05))
 #+end_src
 
 **** Popup $SYMB Information
