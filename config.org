@@ -2732,7 +2732,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package magit-file-icons
   :requires (magit)
-  :hook (magit-status-mode . magit-file-icons-mode)
+  :hook (magit-mode . magit-file-icons-mode)
   :custom
   (magit-file-icons-enable-diff-file-section-icons t)
   (magit-file-icons-enable-untracked-icons t)
