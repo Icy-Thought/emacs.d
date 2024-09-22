@@ -2979,11 +2979,12 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :preface
   (defun setup-capf-tempel ()
     "Temple + Corfu -> display possible snippet completions."
-    (add-to-list 'completion-at-point-functions #'tempel-complete))
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand completion-at-point-functions)))
+  :bind (([M-tab] . tempel-complete)
+         ([M-return] . tempel-insert))
   :hook ((conf-mode prog-mode text-mode) . setup-capf-tempel)
-  :custom
-  (tempel-trigger-prefix ",")
-  (tempel-path (concat irkalla/main-residence "/snippets/*.eld")))
+  :custom (tempel-path (concat irkalla/main-residence "/snippets/*.eld")))
 #+end_src
 
 Instead of defining all of our snippets manually, we could use the help of an external package to help us add the basics and then expand on those bindings with our defined bindings.
