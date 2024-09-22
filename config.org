@@ -2512,9 +2512,7 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-feature elec-pair
-  :hook ((prog-mode text-mode) . (lambda ()
-                                   (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
-                                     (electric-pair-local-mode))))
+  :hook ((prog-mode text-mode) . electric-pair-local-mode)
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 #+end_src
 
@@ -3157,7 +3155,6 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 #+begin_src emacs-lisp
 (use-feature eglot
-  :demand t
   :pretty-hydra
   ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
            :color teal :quit-key "q")
@@ -3202,7 +3199,8 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package parinfer-rust-mode
-  :hook (emacs-lisp-mode . parinfer-rust-mode)
+  :hook ((emacs-lisp-mode . parinfer-rust-mode)
+         (parinfer-rust-mode . (lambda () (electric-pair-local-mode -1))))
   :custom
   (parinfer-rust-auto-download t)
   (parinfer-rust-library-directory (no-littering-expand-var-file-name "parinfer-rust/")))
