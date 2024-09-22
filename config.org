@@ -2881,11 +2881,9 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package orderless
   :custom
-  (completion-category-defaults nil)
-  (completion-styles '(orderless basic partial-completion))
-  (completion-category-overrides '((file  (styles . (orderless flex)))))
-  (completions-detailed t)
-  (completion-ignore-case t))
+  (completion-ignore-case t)
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
 
 *** Breadcrumb: Location Indicator For Larger Projects
