@@ -990,11 +990,8 @@ Reference:
   (setq x-underline-at-descent-line t
         centaur-tabs-set-icons t
         centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-enable-key-bindings t
         centaur-tabs-height 32
-        centaur-tabs-left-edge-margin nil
         centaur-tabs-set-bar 'under
-        centaur-tabs-show-count nil
         centaur-tabs-set-modified-marker t
         centaur-tabs-show-navigation-buttons t
         centaur-tabs-show-new-tab-button t
@@ -1220,7 +1217,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 #+begin_src emacs-lisp
 (use-package pyim-basedict
-  :requires (pyim)
+  :after (pyim)
   :hook (pyim-mode . pyim-basedict-enable))
 
 (use-package youdao-dictionary
@@ -1422,7 +1419,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
 
 #+begin_src emacs-lisp
 (use-package consult-projectile
-  :requires (consult projectile))
+  :after (consult projectile))
 #+end_src
 
 ***** Hydra: Consult Bindings
@@ -1493,7 +1490,7 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
 
 #+begin_src emacs-lisp
 (use-package embark-consult
-  :requires (embark consult)
+  :after (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
@@ -1565,7 +1562,7 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp :tangle no
 (use-package vertico-posframe
-  :requires (vertico)
+  :after (vertico)
   :hook (vertico-mode . vertico-posframe-mode)
   :custom
   (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
@@ -1782,7 +1779,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
 #+begin_src emacs-lisp
 (use-package nov-xwidget
   :ensure (:host github :repo "chenyanming/nov-xwidget")
-  :requires (nov)
+  :after (nov)
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :bind (:map nov-mode-map ("o" . #'nov-xwdiget-view)))
 #+end_src
@@ -1908,7 +1905,7 @@ Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
 
 #+begin_src emacs-lisp
 (use-package consult-notmuch
-  :requires (consult notmuch)
+  :after (consult notmuch)
   :commands (consult-notmuch))
 
 (with-eval-after-load 'pretty-hydra
@@ -1957,14 +1954,12 @@ Kind Regards,
   (with-eval-after-load 'visual-fill-column
     (add-hook 'ement-room-mode-hook #'visual-fill-column-mode))
 
-  ;; :NOTE| Enable dictionary + emoji suggestions in compose area
-  (add-hook 'ement-room-read-string-setup-hook
-            (lambda ()
-              (when (featurep 'cape)
+  (with-eval-after-load 'cape
+    (add-hook 'ement-room-read-string-setup-hook
+              (lambda ()
                 (add-hook 'completion-at-point-functions #'cape-dict nil t)
                 (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
-  ;; :NOTE| Notifications ought to be limited to @mentions only!
   (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
                                           ement-notify--event-mentions-room-p))
   (ement-room-images t)
@@ -2075,7 +2070,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package shr-tag-pre-highlight
-  :requires (shrface)
+  :after (shrface)
   :hook (eww-after-render . (lambda ()
                               (require 'shr-tag-pre-highlight)
                               (add-to-list 'shr-external-rendering-functions
@@ -2111,7 +2106,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-collection
-  :requires (evil)
+  :after (evil)
   :config (evil-collection-init)
   :custom
   (evil-collection-setup-minibuffer t)
@@ -2123,7 +2118,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-snipe
-  :requires (evil)
+  :after (evil)
   :hook (((prog-mode text-mode) . evil-snipe-local-mode)
          (evil-snipe-local-mode . evil-snipe-override-local-mode))
   :custom
@@ -2137,7 +2132,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-surround
-  :requires (evil)
+  :after (evil)
   :config (global-evil-surround-mode))
 #+end_src
 
@@ -2145,8 +2140,8 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
-  :requires (evil)
-  :config (evil-goggles-mode)
+  :after (evil)
+  :hook ((prog-mode text-mode) . evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
 #+end_src
 
@@ -2154,7 +2149,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
-  :requires (evil)
+  :after (evil)
   :commands (evilnc-comment-or-uncomment-lines
              evilnc-comment-or-uncomment-paragraphs))
 #+end_src
@@ -2625,7 +2620,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package undo-fu-session
-  :requires (undo-fu)
+  :after (undo-fu)
   :hook ((prog-mode text-mode) . global-undo-fu-session-mode)
   :custom
   (undo-fu-session-directory (no-littering-expand-var-file-name "undo-fu-session/"))
@@ -2729,7 +2724,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package magit-file-icons
-  :requires (magit)
+  :after (magit)
   :hook (magit-mode . magit-file-icons-mode)
   :custom
   (magit-file-icons-enable-diff-file-section-icons t)
@@ -2762,7 +2757,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :ensure (hl-todo :version (lambda (_) "3.6.0"))) ;; elpaca
 
 (use-package magit-todos
-  :requires (magit)
+  :after (magit)
   :hook (magit-mode . magit-todos-mode)
   :custom
   (magit-todos-recursive t)
@@ -2935,7 +2930,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-feature corfu-popupinfo
-  :requires (corfu)
+  :after (corfu)
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay '(0.5 . 0.2)))
 #+end_src
@@ -2944,7 +2939,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package kind-icon
-  :requires (corfu)
+  :after (corfu)
   :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   :custom (kind-icon-default-face 'corfu-default))
 #+end_src
@@ -2989,7 +2984,7 @@ Instead of defining all of our snippets manually, we could use the help of an ex
 
 #+begin_src emacs-lisp
 (use-package tempel-collection
-  :requires (tempel))
+  :after (tempel))
 #+end_src
 
 *** Eldoc: Documentation Of SYMB
@@ -3417,7 +3412,7 @@ Source: https://emacs.stackexchange.com/a/20618
 
 #+begin_src emacs-lisp
 (use-package org-super-agenda
-  :requires (org-agenda)
+  :after (org-agenda)
   :hook (org-agenda-mode .  org-super-agenda-mode)
   :custom
   (org-super-agenda-groups
@@ -3496,7 +3491,7 @@ Source: https://emacs.stackexchange.com/a/20618
 
 #+begin_src emacs-lisp
 (use-package org-roam-ui
-  :requires (org-roam)
+  :after (org-roam)
   :custom
   (org-roam-ui-sync-theme t)
   (org-roam-ui-follow t)
@@ -3529,7 +3524,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package citar-embark
-  :requires (citar embark)
+  :after (citar embark)
   :hook (org-mode . citar-embark-mode)
   :config (setq citar-at-point-function 'embark-act))
 #+end_src
@@ -3703,7 +3698,7 @@ Also, allow =Embark= to interact with those citations.
   :init (setq project-vc-extra-root-markers '("Cargo.toml")))
 
 (use-package cargo
-  :requires (rust-mode)
+  :after (rust-mode)
   :hook ((rust-mode rust-ts-mode) . cargo-minor-mode))
 #+end_src
 
@@ -3711,7 +3706,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-package ob-rust
-  :requires (rust-mode)
   :after (ob))
 #+end_src
 
