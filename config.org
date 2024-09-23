@@ -2974,8 +2974,8 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
     "Temple + Corfu -> display possible snippet completions."
     (setq-local completion-at-point-functions
                 (cons #'tempel-expand completion-at-point-functions)))
-  :bind (([M-tab] . tempel-complete)
-         ([M-return] . tempel-insert))
+  :bind (("M-]" . tempel-complete)
+         ("M-[" . tempel-insert))
   :hook ((conf-mode prog-mode text-mode) . setup-capf-tempel)
   :custom (tempel-path (concat irkalla/main-residence "/snippets/*.eld")))
 #+end_src
