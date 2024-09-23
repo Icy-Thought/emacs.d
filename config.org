@@ -985,25 +985,19 @@ Reference:
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
-  :init (centaur-tabs-mode t)
+  :init
+  (centaur-tabs-mode)
+  ;; (centaur-tabs-group-by-projectile-project)
   :config
   (setq x-underline-at-descent-line t
-        centaur-tabs-set-icons t
-        centaur-tabs-cycle-scope 'tabs
         centaur-tabs-height 32
+        centaur-tabs-set-icons t
         centaur-tabs-set-bar 'under
         centaur-tabs-set-modified-marker t
-        centaur-tabs-show-navigation-buttons t
-        centaur-tabs-show-new-tab-button t
-        centaur-tabs-adjust-buffer-order t)
-  (centaur-tabs-enable-buffer-reordering)
-
-  ;; :NOTE| We do not want Centaur-Tabs everywhere, do we?
-  (dolist (prefix '("*" " *" ;; all temporary buffers
-                    "consult-partial-preview"
-                    "Ement"
-                    "magit"))
-    (add-to-list 'centaur-tabs-excluded-prefixes prefix)))
+        centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-show-navigation-buttons nil
+        centaur-tabs-excluded-prefixes
+        `(,@centaur-tabs-excluded-prefixes "*" " *" "consult-partial-preview" "Ement" "magit")))
 #+end_src
 
 **** Tabspaces: Buffer Isolated Workspaces
@@ -1289,11 +1283,9 @@ Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall a
   :config
   (setq mouse-drag-and-drop-region-cross-program t
         mouse-1-click-follows-link nil)
-
-  ;; :NOTE| prevent centaur-tabs from displaying inside dired dictionaries
-  (when (featurep 'centaur-tabs)
-    (add-hook 'dired-mode-hook #'centaur-tabs-local-mode))
-  :custom (dired-mouse-drag-files t))
+  :custom
+  (dired-auto-revert-buffer t)
+  (dired-mouse-drag-files t))
 #+end_src
 
 I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
@@ -1357,10 +1349,6 @@ Lastly, I want the different type of directories to have some form of syntax hig
   (dirvish-override-dired-mode t)
   (dirvish-peek-mode t)
   (dirvish-side-follow-mode t)
-
-  ;; :NOTE| We do not want centaur-tabs to display inside dirvish, do we?
-  (when (featurep 'centaur-tabs)
-    (add-hook 'dirvish-directory-view-mode #'centaur-tabs-local-mode))
   :custom
   (dirvish-side-width 30)
   (dirvish-use-header-line t)
