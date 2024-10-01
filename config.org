@@ -73,7 +73,7 @@
     - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
     - [[#python-high-level-language][Python: High Level Language]]
     - [[#rust-statically--strongly-typed][Rust: Statically & Strongly Typed]]
-    - [[#typst-a-more-powerful-latex-alt][Typst: A More Powerful LaTeX Alt.]]
+    - [[#typst-a-less-bloated-latex-alt][Typst: A Less Bloated LaTeX Alt.]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
   - [[#part-6-concluding-our-endless-package-hunt][Part 6: Concluding Our Endless Package Hunt!]]
 
@@ -3590,8 +3590,8 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package lua-mode
-  :mode ("\\.lua\\'" . lua-mode)
-  :hook ((lua-mode lua-ts-mode) . eglot-ensure))
+  :mode ("\\.lua\\'" . lua-ts-mode)
+  :hook (lua-ts-mode . eglot-ensure))
 #+end_src
 
 **** Apheleia: Lua Formatter
@@ -3656,8 +3656,8 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package python-mode
-  :mode ("\\.py\\'" . python-mode)
-  :hook ((python-mode python-ts-mode) . eglot-ensure)
+  :mode ("\\.py\\'" . python-ts-mode)
+  :hook (python-ts-mode . eglot-ensure)
   :custom
   (python-shell-interpreter "ipython")
   (python-shell-interpreter-args "--simple-prompt"))
@@ -3681,13 +3681,14 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package rust-mode
-  :mode ("\\.rs\\'" . rust-mode)
-  :hook ((rust-mode rust-ts-mode) . eglot-ensure)
+  :commands (rust-run)
+  :mode ("\\.rs\\'" . rust-ts-mode)
+  :hook (rust-ts-mode . eglot-ensure)
   :init (setq project-vc-extra-root-markers '("Cargo.toml")))
 
 (use-package cargo
   :after (rust-mode)
-  :hook ((rust-mode rust-ts-mode) . cargo-minor-mode))
+  :hook (rust-ts-mode . cargo-minor-mode))
 #+end_src
 
 Also, I would like to have the ability to interact with rust code-blocks defined within org-mode files.
@@ -3720,7 +3721,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
       ("P" rust-playpen-buffer          "Buf -> Playground"))
      "Build"
      (("r" rust-run                     "Run Project")
-      ("R" rust-run-releae              "Run Release")
+      ("R" rust-run-release             "Run Release")
       ("t" rust-test                    "Tests Project")
       ("l" rust-run-clippy              "Run Clippy")
       ("c" rust-compile                 "Compile")
@@ -3740,7 +3741,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
              (message "You are not in a rust buffer.")) "Rust")))))
 #+end_src
 
-*** Typst: A More Powerful LaTeX Alt.
+*** Typst: A Less Bloated LaTeX Alt.
 
 #+begin_src emacs-lisp
 (use-package typst-ts-mode
@@ -3798,8 +3799,9 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-package zig-mode
-  :mode ("\\.zig\\'" . zig-mode)
-  :hook ((zig-mode zig-ts-mode) . eglot-ensure))
+  :mode ("\\.zig\\'" . zig-ts-mode)
+  :hook (zig-ts-mode . eglot-ensure)
+  :init (derived-mode-add-parents 'zig-ts-mode '(zig-mode)))
 #+end_src
 
 **** Apheleia: Zig Formatter
