@@ -1228,11 +1228,10 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   :preface
   (defun popper-display-vertical-popup (buffer &optional alist)
     (display-buffer-in-side-window
-     buffer (append alist `((window-width 0.5) (side . right) (slot . 1)))))
-
-  (defun popper-select-vertical-popup (buffer &optional alist)
-    (let ((window (popper-display-vertical-popup buffer alist)))
-      (select-window window)))
+     buffer (append alist `((window-height . ,popper-window-height)
+                            (window-width  . 0.35)
+                            (side . right)
+                            (slot . 1)))))
   :config
   (popper-mode t)
   (popper-echo-mode t)
