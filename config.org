@@ -55,7 +55,7 @@
     - [[#apheleia-code-formatter][Apheleia: Code Formatter]]
     - [[#corfu-elegant-completion-ui][Corfu: Elegant Completion UI]]
     - [[#cape-controlling-suggestion-output][Cape: Controlling Suggestion Output]]
-    - [[#tempel-snippet-completion][Tempel: Snippet Completion]]
+    - [[#yasnippet-completion-through-abbreviations][Yasnippet: Completion Through Abbreviations]]
     - [[#eldoc-documentation-of-symb][Eldoc: Documentation Of SYMB]]
     - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
     - [[#flymake-built-in-buffer-diagnostics][Flymake: Built-in Buffer Diagnostics]]
@@ -2952,26 +2952,22 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
               (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
 #+end_src
 
-*** Tempel: Snippet Completion
+*** Yasnippet: Completion Through Abbreviations
 
 #+begin_src emacs-lisp
-(use-package tempel
-  :preface
-  (defun setup-capf-tempel ()
-    "Temple + Corfu -> display possible snippet completions."
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand completion-at-point-functions)))
-  :bind (("M-]" . tempel-complete)
-         ("M-[" . tempel-insert))
-  :hook ((conf-mode prog-mode text-mode) . setup-capf-tempel)
-  :custom (tempel-path (concat irkalla/main-residence "/snippets/*.eld")))
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :hook ((conf-mode prog-mode text-mode) . yas-minor-mode)
+  :config
+  (add-to-list 'yas-snippet-dirs (concat irkalla/main-residence "/snippets"))
+  (yas-reload-all))
 #+end_src
 
 Instead of defining all of our snippets manually, we could use the help of an external package to help us add the basics and then expand on those bindings with our defined bindings.
 
 #+begin_src emacs-lisp
-(use-package tempel-collection
-  :after (tempel))
+(use-package yasnippet-snippets
+  :after (yasnippet))
 #+end_src
 
 *** Eldoc: Documentation Of SYMB
@@ -3180,7 +3176,7 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package parinfer-rust-mode
-  :hook ((emacs-lisp-mode . parinfer-rust-mode)
+  :hook (((emacs-lisp-mode lisp-mode common-lisp-mode) . parinfer-rust-mode)
          (parinfer-rust-mode . (lambda () (electric-pair-local-mode -1))))
   :custom
   (parinfer-rust-auto-download t)
@@ -3753,14 +3749,11 @@ Also, I would like to have the ability to interact with rust code-blocks defined
   :config
   (with-eval-after-load 'consult-imenu
     (setq consult-imenu-config
-          (append consult-imenu-config '((typst-ts-mode
-                                          :topLevel "Headings"
-                                          :types ((?h "Headings" typst-ts-markup-header-face)))))))
-  :custom
-  (typst-ts-mode-watch-options "--open")
-  (typst-ts-mode-enable-raw-blocks-highlight t)
-  (typst-ts-mode-highlight-raw-blocks-at-startup t
-                                                 (?f "Functions" font-lock-function-name-face)))
+          (append consult-imenu-config
+                  '((typst-ts-mode
+                     :topLevel "Headings"
+                     :types ((?h "Headings" typst-ts-markup-header-face)))))))
+  :custom (typst-ts-mode-enable-raw-blocks-highlight t))
 #+end_src
 
 **** Apheleia: Typst Formatter
