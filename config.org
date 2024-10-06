@@ -2333,7 +2333,6 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (confirm-nonexistent-file-or-buffer nil)
   (backward-delete-char-untabify-method 'hungry)
   (electric-indent-inhibit t)
-  (indent-tabs-mode nil)
   (standard-indent 4)
   (tab-width 4)
   (fill-column 120)
