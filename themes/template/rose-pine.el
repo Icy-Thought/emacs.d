@@ -66,10 +66,14 @@
 	 ;; https://www.emacswiki.org/emacs/WhiteSpace
 	 (whitespace-tab                                    (:foreground overlay))
 	 (whitespace-space                                  (:foreground overlay))
+	 (whitespace-space-before-tab                       (:inherit 'whitespace-space))
+	 (whitespace-space-after-tab                        (:inherit 'whitespace-space))
 	 (whitespace-empty                                  (:foreground gold))
 	 (whitespace-line                                   (:foreground rose))
 	 (whitespace-newline                                (:foreground overlay))
+	 (whitespace-missing-newline-at-eof                 (:foreground gold))
 	 (whitespace-indentation                            (:foreground overlay))
+	 (whitespace-big-indent                             (:foreground love))
 	 (whitespace-trailing                               (:foreground pine))
 
 	 (trailing-space                                    (:background muted))

@@ -63,10 +63,14 @@
 	 ;; https://www.emacswiki.org/emacs/WhiteSpace
 	 (whitespace-tab                                (:foreground sumiInk-2))
 	 (whitespace-space                              (:foreground sumiInk-2))
+	 (whitespace-space-before-tab                   (:inherit 'whitespace-space))
+	 (whitespace-space-after-tab                    (:inherit 'whitespace-space))
 	 (whitespace-empty                              (:foreground carpYellow))
 	 (whitespace-line                               (:foreground dragonBlue))
 	 (whitespace-newline                            (:foreground sumiInk-2))
+	 (whitespace-missing-newline-at-eof             (:foreground surimiOrange))
 	 (whitespace-indentation                        (:foreground sumiInk-2))
+	 (whitespace-big-indent                         (:foreground waveRed))
 	 (whitespace-trailing                           (:foreground sakuraPink))
 
 	 (trailing-whitespace                           (:background comet))

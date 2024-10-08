@@ -118,30 +118,27 @@
 **** Check: Nix OR Guix Distribution?
 
 #+begin_src emacs-lisp
-(defconst IS-REPRO (and (eq system-type 'gnu/linux)
-                        (with-temp-buffer
-                          (insert-file-contents "/etc/os-release")
-                          (re-search-forward "ID=\\(?:nixos\\|guix\\)" nil t))))
+(defconst IS-REPRO
+  (and (eq system-type 'gnu/linux)
+       (with-temp-buffer
+         (insert-file-contents "/etc/os-release")
+         (re-search-forward "ID=\\(?:nixos\\|guix\\)" nil t))))
 #+end_src
 
 *** Setting our UI Changes Early
 
 #+begin_src emacs-lisp
 (setq default-frame-alist
-      (append (list
-               '(alpha-background     . 85)
-               '(fullscreen           . nil)
-               '(menu-bar-lines       . 0)
-               '(tool-bar-lines       . 0)
-               '(vertical-scroll-bars . nil)))
+      (append '((alpha-background     . 85)
+                (fullscreen           . nil)
+                (menu-bar-lines       . 0)
+                (tool-bar-lines       . 0)
+                (vertical-scroll-bars . nil)))
       initial-frame-alist (copy-alist default-frame-alist)
       user-emacs-directory "~/.config/emacs")
 #+end_src
 
 *** Maintaining Harmony Within Irkalla's Directories
-
-#+begin_src emacs-lisp
-#+end_src
 
 **** Appending Directories To Load-Path
 
@@ -369,8 +366,13 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
      ,@args))
 #+end_src
 
-**** Allow Elpaca To Process The Changes
+**** Ignored Built-ins -> Call Forth Elpaca
 
+#+begin_src emacs-lisp
+;; :NOTE| Magit complains a lot about Transient...
+(setq elpaca-ignored-dependencies
+      (delq 'transient elpaca-ignored-dependencies))
+#+end_src
 #+begin_src emacs-lisp
 (elpaca-wait)
 #+end_src
@@ -2327,14 +2329,13 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :init (with-eval-after-load 'projectile
-          (projectile-mode t))
+  :config (with-eval-after-load 'projectile (projectile-mode))
   :custom
   (confirm-nonexistent-file-or-buffer nil)
+  (tab-width 4)
+  (indent-tabs-mode nil)
   (backward-delete-char-untabify-method 'hungry)
   (electric-indent-inhibit t)
-  (standard-indent 4)
-  (tab-width 4)
   (fill-column 120)
   (truncate-lines t)
   (truncate-string-ellipsis "↴")
@@ -2432,9 +2433,12 @@ Also, not all system environments will contain the necessary packages required t
 
 #+begin_src emacs-lisp
 (use-feature whitespace
-  :hook (((text-mode prog-mode) . whitespace-mode)
-         (before-save . whitespace-cleanup))
+  :hook (before-save . whitespace-cleanup)
   :custom
+  (whitespace-style
+   '(face tab space newline
+     space-before-tab space-after-tab
+     indentation trailing))
   (whitespace-display-mappings
    '((tab-mark ?\t [?» ?\t])
      (space-mark ?\  [?·] [?.])
@@ -2692,10 +2696,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 (use-package magit
   :if (executable-find "git")
   :commands (magit)
-  :init
-  (with-eval-after-load 'elpaca
-    (setq elpaca-ignored-dependencies ;; :NOTE| Too many Transient complaints to ignore...
-          (delq 'transient elpaca-ignored-dependencies)))
   :custom
   (magit-refs-show-commit-count 'all)
   (magit-save-repository-buffers 'dontask)
@@ -3550,8 +3550,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package kotlin-ts-mode
-  :mode (("\\.kt\\'" . kotlin-ts-mode)
-         ("\\.kts\\'" . kotlin-ts-mode))
+  :mode ("\\.kts?\\'" . kotlin-ts-mode)
   :hook (kotlin-ts-mode . eglot-ensure))
 #+end_src
 
@@ -3726,11 +3725,13 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 (use-package typst-ts-mode
   :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
-  :hook (typst-ts-mode . (lambda ()
-                           (when (executable-find "typst-lsp")
-                             (add-to-list 'eglot-server-programs "typst-lsp")
-                             (eglot-ensure))))
+  :hook (typst-ts-mode . eglot-ensure)
   :config
+  (when (executable-find "typst-lsp")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   `(typst-ts-mode . "typst-lsp"))))
+
   (with-eval-after-load 'consult-imenu
     (setq consult-imenu-config
           (append consult-imenu-config
@@ -3755,7 +3756,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define typst-hydra
     (:title (pretty-hydra-title "──｢ Langspec: Typst ｣──" 'mdicon "nf-md-math_compass")
-            :color teal :quit-key "q")
+     :color teal :quit-key "q")
     ("Build"
      (("c" typst-ts-mode-compile "Compile")
       ("p" typst-ts-mode-preview "Preview")
@@ -3765,7 +3766,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
     ("Markup"
      (("t" (if (eq major-mode 'typst-ts-mode)
                (typst-hydra/body)
-             (message "You are not in a typst buffer."))  "Typst")))))
+             (message "You are not in a typst buffer.")) "Typst")))))
 #+end_src
 
 *** Zig: Imperative & Statically Compiled
