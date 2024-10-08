@@ -1945,9 +1945,7 @@ Kind Regards,
 
   (with-eval-after-load 'cape
     (add-hook 'ement-room-read-string-setup-hook
-              (lambda ()
-                (add-hook 'completion-at-point-functions #'cape-dict nil t)
-                (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
+              (lambda () (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
   (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
                                           ement-notify--event-mentions-room-p))
@@ -1986,11 +1984,9 @@ I also want to write a function that could later be used to spawn an Emacs (matr
     (add-hook 'telega-chat-mode-hook #'visual-fill-column-mode))
 
   ;; :NOTE| Enable dictionary + emoji suggestions in compose area
-  (when (featurep 'cape)
+  (with-eval-after-load 'cape
     (add-hook 'telega-chat-mode-hook
-              (lambda ()
-                (add-hook 'completion-at-point-functions #'cape-dict nil t)
-                (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
+              (lambda () (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t)
@@ -2857,6 +2853,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package orderless
+  :after (corfu)
   :custom
   (completion-ignore-case t)
   (completion-styles '(orderless basic))
@@ -2930,29 +2927,19 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package cape
-  :custom (cape-dict-file (getenv "WORDLIST"))
+  :after (corfu)
   :config
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (add-hook 'completion-at-point-functions #'cape-file nil t)
-              (add-hook 'completion-at-point-functions #'cape-keyword nil t)))
-  (add-hook 'emacs-lisp-mode-hook
-            (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
-  (add-hook 'LaTeX-mode-hook
-            (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t)))
-  (add-hook 'text-mode-hook
-            (lambda ()
-              (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)
-              (add-hook 'completion-at-point-functions #'cape-dict nil t)
-              (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-tex))
 #+end_src
 
 *** Yasnippet: Completion Through Abbreviations
 
 #+begin_src emacs-lisp
 (use-package yasnippet
-  :diminish yas-minor-mode
-  :hook ((conf-mode prog-mode text-mode) . yas-minor-mode)
+  :hook ((prog-mode text-mode) . yas-minor-mode)
   :config
   (add-to-list 'yas-snippet-dirs (concat irkalla/main-residence "/snippets"))
   (yas-reload-all))
@@ -2963,6 +2950,15 @@ Instead of defining all of our snippets manually, we could use the help of an ex
 #+begin_src emacs-lisp
 (use-package yasnippet-snippets
   :after (yasnippet))
+#+end_src
+
+Also, we want to be able to see the snippet completions inside Corfu.
+
+#+begin_src emacs-lisp
+(use-package yasnippet-capf
+  :after (yasnippet cape)
+  :config (add-to-list 'completion-at-point-functions #'yasnippet-capf)
+  :custom (yasnippet-capf-lookup-by 'name))
 #+end_src
 
 *** Eldoc: Documentation Of SYMB
