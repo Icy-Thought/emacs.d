@@ -73,6 +73,7 @@
     - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
     - [[#python-high-level-language][Python: High Level Language]]
     - [[#rust-statically--strongly-typed][Rust: Statically & Strongly Typed]]
+    - [[#typescript-typed-javascript][Typescript: Typed JavaScript]]
     - [[#typst-a-less-bloated-latex-alt][Typst: A Less Bloated LaTeX Alt.]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
   - [[#part-6-concluding-our-endless-package-hunt][Part 6: Concluding Our Endless Package Hunt!]]
@@ -373,6 +374,7 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 (setq elpaca-ignored-dependencies
       (delq 'transient elpaca-ignored-dependencies))
 #+end_src
+
 #+begin_src emacs-lisp
 (elpaca-wait)
 #+end_src
@@ -3713,6 +3715,26 @@ Also, I would like to have the ability to interact with rust code-blocks defined
      (("r" (if (memq major-mode '(rust-mode rust-ts-mode))
                (rust-hydra/body)
              (message "You are not in a rust buffer.")) "Rust")))))
+#+end_src
+
+*** Typescript: Typed JavaScript
+
+:TODO| add biome as a second LSP server when eglot supports multiple LSP's.
+
+#+begin_src emacs-lisp
+(use-feature typescript-ts-mode
+  :mode ("\\.tsx?\\'" . typescript-ts-mode)
+  :hook (typescript-ts-mode . eglot-ensure))
+#+end_src
+
+**** Apheleia: Typescript Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "biome")
+    (setf (alist-get 'biome apheleia-formatters)
+          '("biome" "format" "--stdin-file-path" filepath))
+    (add-to-list 'apheleia-mode-alist '(typescript-ts-mode . biome))))
 #+end_src
 
 *** Typst: A Less Bloated LaTeX Alt.
