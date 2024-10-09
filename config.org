@@ -80,7 +80,7 @@
 
 * Early Initialization of Irkalla
 :PROPERTIES:
-:HEADER-ARGS: :tangle ~/.config/emacs/early-init.el :noweb yes
+:HEADER-ARGS+: :tangle ~/.config/emacs/early-init.el :noweb yes
 :END:
 
 #+begin_src emacs-lisp
@@ -265,7 +265,7 @@ We might as well set our default Emacs environment to ~UTF-8~.
 
 * Core Configuration(s)
 :PROPERTIES:
-:HEADER-ARGS: :tangle ~/.config/emacs/init.el :noweb yes
+:HEADER-ARGS+: :tangle ~/.config/emacs/init.el :noweb yes
 :END:
 
 #+begin_src emacs-lisp
@@ -788,7 +788,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 **** Defining Constants
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+NAME: svg-tag-constants
@@ -801,7 +801,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 **** Adding A Progress Bar
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+NAME: svg-tag-progress-bar
@@ -824,7 +824,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 **** Specifying Tagging Patterns
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+NAME: svg-tag-patterns
@@ -959,7 +959,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 **** Modifying The Built-in Modeline
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -1006,7 +1006,7 @@ Reference:
 
 **** Tabspaces: Buffer Isolated Workspaces
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -1197,7 +1197,7 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
 
 **** Chinese, Japanese & Korean
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -1657,7 +1657,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 
 ***** EAT: Terminal Emulator In Lisp
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -2156,7 +2156,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 **** MEOW: Modular Editing
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -3104,7 +3104,7 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
 
 *** ChatGPT: Code Prediction At The Cost Of Freedom
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -3184,7 +3184,7 @@ There is another things that we could utilize to increase the responsiveness of 
 
 *** Guile: Yet Another Lisp Variant
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -3545,7 +3545,7 @@ Also, allow =Embark= to interact with those citations.
 
 *** Kotlin: Language of Dem Android
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
@@ -3791,7 +3791,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 *** Zig: Imperative & Statically Compiled
 :PROPERTIES:
-:HEADER-ARGS: :tangle no
+:HEADER-ARGS+: :tangle no
 :END:
 
 #+begin_src emacs-lisp
