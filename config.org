@@ -80,7 +80,7 @@
 
 * Early Initialization of Irkalla
 :PROPERTIES:
-:HEADER-ARGS: :tangle ~/.config/emacs/early-init.el
+:HEADER-ARGS: :tangle ~/.config/emacs/early-init.el :noweb yes
 :END:
 
 #+begin_src emacs-lisp
@@ -265,7 +265,7 @@ We might as well set our default Emacs environment to ~UTF-8~.
 
 * Core Configuration(s)
 :PROPERTIES:
-:HEADER-ARGS: :tangle ~/.config/emacs/init.el
+:HEADER-ARGS: :tangle ~/.config/emacs/init.el :noweb yes
 :END:
 
 #+begin_src emacs-lisp
