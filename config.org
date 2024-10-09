@@ -2903,8 +2903,9 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :init (global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-auto-prefix 1)
-  (corfu-auto-delay 0.05))
+  (corfu-auto-delay 0)
+  (corfu-auto-prefix 2)
+  (corfu-on-exact-match nil))
 #+end_src
 
 **** Popup $SYMB Information
@@ -2931,16 +2932,17 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 (use-package cape
   :after (corfu)
   :config
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-  (add-to-list 'completion-at-point-functions #'cape-tex))
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
+  (add-hook 'completion-at-point-functions #'cape-tex))
 #+end_src
 
 *** Yasnippet: Completion Through Abbreviations
 
 #+begin_src emacs-lisp
 (use-package yasnippet
+  :after (corfu)
   :hook ((prog-mode text-mode) . yas-minor-mode)
   :config
   (add-to-list 'yas-snippet-dirs (concat irkalla/main-residence "/snippets"))
@@ -2959,7 +2961,7 @@ Also, we want to be able to see the snippet completions inside Corfu.
 #+begin_src emacs-lisp
 (use-package yasnippet-capf
   :after (yasnippet cape)
-  :config (add-to-list 'completion-at-point-functions #'yasnippet-capf)
+  :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
   :custom (yasnippet-capf-lookup-by 'name))
 #+end_src
 
