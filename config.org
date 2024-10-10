@@ -63,7 +63,8 @@
     - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
     - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
   - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
-    - [[#emacs-lisp-the-mother-tounge-of-emacs][Emacs Lisp: The Mother-Tounge Of Emacs]]
+    - [[#c-a-low-level-programming-language][C: A Low Level Programming Language]]
+    - [[#emacs-lisp-the-mother-tongue-of-emacs][Emacs Lisp: The Mother-tongue Of Emacs]]
     - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
     - [[#haskell-purely-functional][Haskell: Purely Functional]]
@@ -2947,6 +2948,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package yasnippet
   :after (corfu)
+  :bind ("M-]" . yas-insert-snippet)
   :hook ((prog-mode text-mode) . yas-minor-mode)
   :config
   (add-to-list 'yas-snippet-dirs (concat irkalla/main-residence "/snippets"))
@@ -3169,7 +3171,33 @@ There is another things that we could utilize to increase the responsiveness of 
   :config (eglot-booster-mode))
 #+end_src
 
-*** Emacs Lisp: The Mother-Tounge Of Emacs
+*** C: A Low Level Programming Language
+
+#+begin_src emacs-lisp
+(use-feature c-ts-mode
+  :mode ("\\.c\\'" . cs-ts-mode)
+  :hook (c-ts-mode . eglot-ensure)
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '((c-ts-mode c++-ts-mode) "ccls")))
+  :custom (c-ts-mode-indent-offset tab-width))
+#+end_src
+
+**** Apheleia: C Formatter
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'apheleia
+  (when (executable-find "clang-format")
+    (setf (alist-get 'clang-format apheleia-formatters)
+          `("clang-format" "-assume-filename"
+            (or (apheleia-formatters-local-buffer-file-name)
+                (apheleia-formatters-mode-extension)
+                ".c")
+            (format "--style={IndentWidth: %d}" tab-width)))
+    (add-to-list 'apheleia-mode-alist '(c-ts-mode . clang-format))))
+#+end_src
+
+*** Emacs Lisp: The Mother-tongue Of Emacs
 
 **** Hydra: Emacs-Lisp Bindings
 
@@ -3774,10 +3802,13 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+end_src
 
 *** Web Development: Bloating The Web With Funky Code
+:PROPERTIES:
+:HEADER-ARGS+: :tangle no
+:END:
 
 **** HTML: The Markup Language Of the Web
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (use-feature html-ts-mode
   :mode ("\\.html\\'" . html-ts-mode)
   :custom (html-ts-mode-indent-offset tab-width))
