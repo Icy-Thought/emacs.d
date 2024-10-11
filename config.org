@@ -3175,14 +3175,12 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-feature c-ts-mode
-  :mode ("\\.[ch]$" . c-ts-mode)
   :hook (c-ts-mode . eglot-ensure)
   :custom (c-ts-mode-indent-offset tab-width))
 #+end_src
 
 #+begin_src emacs-lisp
 (use-feature c++-ts-mode
-  :mode ("\\.\\(cpp\\|hpp\\)$" . c++-ts-mode)
   :hook (c++-ts-mode . eglot-ensure))
 #+end_src
 
@@ -3677,7 +3675,6 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package python-mode
-  :mode ("\\.py\\'" . python-ts-mode)
   :hook (python-ts-mode . eglot-ensure)
   :custom
   (python-shell-interpreter "ipython")
@@ -3703,7 +3700,6 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package rust-mode
   :commands (rust-run)
-  :mode ("\\.rs\\'" . rust-ts-mode)
   :hook (rust-ts-mode . eglot-ensure)
   :init (setq project-vc-extra-root-markers '("Cargo.toml")))
 
@@ -3821,7 +3817,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-feature html-ts-mode
-  :mode ("\\.html\\'" . html-ts-mode)
   :custom (html-ts-mode-indent-offset tab-width))
 #+end_src
 
@@ -3831,7 +3826,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-feature typescript-ts-mode
-  :mode ("\\.ts\\'" . typescript-ts-mode)
   :hook (typescript-ts-mode . eglot-ensure)
   :custom (typescript-ts-mode-indent-offset tab-width))
 #+end_src
