@@ -63,7 +63,7 @@
     - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
     - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost Of Freedom]]
   - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
-    - [[#c-a-low-level-programming-language][C: A Low Level Programming Language]]
+    - [[#cc-embracing-the-challenges-of-low-level-programming][C/C++: Embracing the Challenges of Low-Level Programming]]
     - [[#emacs-lisp-the-mother-tongue-of-emacs][Emacs Lisp: The Mother-tongue Of Emacs]]
     - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
@@ -3171,19 +3171,29 @@ There is another things that we could utilize to increase the responsiveness of 
   :config (eglot-booster-mode))
 #+end_src
 
-*** C: A Low Level Programming Language
+*** C/C++: Embracing the Challenges of Low-Level Programming
 
 #+begin_src emacs-lisp
 (use-feature c-ts-mode
-  :mode ("\\.c\\'" . cs-ts-mode)
+  :mode ("\\.[ch]$" . c-ts-mode)
   :hook (c-ts-mode . eglot-ensure)
-  :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '((c-ts-mode c++-ts-mode) "ccls")))
   :custom (c-ts-mode-indent-offset tab-width))
 #+end_src
 
-**** Apheleia: C Formatter
+#+begin_src emacs-lisp
+(use-feature c++-ts-mode
+  :mode ("\\.\\(cpp\\|hpp\\)$" . c++-ts-mode)
+  :hook (c++-ts-mode . eglot-ensure))
+#+end_src
+
+We also want to make sure that both languages run the proper LSP program when ~eglot-ensure~ has been called.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '((c-ts-mode c++-ts-mode) "ccls")))
+#+end_src
+
+**** Apheleia: C/C++ Formatter
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'apheleia
@@ -3194,7 +3204,8 @@ There is another things that we could utilize to increase the responsiveness of 
                 (apheleia-formatters-mode-extension)
                 ".c")
             (format "--style={IndentWidth: %d}" tab-width)))
-    (add-to-list 'apheleia-mode-alist '(c-ts-mode . clang-format))))
+    (add-to-list 'apheleia-mode-alist '(c-ts-mode . clang-format))
+    (add-to-list 'apheleia-mode-alist '(c++-ts-mode . clang-format))))
 #+end_src
 
 *** Emacs Lisp: The Mother-tongue Of Emacs
