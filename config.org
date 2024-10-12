@@ -1079,7 +1079,7 @@ To ease the navigation between the growing tabs, we could add navigation binding
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text") (bookmarks . "book")))
-  (dashboard-startup-banner (concat irkalla/main-residence "/logos/owl-skull.svg"))
+  (dashboard-startup-banner (concat irkalla/main-residence "/logos/lotus.svg"))
   (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
