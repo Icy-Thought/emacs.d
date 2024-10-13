@@ -2903,6 +2903,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
               ([backtab] . corfu-previous))
   :init (global-corfu-mode)
   :custom
+  (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-delay 0.05)
   (corfu-auto-prefix 1)
