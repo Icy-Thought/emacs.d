@@ -1940,7 +1940,9 @@ Kind Regards,
 
   (with-eval-after-load 'cape
     (add-hook 'ement-room-read-string-setup-hook
-              (lambda () (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
+              (lambda ()
+                (setq-local corfu-auto nil)
+                (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
   (ement-notify-notification-predicates '(ement-notify--event-mentions-session-user-p
                                           ement-notify--event-mentions-room-p))
@@ -2665,11 +2667,11 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-feature emacs
   :custom
+  (tab-always-indent 'complete)
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
   (compilation-scroll-output t)
   (compilation-scroll-output t)
-
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (read-extended-command-predicate #'command-completion-default-include-p))
@@ -2771,7 +2773,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 
 #+begin_src emacs-lisp
 (use-package yasnippet
-  :after (corfu)
+  :commands (yas-minor-mode)
   :bind ("M-]" . yas-insert-snippet)
   :hook ((prog-mode text-mode) . yas-minor-mode)
   :config
@@ -2790,7 +2792,7 @@ Also, we want to be able to see the snippet completions inside Corfu.
 
 #+begin_src emacs-lisp
 (use-package yasnippet-capf
-  :after (yasnippet cape)
+  :after (yasnippet)
   :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
   :custom (yasnippet-capf-lookup-by 'name))
 #+end_src
