@@ -3510,15 +3510,9 @@ Also, allow =Embark= to interact with those citations.
 **** Apheleia: Python Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "isort")
-    (setf (alist-get 'isort apheleia-formatters)
-          '("isort" "--profile black" "--stdout"))
-    (add-to-list 'apheleia-mode-alist '(python-mode . isort)))
-
-  (when (executable-find "black")
-    (setf (alist-get 'black apheleia-formatters) '("black" "-"))
-    (add-to-list 'apheleia-mode-alist '(python-mode . black))))
+(when (executable-find "ruff")
+  (with-eval-after-load 'apheleia
+    (add-to-list 'apheleia-mode-alist '(python-mode . ruff))))
 #+end_src
 
 *** Rust: Statically & Strongly Typed
