@@ -3510,7 +3510,8 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (when (executable-find "ruff")
   (with-eval-after-load 'apheleia
-    (add-to-list 'apheleia-mode-alist '(python-mode . ruff))))
+    (add-to-list 'apheleia-mode-alist '(python-mode . ruff))
+    (add-to-list 'apheleia-mode-alist '(python-mode . ruff-isort))))
 #+end_src
 
 *** Rust: Statically & Strongly Typed
