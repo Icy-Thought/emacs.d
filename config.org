@@ -3026,8 +3026,8 @@ We also want to make sure that both languages run the proper LSP program when ~e
                 (apheleia-formatters-mode-extension)
                 ".c")
             (format "--style={IndentWidth: %d}" tab-width)))
-    (add-to-list 'apheleia-mode-alist '(c-ts-mode . clang-format))
-    (add-to-list 'apheleia-mode-alist '(c++-ts-mode . clang-format))))
+    (add-to-list 'apheleia-mode-alist '((c-mode c-ts-mode) . clang-format))
+    (add-to-list 'apheleia-mode-alist '((c++-mode c++-ts-mode) . clang-format))))
 #+end_src
 
 *** Emacs Lisp: The Mother-tongue Of Emacs
@@ -3426,7 +3426,7 @@ Also, allow =Embark= to interact with those citations.
   (with-eval-after-load 'apheleia
     (setf (alist-get 'ktlint apheleia-formatters)
           '("ktlint" "--log-level=none" "--stdin" "-F" "-"))
-    (add-to-list 'apheleia-mode-alist '(kotlin-mode . ktlint))))
+    (add-to-list 'apheleia-mode-alist '(kotlin-ts-mode . ktlint))))
 #+end_src
 
 *** Lua: Embedded Scripting Language
@@ -3444,7 +3444,7 @@ Also, allow =Embark= to interact with those citations.
   (with-eval-after-load 'apheleia
     (setf (alist-get 'stylua apheleia-formatters)
           '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
-    (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
+    (add-to-list 'apheleia-mode-alist '((lua-mode lua-ts-mode) . stylua))))
 #+end_src
 
 *** Markdown: Minimal Markup Language
@@ -3510,8 +3510,8 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (when (executable-find "ruff")
   (with-eval-after-load 'apheleia
-    (add-to-list 'apheleia-mode-alist '(python-mode . ruff))
-    (add-to-list 'apheleia-mode-alist '(python-mode . ruff-isort))))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . ruff))
+    (add-to-list 'apheleia-mode-alist '((python-mode python-ts-mode) . ruff-isort))))
 #+end_src
 
 *** Rust: Statically & Strongly Typed
@@ -3541,7 +3541,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
   (with-eval-after-load 'apheleia
     (setf (alist-get 'rustfmt apheleia-formatters)
           '("rustfmt" "--quiet" "--emit" "stdout"))
-    (add-to-list 'apheleia-mode-alist '(rust-mode . rustfmt))))
+    (add-to-list 'apheleia-mode-alist '((rust-mode rust-ts-mode) . rustfmt))))
 #+end_src
 
 **** Hydra: Rust Bindings
@@ -3676,7 +3676,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 (when (executable-find "zig")
   (with-eval-after-load 'apheleia
     (setf (alist-get 'zigfmt apheleia-formatters) '("zig" "fmt" "--stdin"))
-    (add-to-list 'apheleia-mode-alist '(zig-mode . zigfmt))))
+    (add-to-list 'apheleia-mode-alist '((zig-mode zig-ts-mode) . zigfmt))))
 #+end_src
 
 ** Part 6: Concluding Our Endless Package Hunt!
