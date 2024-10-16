@@ -1763,7 +1763,6 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
 #+begin_src emacs-lisp
 (use-package nov-xwidget
   :ensure (:host github :repo "chenyanming/nov-xwidget")
-  :after (nov)
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :bind (:map nov-mode-map ("o" . #'nov-xwdiget-view)))
 #+end_src
@@ -2026,7 +2025,6 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 
 #+begin_src emacs-lisp
 (use-package shrface
-  :after (shr)
   :hook ((shrface-mode . variable-pitch-mode)
          (eww-after-render . shrface-mode))
   :custom (shrface-href-versatile t)
@@ -3020,8 +3018,8 @@ We also want to make sure that both languages run the proper LSP program when ~e
 **** Apheleia: C/C++ Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "clang-format")
+(when (executable-find "clang-format")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'clang-format apheleia-formatters)
           `("clang-format" "-assume-filename"
             (or (apheleia-formatters-local-buffer-file-name)
@@ -3376,8 +3374,8 @@ Also, allow =Embark= to interact with those citations.
 **** Apheleia: Haskell Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "fourmolu")
+(when (executable-find "fourmolu")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'fourmolu apheleia-formatters)
           '("fourmolu" "--stdin-input-file" "-"))
     (add-to-list 'apheleia-mode-alist '(haskell-ts-mode . fourmolu))))
@@ -3424,8 +3422,8 @@ Also, allow =Embark= to interact with those citations.
 **** Apheleia: Kotlin Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "ktlint")
+(when (executable-find "ktlint")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'ktlint apheleia-formatters)
           '("ktlint" "--log-level=none" "--stdin" "-F" "-"))
     (add-to-list 'apheleia-mode-alist '(kotlin-mode . ktlint))))
@@ -3442,8 +3440,8 @@ Also, allow =Embark= to interact with those citations.
 **** Apheleia: Lua Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "stylua")
+(when (executable-find "stylua")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'stylua apheleia-formatters)
           '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
     (add-to-list 'apheleia-mode-alist '(lua-mode . stylua))))
@@ -3492,8 +3490,8 @@ Also, allow =Embark= to interact with those citations.
 **** Apheleia: Nix Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "nixfmt")
+(when (executable-find "nixfmt")
+  (with-eval-after-load 'apheleia
     (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))))
 #+end_src
 
@@ -3538,8 +3536,8 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 **** Apheleia: Rust Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "rustfmt")
+(when (executable-find "rustfmt")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'rustfmt apheleia-formatters)
           '("rustfmt" "--quiet" "--emit" "stdout"))
     (add-to-list 'apheleia-mode-alist '(rust-mode . rustfmt))))
@@ -3602,8 +3600,8 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 **** Apheleia: Typst Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "typstyle")
+(when (executable-find "typstyle")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'typstyle apheleia-formatters) '("typstyle"))
     (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstyle))))
 #+end_src
@@ -3652,8 +3650,8 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 ***** Apheleia: Typescript Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "biome")
+(when (executable-find "biome")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'biome apheleia-formatters)
           '("biome" "format" "--stdin-file-path" filepath))
     (add-to-list 'apheleia-mode-alist '(typescript-ts-mode . biome))))
@@ -3674,8 +3672,8 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 **** Apheleia: Zig Formatter
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'apheleia
-  (when (executable-find "zig")
+(when (executable-find "zig")
+  (with-eval-after-load 'apheleia
     (setf (alist-get 'zigfmt apheleia-formatters) '("zig" "fmt" "--stdin"))
     (add-to-list 'apheleia-mode-alist '(zig-mode . zigfmt))))
 #+end_src
