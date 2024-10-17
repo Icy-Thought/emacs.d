@@ -3528,7 +3528,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+begin_src emacs-lisp
 (when (executable-find "rustfmt")
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'rust-ts-mode apheleia-mode-alist) '(rustmt))))
+    (setf (alist-get 'rust-ts-mode apheleia-mode-alist) '(rustfmt))))
 #+end_src
 
 **** Hydra: Rust Bindings
