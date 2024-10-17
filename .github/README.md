@@ -4,7 +4,7 @@
 
 # (Preview) Irkalla Emacs
 
-![Irkalla Emacs](./assets/themes/catppuccin/irkalla.png)
+![Irkalla Emacs](./assets/themes/kanagawa.png)
 
 # Introduction 🌱
 

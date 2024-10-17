@@ -3,8 +3,8 @@
 #+language: en
 
 #+NAME: fig:Irkalla Emacs
-#+CAPTION: Irkalla Emacs displayed with the [[https://github.com/catppuccin/catppuccin][Catppuccin]] colorscheme.
-[[.github/assets/themes/catppuccin/irkalla.png]]
+#+CAPTION: Irkalla Emacs displayed with the [[https://github.com/rebelot/kanagawa.nvim][Kanagawa]] colorscheme.
+[[.github/assets/themes/kanagawa.png]]
 
 * Table of Contents :TOC:
 - [[#early-initialization-of-irkalla][Early Initialization of Irkalla]]
@@ -644,7 +644,7 @@ What remains of us is to load the theme of our choice.
 
 #+begin_src emacs-lisp
 (use-package autothemer
-  :init (load-theme 'catppuccin-mocha t))
+  :init (load-theme 'kanagawa-wave t))
 #+end_src
 
 *** Prettified Symbols
