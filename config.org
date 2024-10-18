@@ -400,6 +400,7 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 
 #+begin_src emacs-lisp
 (use-package gcmh
+  :demand t
   :config (gcmh-mode t)
   :custom
   (gcmh-idle-delay 'auto)
@@ -411,13 +412,16 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
 
 #+begin_src emacs-lisp
 (use-package no-littering
+  :demand t
   :config
   (setq no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
         no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
 
   (with-eval-after-load 'recentf
-    (add-to-list 'recentf-exclude no-littering-etc-directory)
-    (add-to-list 'recentf-exclude no-littering-var-directory))
+    (add-to-list 'recentf-exclude
+                 (recentf-expand-file-name no-littering-var-directory))
+    (add-to-list 'recentf-exclude
+                 (recentf-expand-file-name no-littering-etc-directory)))
 
   (with-eval-after-load 'files
     (setq auto-save-file-name-transforms
