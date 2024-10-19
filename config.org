@@ -3665,8 +3665,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+begin_src emacs-lisp
 (when (executable-find "zig")
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'zig apheleia-formatters) '("zig" "fmt" "--stdin"))
-    (setf (alist-get 'zig-ts-mode apheleia-mode-alist) '(zig))))
+    (setf (alist-get 'zig-ts-mode apheleia-mode-alist) '(zig-fmt))))
 #+end_src
 
 ** Part 6: Concluding Our Endless Package Hunt!
