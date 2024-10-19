@@ -688,7 +688,7 @@ What remains of us is to load the theme of our choice.
                        :fixed-pitch-slant normal
                        :fixed-pitch-weight semibold
 
-                       :variable-pitch-family "VictorMono Nerd Font Mono"
+                       :variable-pitch-family nil
                        :variable-pitch-height 1.00
                        :variable-pitch-slant italic
                        :variable-pitch-weight semibold)))
