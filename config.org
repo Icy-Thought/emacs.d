@@ -111,8 +111,8 @@
 #+end_src
 
 #+begin_src emacs-lisp
-(defcustom irkalla/main-residence (file-truename "~/Workspace/public/emacs.d")
-  "The directory where Irkalla resides in."
+(defcustom irkalla/underworld (file-truename "~/Workspace/public/emacs.d")
+  "Underworld, the land where Irkalla resides within."
   :type 'string
   :group 'irkalla)
 #+end_src
@@ -636,12 +636,12 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 Add the Irkalla theme directory to Emacs ~load-path~. Necessary for [[https://github.com/jasonm23/autothemer][Autothemer]] to recognize my customized themes.
 
 #+begin_src emacs-lisp
-(let ((themes-dir (expand-file-name "themes" irkalla/main-residence)))
+(let ((themes-dir (expand-file-name "themes" irkalla/underworld)))
   (when (file-directory-p themes-dir)
     (add-to-list 'load-path themes-dir)
     (add-to-list 'load-path (expand-file-name "template" themes-dir))))
 
-(add-to-list 'custom-theme-load-path (concat irkalla/main-residence "/themes"))
+(add-to-list 'custom-theme-load-path (concat irkalla/underworld "/themes"))
 #+end_src
 
 What remains of us is to load the theme of our choice.
@@ -1076,7 +1076,7 @@ To ease the navigation between the growing tabs, we could add navigation binding
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text") (bookmarks . "book")))
-  (dashboard-startup-banner (concat irkalla/main-residence "/logos/lotus.svg"))
+  (dashboard-startup-banner (concat irkalla/underworld "/logos/lotus.svg"))
   (dashboard-path-max-length 20)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
@@ -2770,7 +2770,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :bind ("M-]" . yas-insert-snippet)
   :hook ((prog-mode text-mode) . yas-minor-mode)
   :config
-  (add-to-list 'yas-snippet-dirs (concat irkalla/main-residence "/snippets"))
+  (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets"))
   (yas-reload-all))
 #+end_src
 
@@ -3215,7 +3215,7 @@ Source: https://emacs.stackexchange.com/a/20618
   "Tangle Irkalla Emacs configuration file on save."
   (when (and (eq major-mode 'org-mode)
              (string= (buffer-file-name)
-                      (expand-file-name "config.org" irkalla/main-residence)))
+                      (expand-file-name "config.org" irkalla/underworld)))
     (org-babel-tangle)))
 
 (add-hook 'after-save-hook 'irkalla/tangle-config-file)
