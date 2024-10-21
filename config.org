@@ -2146,6 +2146,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 (use-feature emacs
   :config (with-eval-after-load 'projectile (projectile-mode))
   :custom
+  (cursor-in-non-selected-windows nil)
   (confirm-nonexistent-file-or-buffer nil)
   (tab-width 4)
   (indent-tabs-mode nil)
