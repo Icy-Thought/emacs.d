@@ -1969,9 +1969,12 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 ***** Telega: Emacs Telegram Client
 
 #+begin_src emacs-lisp
-(use-feature telega ;; <-^ fetched from Nixpkgs
+(use-feature telega
   :commands (telega)
   :config
+  (advice-add 'telega-chatbuf-recenter-1
+              :around (lambda (orig-fun &rest args) (recenter -2)))
+
   (with-eval-after-load 'visual-fill-column
     (add-hook 'telega-chat-mode-hook #'visual-fill-column-mode))
 
@@ -1983,7 +1986,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   (telega-directory (no-littering-expand-var-file-name "telega/"))
   (telega-chat-bidi-display-reordering t)
   (telega-notifications-mode t)
-  (telega-emoji-use-images nil)) ;; recent libsvg issue..
+  (telega-emoji-use-images nil)) ;; libsvg issue -> odd symbols
 #+end_src
 
 ***** Circle: IRC Client
