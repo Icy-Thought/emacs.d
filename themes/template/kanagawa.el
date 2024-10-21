@@ -228,6 +228,7 @@
      (org-hide                                      (:background sumiInk-1b :foreground sumiInk-1b))
      (org-indent                                    (:background sumiInk-1b :foreground sumiInk-1b))
      (org-meta-line                                 (:background winterGreen :foreground springGreen))
+     (org-tag                                       (:foreground autumnGreen))
      (org-todo                                      (:foreground autumnYellow :bold t))
      (org-verbatim                                  (:foreground crystalBlue))
      (org-upcoming-deadline                         (:foreground peachRed))
