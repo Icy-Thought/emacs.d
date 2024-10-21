@@ -418,10 +418,8 @@ Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable pe
         no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
 
   (with-eval-after-load 'recentf
-    (add-to-list 'recentf-exclude
-                 (recentf-expand-file-name no-littering-var-directory))
-    (add-to-list 'recentf-exclude
-                 (recentf-expand-file-name no-littering-etc-directory)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-etc-directory)))
 
   (with-eval-after-load 'files
     (setq auto-save-file-name-transforms
@@ -1174,20 +1172,19 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
 
 #+begin_src emacs-lisp
 (use-feature recentf
-  :defer 1
   :custom
   (recentf-save-file-modes #o600)
   (recentf-max-saved-items 1024)
   (recentf-auto-cleanup 600)
-  (recentf-exclude '(;; Compressed files & Archives
-                     "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$"
-                     "\\.bz2$" "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zpaq$"
-                     "\\.lz$" "\\.lrz$" "\\.lzo$" "\\.lzma$" "\\.shar$" "\\.kgb$"
-                     "\\.zip$" "\\.Z$" "\\.7z$" "\\.rar$"
-                     ;; TRAMP
-                     "^/sudo:" "^/ssh:"
-                     ;; Emacs-Everywhere
-                     "/tmp/emacs-everywhere")))
+  (recentf-exclude
+   '("/tmp/" "/nix/store"
+     ;; :NOTE| Compressed files & Archives
+     "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$"
+     "\\.bz2$" "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zpaq$"
+     "\\.lz$" "\\.lrz$" "\\.lzo$" "\\.lzma$" "\\.shar$" "\\.kgb$"
+     "\\.zip$" "\\.Z$" "\\.7z$" "\\.rar$"
+     ;; :NOTE| TRAMP
+     "^/sudo:" "^/ssh:")))
 #+end_src
 
 **** Chinese, Japanese & Korean
