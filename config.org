@@ -776,7 +776,6 @@ We should also be able to complete the icons as we do on other platforms.
   :hook ((prog-mode text-mode) . svg-tag-mode)
   :config
   <<svg-tag-constants>>
-  <<svg-tag-progress-bar>>
   <<svg-tag-patterns>>)
 #+end_src
 
@@ -793,29 +792,6 @@ We should also be able to complete the icons as we do on other platforms.
 (defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
 #+end_src
 
-**** Adding A Progress Bar
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
-
-#+NAME: svg-tag-progress-bar
-#+begin_src emacs-lisp
-(defun svg-progress-percent (value)
-  (svg-image (svg-lib-concat
-              (svg-lib-progress-bar (/ (string-to-number value) 100.0)
-                                    nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
-              (svg-lib-tag (concat value "%")
-                           nil :stroke 0 :margin 0)) :ascent 'center)
-
-  (defun svg-progress-count (value)
-    (let* ((seq (mapcar #'string-to-number (split-string value "/")))
-           (count (float (car seq)))
-           (total (float (cadr seq))))
-      (svg-image (svg-lib-concat
-                  (svg-lib-progress-bar (/ count total) nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
-                  (svg-lib-tag value nil :stroke 0 :margin 0)) :ascent 'center))))
-#+end_src
-
 **** Specifying Tagging Patterns
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
@@ -823,132 +799,166 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+NAME: svg-tag-patterns
 #+begin_src emacs-lisp
-(setq svg-tag-tags
-      `(;; Watever tags we choose shall be materialized!
-        <<svg-tagging-general>>
-        <<svg-tagging-org-mode>>))
+<<svg-tag-common>>
+<<svg-tag-progress>>
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            <<svg-tag-org>>
+            <<svg-tag-progress>>
+            (svg-tag-mode)))
 #+end_src
 
-***** SVG Tagging: General
+***** SVG-Tag: Common Tags
 
-#+NAME: svg-tagging-general
+#+NAME: svg-tag-common
 #+begin_src emacs-lisp
 ;; :TODO| Reduce to a more general solution
-;; :NOTE| Reduce to a more general solution
-;; :FIXME| There is more regexp
-;; :HACK| Fix this regexp
-;; :WARN| This needs to be fixed
 
-("\\([:]\\(?:TODO\\|todo\\)|.*\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
+(setq svg-tag-tags
+      `(("\\([:]\\(?:TODO\\|todo\\)|.*\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
 
-("\\([:]\\(?:TODO\\|todo\\)*|\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+        ("\\([:]\\(?:TODO\\|todo\\)*|\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-("\\([:]\\(?:WARN\\|warn\\)|.*\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 7))))
+        ;; :WARN| Heads-up for whatever insane thing found below.
 
-("\\([:]\\(?:FIXME\\|fixme\\)|.*\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
+        ("\\([:]\\(?:WARN\\|warn\\)|.*\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-warning :inverse t :crop-left t :beg 7))))
 
-("\\([:]\\(?:FIXME\\|fixme\\)*|\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+        ("\\([:]\\(?:WARN\\|warn\\)*|\\)"
+         . ((lambda (tag)
+              (svg-tag-make tag :face 'org-warning :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-("\\([:]\\(?:HACK\\|PERF\\|MARK\\|hack\\)|.*\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
+        ;; :FIXME| Fixing this madness cannot wait, get to it!
 
-("\\([:]\\(?:HACK\\|hack\\|PERF\\|WARN\\|warn\\|MARK\\)*|\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+        ("\\([:]\\(?:FIXME\\|fixme\\)|.*\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
 
-("\\([:]\\(?:NOTE\\|note\\)|.*\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
+        ("\\([:]\\(?:FIXME\\|fixme\\)*|\\)"
+         . ((lambda (tag)
+              (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-("\\([:]\\(?:NOTE\\|note\\)*|\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+        ;; :HACK| Fix this regexp
+        ;; :PERF| Fix this regexp
+        ;; :MARK| Mark this regexp
+
+        ("\\([:]\\(?:HACK\\|PERF\\|MARK\\|hack\\)|.*\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
+
+        ("\\([:]\\(?:HACK\\|hack\\|PERF\\|MARK\\)*|\\)"
+         . ((lambda (tag)
+              (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+
+        ;; :NOTE| Reduce to a more general solution
+
+        ("\\([:]\\(?:NOTE\\|note\\)|.*\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
+
+        ("\\([:]\\(?:NOTE\\|note\\)*|\\)"
+         . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))))
 #+end_src
 
-***** SVG Tagging: Org-Mode
+***** SVG-Tag: Progress Bar
 
-#+NAME: svg-tagging-org-mode
+#+NAME: svg-tag-progress
 #+begin_src emacs-lisp
-;; Org tags :THIS:
-("\\(:[A-Za-z0-9]+:\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-tag :beg 1 :end -1))))
+(defun svg-progress-percent (value)
+  (svg-image (svg-lib-concat
+              (svg-lib-progress-bar (/ (string-to-number value) 100.0)
+                                    nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+              (svg-lib-tag (concat value "%")
+                           nil :stroke 0 :margin 0)) :ascent 'center))
 
-;; Task priority [#a]
-("\\[#[a-zA-Z]\\]"
- . ((lambda (tag)
-      (svg-tag-make tag :face 'org-priority :beg 2 :end -1 :margin 0 :inverse t))))
+(defun svg-progress-count (value)
+  (let* ((seq (mapcar #'string-to-number (split-string value "/")))
+         (count (float (car seq)))
+         (total (float (cadr seq))))
+    (svg-image (svg-lib-concat
+                (svg-lib-progress-bar (/ count total) nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+                (svg-lib-tag value nil :stroke 0 :margin 0)) :ascent 'center)))
 
 ;; Progress (percentage): [45%]
-("\\(\\[[0-9]\\{1,3\\}%\\]\\)"
- . ((lambda (tag) (svg-progress-percent (substring tag 1 -2)))))
+(push '("\\(\\[[0-9]+/[0-9]+\\]\\)"
+        . ((lambda (tag) (svg-progress-count (substring tag 1 -1)))))
+      svg-tag-tags)
 
 ;; Progress (fraction): [1/3]
-("\\(\\[[0-9]+/[0-9]+\\]\\)"
- . ((lambda (tag) (svg-progress-count (substring tag 1 -1)))))
+(push '("\\(\\[[0-9]\\{1,3\\}%\\]\\)"
+        . ((lambda (tag) (svg-progress-percent (substring tag 1 -2)))))
+      svg-tag-tags)
+#+end_src
 
-;; Org TAGS
-(":TODO:"               . ((lambda (tag) (svg-tag-make "TODO"         :face 'org-todo))))
-(":WIP:"                . ((lambda (tag) (svg-tag-make "WIP"          :face 'org-cite))))
-(":DONE:"               . ((lambda (tag) (svg-tag-make "DONE"         :face 'org-done))))
-(":NOTE:"               . ((lambda (tag) (svg-tag-make "NOTE"))))
-("SCHEDULED:"           . ((lambda (tag) (svg-tag-make "SCHEDULED"    :face 'org-warning))))
-("DEADLINE:"            . ((lambda (tag) (svg-tag-make "DEADLINE"     :face 'org-priority))))
-("^#\\+begin_src"       . ((lambda (tag) (svg-tag-make "BEGIN_SRC"    :face 'org-block-begin-line))))
-("^#\\+end_src"         . ((lambda (tag) (svg-tag-make "END_SRC"      :face 'org-block-end-line))))
-("^#\\+begin_export"    . ((lambda (tag) (svg-tag-make "BEGIN_EXPORT" :face 'org-block-begin-line))))
-("^#\\+end_export"      . ((lambda (tag) (svg-tag-make "END_EXPORT"   :face 'org-block-end-line))))
-("^#\\+begin_example"   . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-begin-line))))
-("^#\\+end_example"     . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-end-line))))
-("^#\\+begin_quote"     . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
-("^#\\+end_quote"       . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
-("^#\\+begin_signature" . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
-("^#\\+end_signature"   . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
-("^#\\+begin_sidenote"  . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
-("^#\\+end_sidenote"    . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
-("^#\\+RESULTS:"        . ((lambda (tag) (svg-tag-make "RESULTS"      :face 'org-done :underline nil))))
-(":X"                   . ((lambda (tag) (svg-tag-make "[X]"          :face 'org-checkbox-statistics-done))))
-(":-"                   . ((lambda (tag) (svg-tag-make "[-]"          :face 'org-checkbox))))
+***** SVG Tag: Org-Mode Tags
 
-;; Citation of the form [cite:@Knuth:1984]
-("\\(\\[cite:@[A-Za-z]+:\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
+#+NAME: svg-tag-org
+#+begin_src emacs-lisp
+;; Basic tags :THIS:
+(setq-local svg-tag-tags
+            `(("\\(:[A-Za-z0-9]+:\\)"
+               . ((lambda (tag) (svg-tag-make tag :face 'org-tag :beg 1 :end -1))))
 
-("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)"
- . ((lambda (tag) (svg-tag-make tag :end -1 :crop-left t))))
+              ;; Task priority [#a]
+              ("\\[#[a-zA-Z]\\]"
+               . ((lambda (tag) (svg-tag-make tag :face 'org-priority :beg 2 :end -1 :margin 0 :inverse t))))
 
-;;; Works for stuff like :XXX|YYY:
-("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:"
- . ((lambda (tag)
-      (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
+              ;; Org TAGS
+              (":TODO:"     . ((lambda (tag)  (svg-tag-make "TODO"     :face 'org-todo))))
+              (":WIP:"      . ((lambda (tag)  (svg-tag-make "WIP"      :face 'org-cite))))
+              (":DONE:"     . ((lambda (tag)  (svg-tag-make "DONE"     :face 'org-done))))
+              (":NOTE:"     . ((lambda (tag)  (svg-tag-make "NOTE"     :face 'org-footnote))))
+              ("SCHEDULED:" . ((lambda (tag) (svg-tag-make "SCHEDULED" :face 'org-scheduled))))
+              ("DEADLINE:"  . ((lambda (tag) (svg-tag-make "DEADLINE"  :face 'org-upcoming-deadline))))
 
-(":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)"
- . ((lambda (tag)
-      (svg-tag-make tag :beg 1 :end -1 :margin 0 :crop-left t))))
+              ;; Tagging some of Org's many blocks
+              ("^#\\+begin_src"       . ((lambda (tag) (svg-tag-make "BEGIN_SRC"    :face 'org-block-begin-line))))
+              ("^#\\+end_src"         . ((lambda (tag) (svg-tag-make "END_SRC"      :face 'org-block-end-line))))
+              ("^#\\+begin_export"    . ((lambda (tag) (svg-tag-make "BEGIN_EXPORT" :face 'org-block-begin-line))))
+              ("^#\\+end_export"      . ((lambda (tag) (svg-tag-make "END_EXPORT"   :face 'org-block-end-line))))
+              ("^#\\+begin_example"   . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-begin-line))))
+              ("^#\\+end_example"     . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-end-line))))
+              ("^#\\+begin_quote"     . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
+              ("^#\\+end_quote"       . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
+              ("^#\\+begin_signature" . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
+              ("^#\\+end_signature"   . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
+              ("^#\\+begin_sidenote"  . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
+              ("^#\\+end_sidenote"    . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
+              ("^#\\+RESULTS:"        . ((lambda (tag) (svg-tag-make "RESULTS"      :face 'org-done :underline nil))))
 
-;; Active date (with or without day name, with or without time) <2023-04-03 Sun 17:45>
-(,(format "\\(<%s>\\)" date-re)
- . ((lambda (tag) (svg-tag-make tag :beg 1 :end -1 :margin 0))))
+              ;; Citation of the form [cite:@Knuth:1984]
+              ("\\(\\[cite:@[A-Za-z]+:\\)"
+               . ((lambda (tag) (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
 
-(,(format "\\(<%s \\)%s>" date-re day-time-re)
- . ((lambda (tag)
-      (svg-tag-make tag :beg 1 :inverse t :crop-right t :margin 0 :face 'org-agenda-date))))
+              ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)"
+               . ((lambda (tag) (svg-tag-make tag :end -1 :crop-left t))))
 
-(,(format "<%s \\(%s>\\)" date-re day-time-re)
- . ((lambda (tag)
-      (svg-tag-make tag :end -1 :inverse nil :crop-left t :margin 0 :face 'org-agenda-date))))
+              ;; :XXX|YYY: -> "XXX" & "YYY"
+              ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:"
+               . ((lambda (tag) (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
+
+              (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)"
+               . ((lambda (tag) (svg-tag-make tag :beg 1 :end -1 :margin 0 :crop-left t))))
+
+              ;; Active date <2023-04-03 Sun 17:45>
+              (,(format "\\(<%s>\\)" date-re) .
+               ((lambda (tag) (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
+
+              (,(format "\\(<%s \\)%s>" date-re day-time-re) .
+               ((lambda (tag) (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0 :face 'org-date))))
+
+              (,(format "<%s \\(%s>\\)" date-re day-time-re) .
+               ((lambda (tag) (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0 :face 'org-date))))
+
+              ;; Inactive date [2023-04-03 Sun 17:45]
+              (,(format "\\(\\[%s\\]\\)" date-re) .
+               ((lambda (tag) (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
+
+              (,(format "\\(\\[%s \\)%s\\]" date-re day-time-re) .
+               ((lambda (tag) (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0 :face 'org-date))))
+
+              (,(format "\\[%s \\(%s\\]\\)" date-re day-time-re) .
+               ((lambda (tag) (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0 :face 'org-date))))))
 #+end_src
 
 *** Modeline(s) -> Status-Bar(s) For Emacs
