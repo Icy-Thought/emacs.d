@@ -340,13 +340,6 @@ Since Elpaca struggles to find the development build version of my Emacs, it is 
 (elpaca `(,@elpaca-order))
 #+end_src
 
-Tell =Evil= to refrain from taking over the keybindings when inside ~elpaca-ui-mode~.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'evil
-  (evil-make-intercept-map elpaca-ui-mode-map))
-#+end_src
-
 **** Integrating =Use-Package= With =Elpaca=
 
 #+begin_src emacs-lisp
@@ -480,8 +473,7 @@ To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package 
    "Action"
    (("z" zone "Zooning out..."))))
 
-(with-eval-after-load 'evil
-  (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body))
+(global-set-key (kbd "C-c .") 'main-hydra/body)
 #+end_src
 
 Then we have another essential Hydra that we will tie our editing related commands to, ~editor-hydra~.
@@ -503,9 +495,8 @@ Then we have another essential Hydra that we will tie our editing related comman
   ("Action"
    (("e" eval-region "Eval Region"))))
 
-(with-eval-after-load 'evil
-  (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
-  (evil-global-set-key 'visual (kbd ",") 'visual-editor-hydra/body))
+(global-set-key (kbd "C-c ,")
+                (lambda () (if (use-region-p) (visual-editor-hydra/body) (editor-hydra/body))))
 #+end_src
 
 ***** Expanding With Secondary Hydras
@@ -1394,7 +1385,6 @@ Lastly, I want the different type of directories to have some form of syntax hig
   (which-key-mode t)
   (which-key-setup-minibuffer)
   :custom
-  (which-key-allow-evil-operators t)
   (which-key-idle-delay 0.3)
   (which-key-show-remaining-keys t)
   (which-key-separator " → ")
@@ -1709,7 +1699,6 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 #+begin_src emacs-lisp
 (use-feature vterm
   :commands (vterm)
-  :hook (vterm-mode . evil-emacs-state)
   :bind (:map vterm-mode-map
               ("<S-prior>" . #'scroll-down-command)
               ("<S-next>"  . #'scroll-up-command))
@@ -1744,12 +1733,6 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   ;; :HACK| Resolves elpaca's failure to detect ~epdfinfo~
   :init (add-to-list 'elpaca-ignored-dependencies 'pdf-tools)
   :config
-  ;; :NOTE| Set the PDF free from the unnecessary borders.
-  (when (featurep 'evil)
-    (add-hook 'pdf-view-mode-hook
-              (lambda () (set (make-local-variable 'evil-normal-state-cursor)
-                              (list nil)))))
-
   ;; :NOTE| Load PDF-Tools utilities when installed from Nix || Guix.
   (if IS-REPRO (let ((inhibit-message t))
                  (load-library "pdf-tools-autoloads")))
@@ -2080,91 +2063,141 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 *** Alternative Editing Bindings
 
-**** EVIL: VIM Layer For Emacs
+**** Meow: Modal Editing
 
 #+begin_src emacs-lisp
-(use-package evil
-  :preface
-  (defun irkalla/extended-escape ()
-    (interactive)
-    (if (evil-ex-hl-active-p 'evil-ex-search)
-        (evil-ex-nohighlight)
-      (evil-force-normal-state)))
-  :bind (:map evil-normal-state-map ("<escape>" . irkalla/extended-escape))
-  :init
-  (setq evil-want-keybinding nil)
-  (evil-mode t)
-  :custom
-  (evil-search-module 'evil-search)
-  (evil-respect-visual-line-mode t)
-  (evil-undo-system 'undo-fu)
-  (evil-vsplit-window-right t))
+(use-package meow
+  :demand t
+  :config
+  (meow-global-mode t)
+  (meow-qwerty-setup)
+  (meow-setup-indicator))
 #+end_src
 
-***** Evil-Collection: A Collection of Many Evil Bindings
+
+***** QWERTY-based Helix Layout
 
 #+begin_src emacs-lisp
-(use-package evil-collection
-  :after (evil)
-  :config (evil-collection-init)
-  :custom
-  (evil-collection-setup-minibuffer t)
-  (evil-collection-magit-want-horizontal-movement t)
-  (evil-collection-magit-use-y-for-yank t))
+(defun meow-qwerty-setup ()
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("/" . consult-line))
+
+  (setq meow-selection-command-fallback
+        '((meow-change . meow-change-char)
+          ;; (meow-kill . meow-c-k)
+          (meow-kill . meow-delete)
+          ;; (meow-cancel-selection . keyboard-quit)
+          (meow-cancel-selection . ignore)
+          (meow-pop-selection . meow-pop-grab)
+          (meow-beacon-change . meow-beacon-change-char)))
+
+  (meow-leader-define-key
+   ;; spc j/k will run the original command in motion state.
+   '("j" . "h-j")
+   '("k" . "h-k")
+   '("/" . "h-/")
+
+   ;; use spc (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
+
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '(")" . meow-forward-slurp)
+   '("(" . meow-forward-barf)
+   '("{" . meow-backward-slurp)
+   '("}" . meow-backward-barf)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("b" . meow-back-word)
+   '("B" . backward-word)
+   ;; '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   ;; '("d" . meow-delete)
+   '("d" . meow-kill)
+   ;; '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . forward-word)
+   ;; '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   ;; '("F" . isearch-forward)
+   '("g" . meow-join)
+   ;; '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '(":a" . meow-left)
+   '(":b" . meow-right)
+   ;; '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . avy-goto-char-timer)
+   '("n" . meow-search)
+   '("o" . meow-open-below)
+   '("O" . meow-open-above)
+   ;; '("o" . meow-block)
+   ;; '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-grab)
+   ;; '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . undo-redo)
+   ;;'("U" . meow-undo-in-selection)
+   ;; '("v" . meow-visit)
+   '("v" . meow-block)
+   '("V" . meow-to-block)
+   '("/" . consult-line)
+   '("?" . comment-dwim)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-line-expand)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . meow-cancel-selection)
+   '("%" . meow-query-replace)
+   '("&" . meow-query-replace-regexp)))
 #+end_src
 
-***** EVIL-Snipe: 2-Char Word Word Search
-
-#+begin_src emacs-lisp
-(use-package evil-snipe
-  :after (evil)
-  :hook (((prog-mode text-mode) . evil-snipe-local-mode)
-         (evil-snipe-local-mode . evil-snipe-override-local-mode))
-  :custom
-  (evil-snipe-scope 'visible)
-  (evil-snipe-repeat-scope 'whole-visible)
-  (evil-snipe-spillover-scope nil)
-  :config (push '(?\[ "[[{(]") evil-snipe-aliases))
-#+end_src
-
-***** EVIL Surround Word With SYMB
-
-#+begin_src emacs-lisp
-(use-package evil-surround
-  :after (evil)
-  :config (global-evil-surround-mode))
-#+end_src
-
-***** EVIL Action Highlight
-
-#+begin_src emacs-lisp
-(use-package evil-goggles
-  :after (evil)
-  :hook ((prog-mode text-mode) . evil-goggles-mode)
-  :custom (evil-goggles-duration 0.1))
-#+end_src
-
-***** EVIL (Line/Block) Commenting
-
-#+begin_src emacs-lisp
-(use-package evil-nerd-commenter
-  :after (evil)
-  :commands (evilnc-comment-or-uncomment-lines
-             evilnc-comment-or-uncomment-paragraphs))
-#+end_src
-
-****** Hydra: Evil Comment Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("Action"
-     ((";" evilnc-comment-or-uncomment-lines      "Comment line"))))
-
-  (pretty-hydra-define+ visual-editor-hydra ()
-    ("Action"
-     ((";" evilnc-comment-or-uncomment-lines "Comment Line(s)")))))
-#+end_src
 
 *** The Basic Requirements of An Editor
 
@@ -2357,9 +2390,7 @@ Also, not all system environments will contain the necessary packages required t
   "Copy contents to the system clipboard."
   (interactive)
   (setq select-enable-clipboard t)
-  (if (featurep 'evil)
-      (call-interactively #'evil-yank)
-    (kill-ring-save (region-beginning) (region-end)))
+  (kill-ring-save (region-beginning) (region-end))
   (setq select-enable-clipboard nil))
 #+end_src
 
@@ -2370,9 +2401,7 @@ Also, not all system environments will contain the necessary packages required t
   "Paste contents to the system clipboard."
   (interactive)
   (setq select-enable-clipboard t)
-  (if (featurep 'evil)
-      (call-interactively #'evil-paste-after)
-    (yank))
+  (yank)
   (setq select-enable-clipboard nil))
 #+end_src
 
@@ -2418,7 +2447,7 @@ Also, not all system environments will contain the necessary packages required t
   :custom
   (savehist-autosave-interval 60)
   (savehist-file (no-littering-expand-var-file-name "savehist"))
-  (savehist-additional-variables '(command-history evil-jumps-history))
+  (savehist-additional-variables '(command-history))
   (savehist-ignored-variables '(ement-room-message-history)))
 #+end_src
 
@@ -3100,9 +3129,6 @@ We also want to make sure that both languages run the proper LSP program when ~e
   :config
   (setq org-directory "~/Workspace/memorandum/org-mode")
 
-  (with-eval-after-load 'evil
-    (evil-define-key 'insert org-mode-map (kbd "$") #'irkalla/org-electric-dollar))
-
   ;; :NOTE| Move our LaTeX previews to cache dir
   (let ((latex-dir (no-littering-expand-var-file-name "latex-preview/")))
     (unless (file-directory-p latex-dir)
@@ -3185,8 +3211,6 @@ We also want to make sure that both languages run the proper LSP program when ~e
   <<org-babel-execute-action>>
   <<org-babel-tangle-config-on-save>>
 
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal org-mode-map (kbd "<return>") #'irkalla/org-execute-action))
   (advice-add 'org-babel-execute-src-block :around #'demand-babel-languages))
 #+end_src
 
@@ -3228,7 +3252,7 @@ Source: https://emacs.stackexchange.com/a/20618
        ;; On a link or a timestamp, call `org-open-at-point'.
        (call-interactively #'org-open-at-point))
       (_
-       ;; Fallback to evil standard command
+       ;; Fallback -> move to next line
        (call-interactively #'forward-line)))))
 #+end_src
 
