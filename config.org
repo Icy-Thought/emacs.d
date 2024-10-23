@@ -2098,20 +2098,18 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
   (setq meow-selection-command-fallback
         '((meow-change . meow-change-char)
-          ;; (meow-kill . meow-c-k)
-          (meow-kill . meow-delete)
-          ;; (meow-cancel-selection . keyboard-quit)
-          (meow-cancel-selection . ignore)
+          (meow-kill . meow-delete) ;; alt. meow-C-k
+          (meow-cancel-selection . keyboard-quit)
           (meow-pop-selection . meow-pop-grab)
           (meow-beacon-change . meow-beacon-change-char)))
 
   (meow-leader-define-key
-   ;; spc j/k will run the original command in motion state.
+   ;; SPC j/k will run the original command in motion state.
    '("j" . "h-j")
    '("k" . "h-k")
    '("/" . "h-/")
 
-   ;; use spc (0-9) for digit arguments.
+   ;; USE SPC (0-9) for digit args.
    '("1" . meow-digit-argument)
    '("2" . meow-digit-argument)
    '("3" . meow-digit-argument)
@@ -2148,25 +2146,21 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("]" . meow-end-of-thing)
    '("a" . meow-append)
    '("b" . meow-back-word)
-   '("B" . backward-word)
-   ;; '("B" . meow-back-symbol)
+   '("B" . backward-word) ;; alt. meow-back-symbol
    '("c" . meow-change)
-   ;; '("d" . meow-delete)
-   '("d" . meow-kill)
-   ;; '("D" . meow-backward-delete)
+   '("d" . meow-kill) ;; alt. meow-delete
+   '("D" . meow-backward-delete)
    '("e" . meow-next-word)
-   '("E" . forward-word)
-   ;; '("E" . meow-next-symbol)
+   '("E" . forward-word) ;; alt. meow-next-symbol
    '("f" . meow-find)
-   ;; '("F" . isearch-forward)
+   '("F" . consult-fd)
    '("g" . meow-join)
-   ;; '("G" . meow-grab)
    '("h" . meow-left)
    '("H" . meow-left-expand)
    '("i" . meow-insert)
+   '("I" . meow-open-above)
    '(":a" . meow-left)
    '(":b" . meow-right)
-   ;; '("I" . meow-open-above)
    '("j" . meow-next)
    '("J" . meow-next-expand)
    '("k" . meow-prev)
@@ -2177,21 +2171,16 @@ I also would like for web-pages to properly render code blocks, and that is by d
    '("n" . meow-search)
    '("o" . meow-open-below)
    '("O" . meow-open-above)
-   ;; '("o" . meow-block)
-   ;; '("O" . meow-to-block)
    '("p" . meow-yank)
    '("q" . meow-quit)
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
    '("R" . meow-swap-grab)
    '("s" . meow-grab)
-   ;; '("s" . meow-kill)
    '("t" . meow-till)
    '("u" . meow-undo)
-   '("U" . undo-redo)
-   ;;'("U" . meow-undo-in-selection)
-   ;; '("v" . meow-visit)
-   '("v" . meow-block)
+   '("U" . undo-redo) ;; alt. meow-undo-in-selection
+   '("v" . meow-block) ;; alt. meow-visit
    '("V" . meow-to-block)
    '("/" . consult-line)
    '("?" . comment-dwim)
