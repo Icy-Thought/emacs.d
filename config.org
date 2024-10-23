@@ -473,7 +473,7 @@ To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package 
    "Action"
    (("z" zone "Zooning out..."))))
 
-(global-set-key (kbd "C-c .") 'main-hydra/body)
+(global-set-key (kbd "C-c [") 'main-hydra/body)
 #+end_src
 
 Then we have another essential Hydra that we will tie our editing related commands to, ~editor-hydra~.
@@ -494,10 +494,20 @@ Then we have another essential Hydra that we will tie our editing related comman
           :color teal :quit-key "q")
   ("Action"
    (("e" eval-region "Eval Region"))))
-
-(global-set-key (kbd "C-c ,")
-                (lambda () (if (use-region-p) (visual-editor-hydra/body) (editor-hydra/body))))
 #+end_src
+
+What remains is for us to write a conditional keybinding that spawns the appropriate hydra on demand.
+
+#+begin_src emacs-lisp
+(defun irkalla/cond-editor-hydra ()
+  (interactive)
+  (if (region-active-p)
+      (call-interactively 'visual-editor-hydra/body)
+    (call-interactively 'editor-hydra/body)))
+
+(global-set-key (kbd "C-c ]") 'irkalla/cond-editor-hydra)
+#+end_src
+
 
 ***** Expanding With Secondary Hydras
 
