@@ -479,9 +479,6 @@ To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package 
    (("b" buffer-hydra/body "Buffer"))
    "Action"
    (("z" zone "Zooning out..."))))
-
-(with-eval-after-load 'evil
-  (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body))
 #+end_src
 
 Then we have another essential Hydra that we will tie our editing related commands to, ~editor-hydra~.
@@ -502,8 +499,13 @@ Then we have another essential Hydra that we will tie our editing related comman
           :color teal :quit-key "q")
   ("Action"
    (("e" eval-region "Eval Region"))))
+#+end_src
 
+Time to add a couple of keybindings to call the newly created Hydras!
+
+#+begin_src emacs-lisp
 (with-eval-after-load 'evil
+  (evil-global-set-key 'normal (kbd "SPC") 'main-hydra/body)
   (evil-global-set-key 'normal (kbd ",") 'editor-hydra/body)
   (evil-global-set-key 'visual (kbd ",") 'visual-editor-hydra/body))
 #+end_src
@@ -1492,7 +1494,9 @@ Allowing consult to interact with my ever-growing projects is something I consid
                  (window-parameters (mode-line-format . none))))
   :custom
   (embark-prompter #'embark-completing-read-prompter)
-  (embark-indicators '(embark-highlight-indicator embark-isearch-highlight-indicator)))
+  (embark-indicators
+   '(embark-highlight-indicator
+     embark-isearch-highlight-indicator)))
 #+end_src
 
 Well, since =Embark= and =Consult= can be linked... I do not see a reason for their seperation.
@@ -2084,18 +2088,13 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil
-  :preface
-  (defun irkalla/extended-escape ()
-    (interactive)
-    (if (evil-ex-hl-active-p 'evil-ex-search)
-        (evil-ex-nohighlight)
-      (evil-force-normal-state)))
-  :bind (:map evil-normal-state-map ("<escape>" . irkalla/extended-escape))
-  :init
-  (setq evil-want-keybinding nil)
-  (evil-mode t)
+  :demand t
+  :bind (:map evil-normal-state-map ("-" . evil-ex-nohighlight))
+  :config
+  (evil-select-search-module 'evil-search-module 'evil-search)
+  (evil-mode)
   :custom
-  (evil-search-module 'evil-search)
+  (evil-want-keybinding nil)
   (evil-respect-visual-line-mode t)
   (evil-undo-system 'undo-fu)
   (evil-vsplit-window-right t))
@@ -2140,7 +2139,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-package evil-goggles
   :after (evil)
-  :hook ((prog-mode text-mode) . evil-goggles-mode)
+  :config (evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
 #+end_src
 
@@ -2149,22 +2148,35 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
   :after (evil)
-  :commands (evilnc-comment-or-uncomment-lines
-             evilnc-comment-or-uncomment-paragraphs))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Editing: Evil Commenting ｣──" 'faicon "nf-fa-code")
+           :color teal :quit-key "q")
+   ("Actions"
+    (("c" evilnc-copy-and-comment-lines                 "Copy & Comment")
+     ("l" evilnc-comment-or-uncomment-lines             "Un/Comment Lines")
+     ("p" evilnc-comment-or-uncomment-paragraphs        "Un/Comment Paragraph"))
+    "Fancy"
+    (("b" evilnc-comment-box                            "Boxed Comment")
+     ("l" evilnc-comment-or-uncomment-lines             "Un/Comment Lines")
+     ("p" evilnc-comment-or-uncomment-paragraphs        "Un/Comment Paragraph"))
+    "Fancy"
+    (("b" evilnc-comment-box                            "Boxed Comment")
+     ("n" evilnc-quick-comment-or-uncomment-to-the-line "Comment -> Nth Line")))))
 #+end_src
 
-****** Hydra: Evil Comment Bindings
+****** Hydra: Evil Nerd Commenter
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
     ("Action"
-     ((";" evilnc-comment-or-uncomment-lines      "Comment line"))))
+     ((";" evil-nerd-commenter-hydra/body "Comment"))))
 
   (pretty-hydra-define+ visual-editor-hydra ()
     ("Action"
-     ((";" evilnc-comment-or-uncomment-lines "Comment Line(s)")))))
+     ((";" evil-nerd-commenter-hydra/body "Comment")))))
 #+end_src
+
 
 *** The Basic Requirements of An Editor
 
