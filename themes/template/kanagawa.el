@@ -549,29 +549,35 @@
      (hydra-face-red                                (:foreground peachRed))
      (hydra-face-teal                               (:foreground lightBlue))
 
-     ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
-     (tab-line                                      (:background sumiInk-0))
-
      ;; https://www.emacswiki.org/emacs/TabBarMode
      (tab-bar                                       (:background sumiInk-0  :foreground sumiInk-4))
      (tab-bar-tab                                   (:background sumiInk-1b :foreground waveAqua1 :bold t))
      (tab-bar-tab-inactive                          (:background sumiInk-0  :foreground sumiInk-4))
 
+     ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
+     (tab-line                                      (:background sumiInk-0))
+     (tab-line-tab                                  (:background sumiInk-0  :foreground sumiInk-4))
+     (tab-line-tab-current                          (:background sumiInk-1b :foreground fujiWhite :bold t))
+     (tab-line-tab-inactive                         (:background sumiInk-0  :foreground sumiInk-4))
+     (tab-line-tab-modified                         (:foreground autumnYellow))
+     (tab-line-tab-special                          (:foreground springViolet1))
+     (tab-line-tab-inactive-alternate               (:background sumiInk-0  :foreground sumiInk-4))
+     (tab-line-highlight                            (:background sumiInk-1b :foreground boatYellow2 :bold t))
+     (tab-line-close-highlight                      (:background sumiInk-0  :foreground peachRed))
+     (tab-line-tab-group                            (:background sumiInk-0  :foreground waveAqua1 :bold t))
+
      ;; https://github.com/ema2159/centaur-tabs
+     (centaur-tabs-default                          (:background sumiInk-0 :foreground sumiInk-4))
      (centaur-tabs-active-bar-face                  (:background springBlue :foreground fujiWhite))
      (centaur-tabs-selected                         (:background sumiInk-1b :foreground fujiWhite :bold t))
      (centaur-tabs-selected-modified                (:background sumiInk-1b :foreground fujiWhite))
      (centaur-tabs-modified-marker-selected         (:background sumiInk-1b :foreground autumnYellow))
      (centaur-tabs-close-selected                   (:inherit 'centaur-tabs-selected))
-
      (centaur-tabs-unselected                       (:background sumiInk-0 :foreground sumiInk-4))
-     (centaur-tabs-default                          (:background sumiInk-0 :foreground sumiInk-4))
      (centaur-tabs-unselected-modified              (:background sumiInk-0 :foreground peachRed))
      (centaur-tabs-modified-marker-unselected       (:background sumiInk-0 :foreground sumiInk-4))
      (centaur-tabs-close-unselected                 (:background sumiInk-0 :foreground sumiInk-4))
-
      (centaur-tabs-close-mouse-face                 (:background nil :foreground peachRed))
-     (centaur-tabs-default                          (:background roninYellow))
      (centaur-tabs-name-mouse-face                  (:foreground springBlue :bold t))
 
      ;; https://github.com/Artawower/blamer.el

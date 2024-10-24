@@ -1033,11 +1033,14 @@ Reference:
 
 #+begin_src emacs-lisp
 (use-package tabspaces
-  :commands (tabspaces-switch-or-create-workspace
-             tabspaces-open-or-create-project-and-workspace)
+  :commands
+  (tabspaces-switch-or-create-workspace
+   tabspaces-open-or-create-project-and-workspace)
+  :bind (("C-<next>" . tab-next)
+         ("C-<prior>" . tab-previous))
   :config
-  (tabspaces-mode t)
   <<tabspaces-consult-buffers>>
+  (tabspaces-mode)
   :custom
   (tabspaces-session t)
   (tabspaces-keymap-prefix "C-c p")
@@ -1046,7 +1049,12 @@ Reference:
   (tabspaces-include-buffers '("*scratch*"))
   (tabspaces-initialize-project-with-todo t)
   (tabspaces-todo-file-name "project-todo.org")
-  (tabspaces-use-filtered-buffers-as-default t))
+  (tabspaces-use-filtered-buffers-as-default t)
+
+  ;; :NOTE| tab-bar related changes
+  (tab-bar-show 1)
+  (tab-bar-tab-hints t)
+  (tab-bar-new-tab-choice "*dashboard*"))
 #+end_src
 
 We also want consult to be able to track our separated buffers properly and not mix them togheter.
@@ -1068,19 +1076,6 @@ We also want consult to be able to track our separated buffers properly and not 
                        :sort 'visibility
                        :as #'buffer-name))))
   (add-to-list 'consult-buffer-sources 'consult--source-workspace))
-#+end_src
-
-To ease the navigation between the growing tabs, we could add navigation bindings akin to the once we have for windows in browsers.
-
-#+begin_src emacs-lisp
-(use-feature tab-bar
-  :bind (("C-<next>" . tab-next)
-         ("C-<prior>" . tab-previous))
-  :config (tab-bar-mode t)
-  :custom
-  (tab-bar-show 1)
-  (tab-bar-tab-hints t)
-  (tab-bar-new-tab-choice "*dashboard*"))
 #+end_src
 
 *** Dashboard: A Welcoming Buffer For New Frames
