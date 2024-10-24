@@ -39,7 +39,7 @@
     - [[#adding-a-sprinkle-of-icons][Adding A Sprinkle of Icons]]
     - [[#svg-tag-decorating-buffers-with-svg][SVG-Tag: Decorating Buffers With SVG]]
     - [[#modelines---status-bars-for-emacs][Modeline(s) -> Status-Bar(s) For Emacs]]
-    - [[#tab-bars---a-header-line-for-buffers][Tab Bar(s) -> A Header-Line For Buffers]]
+    - [[#containers-for-displaying-tabs--buffers][Containers For Displaying Tab(s) & Buffer(s)]]
     - [[#dashboard-a-welcoming-buffer-for-new-frames][Dashboard: A Welcoming Buffer For New Frames]]
   - [[#part-3-expanding-the-utility-box][Part 3: Expanding The Utility Box]]
     - [[#introducing-the-basics][Introducing The Basics]]
@@ -995,12 +995,9 @@ We should also be able to complete the icons as we do on other platforms.
   (moody-replace-vc-mode))
 #+end_src
 
-*** Tab Bar(s) -> A Header-Line For Buffers
+*** Containers For Displaying Tab(s) & Buffer(s)
 
-**** Centaur Tabs: A Header Line For Buffers
-
-Reference:
-- https://github.com/ema2159/centaur-tabs/issues/127#issuecomment-1848219082
+**** Centaur-Tab: Efficient Tab & Buffer Bar
 
 #+begin_src emacs-lisp
 (use-package centaur-tabs
@@ -1026,18 +1023,34 @@ Reference:
         `(,@centaur-tabs-excluded-prefixes "*" " *" "consult-partial-preview" "Ement" "magit")))
 #+end_src
 
-**** Tabspaces: Buffer Isolated Workspaces
+**** Built-in: Tab-Bar & Tab-Line
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
 :END:
+
+#+begin_src emacs-lisp
+(use-feature tab-bar
+  :bind (("C-<next>" . tab-next)
+         ("C-<prior>" . tab-previous))
+  :custom
+  (tab-bar-show 1)
+  (tab-bar-tab-hints t)
+  (tab-bar-close-button " 󰅖 ")
+  (tab-bar-new-tab-choice "*dashboard*"))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-feature tab-line
+  :config (setq tab-line-close-button " 󰅖 "))
+#+end_src
+
+***** Tabspaces: Saner Defaults For Tab-Bar!
 
 #+begin_src emacs-lisp
 (use-package tabspaces
   :commands
   (tabspaces-switch-or-create-workspace
    tabspaces-open-or-create-project-and-workspace)
-  :bind (("C-<next>" . tab-next)
-         ("C-<prior>" . tab-previous))
   :config
   <<tabspaces-consult-buffers>>
   (tabspaces-mode)
@@ -1049,12 +1062,7 @@ Reference:
   (tabspaces-include-buffers '("*scratch*"))
   (tabspaces-initialize-project-with-todo t)
   (tabspaces-todo-file-name "project-todo.org")
-  (tabspaces-use-filtered-buffers-as-default t)
-
-  ;; :NOTE| tab-bar related changes
-  (tab-bar-show 1)
-  (tab-bar-tab-hints t)
-  (tab-bar-new-tab-choice "*dashboard*"))
+  (tabspaces-use-filtered-buffers-as-default t))
 #+end_src
 
 We also want consult to be able to track our separated buffers properly and not mix them togheter.

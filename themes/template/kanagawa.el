@@ -555,7 +555,7 @@
      (tab-bar-tab-inactive                          (:background sumiInk-0  :foreground sumiInk-4))
 
      ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Line.html
-     (tab-line                                      (:background sumiInk-0))
+     (tab-line                                      (:background sumiInk-0 :foreground sumiInk-4))
      (tab-line-tab                                  (:background sumiInk-0  :foreground sumiInk-4))
      (tab-line-tab-current                          (:background sumiInk-1b :foreground fujiWhite :bold t))
      (tab-line-tab-inactive                         (:background sumiInk-0  :foreground sumiInk-4))
