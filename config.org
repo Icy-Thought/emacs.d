@@ -2110,6 +2110,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :after (evil)
   :config (evil-collection-init)
   :custom
+  (evil-collection-corfu-key-themes '(tab-n-go))
   (evil-collection-setup-minibuffer t)
   (evil-collection-magit-want-horizontal-movement t)
   (evil-collection-magit-use-y-for-yank t))
@@ -2754,11 +2755,6 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
-  :bind (:map corfu-map
-              ("TAB" . corfu-next)
-              ([tab] . corfu-next)
-              ("S-TAB" . corfu-previous)
-              ([backtab] . corfu-previous))
   :init (global-corfu-mode)
   :custom
   (corfu-cycle t)
@@ -2773,10 +2769,10 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-feature corfu-popupinfo
   :after (corfu)
-  :bind (:map corfu-map
+  :bind (:map corfu-popupinfo-map
               ("M-TAB" . corfu-popupinfo-toggle)
-              ("M-j" . corfu-popupinfo-scroll-down)
-              ("M-k" . corfu-popupinfo-scroll-up))
+              ("M-k" . corfu-popupinfo-scroll-down)
+              ("M-j" . corfu-popupinfo-scroll-up))
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom (corfu-popupinfo-delay nil))
 #+end_src
