@@ -1393,7 +1393,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 **** Which Key Was It Again???
 
 #+begin_src emacs-lisp
-(use-package which-key
+(use-feature which-key
   :diminish which-key-mode
   :config
   (which-key-mode t)
