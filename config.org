@@ -1968,7 +1968,7 @@ Kind Regards,
   (with-eval-after-load 'cape
     (add-hook 'ement-room-read-string-setup-hook
               (lambda ()
-                (setq-local corfu-auto nil)
+                (setq-local completion-at-point-functions nil) ;; too much spam (members/rooms)
                 (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
   (ement-notify-notification-predicates
