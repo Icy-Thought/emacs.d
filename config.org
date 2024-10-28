@@ -1311,7 +1311,8 @@ Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall a
         mouse-1-click-follows-link nil)
   :custom
   (dired-auto-revert-buffer t)
-  (dired-mouse-drag-files t))
+  (dired-mouse-drag-files t)
+  (dired-kill-when-opening-new-dired-buffer t))
 #+end_src
 
 I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
