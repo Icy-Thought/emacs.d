@@ -47,8 +47,8 @@
     - [[#trivial-changes-to-extend-workflow][Trivial Changes To Extend Workflow]]
   - [[#part-4-editing-environment][Part 4: Editing Environment]]
     - [[#alternative-editing-bindings][Alternative Editing Bindings]]
-    - [[#the-basic-requirements-of-an-editor][The Basic Requirements of An Editor]]
-    - [[#expanding-on-the-basic-requirements][Expanding On The Basic Requirements]]
+    - [[#switching-up-the-editing-experience][Switching Up The Editing Experience]]
+    - [[#useful-utilities-for-editing-environments][Useful Utilities For Editing Environments]]
   - [[#part-5-completion--debugging][Part 5: Completion & Debugging]]
     - [[#orderless-completion-candidate-matching][Orderless: Completion Candidate Matching]]
     - [[#breadcrumb-location-indicator-for-larger-projects][Breadcrumb: Location Indicator For Larger Projects]]
@@ -2179,8 +2179,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
      ((";" evil-nerd-commenter-hydra/body "Comment")))))
 #+end_src
 
-
-*** The Basic Requirements of An Editor
+*** Switching Up The Editing Experience
 
 #+begin_src emacs-lisp
 (use-feature emacs
@@ -2200,27 +2199,14 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (text-mode-ispell-word-completion nil))
 #+end_src
 
-**** Update Files When Changed
-
-#+begin_src emacs-lisp
-(use-feature autorevert
-  :hook ((prog-mode text-mode) . auto-revert-mode)
-  :custom
-  (auto-revert-interval 1)
-  (auto-revert-notify t)
-  (auto-revert-verbose t))
-#+end_src
-
-**** Uniform Editing Environment
-
-Since I work with other developers I need to add one package that could help reduce the burden of formatter wars and whatnot, =editorconfig= that is.
+**** EditorConf: Respect Project Config
 
 #+begin_src emacs-lisp
 (use-package editorconfig
   :hook (prog-mode . editorconfig-mode))
 #+end_src
 
-Also, not all system environments will contain the necessary packages required to work with certain projects. Therefore packages like =direnv= was created, to automatically install/load the environment of a specific project.
+**** Direnv: Loads Pre-Defined Directory Environment
 
 #+begin_src emacs-lisp
 (use-package direnv
@@ -2230,7 +2216,7 @@ Also, not all system environments will contain the necessary packages required t
   :custom (direnv-always-show-summary nil))
 #+end_src
 
-**** Enhancing The Aesthetics A Little
+**** Cleaning Up The Aesthetics A Little
 
 ***** Number Line
 
@@ -2247,7 +2233,7 @@ Also, not all system environments will contain the necessary packages required t
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-***** Colorful Indentation Levels
+***** Colorful Indentations Levels
 
 #+begin_src emacs-lisp
 (use-package indent-bars
@@ -2309,7 +2295,7 @@ Also, not all system environments will contain the necessary packages required t
      (("w" whitespace-mode "Whitespace Mode" :toggle t)))))
 #+end_src
 
-***** Ligatures: Cleaner Display of SYMB
+***** Ligatures: Alternative Way To Display SYMB
 
 #+begin_src emacs-lisp
 (use-package ligature
@@ -2334,7 +2320,7 @@ Also, not all system environments will contain the necessary packages required t
      "\\\\" "://")))
 #+end_src
 
-***** Visual Fill Column: Allow Centering of Content
+***** Soft-Wrap & Center Displayed Content
 
 #+begin_src emacs-lisp
 (use-package visual-fill-column
@@ -2352,60 +2338,30 @@ Also, not all system environments will contain the necessary packages required t
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 #+end_src
 
-**** :NIXPKGS: Jinx: Elegant Spell Checker
+*** Useful Utilities For Editing Environments
+
+**** Project
 
 #+begin_src emacs-lisp
-(use-feature jinx
-  :commands (jinx-correct)
-  :hook (text-mode . jinx-mode)
-  :bind ([remap ispell-word] . jinx-correct))
+(use-feature project
+  :custom
+  (project-vc-extra-root-markers
+   '(".dir-locals.el" "Cargo.toml"
+     "package.json" "requirements.txt")))
 #+end_src
 
-**** Separate Emacs Clipboard From System
-
-***** Copying To System Clipboard
+**** Watch Files; Update On Change
 
 #+begin_src emacs-lisp
-(defun irkalla/copy-to-sysclip ()
-  "Copy contents to the system clipboard."
-  (interactive)
-  (setq select-enable-clipboard t)
-  (if (featurep 'evil)
-      (call-interactively #'evil-yank)
-    (kill-ring-save (region-beginning) (region-end)))
-  (setq select-enable-clipboard nil))
+(use-feature autorevert
+  :hook ((prog-mode text-mode) . auto-revert-mode)
+  :custom
+  (auto-revert-interval 1)
+  (auto-revert-notify t)
+  (auto-revert-verbose t))
 #+end_src
 
-***** Pasting From System Clipboard
-
-#+begin_src emacs-lisp
-(defun irkalla/paste-from-sysclip ()
-  "Paste contents to the system clipboard."
-  (interactive)
-  (setq select-enable-clipboard t)
-  (if (featurep 'evil)
-      (call-interactively #'evil-paste-after)
-    (yank))
-  (setq select-enable-clipboard nil))
-#+end_src
-
-***** Hydra: Clipboard Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("Action"
-     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
-      ("p" irkalla/paste-from-sysclip "Paste <- Sys-Clip"))))
-
-  (pretty-hydra-define+ visual-editor-hydra ()
-    ("Action"
-     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")))))
-#+end_src
-
-*** Expanding On The Basic Requirements
-
-**** Maintaining A Clean History
+**** Maintaining A Cleaner History
 
 #+begin_src emacs-lisp
 (use-feature emacs
@@ -2478,6 +2434,48 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :custom
   (vundo-compact-display t)
   (vundo-glyph-alist vundo-unicode-symbols))
+#+end_src
+
+**** Separate Emacs Clipboard From System
+
+***** Copying To System Clipboard
+
+#+begin_src emacs-lisp
+(defun irkalla/copy-to-sysclip ()
+  "Copy contents to the system clipboard."
+  (interactive)
+  (setq select-enable-clipboard t)
+  (if (featurep 'evil)
+      (call-interactively #'evil-yank)
+    (kill-ring-save (region-beginning) (region-end)))
+  (setq select-enable-clipboard nil))
+#+end_src
+
+***** Pasting From System Clipboard
+
+#+begin_src emacs-lisp
+(defun irkalla/paste-from-sysclip ()
+  "Paste contents to the system clipboard."
+  (interactive)
+  (setq select-enable-clipboard t)
+  (if (featurep 'evil)
+      (call-interactively #'evil-paste-after)
+    (yank))
+  (setq select-enable-clipboard nil))
+#+end_src
+
+***** Hydra: Clipboard Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Action"
+     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")
+      ("p" irkalla/paste-from-sysclip "Paste <- Sys-Clip"))))
+
+  (pretty-hydra-define+ visual-editor-hydra ()
+    ("Action"
+     (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")))))
 #+end_src
 
 **** Ediff: Display File Difference(s)
@@ -2691,6 +2689,15 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (pretty-hydra-define+ editor-hydra ()
     ("Control"
      (("a" activities-hydra/body "Activities")))))
+#+end_src
+
+**** :NIXPKGS: Jinx: Elegant Spell Checker
+
+#+begin_src emacs-lisp
+(use-feature jinx
+  :commands (jinx-correct)
+  :hook (text-mode . jinx-mode)
+  :bind ([remap ispell-word] . jinx-correct))
 #+end_src
 
 ** Part 5: Completion & Debugging
@@ -3549,8 +3556,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package rust-mode
   :commands (rust-run)
-  :hook (rust-ts-mode . eglot-ensure)
-  :init (setq project-vc-extra-root-markers '("Cargo.toml")))
+  :hook (rust-ts-mode . eglot-ensure))
 
 (use-package cargo
   :after (rust-mode)
