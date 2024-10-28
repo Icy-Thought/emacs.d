@@ -1008,9 +1008,7 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
-  :init
-  (centaur-tabs-mode)
-  ;; (centaur-tabs-group-by-projectile-project)
+  :init (centaur-tabs-mode)
   :config
   (setq x-underline-at-descent-line t
         centaur-tabs-height 32
@@ -1433,8 +1431,8 @@ Lastly, I want the different type of directories to have some form of syntax hig
 Allowing consult to interact with my ever-growing projects is something I consider to be useful.
 
 #+begin_src emacs-lisp
-(use-package consult-projectile
-  :after (consult projectile))
+(use-package consult-project-extra
+  :after (consult project))
 #+end_src
 
 ***** Hydra: Consult Bindings
@@ -1447,7 +1445,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
     ("Main"
      (("f" consult-fd                        "Find files by NAME")
       ("r" consult-recent-file               "Recent files")
-      ("s" consult-projectile-switch-project "Switch project")
+      ("s" consult-project-extra-find        "Switch project")
       ("/" consult-ripgrep                   "Grep <- REGEXP"))
      "Action"
      (("B" consult-bookmark                  "Open named bookmark")
@@ -1476,7 +1474,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
   (pretty-hydra-define+ buffer-hydra ()
     ("Consult"
      (("b" consult-buffer                    "Switch Buffer")
-      ("B" consult-projectile-buffer         "Project Buf. Switch")
+      ("B" consult-project-buffer            "Project Buf. Switch")
       ("w" consult-buffer-other-window       "Split Buf. Switch"))))
 
   (pretty-hydra-define+ helpful-hydra ()
@@ -1733,8 +1731,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ launcher-hydra ()
     ("Terminal"
-     (("e" vterm "VTerm")
-      ("p" projectile-run-vterm "VTerm -> Project")))))
+     (("e" vterm "VTerm")))))
 #+end_src
 
 *** Trivial Changes To Extend Workflow
@@ -2187,7 +2184,6 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :config (with-eval-after-load 'projectile (projectile-mode))
   :custom
   (cursor-in-non-selected-windows nil)
   (confirm-nonexistent-file-or-buffer nil)
@@ -2917,7 +2913,7 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
   :custom
   (dape-key-prefix "\C-x\C-a")
   (dape-buffer-window-arrangement 'right)
-  (dape-cwd-fn 'projectile-project-root))
+  (dape-cwd-fn 'project-vc-extra-root-markers))
 #+end_src
 
 **** Hydra: Dape Bindings
