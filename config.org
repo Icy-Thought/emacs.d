@@ -1153,7 +1153,7 @@ We also want consult to be able to track our separated buffers properly and not 
 #+begin_src emacs-lisp
 (use-package emacs-everywhere
   :commands (emacs-everywhere)
-  :custom (emacs-everywhere-copy-command (list "cat" "%f" "|" "cb" "copy")))
+  :custom (emacs-everywhere-copy-command '("sh" "-c" "cat %f | cb copy")))
 #+end_src
 
 **** Trace Performance Hiccups
@@ -2761,10 +2761,10 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :ensure (:files (:defaults "extensions/*.el"))
   :init (global-corfu-mode)
   :custom
-  (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-delay 0.05)
   (corfu-auto-prefix 1)
+  (corfu-cycle t)
   (corfu-on-exact-match nil))
 #+end_src
 
