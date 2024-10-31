@@ -1982,10 +1982,10 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 
 #+begin_src emacs-lisp
 (defun irkalla/connect-to-matrix ()
-  "Connect Emacs to the Matrix, unless connection exists."
+  "Form a connection between Emacs and the Matrix."
   (interactive "p")
   (require 'ement)
-  (let* ((matrix-username "@gilganix:matrix.org"))
+  (let* ((matrix-username "@icy-thought:matrix.org"))
     (cond
      ((map-elt ement-sessions matrix-username) (ement-room-list))
      ((ement--read-sessions)
