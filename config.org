@@ -2760,11 +2760,13 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
   :init (global-corfu-mode)
+  :config
+  (with-eval-after-load 'evil-collection
+    (setq corfu-preselect 'valid))
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.05)
   (corfu-auto-prefix 1)
-  (corfu-cycle t)
   (corfu-on-exact-match nil))
 #+end_src
 
