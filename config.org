@@ -666,7 +666,7 @@ What remains of us is to load the theme of our choice.
 #+begin_src emacs-lisp
 (use-package fontaine
   :preface (defvar irkalla/default-font-family "VictorMono Nerd Font")
-  :hook (enable-theme-functions #'fontaine-apply-current-preset)
+  :hook (enable-theme-functions . fontaine-apply-current-preset)
   :init (fontaine-set-preset 'default)
   :custom
   (fontaine-presets
@@ -1982,19 +1982,24 @@ I also want to write a function that could later be used to spawn an Emacs (matr
 
 #+begin_src emacs-lisp
 (defun irkalla/connect-to-matrix ()
-  "Form a connection between Emacs and the Matrix."
-  (interactive "p")
+  "Form a connection between Emacs and the Matrix, using Ement."
+  (interactive)
   (require 'ement)
-  (let* ((matrix-username "@icy-thought:matrix.org"))
+  (let* ((matrix-username "@icy-thought:matrix.org")
+         (session (map-elt ement-sessions matrix-username)))
     (cond
-     ((map-elt ement-sessions matrix-username) (ement-room-list))
+     (session
+      (message "Session already exists. Opening room list...")
+      (ement-room-list))
      ((ement--read-sessions)
-      (call-interactively #'ement-connect)
-      (message "Connecting to known Ement session..."))
-     (t (ement-connect
-         :user-id matrix-username
-         :password (irkalla/read-secret-file "Ement")
-         :uri-prefix "http://localhost:8009")))))
+      (message "Connecting to a known session...")
+      (call-interactively #'ement-connect))
+     (t
+      (message "Starting a new Ement session...")
+      (ement-connect
+       :user-id matrix-username
+       :password (irkalla/read-secret-file "Ement")
+       :uri-prefix "http://localhost:8009")))))
 #+end_src
 
 ***** :NIXPKGS: Telega: Emacs Telegram Client
@@ -2531,6 +2536,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 (use-feature paren
   :hook (prog-mode . show-paren-mode)
   :custom
+  (show-paren-delay 0)
   (show-paren-style 'parenthesis)
   (show-paren-when-point-in-periphery nil)
   (show-paren-when-point-inside-paren nil))
@@ -3264,7 +3270,7 @@ Source: https://emacs.stackexchange.com/a/20618
                       (expand-file-name "config.org" irkalla/underworld)))
     (org-babel-tangle)))
 
-(add-hook 'after-save-hook 'irkalla/tangle-config-file)
+(add-hook 'after-save-hook #'irkalla/tangle-config-file)
 #+end_src
 
 **** TOC: Auto-Generate Table of Contents
@@ -3289,7 +3295,7 @@ Source: https://emacs.stackexchange.com/a/20618
 #+begin_src emacs-lisp
 (use-package org-super-agenda
   :after (org-agenda)
-  :hook (org-agenda-mode .  org-super-agenda-mode)
+  :hook (org-agenda-mode . org-super-agenda-mode)
   :custom
   (org-super-agenda-groups
    '((:name "Today" :time-grid t :todo "TODAY")
@@ -3524,7 +3530,9 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (use-package nix-ts-mode
   :mode ("\\.nix\\'" . nix-ts-mode)
-  :hook (nix-ts-mode . eglot-ensure))
+  :hook (nix-ts-mode . (lambda ()
+                         (unless (string-match-p "nixpkgs" default-directory)
+                           (eglot-ensure)))))
 #+end_src
 
 **** Apheleia: Nix Formatter
