@@ -1250,35 +1250,59 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 #+begin_src emacs-lisp
 (use-package popper
-  :preface
-  (defun popper-display-vertical-popup (buffer &optional alist)
-    (display-buffer-in-side-window
-     buffer (append alist `((window-height . ,popper-window-height)
-                            (window-width  . 0.35)
-                            (side . right)
-                            (slot . 1)))))
-  :config
-  (popper-mode t)
-  (popper-echo-mode t)
+  :bind (:map popper-mode-map)
+  :config (popper-mode)
   :custom
-  (popper-group-function #'popper-group-by-directory)
-  (popper-display-function #'popper-display-vertical-popup)
-  (popper-reference-buffers '(help-mode
-                              "\\*Messages\\*"
-                              "\\*Async Shell Command\\*"
-                              "Output\\*$"
-                              "^\\*apheleia.*\\*$"
-                              "\\*.*compilation.*\\*"
-                              ("*Python*" . hide)
-                              ("\\*.*REPL.*\\*" . hide)
-                              (compilation-list-mode . hide)
+  (popper-echo-mode t)
+  (popper-display-control nil)
+  (popper-echo-dispatch-keys nil)
+  (popper-group-function #'popper-group-by-project)
+  (popper-reference-buffers
+   '(help-mode helpful-mode
+     "\\*Messages\\*"
+     "\\*Async Shell Command\\*"
+     "Output\\*$"
+     "^\\*apheleia.*\\*$"
+     "\\*.*compilation.*\\*"
+     ("*Python*" . hide)
+     ("\\*.*REPL.*\\*" . hide)
+     (compilation-mode . hide)
 
-                              ;; :NOTE| terminal-related
-                              "^\\*eat.*\\*$"    eat-mode
-                              "^\\*eshell.*\\*$" eshell-mode
-                              "^\\*shell.*\\*$"  shell-mode
-                              "^\\*term.*\\*$"   term-mode
-                              "^\\*vterm.*\\*$"  vterm-mode)))
+     ;; :NOTE| terminal-related
+     eat-mode eshell-mode shell-mode term-mode vterm-mode)))
+#+end_src
+
+***** Shackle: Hardcode Placement of Popup Buffers
+
+#+begin_src emacs-lisp
+(use-package shackle
+  :after (popper)
+  :config (shackle-mode)
+  :custom
+  (shackle-default-size 0.33)
+  (shackle-select-reused-windows t)
+  (shackle-inhibit-window-quit-on-same-windows t)
+  (shackle-rules
+   `((help-mode                       :align right :popup t :select t :size 0.45)
+     (helpful-mode                    :align right :popup t :select t :size 0.45)
+     (compilation-mode                :align right :popup t)
+     (cargo-process-mode              :align right :popup t)
+     (flymake-diagnostics-buffer-mode :align below :popup t)
+     (magit-process-mode              :align below :popup t)
+     ("*Async-native-compile-log*"    :align right :popup t)
+     ("*Messages*"                    :align below :popup t)
+     ("*eldoc*"                       :align right :popup t)
+     ("*Python*"                      :align right :popup t)
+     ("Output\\*$"                    :align right :popup t :regexp t)
+     ("^\\*apheleia.*\\*$"            :align right :popup t :regexp t)
+     ("\\*.*REPL.*\\*"                :align right :popup t :regexp t)
+
+     ;; :NOTE| terminal-related
+     ("^\\*eat.*\\*$"                 :align below :select t :regexp t :size 0.45)
+     ("^\\*eshell.*\\*$"              :align below :select t :regexp t :size 0.45)
+     ("^\\*shell.*\\*$"               :align below :select t :regexp t :size 0.45)
+     ("^\\*term.*\\*$"                :align below :select t :regexp t :size 0.45)
+     ("^\\*vterm.*\\*$"               :align below :select t :regexp t :size 0.45))))
 #+end_src
 
 ***** Hydra: Adding Popper Bindings
@@ -1289,13 +1313,13 @@ Also, I want several dictionaries to learn & recall the definitions of several w
     (:title (pretty-hydra-title "──｢ Utilities: Popper ｣──" 'mdicon "nf-md-lightbulb_on_outline")
             :color teal :quit-key "q")
     ("Action(s)"
-     (("t" popper-toggle      "Un/Toggle Popup")
-      ("j" popper-cycle       "Cycle Between Popup(s)")
-      ("s" popper-toggle-type "Add Buf. To Popup"))))
+     (("o" popper-toggle      "Un/Toggle Popup")
+      ("n" popper-cycle       "Cycle Between Popup(s)")
+      ("t" popper-toggle-type "Add Buf. To Popup"))))
 
   (pretty-hydra-define+ main-hydra ()
     ("Action"
-     (("t" popper-hydra/body "Popper")))))
+     (("p" popper-hydra/body "Popper")))))
 #+end_src
 
 **** Dired: Built-in Emacs File Manager
@@ -2215,9 +2239,8 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package direnv
-  :config
-  (direnv-mode t)
-  (add-to-list 'warning-suppress-types '(direnv))
+  :hook ((prog-mode text-mode) . direnv-mode)
+  :config (add-to-list 'warning-suppress-types '(direnv))
   :custom (direnv-always-show-summary nil))
 #+end_src
 
