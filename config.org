@@ -300,7 +300,7 @@ Since Elpaca struggles to find the development build version of my Emacs, it is 
 **** Bootstrapping Elpaca
 
 #+begin_src emacs-lisp
-(defvar elpaca-installer-version 0.7)
+(defvar elpaca-installer-version 0.8)
 (defvar elpaca-directory (expand-file-name "var/elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -317,18 +317,18 @@ Since Elpaca struggles to find the development build version of my Emacs, it is 
     (make-directory repo t)
     (when (< emacs-major-version 28) (require 'subr-x))
     (condition-case-unless-debug err
-        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                 ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
-                                                 ,@(when-let ((depth (plist-get order :depth)))
-                                                     (list (format "--depth=%d" depth) "--no-single-branch"))
-                                                 ,(plist-get order :repo) ,repo))))
-                 ((zerop (call-process "git" nil buffer t "checkout"
-                                       (or (plist-get order :ref) "--"))))
-                 (emacs (concat invocation-directory invocation-name))
-                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
-                 ((require 'elpaca))
-                 ((elpaca-generate-autoloads "elpaca" repo)))
+        (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                  ,@(when-let* ((depth (plist-get order :depth)))
+                                                      (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                  ,(plist-get order :repo) ,repo))))
+                  ((zerop (call-process "git" nil buffer t "checkout"
+                                        (or (plist-get order :ref) "--"))))
+                  (emacs (concat invocation-directory invocation-name))
+                  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                  ((require 'elpaca))
+                  ((elpaca-generate-autoloads "elpaca" repo)))
             (progn (message "%s" (buffer-string)) (kill-buffer buffer))
           (error "%s" (with-current-buffer buffer (buffer-string))))
       ((error) (warn "%s" err) (delete-directory repo 'recursive))))
@@ -1259,16 +1259,9 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (popper-group-function #'popper-group-by-project)
   (popper-reference-buffers
    '(help-mode helpful-mode
-     "\\*Messages\\*"
-     "\\*Async Shell Command\\*"
-     "Output\\*$"
-     "^\\*apheleia.*\\*$"
-     "\\*.*compilation.*\\*"
-     ("*Python*" . hide)
-     ("\\*.*REPL.*\\*" . hide)
-     (compilation-mode . hide)
-
-     ;; :NOTE| terminal-related
+     "\\*Messages\\*" "^\\*apheleia.*\\*$"
+     "\\*Async Shell Command\\*" "*Python*"
+     compilation-mode "Output\\*$" "\\*.*REPL.*\\*"
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
@@ -1296,8 +1289,6 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      ("Output\\*$"                    :align right :popup t :regexp t)
      ("^\\*apheleia.*\\*$"            :align right :popup t :regexp t)
      ("\\*.*REPL.*\\*"                :align right :popup t :regexp t)
-
-     ;; :NOTE| terminal-related
      ("^\\*eat.*\\*$"                 :align below :select t :regexp t :size 0.45)
      ("^\\*eshell.*\\*$"              :align below :select t :regexp t :size 0.45)
      ("^\\*shell.*\\*$"               :align below :select t :regexp t :size 0.45)
