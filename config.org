@@ -1400,7 +1400,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
      ("m" "/mnt/"                       "Drives")
      ("l" "~/Library/unexplored"        "Library")
      ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
-  (dirvish-attributes '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
+  (dirvish-attributes '(nerd-icons file-size collapse subtree-state vc-state))
   (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
 #+end_src
 
