@@ -1259,9 +1259,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (popper-group-function #'popper-group-by-project)
   (popper-reference-buffers
    '(help-mode helpful-mode
-     "\\*Messages\\*" "^\\*apheleia.*\\*$"
-     "\\*Async Shell Command\\*" "*Python*"
-     compilation-mode "Output\\*$" "\\*.*REPL.*\\*"
+     "\\*Messages\\*" "*Python*" "\\*.*REPL.*\\*"
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
