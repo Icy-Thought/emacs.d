@@ -111,13 +111,6 @@
      (dired-mark                                        (:foreground pink))
      (dired-ignored                                     (:background yellow))
 
-     ;; https://github.com/alexluigit/dirvish
-     (dirvish-git-commit-message-face                   (:background yellow :foreground crust))
-     (dirvish-hl-line                                   (:background flamingo :foreground crust))
-     (dirvish-subtree-guide                             (:foreground surface0))
-     (dirvish-subtree-state                             (:foreground surface0))
-     (dirvish-vc-needs-merge-face                       (:background red :foreground crust))
-
      ;; https://github.com/purcell/diredfl
      (diredfl-compressed-file-name                      (:foreground green))
      (diredfl-compressed-file-suffix                    (:foreground green))
@@ -128,6 +121,37 @@
      (diredfl-flag-mark                                 (:background blue :foreground crust))
      (diredfl-link-prev                                 (:foreground blue))
      (diredfl-number                                    (:foreground peach))
+
+     ;; https://github.com/alexluigit/dirvish
+     (dirvish-git-commit-message-face                   (:background yellow :foreground crust))
+     (dirvish-hl-line                                   (:background flamingo :foreground crust))
+     (dirvish-subtree-guide                             (:foreground surface0))
+     (dirvish-subtree-state                             (:foreground surface0))
+     (dirvish-vc-needs-merge-face                       (:background red :foreground crust))
+
+     ;; https://github.com/jaypei/emacs-neotree
+     (neo-dir-link-face                                 (:foreground blue :weight 'bold))
+     (neo-expand-btn-face                               (:foreground peach))
+     (neo-file-link-face                                (:foreground text))
+     (neo-root-dir-face                                 (:foreground mauve :weight 'bold))
+
+     (neo-icon-dir-face                                 (:foreground teal))
+     (neo-icon-file-face                                (:foreground text))
+     (neo-icon-tag-directory-face                       (:foreground sapphire))
+     (neo-icon-tag-file-face                            (:foreground teal))
+     (neo-icon-tag-text-face                            (:foreground overlay1))
+
+     (neo-vc-added-face                                 (:foreground green))
+     (neo-vc-conflict-face                              (:foreground red :weight 'bold))
+     (neo-vc-default-face                               (:foreground text))
+     (neo-vc-edited-face                                (:foreground yellow))
+     (neo-vc-ignored-face                               (:foreground surface2))
+     (neo-vc-missing-face                               (:foreground maroon :weight 'bold))
+     (neo-vc-needs-merge-face                           (:foreground pink :weight 'bold))
+     (neo-vc-removed-face                               (:foreground red :weight 'bold))
+     (neo-vc-unlocked-changes-face                      (:foreground peach))
+     (neo-vc-unregistered-face                          (:foreground overlay2))
+     (neo-vc-up-to-date-face                            (:foreground text))
 
      ;; https://github.com/nex3/perspective-el
      (persp-selected-face                               (:foreground blue :weight 'bold :italic t))

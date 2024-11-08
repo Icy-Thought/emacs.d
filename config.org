@@ -1319,13 +1319,12 @@ Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall a
 
 #+begin_src emacs-lisp
 (use-feature dired
-  :config
-  (setq mouse-drag-and-drop-region-cross-program t
-        mouse-1-click-follows-link nil)
   :custom
   (dired-auto-revert-buffer t)
   (dired-mouse-drag-files t)
-  (dired-kill-when-opening-new-dired-buffer t))
+  (dired-kill-when-opening-new-dired-buffer t)
+  (mouse-drag-and-drop-region-cross-program t)
+  (mouse-1-click-follows-link nil))
 #+end_src
 
 I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
@@ -1358,50 +1357,18 @@ Lastly, I want the different type of directories to have some form of syntax hig
   :custom-face (diredfl-dir-name ((t :bold t))))
 #+end_src
 
-***** Dirvish: Polishing Dired + Batteries
+***** NeoTree: Tree-based Directory Navigation
 
 #+begin_src emacs-lisp
-(use-package dirvish
-  :after (dired)
-  :bind (([remap dired] . dirvish-side)
-         :map dirvish-mode-map
-         ("a"   . dirvish-quick-access)
-         ("f"   . dirvish-file-info-menu)
-         ("y"   . dirvish-yank-menu)
-         ("N"   . dirvish-narrow)
-         ("^"   . dirvish-history-last)
-         ("h"   . dirvish-history-jump)
-         ("s"   . dirvish-quicksort)
-         ("v"   . dirvish-vc-menu)
-         ("TAB" . dirvish-subtree-toggle)
-         ("M-f" . dirvish-history-go-forward)
-         ("M-b" . dirvish-history-go-backward)
-         ("M-l" . dirvish-ls-switches-menu)
-         ("M-m" . dirvish-mark-menu)
-         ("M-t" . dirvish-layout-toggle)
-         ("M-s" . dirvish-setup-menu)
-         ("M-e" . dirvish-emerge-menu)
-         ("M-j" . dirvish-fd-jump)
-         ("<mouse-1>" . dirvish-subtree-toggle-or-open)
-         ("<mouse-2>" . dired-mouse-find-file-other-window)
-         ("<mouse-3>" . dired-mouse-find-file))
-  :config
-  (dirvish-override-dired-mode t)
-  (dirvish-peek-mode t)
-  (dirvish-side-follow-mode t)
+(use-package neotree
+  :after (nerd-icons)
+  :bind ([remap dired] . neotree-toggle)
   :custom
-  (dirvish-side-width 30)
-  (dirvish-use-header-line t)
-  (dirvish-use-mode-line nil)
-  (dirvish-fd-default-dir "~/")
-  (dirvish-quick-access-entries
-   '(("h" "~/"                          "Home")
-     ("d" "~/Downloads/"                "Downloads")
-     ("m" "/mnt/"                       "Drives")
-     ("l" "~/Library/unexplored"        "Library")
-     ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
-  (dirvish-attributes '(nerd-icons file-size collapse subtree-state vc-state))
-  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
+  (neo-theme (if (display-graphic-p) 'nerd-icons 'classic))
+  (neo-vc-integration '(face))
+  (neo-smart-open t)
+  (neo-create-file-auto-open t)
+  (neo-hide-cursor t))
 #+end_src
 
 **** Which Key Was It Again???

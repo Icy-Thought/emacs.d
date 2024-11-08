@@ -105,13 +105,6 @@
      (dired-mark                                    (:foreground waveRed))
      (dired-ignored                                 (:background autumnYellow))
 
-     ;; https://github.com/alexluigit/dirvish
-     (dirvish-git-commit-message-face               (:background autumnYellow :foreground sumiInk-1b))
-     (dirvish-hl-line                               (:background waveAqua1 :foreground sumiInk-1b))
-     (dirvish-subtree-guide                         (:foreground sumiInk-2))
-     (dirvish-subtree-state                         (:foreground sumiInk-2))
-     (dirvish-vc-needs-merge-face                   (:background autumnRed :foreground sumiInk-1b))
-
      ;; https://github.com/purcell/diredfl
      (diredfl-compressed-file-name                  (:foreground autumnGreen))
      (diredfl-compressed-file-suffix                (:foreground autumnGreen))
@@ -122,6 +115,37 @@
      (diredfl-flag-mark                             (:background waveAqua1 :foreground carpYellow))
      (diredfl-link-prev                             (:foreground springBlue))
      (diredfl-number                                (:foreground springViolet1))
+
+     ;; https://github.com/alexluigit/dirvish
+     (dirvish-git-commit-message-face               (:background autumnYellow :foreground sumiInk-1b))
+     (dirvish-hl-line                               (:background waveAqua1 :foreground sumiInk-1b))
+     (dirvish-subtree-guide                         (:foreground sumiInk-2))
+     (dirvish-subtree-state                         (:foreground sumiInk-2))
+     (dirvish-vc-needs-merge-face                   (:background autumnRed :foreground sumiInk-1b))
+
+     ;; https://github.com/jaypei/emacs-neotree
+     (neo-dir-link-face                             (:foreground crystalBlue :weight 'bold))
+     (neo-expand-btn-face                           (:foreground boatYellow2))
+     (neo-file-link-face                            (:foreground fujiWhite))
+     (neo-root-dir-face                             (:foreground oniViolet :weight 'bold))
+
+     (neo-icon-dir-face                             (:foreground waveAqua1))
+     (neo-icon-file-face                            (:foreground fujiWhite))
+     (neo-icon-tag-directory-face                   (:foreground waveBlue-1))
+     (neo-icon-tag-file-face                        (:foreground waveAqua1))
+     (neo-icon-tag-text-face                        (:foreground fujiGray))
+
+     (neo-vc-added-face                             (:foreground springGreen))
+     (neo-vc-conflict-face                          (:foreground samuraiRed))
+     (neo-vc-default-face                           (:foreground fujiWhite))
+     (neo-vc-edited-face                            (:foreground autumnYellow))
+     (neo-vc-ignored-face                           (:foreground sumiInk-4))
+     (neo-vc-missing-face                           (:foreground samuraiRed :weight 'bold))
+     (neo-vc-needs-merge-face                       (:foreground waveRed :weight 'bold))
+     (neo-vc-removed-face                           (:foreground autumnRed :weight 'bold))
+     (neo-vc-unlocked-changes-face                  (:foreground roninYellow))
+     (neo-vc-unregistered-face                      (:foreground fujiGray))
+     (neo-vc-up-to-date-face                        (:foreground fujiWhite))
 
      ;; https://github.com/nex3/perspective-el
      (persp-selected-face                           (:foreground crystalBlue :weight 'bold :italic t))

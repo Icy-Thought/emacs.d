@@ -115,13 +115,6 @@
      (dired-mark                                        (:foreground love))
      (dired-ignored                                     (:background gold))
 
-     ;; https://github.com/alexluigit/dirvish
-     (dirvish-git-commit-message-face                   (:background gold :foreground surface))
-     (dirvish-hl-line                                   (:background rose :foreground surface))
-     (dirvish-subtree-guide                             (:foreground highlight-high))
-     (dirvish-subtree-state                             (:foreground highlight-high))
-     (dirvish-vc-needs-merge-face                       (:background love :foreground surface))
-
      ;; https://github.com/purcell/diredfl
      (diredfl-compressed-file-name                      (:foreground iris))
      (diredfl-compressed-file-suffix                    (:foreground iris))
@@ -132,6 +125,37 @@
      (diredfl-flag-mark                                 (:background foam :foreground pine))
      (diredfl-link-prev                                 (:foreground foam))
      (diredfl-number                                    (:foreground gold))
+
+     ;; https://github.com/alexluigit/dirvish
+     (dirvish-git-commit-message-face                   (:background gold :foreground surface))
+     (dirvish-hl-line                                   (:background rose :foreground surface))
+     (dirvish-subtree-guide                             (:foreground highlight-high))
+     (dirvish-subtree-state                             (:foreground highlight-high))
+     (dirvish-vc-needs-merge-face                       (:background love :foreground surface))
+
+     ;; https://github.com/jaypei/emacs-neotree
+     (neo-dir-link-face                                 (:foreground foam :weight 'bold))
+     (neo-expand-btn-face                               (:foreground gold))
+     (neo-file-link-face                                (:foreground text))
+     (neo-root-dir-face                                 (:foreground iris :weight 'bold))
+
+     (neo-icon-dir-face                                 (:foreground pine))
+     (neo-icon-file-face                                (:foreground text))
+     (neo-icon-tag-directory-face                       (:foreground foam))
+     (neo-icon-tag-file-face                            (:foreground pine))
+     (neo-icon-tag-text-face                            (:foreground subtle))
+
+     (neo-vc-added-face                                 (:foreground gold))
+     (neo-vc-conflict-face                              (:foreground love :weight 'bold))
+     (neo-vc-default-face                               (:foreground text))
+     (neo-vc-edited-face                                (:foreground rose))
+     (neo-vc-ignored-face                               (:foreground muted))
+     (neo-vc-missing-face                               (:foreground love :weight 'bold))
+     (neo-vc-needs-merge-face                           (:foreground rose :weight 'bold))
+     (neo-vc-removed-face                               (:foreground love :weight 'bold))
+     (neo-vc-unlocked-changes-face                      (:foreground gold))
+     (neo-vc-unregistered-face                          (:foreground highlight-med))
+     (neo-vc-up-to-date-face                            (:foreground text))
 
      ;; https://github.com/nex3/perspective-el
      (persp-selected-face                               (:foreground pine :weight 'bold :italic t))
