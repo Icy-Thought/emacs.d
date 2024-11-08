@@ -120,6 +120,7 @@
      (diredfl-compressed-file-suffix                    (:foreground iris))
      (diredfl-deletion                                  (:background love :foreground gold))
      (diredfl-dir-name                                  (:foreground foam))
+     (diredfl-dir-heading                               (:foreground iris :height 1.15 :bold t :italic t))
      (diredfl-file-name                                 (:foreground gold))
      (diredfl-file-suffix                               (:foreground pine))
      (diredfl-flag-mark                                 (:background foam :foreground pine))

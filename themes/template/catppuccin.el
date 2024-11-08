@@ -116,6 +116,7 @@
      (diredfl-compressed-file-suffix                    (:foreground green))
      (diredfl-deletion                                  (:background red :foreground crust))
      (diredfl-dir-name                                  (:foreground mauve))
+     (diredfl-dir-heading                               (:foreground flamingo :height 1.15 :bold t :italic t))
      (diredfl-file-name                                 (:foreground pink))
      (diredfl-file-suffix                               (:foreground lavender))
      (diredfl-flag-mark                                 (:background blue :foreground crust))

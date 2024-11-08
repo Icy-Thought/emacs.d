@@ -110,6 +110,7 @@
      (diredfl-compressed-file-suffix                (:foreground autumnGreen))
      (diredfl-deletion                              (:background autumnRed :foreground autumnYellow))
      (diredfl-dir-name                              (:foreground waveAqua2))
+     (diredfl-dir-heading                           (:foreground waveAqua1 :height 1.15 :bold t :italic t))
      (diredfl-file-name                             (:foreground autumnGreen))
      (diredfl-file-suffix                           (:foreground carpYellow))
      (diredfl-flag-mark                             (:background waveAqua1 :foreground carpYellow))
