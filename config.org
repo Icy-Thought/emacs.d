@@ -1259,7 +1259,8 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (popper-group-function #'popper-group-by-project)
   (popper-reference-buffers
    '(help-mode helpful-mode
-     "\\*Messages\\*" "*Python*" "\\*.*REPL.*\\*"
+     "\\*Messages\\*" "Output\\*$"
+     compilation-mode "\\*.*REPL.*\\*"
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
@@ -1271,22 +1272,16 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   :config (shackle-mode)
   :custom
   (shackle-default-size 0.33)
-  (shackle-select-reused-windows t)
-  (shackle-inhibit-window-quit-on-same-windows t)
   (shackle-rules
-   `((help-mode                       :align right :popup t :select t :size 0.45)
-     (helpful-mode                    :align right :popup t :select t :size 0.45)
-     (compilation-mode                :align right :popup t)
-     (cargo-process-mode              :align right :popup t)
-     (flymake-diagnostics-buffer-mode :align below :popup t)
-     (magit-process-mode              :align below :popup t)
-     ("*Async-native-compile-log*"    :align right :popup t)
-     ("*Messages*"                    :align below :popup t)
-     ("*eldoc*"                       :align right :popup t)
-     ("*Python*"                      :align right :popup t)
-     ("Output\\*$"                    :align right :popup t :regexp t)
-     ("^\\*apheleia.*\\*$"            :align right :popup t :regexp t)
-     ("\\*.*REPL.*\\*"                :align right :popup t :regexp t)
+   `((help-mode                       :align right :select t :size 0.45)
+     (helpful-mode                    :align right :select t :size 0.45)
+     (compilation-mode                :align right)
+     (flymake-diagnostics-buffer-mode :align below)
+     (magit-process-mode              :align below)
+     ("*eldoc*"                       :align right)
+     ("*Messages*"                    :align below)
+     ("*Async-native-compile-log*"    :align right)
+     ("\\*.*REPL.*\\*"                :align right :regexp t)
      ("^\\*eat.*\\*$"                 :align below :select t :regexp t :size 0.45)
      ("^\\*eshell.*\\*$"              :align below :select t :regexp t :size 0.45)
      ("^\\*shell.*\\*$"               :align below :select t :regexp t :size 0.45)
