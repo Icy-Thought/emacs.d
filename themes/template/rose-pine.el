@@ -126,6 +126,12 @@
      (diredfl-link-prev                                 (:foreground foam))
      (diredfl-number                                    (:foreground gold))
 
+     (diredfl-no-priv                                   (:foreground overlay))
+     (diredfl-dir-priv                                  (:foreground rose))
+     (diredfl-read-priv                                 (:foreground pine))
+     (diredfl-write-priv                                (:foreground gold))
+     (diredfl-exec-priv                                 (:foreground iris))
+
      ;; https://github.com/alexluigit/dirvish
      (dirvish-git-commit-message-face                   (:background gold :foreground surface))
      (dirvish-hl-line                                   (:background rose :foreground surface))

@@ -122,6 +122,12 @@
      (diredfl-link-prev                                 (:foreground blue))
      (diredfl-number                                    (:foreground peach))
 
+     (diredfl-no-priv                                   (:foreground surface0))
+     (diredfl-dir-priv                                  (:foreground blue))
+     (diredfl-read-priv                                 (:foreground green))
+     (diredfl-write-priv                                (:foreground yellow))
+     (diredfl-exec-priv                                 (:foreground red))
+
      ;; https://github.com/alexluigit/dirvish
      (dirvish-git-commit-message-face                   (:background yellow :foreground crust))
      (dirvish-hl-line                                   (:background flamingo :foreground crust))

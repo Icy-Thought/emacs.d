@@ -116,6 +116,12 @@
      (diredfl-link-prev                             (:foreground springBlue))
      (diredfl-number                                (:foreground springViolet1))
 
+     (diredfl-no-priv                               (:foreground sumiInk-4))
+     (diredfl-dir-priv                              (:foreground crystalBlue))
+     (diredfl-read-priv                             (:foreground springGreen))
+     (diredfl-write-priv                            (:foreground boatYellow2))
+     (diredfl-exec-priv                             (:foreground peachRed))
+
      ;; https://github.com/alexluigit/dirvish
      (dirvish-git-commit-message-face               (:background autumnYellow :foreground sumiInk-1b))
      (dirvish-hl-line                               (:background waveAqua1 :foreground sumiInk-1b))
