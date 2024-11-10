@@ -124,7 +124,7 @@
   (and (eq system-type 'gnu/linux)
        (with-temp-buffer
          (insert-file-contents "/etc/os-release")
-         (re-search-forward "ID=\\(?:nixos\\|guix\\)" nil t))))
+         (re-search-forward (rx bos "ID=" (| "nixos" "guix") eos) nil t))))
 #+end_src
 
 *** Setting our UI Changes Early
@@ -815,50 +815,45 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+NAME: svg-tag-common
 #+begin_src emacs-lisp
-;; :TODO| Reduce to a more general solution
-
 (setq svg-tag-tags
-      `(("\\([:]\\(?:TODO\\|todo\\)|.*\\)"
+      ;; :TODO| Reduce to a more general solution
+      `((,(rx (group ":" (| "todo" "TODO") "|" (1+ any)))
          . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
 
-        ("\\([:]\\(?:TODO\\|todo\\)*|\\)"
+        (,(rx (group ":" (| "todo" "TODO") "|"))
          . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
         ;; :WARN| Heads-up for whatever insane thing found below.
-
-        ("\\([:]\\(?:WARN\\|warn\\)|.*\\)"
+        (,(rx (group ":" (| "warn" "WARN") "|" (1+ any)))
          . ((lambda (tag) (svg-tag-make tag :face 'org-warning :inverse t :crop-left t :beg 7))))
 
-        ("\\([:]\\(?:WARN\\|warn\\)*|\\)"
+        (,(rx (group ":" (| "warn" "WARN") "|"))
          . ((lambda (tag)
               (svg-tag-make tag :face 'org-warning :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
         ;; :FIXME| Fixing this madness cannot wait, get to it!
-
-        ("\\([:]\\(?:FIXME\\|fixme\\)|.*\\)"
+        (,(rx (group ":" (| "fixme" "FIXME") "|" (1+ any)))
          . ((lambda (tag) (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
 
-        ("\\([:]\\(?:FIXME\\|fixme\\)*|\\)"
+        (,(rx (group ":" (| "fixme" "FIXME") "|"))
          . ((lambda (tag)
               (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
         ;; :HACK| Fix this regexp
         ;; :PERF| Fix this regexp
         ;; :MARK| Mark this regexp
-
-        ("\\([:]\\(?:HACK\\|PERF\\|MARK\\|hack\\)|.*\\)"
+        (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|" (1+ any)))
          . ((lambda (tag) (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
 
-        ("\\([:]\\(?:HACK\\|hack\\|PERF\\|MARK\\)*|\\)"
+        (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|"))
          . ((lambda (tag)
               (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
         ;; :NOTE| Reduce to a more general solution
-
-        ("\\([:]\\(?:NOTE\\|note\\)|.*\\)"
+        (,(rx (group ":" (| "note" "NOTE") "|" (1+ any)))
          . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
 
-        ("\\([:]\\(?:NOTE\\|note\\)*|\\)"
+        (,(rx (group ":" (| "note" "NOTE") "|"))
          . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))))
 #+end_src
 
@@ -881,13 +876,13 @@ We should also be able to complete the icons as we do on other platforms.
                 (svg-lib-progress-bar (/ count total) nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
                 (svg-lib-tag value nil :stroke 0 :margin 0)) :ascent 'center)))
 
-;; Progress (percentage): [45%]
-(push '("\\(\\[[0-9]+/[0-9]+\\]\\)"
+;; Progress (fraction): [1/3]
+(push `(,(rx (group "[" (1+ digit) "/" (1+ digit) "]"))
         . ((lambda (tag) (svg-progress-count (substring tag 1 -1)))))
       svg-tag-tags)
 
-;; Progress (fraction): [1/3]
-(push '("\\(\\[[0-9]\\{1,3\\}%\\]\\)"
+;; Progress (percentage): [45%]
+(push `(,(rx (group "[" (** 1 3 digit) "%]"))
         . ((lambda (tag) (svg-progress-percent (substring tag 1 -2)))))
       svg-tag-tags)
 #+end_src
@@ -896,50 +891,51 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+NAME: svg-tag-org
 #+begin_src emacs-lisp
-;; Basic tags :THIS:
 (setq-local svg-tag-tags
-            `(("\\(:[A-Za-z0-9]+:\\)"
+            ;; Basic tags :THIS:
+            `((,(rx (group ":" (1+ alnum) ":"))
                . ((lambda (tag) (svg-tag-make tag :face 'org-tag :beg 1 :end -1))))
 
               ;; Task priority [#a]
-              ("\\[#[a-zA-Z]\\]"
+              (,(rx (group "[#" (1+ word) "]"))
                . ((lambda (tag) (svg-tag-make tag :face 'org-priority :beg 2 :end -1 :margin 0 :inverse t))))
 
               ;; Org TAGS
-              (":TODO:"     . ((lambda (tag)  (svg-tag-make "TODO"     :face 'org-todo))))
-              (":WIP:"      . ((lambda (tag)  (svg-tag-make "WIP"      :face 'org-cite))))
-              (":DONE:"     . ((lambda (tag)  (svg-tag-make "DONE"     :face 'org-done))))
-              (":NOTE:"     . ((lambda (tag)  (svg-tag-make "NOTE"     :face 'org-footnote))))
-              ("SCHEDULED:" . ((lambda (tag) (svg-tag-make "SCHEDULED" :face 'org-scheduled))))
-              ("DEADLINE:"  . ((lambda (tag) (svg-tag-make "DEADLINE"  :face 'org-upcoming-deadline))))
+              (,(rx (group ":" (| "todo" "TODO") ":"))           . ((lambda (tag) (svg-tag-make "TODO"      :face 'org-todo))))
+              (,(rx (group ":" (| "wip" "WIP") ":"))             . ((lambda (tag) (svg-tag-make "WIP"       :face 'org-cite))))
+              (,(rx (group ":" (| "done" "DONE") ":"))           . ((lambda (tag) (svg-tag-make "DONE"      :face 'org-done))))
+              (,(rx (group ":" (| "note" "NOTE") ":"))           . ((lambda (tag) (svg-tag-make "NOTE"      :face 'org-footnote))))
+              (,(rx (group ":" (| "scheduled" "SCHEDULED") ":")) . ((lambda (tag) (svg-tag-make "SCHEDULED" :face 'org-scheduled))))
+              (,(rx (group ":" (| "deadline" "DEADLINE") ":"))   . ((lambda (tag) (svg-tag-make "DEADLINE"  :face 'org-upcoming-deadline))))
 
               ;; Tagging some of Org's many blocks
-              ("^#\\+begin_src"       . ((lambda (tag) (svg-tag-make "BEGIN_SRC"    :face 'org-block-begin-line))))
-              ("^#\\+end_src"         . ((lambda (tag) (svg-tag-make "END_SRC"      :face 'org-block-end-line))))
-              ("^#\\+begin_export"    . ((lambda (tag) (svg-tag-make "BEGIN_EXPORT" :face 'org-block-begin-line))))
-              ("^#\\+end_export"      . ((lambda (tag) (svg-tag-make "END_EXPORT"   :face 'org-block-end-line))))
-              ("^#\\+begin_example"   . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-begin-line))))
-              ("^#\\+end_example"     . ((lambda (tag) (svg-tag-make "EXAMPLE"      :face 'org-block-end-line))))
-              ("^#\\+begin_quote"     . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
-              ("^#\\+end_quote"       . ((lambda (tag) (svg-tag-make "QUOTE"        :face 'org-quote :italic t))))
-              ("^#\\+begin_signature" . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
-              ("^#\\+end_signature"   . ((lambda (tag) (svg-tag-make "SIGNATURE"    :face 'org-footnote :italic t))))
-              ("^#\\+begin_sidenote"  . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
-              ("^#\\+end_sidenote"    . ((lambda (tag) (svg-tag-make "SIDENOTE"     :face 'org-quote :italic t))))
-              ("^#\\+RESULTS:"        . ((lambda (tag) (svg-tag-make "RESULTS"      :face 'org-done :underline nil))))
+              (,(rx (group "#+" (| "name" "NAME") ":"))                   . ((lambda (tag) (svg-tag-make "NAME"            :face 'org-meta-line))))
+              (,(rx (group "#+" (| "begin_src" "BEGIN_SRC")))             . ((lambda (tag) (svg-tag-make "BEGIN SRC"       :face 'org-block-begin-line))))
+              (,(rx (group "#+" (| "end_src" "END_SRC")))                 . ((lambda (tag) (svg-tag-make "END SRC"         :face 'org-block-end-line))))
+              (,(rx (group "#+" (| "begin_export" "BEGIN_EXPORT")))       . ((lambda (tag) (svg-tag-make "BEGIN EXPORT"    :face 'org-block-begin-line))))
+              (,(rx (group "#+" (| "end_export" "END_EXPORT")))           . ((lambda (tag) (svg-tag-make "END EXPORT"      :face 'org-block-end-line))))
+              (,(rx (group "#+" (| "begin_example" "BEGIN_EXAMPLE")))     . ((lambda (tag) (svg-tag-make "BEGIN EXAMPLE"   :face 'org-block-begin-line))))
+              (,(rx (group "#+" (| "end_example" "END_EXAMPLE")))         . ((lambda (tag) (svg-tag-make "END EXAMPLE"     :face 'org-block-end-line))))
+              (,(rx (group "#+" (| "begin_quote" "BEGIN_QUOTE")))         . ((lambda (tag) (svg-tag-make "BEGIN QUOTE"     :face 'org-quote :italic t))))
+              (,(rx (group "#+" (| "end_quote" "END_QUOTE")))             . ((lambda (tag) (svg-tag-make "END QUOTE"       :face 'org-quote :italic t))))
+              (,(rx (group "#+" (| "begin_signature" "BEGIN_SIGNATURE"))) . ((lambda (tag) (svg-tag-make "BEGIN SIGNATURE" :face 'org-footnote :italic t))))
+              (,(rx (group "#+" (| "end_signature" "END_SIGNATURE")))     . ((lambda (tag) (svg-tag-make "END SIGNATURE"   :face 'org-footnote :italic t))))
+              (,(rx (group "#+" (| "begin_sidenote" "BEGIN_SIDENOTE")))   . ((lambda (tag) (svg-tag-make "BEGIN SIDENOTE"  :face 'org-quote :italic t))))
+              (,(rx (group "#+" (| "end_sidenote" "END_SIDENOTE")))       . ((lambda (tag) (svg-tag-make "END SIDENOTE"    :face 'org-quote :italic t))))
+              (,(rx (group "#+" (| "results" "RESULTS") ":"))             . ((lambda (tag) (svg-tag-make "RESULTS"         :face 'org-done :underline nil))))
 
               ;; Citation of the form [cite:@Knuth:1984]
-              ("\\(\\[cite:@[A-Za-z]+:\\)"
+              (,(rx (group "[" (| "cite" "CITE") ":@" (1+ word) ":"))
                . ((lambda (tag) (svg-tag-make tag :inverse t :beg 7 :end -1 :crop-right t))))
 
-              ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)"
+              (,(rx (seq "[" (| "cite" "CITE") ":@" (1+ word) ":" (group (1+ digit) "]")))
                . ((lambda (tag) (svg-tag-make tag :end -1 :crop-left t))))
 
               ;; :XXX|YYY: -> "XXX" & "YYY"
-              ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:"
+              (,(rx (seq (group ":" (1+ upper)) "|" (1+ alnum) ":"))
                . ((lambda (tag) (svg-tag-make tag :beg 1 :inverse t :margin 0 :crop-right t))))
 
-              (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)"
+              (,(rx (seq ":" (1+ upper) (group "|" (1+ alnum) ":")))
                . ((lambda (tag) (svg-tag-make tag :beg 1 :end -1 :margin 0 :crop-left t))))
 
               ;; Active date <2023-04-03 Sun 17:45>
@@ -1206,14 +1202,20 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
   (recentf-max-saved-items 1024)
   (recentf-auto-cleanup 600)
   (recentf-exclude
-   '("/tmp/" "/nix/store"
+   `(,(rx bos "/tmp/")
+     ,(rx bos "/nix/store")
+
      ;; :NOTE| Compressed files & Archives
-     "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$"
-     "\\.bz2$" "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zpaq$"
-     "\\.lz$" "\\.lrz$" "\\.lzo$" "\\.lzma$" "\\.shar$" "\\.kgb$"
-     "\\.zip$" "\\.Z$" "\\.7z$" "\\.rar$"
+     ,(rx "."
+          (| "tar" "tbz2" "tbz" "tgz"
+             "bz2" "bz" "gz" "gzip" "xz" "zpaq"
+             "lz" "lrz" "lzo" "lzma" "shar" "kgb"
+             "zip" "Z" "7z" "rar")
+          eos)
+
      ;; :NOTE| TRAMP
-     "^/sudo:" "^/ssh:")))
+     ,(rx bos "/sudo:")
+     ,(rx bos "/ssh:"))))
 #+end_src
 
 **** Chinese, Japanese & Korean
@@ -1258,9 +1260,11 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (popper-echo-dispatch-keys nil)
   (popper-group-function #'popper-group-by-project)
   (popper-reference-buffers
-   '(help-mode helpful-mode
-     "\\*Messages\\*" "Output\\*$"
-     compilation-mode "\\*.*REPL.*\\*"
+   `(help-mode helpful-mode
+     ,(rx "*Messages*")
+     ,(rx "Output*" eos)
+     ,(rx "*" (* any) "REPL" (* any) "*")
+     compilation-mode
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
@@ -1273,20 +1277,19 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   :custom
   (shackle-default-size 0.33)
   (shackle-rules
-   `((help-mode                       :align right :select t :size 0.45)
-     (helpful-mode                    :align right :select t :size 0.45)
-     (compilation-mode                :align right)
-     (flymake-diagnostics-buffer-mode :align below)
-     (magit-process-mode              :align below)
-     ("*eldoc*"                       :align right)
-     ("*Messages*"                    :align below)
-     ("*Async-native-compile-log*"    :align right)
-     ("\\*.*REPL.*\\*"                :align right :regexp t)
-     ("^\\*eat.*\\*$"                 :align below :select t :regexp t :size 0.45)
-     ("^\\*eshell.*\\*$"              :align below :select t :regexp t :size 0.45)
-     ("^\\*shell.*\\*$"               :align below :select t :regexp t :size 0.45)
-     ("^\\*term.*\\*$"                :align below :select t :regexp t :size 0.45)
-     ("^\\*vterm.*\\*$"               :align below :select t :regexp t :size 0.45))))
+   `((help-mode                            :align right :select t :size 0.45)
+     (helpful-mode                         :align right :select t :size 0.45)
+     (compilation-mode                     :align right)
+     (flymake-diagnostics-buffer-mode      :align below)
+     (magit-process-mode                   :align below)
+     ("*eldoc*"                            :align right)
+     ("*Messages*"                         :align below)
+     ("*Async-native-compile-log*"         :align right)
+     (,(rx "*" (* any) "REPL" (* any) "*") :align right :regexp t)
+     (,(rx bos "*" (* any)
+           (| "eat" "eshell" "shell" "term" "vterm")
+           (* any) "*" eos)
+      :align below :select t :regexp t :size 0.45))))
 #+end_src
 
 ***** Hydra: Adding Popper Bindings
@@ -1330,7 +1333,7 @@ I also would like =Dired= to be able to launch certain file-extensions with cert
   :preface
   (defun dired-external-launch (application extensions)
     "External `APPLICATION' used for launching specific file-extensions."
-    (let ((pattern (concat "\\." (regexp-opt extensions t) "$"))
+    (let ((pattern (rx "." extensions eos))
           (entry (list pattern application)))
       (add-to-list 'dired-guess-shell-alist-user entry)))
   :custom
@@ -1479,7 +1482,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
   (setq prefix-help-command #'embark-prefix-help-command)
   ;; :NOTE| Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+               '(,(rx bos "*Embark Collect" (| "Live" "Completions") "*" eos)
                  nil
                  (window-parameters (mode-line-format . none))))
   :custom
@@ -1547,15 +1550,15 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :preface
+  :hook (minibuffer-setup . cursor-intangible-mode)
+  :init
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"
                   (replace-regexp-in-string "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" "" crm-separator)
                   (car args))
           (cdr args)))
-  :hook (minibuffer-setup . cursor-intangible-mode)
-  :config
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  :config
   (setq enable-recursive-minibuffers t
         minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt)))
