@@ -147,8 +147,7 @@
 **** Move =custom.el= To The =./etc= Directory
 
 #+begin_src emacs-lisp
-(setq custom-file
-      (expand-file-name "etc/custom.el" user-emacs-directory))
+(setq custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
 
 (if (file-exists-p custom-file)
     (load custom-file 'noerror 'nomessage)
@@ -1285,6 +1284,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      ("*eldoc*"                            :align right)
      ("*Messages*"                         :align below)
      ("*Async-native-compile-log*"         :align right)
+     ("*mu4e-headers*"                     :align right :select t :size 0.78)
      (,(rx "*" (* any) "REPL" (* any) "*") :align right :regexp t)
      (,(rx bos "*" (* any)
            (| "eat" "eshell" "shell" "term" "vterm")
@@ -1864,66 +1864,79 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   :defer t)
 #+end_src
 
-***** NotMuch: Tag Based E-Mail Client
+***** :NIXPKGS: MU4E: Mu Mail User Agent
 
 #+begin_src emacs-lisp
-(use-package notmuch
-  :defer t
+(use-feature mu4e
+  :commands (mu4e mu4e-update-mail-and-index)
+  :if (executable-find "mu")
+  :init (add-to-list 'elpaca-ignored-dependencies 'mu4e)
   :config
-  (setq send-mail-function #'sendmail-send-it
-        message-send-mail-function 'message-send-mail-with-sendmail
-        sendmail-program (executable-find "msmtp")
-        message-fill-column fill-column
-        mail-specify-envelope-from t
-        mail-envelope-from 'header
-        message-sendmail-envelope-from 'header
-        notmuch-search-oldest-first nil
-        notmuch-saved-searches
-        '((:name "Unread"
-                 :query "tag:inbox and tag:unread"
-                 :count-query "tag:inbox and tag:unread"
-                 :sort-order newest-first)
-          (:name "Inbox"
-                 :query "tag:inbox"
-                 :count-query "tag:inbox"
-                 :sort-order newest-first)
-          (:name "Archive"
-                 :query "tag:archive"
-                 :count-query "tag:archive"
-                 :sort-order newest-first)
-          (:name "Sent"
-                 :query "tag:sent or tag:replied"
-                 :count-query "tag:sent or tag:replied"
-                 :sort-order newest-first)
-          (:name "Trash"
-                 :query "tag:deleted"
-                 :count-query "tag:deleted"
-                 :sort-order newest-first))))
+  (setq mu4e-contexts
+        (list (make-mu4e-context
+               :name "Disroot"
+               :enter-func (lambda () (mu4e-message "Entering context disroot"))
+               :leave-func (lambda () (mu4e-message "Exiting context disroot"))
+               :match-func
+               (lambda (msg) (when msg
+                          (string-match-p "/icy-thought" (mu4e-message-field msg :maildir))))
+               :vars '((user-full-name     . "Icy-Thought")
+                       (user-mail-address  . "IcyThought@disroot.org")
+                       (mu4e-drafts-folder . "/icy-thought/Drafts")
+                       (mu4e-sent-folder   . "/icy-thought/Sent")
+                       (mu4e-refile-folder . "/icy-thought/Archive")
+                       (mu4e-trash-folder  . "/icy-thought/Trash")))))
+  :custom
+  (mu4e-attachment-dir "~/Downloads")
+  (mu4e-get-mail-command "mbsync -a")
+  (mu4e-update-interval (* 10 60))
+  (mu4e-confirm-quit nil)
+  (mu4e-notification-support t)
+  (mu4e-change-filenames-when-moving t)
+  (mu4e-completing-read-function 'completing-read)
+  (mu4e-context-policy 'pick-first)
+
+  ;; :NOTE| control how e-mails should be composed
+  (sendmail-program "msmtp")
+  (send-mail-function #'sendmail-send-it)
+  (message-fill-column fill-column)
+  (message-kill-buffer-on-exit t))
 #+end_src
 
-Afterwards we proceed with creating a bridge between =Consult= and =NotMuch=.
+****** MU4E Fold: Fold Threaded Conversations
 
 #+begin_src emacs-lisp
-(use-package consult-notmuch
-  :after (consult notmuch)
-  :commands (consult-notmuch))
-
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ consult-hydra ()
-      ("External"
-       (("m" consult-notmuch "Query E-Mail")))))
+(use-package mu4e-thread-folding
+  :ensure (:host github :repo "rougier/mu4e-thread-folding")
+  :after (mu4e)
+  :hook (mu4e-headers-mode . mu4e-thread-folding-mode)
+  :bind (:map mu4e-headers-mode-map
+              ("<tab>"   . mu4e-headers-toggle-at-point)
+              ("<S-tab>" . mu4e-headers-unfold-all))
+  :config
+  (add-to-list 'mu4e-header-info-custom
+               '(:empty . (:name "Empty"
+                           :shortname ""
+                           :function (lambda (msg) "  "))))
+  :custom
+  (mu4e-headers-fields '((:empty        .  2)
+                         (:human-date   . 12)
+                         (:flags        .  6)
+                         (:mailing-list . 10)
+                         (:from         . 22)
+                         (:subject      . nil))))
 #+end_src
 
 ****** Org-MSG: Compose Org Formatted Messages
 
 #+begin_src emacs-lisp
 (use-package org-msg
-  :after (notmuch)
+  :after (mu4e)
   :config
+  (with-eval-after-load 'mu4e
+    (org-msg-mode-mu4e)
+    (setq mail-user-agent 'mu4e-user-agent))
   (org-msg-mode)
-  (with-eval-after-load 'notmuch
-    (org-msg-mode-notmuch)
-    (setq mail-user-agent 'notmuch-user-agent))
   :custom
   (org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil title:nil email:nil tex:imagemagick")
   (org-msg-startup "hidestars indent inlineimages")
@@ -1940,6 +1953,17 @@ Kind Regards,
 #+begin_signature
 -- *Icy-Thought*
 #+end_signature"))
+#+end_src
+
+****** MU4E Dashboard: A Clean Interface For E-Mail's
+
+#+begin_src emacs-lisp
+(use-package mu4e-dashboard
+  :ensure (:host github :repo "rougier/mu4e-dashboard")
+  :after (mu4e)
+  :hook ((mu4e-main-rendered . mu4e-dashboard)
+         (mu4e-dashboard-mode . (lambda () (visual-fill-column-mode -1))))
+  :config (setq mu4e-dashboard-file (expand-file-name "mu4e/sidebar.org" irkalla/underworld)))
 #+end_src
 
 ***** Matrix: Secure & Interoperable Communication
@@ -2182,7 +2206,6 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom
   (cursor-in-non-selected-windows nil)
   (confirm-nonexistent-file-or-buffer nil)
-  (tab-width 4)
   (indent-tabs-mode nil)
   (backward-delete-char-untabify-method 'hungry)
   (electric-indent-inhibit t)
