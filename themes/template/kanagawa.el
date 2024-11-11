@@ -32,6 +32,7 @@
      (child-frame                                   (:background sumiInk-0 :foreground sumiInk-0))
      (child-frame-border                            (:background sumiInk-0 :foreground sumiInk-0))
      (cursor                                        (:background lightBlue :foreground sumiInk-0 :bold t))
+     (custom-link                                   (:foreground crystalBlue))
      (error                                         (:foreground samuraiRed))
      (fringe                                        (:foreground sumiInk-3))
      (glyph-face                                    (:background sumiInk-4))
@@ -43,6 +44,7 @@
      (internal-border                               (:background sumiInk-1b))
      (line-number                                   (:foreground sumiInk-4))
      (line-number-current-line                      (:foreground springViolet2 :background sumiInk-2 :bold t))
+     (link                                          (:inherit 'custom-link))
      (match                                         (:background carpYellow :foreground sumiInk-0))
      (menu                                          (:background sumiInk-0 :foreground fujiWhite))
      (mode-line                                     (:background sumiInk-0 :foreground fujiWhite :bold t))
@@ -223,14 +225,18 @@
      (elfeed-search-tag-face                        (:foreground waveAqua2))
 
      ;; https://www.emacswiki.org/emacs/MessageMode
-     (message-header-cc                             (:foreground waveAqua2))
      (message-header-name                           (:foreground sumiInk-4))
-     (message-header-other                          (:foreground surimiOrange))
-     (message-header-subject                        (:foreground carpYellow))
-     (message-header-to                             (:foreground old-white))
+     (message-header-other                          (:foreground autumnGreen))
      (message-header-xheader                        (:foreground old-white))
-     (custom-link                                   (:foreground crystalBlue))
-     (link                                          (:foreground crystalBlue))
+     (message-header-to                             (:foreground autumnRed))
+     (message-header-cc                             (:foreground sakuraPink))
+     (message-header-subject                        (:foreground autumnYellow))
+
+     ;; https://www.emacswiki.org/emacs/WritingMail
+     (gnus-header-name                              (:inherit 'message-header-name    :height 1.15 :bold t))
+     (gnus-header-from                              (:inherit 'message-header-to      :height 1.15 :bold t))
+     (gnus-header-subject                           (:inherit 'message-header-subject :height 1.15 :bold t))
+     (gnus-header-content                           (:inherit 'message-header-other   :height 1.15 :bold t))
 
      ;; https://github.com/alphapapa/ement.el
      (ement-room-list-favourite                     (:foreground dragonBlue))

@@ -252,11 +252,17 @@
 
      ;; https://www.emacswiki.org/emacs/MessageMode
      (message-header-name                               (:foreground overlay2))
-     (message-header-other                              (:foreground peach))
-     (message-header-subject                            (:foreground yellow))
-     (message-header-to                                 (:foreground rosewater))
-     (message-header-cc                                 (:foreground green))
+     (message-header-other                              (:foreground green))
      (message-header-xheader                            (:foreground rosewater))
+     (message-header-to                                 (:foreground red))
+     (message-header-cc                                 (:foreground lavender))
+     (message-header-subject                            (:foreground yellow))
+
+     ;; https://www.emacswiki.org/emacs/WritingMail
+     (gnus-header-name                                  (:inherit 'message-header-name    :height 1.15 :bold t))
+     (gnus-header-from                                  (:inherit 'message-header-to      :height 1.15 :bold t))
+     (gnus-header-subject                               (:inherit 'message-header-subject :height 1.15 :bold t))
+     (gnus-header-content                               (:inherit 'message-header-other   :height 1.15 :bold t))
 
      ;; https://github.com/alphapapa/ement.el
      (ement-room-mention                                (:foreground red))

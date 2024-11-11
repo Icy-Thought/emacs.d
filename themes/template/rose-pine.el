@@ -35,6 +35,7 @@
      (cursor                                            (:background gold :foreground base))
      (error                                             (:foreground love))
      (link                                              (:foreground iris))
+     (custom-link                                       (:foreground foam :underline t))
      (fringe                                            (:background surface :foreground text))
      (file-name-shadow                                  (:foreground muted))
      (glyph-face                                        (:background love :foreground muted))
@@ -236,12 +237,17 @@
 
      ;; https://www.emacswiki.org/emacs/MessageMode
      (message-header-name                               (:foreground muted))
-     (message-header-other                              (:foreground gold))
-     (message-header-subject                            (:foreground gold))
-     (message-header-to                                 (:foreground rose))
-     (message-header-cc                                 (:foreground pine))
+     (message-header-other                              (:foreground pine))
      (message-header-xheader                            (:foreground rose))
-     (custom-link                                       (:foreground foam :underline t))
+     (message-header-to                                 (:foreground love))
+     (message-header-cc                                 (:foreground pine))
+     (message-header-subject                            (:foreground gold))
+
+     ;; https://www.emacswiki.org/emacs/WritingMail
+     (gnus-header-name                                  (:inherit 'message-header-name    :height 1.15 :bold t))
+     (gnus-header-from                                  (:inherit 'message-header-to      :height 1.15 :bold t))
+     (gnus-header-subject                               (:inherit 'message-header-subject :height 1.15 :bold t))
+     (gnus-header-content                               (:inherit 'message-header-other   :height 1.15 :bold t))
 
      ;; https://orgmode.org/org.html
      (org-block                                         (:inherit 'fixed-pitch :background base))
