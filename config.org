@@ -1263,7 +1263,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      ,(rx "*Messages*")
      ,(rx "Output*" eos)
      ,(rx "*" (* any) "REPL" (* any) "*")
-     compilation-mode
+     compilation-mode magit-process-mode
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
@@ -2570,8 +2570,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :commands (magit)
   :custom
   (magit-refs-show-commit-count 'all)
-  (magit-save-repository-buffers 'dontask)
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+  (magit-save-repository-buffers 'dontask))
 #+end_src
 
 ***** File-Icons: Buffer Specific Icons
