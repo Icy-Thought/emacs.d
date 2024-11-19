@@ -244,10 +244,10 @@
      (message-header-subject                            (:foreground gold))
 
      ;; https://www.emacswiki.org/emacs/WritingMail
-     (gnus-header-name                                  (:inherit 'message-header-name    :height 1.15 :bold t))
-     (gnus-header-from                                  (:inherit 'message-header-to      :height 1.15 :bold t))
-     (gnus-header-subject                               (:inherit 'message-header-subject :height 1.15 :bold t))
-     (gnus-header-content                               (:inherit 'message-header-other   :height 1.15 :bold t))
+     (gnus-header-name                                  (:inherit 'message-header-name    :height 1.05 :bold t))
+     (gnus-header-from                                  (:inherit 'message-header-to      :height 1.05 :bold t))
+     (gnus-header-subject                               (:inherit 'message-header-subject :height 1.05 :bold t))
+     (gnus-header-content                               (:inherit 'message-header-other   :height 1.05 :bold t))
 
      ;; https://orgmode.org/org.html
      (org-block                                         (:inherit 'fixed-pitch :background base))
