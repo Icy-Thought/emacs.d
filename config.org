@@ -2240,7 +2240,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature display-line-numbers
-  :hook ((prog-mode text-mode conf-mode) . display-line-numbers-mode)
+  :hook (prog-mode . display-line-numbers-mode)
   :custom (display-line-numbers-type 'relative))
 #+end_src
 
