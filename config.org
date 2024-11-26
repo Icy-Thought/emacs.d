@@ -2644,8 +2644,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (git-gutter:modified-sign "┃")
   (git-gutter:added-sign "┃")
   (git-gutter:deleted-sign "┃")
-  (git-gutter:unchanged-sign "")
-  (git-gutter:update-interval 0.05))
+  (git-gutter:unchanged-sign ""))
 #+end_src
 
 ****** Hydra: Git Gutter Bindings
