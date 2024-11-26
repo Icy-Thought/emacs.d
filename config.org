@@ -3027,10 +3027,14 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
      ("f" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
   :config
-  (fset #'jsonrpc--log-event #'ignore) ;; noticeable perf. diff!
-  (setf (plist-get eglot-events-buffer-config :size) 0) ;; noticeable perf. diff!
+  ;; :PERF| Noticeable LSP Buff. diff!
+  (with-eval-after-load 'jsonrpc
+    (setq jsonrpc-inhibit-debug-on-error t)
+    (setq jsonrpc-event-hook nil)
+    (fset #'jsonrpc--log-event #'ignore))
   (with-eval-after-load 'nerd-icons (setq eglot-menu-string " "))
   :custom
+  (eglot-events-buffer-config '(:size 0))
   (eglot-autoshutdown t)
   (eglot-extend-to-xref t)
   (eglot-confirm-server-initiated-edits nil)
