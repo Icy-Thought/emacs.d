@@ -393,20 +393,6 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 
 *** Controlling Littering Habits
 
-**** Automated Garbage Collection
-
-Allowing ~gcmh~ to control Irkalla's garbage collector does have a noticeable performance increase and should therefore be added to its configuration.
-
-#+begin_src emacs-lisp
-(use-package gcmh
-  :demand t
-  :config (gcmh-mode t)
-  :custom
-  (gcmh-idle-delay 'auto)
-  (gcmh-auto-idle-delay-factor 10)
-  (gcmh-high-cons-threshold (* 16 1024 1024)))
-#+end_src
-
 **** Careful Placement Of Litter Files
 
 #+begin_src emacs-lisp
