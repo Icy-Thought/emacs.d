@@ -188,8 +188,12 @@
 *** Collect The Ever-Growing Garbage...
 
 #+begin_src emacs-lisp
-(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-      gc-cons-percentage 0.6)
+(setq gc-cons-percentage 0.5
+      gc-cons-threshold most-positive-fixnum)
+
+;; :NOTE| Reduce GC threshold for propper garbage collection
+(add-hook 'after-init-hook
+          (lambda () (setq gc-cons-threshold (* 2 1024 1024))))
 #+end_src
 
 ** Part 3: Setting Our Ever-Growing Options
