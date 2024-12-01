@@ -218,6 +218,7 @@
       inhibit-startup-echo-area-message user-login-name
       inhibit-startup-message t
       inhibit-startup-screen t
+      mode-line-format nil
       use-dialog-box nil
       use-file-dialog nil)
 #+end_src
@@ -400,8 +401,7 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 **** Careful Placement Of Litter Files
 
 #+begin_src emacs-lisp
-(use-package no-littering
-  :demand t
+(use-package no-littering :demand t
   :config
   (setq no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
         no-littering-var-directory (expand-file-name "var/" user-emacs-directory))
@@ -447,7 +447,8 @@ To prevent Elpaca from complaining about the missing ~:prett-hydra~ use-package 
 #+begin_src emacs-lisp
 (use-package hydra-posframe
   :ensure (:host github :repo "Ladicle/hydra-posframe")
-  :config (hydra-posframe-mode t)
+  :after (pretty-hydra)
+  :config (hydra-posframe-mode)
   :custom
   (hydra-posframe-border-width 2)
   (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))
@@ -579,7 +580,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature winner
-  :config (winner-mode t))
+  :hook (winner-mode))
 #+end_src
 
 ***** Hydra: Window Navigation
@@ -605,7 +606,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :config (pixel-scroll-precision-mode t)
+  :hook (elpaca-after-init . pixel-scroll-precision-mode)
   :custom (scroll-preserve-screen-position t))
 #+end_src
 
@@ -636,7 +637,7 @@ Add the Irkalla theme directory to Emacs ~load-path~. Necessary for [[https://gi
 What remains of us is to load the theme of our choice.
 
 #+begin_src emacs-lisp
-(use-package autothemer
+(use-package autothemer :demand t
   :init (load-theme 'kanagawa-wave t))
 #+end_src
 
@@ -742,8 +743,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
 *** Adding A Sprinkle of Icons
 
 #+begin_src emacs-lisp
-(use-package nerd-icons
-  :demand t
+(use-package nerd-icons :demand t
   :custom
   (nerd-icons-font-family
    (when (featurep 'fontaine)
@@ -755,6 +755,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
+  :after (nerd-icons)
   :config
   (nerd-icons-completion-mode)
   (with-eval-after-load 'marginalia
@@ -955,7 +956,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :init (doom-modeline-mode)
+  :hook (elpaca-after-init . doom-modeline-mode)
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)
@@ -972,9 +973,10 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package minions
-  :init (minions-mode t))
+  :hook (elpaca-after-init . minions-mode))
 
 (use-package moody
+  :after (minions)
   :config
   (moody-replace-mode-line-front-space)
   (moody-replace-mode-line-buffer-identification)
@@ -994,7 +996,7 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
-  :init (centaur-tabs-mode)
+  :hook (dashboard-mode . centaur-tabs-mode)
   :config
   (setq x-underline-at-descent-line t
         centaur-tabs-height 32
@@ -1032,12 +1034,9 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package tabspaces
-  :commands
-  (tabspaces-switch-or-create-workspace
-   tabspaces-open-or-create-project-and-workspace)
+  :hook (elpaca-after-init . tabspaces-mode)
   :config
   <<tabspaces-consult-buffers>>
-  (tabspaces-mode)
   :custom
   (tabspaces-session t)
   (tabspaces-keymap-prefix "C-c p")
@@ -1078,8 +1077,9 @@ We should also be able to complete the icons as we do on other platforms.
 (use-package dashboard
   :after (nerd-icons)
   :hook (elpaca-after-init . dashboard-refresh-buffer)
+  :config
+  (setq initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
   :custom
-  (initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
@@ -1236,32 +1236,11 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 *** New & Extension of Built-in Features
 
-**** Popper: Pop-up Related Buffers On Demand
-
-#+begin_src emacs-lisp
-(use-package popper
-  :bind (:map popper-mode-map)
-  :config (popper-mode)
-  :custom
-  (popper-echo-mode t)
-  (popper-display-control nil)
-  (popper-echo-dispatch-keys nil)
-  (popper-group-function #'popper-group-by-project)
-  (popper-reference-buffers
-   `(help-mode helpful-mode
-     ,(rx "*Messages*")
-     ,(rx "Output*" eos)
-     ,(rx "*" (* any) "REPL" (* any) "*")
-     compilation-mode magit-process-mode
-     eat-mode eshell-mode shell-mode term-mode vterm-mode)))
-#+end_src
-
-***** Shackle: Hardcode Placement of Popup Buffers
+**** Shackle: Hardcode Placement of Popup Buffers
 
 #+begin_src emacs-lisp
 (use-package shackle
-  :after (popper)
-  :config (shackle-mode)
+  :hook (elpaca-after-init . shackle-mode)
   :custom
   (shackle-default-size 0.33)
   (shackle-rules
@@ -1279,6 +1258,27 @@ Also, I want several dictionaries to learn & recall the definitions of several w
            (| "eat" "eshell" "shell" "term" "vterm")
            (* any) "*" eos)
       :align below :select t :regexp t :size 0.45))))
+#+end_src
+
+**** Popper: Pop-up Related Buffers On Demand
+
+#+begin_src emacs-lisp
+(use-package popper
+  :after (shackle)
+  :bind (:map popper-mode-map)
+  :hook (shackle-mode . popper-mode)
+  :custom
+  (popper-echo-mode t)
+  (popper-display-control nil)
+  (popper-echo-dispatch-keys nil)
+  (popper-group-function #'popper-group-by-project)
+  (popper-reference-buffers
+   `(help-mode helpful-mode
+     ,(rx "*Messages*")
+     ,(rx "Output*" eos)
+     ,(rx "*" (* any) "REPL" (* any) "*")
+     compilation-mode magit-process-mode
+     eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
 ***** Hydra: Adding Popper Bindings
@@ -1373,10 +1373,8 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
 #+begin_src emacs-lisp
 (use-feature which-key
-  :diminish which-key-mode
-  :config
-  (which-key-mode t)
-  (which-key-setup-minibuffer)
+  :hook (elpaca-after-init . which-key-mode)
+  :config (which-key-setup-minibuffer)
   :custom
   (which-key-allow-evil-operators t)
   (which-key-idle-delay 0.3)
@@ -1507,8 +1505,8 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
               ("RET"   . vertico-directory-enter)
               ("DEL"   . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  :init (vertico-mode t)
+  :hook ((elpaca-after-init . vertico-mode)
+         (rfn-eshadow-update-overlay . vertico-directory-tidy))
   :custom
   (vertico-cycle t)
   (vertico-mouse-mode t)
@@ -1560,7 +1558,8 @@ As of now, I am not planning on having my =Vertico= buffers float. But I might c
 
 #+begin_src emacs-lisp
 (use-package marginalia
-  :config (marginalia-mode t)
+  :after (vertico)
+  :hook (vertico-mode . marginalia-mode)
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))
@@ -2090,11 +2089,9 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil
-  :demand t
   :bind (:map evil-normal-state-map ("-" . evil-ex-nohighlight))
-  :config
-  (evil-select-search-module 'evil-search-module 'evil-search)
-  (evil-mode)
+  :hook (elpaca-after-init . evil-mode)
+  :config (evil-select-search-module 'evil-search-module 'evil-search)
   :custom
   (evil-want-keybinding nil)
   (evil-respect-visual-line-mode t)
@@ -2107,7 +2104,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-package evil-collection
   :after (evil)
-  :config (evil-collection-init)
+  :hook (evil-mode . evil-collection-init)
   :custom
   (evil-collection-corfu-key-themes '(tab-n-go))
   (evil-collection-setup-minibuffer t)
@@ -2134,7 +2131,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-package evil-surround
   :after (evil)
-  :config (global-evil-surround-mode))
+  :hook (evil-mode . global-evil-surround-mode))
 #+end_src
 
 ***** EVIL Action Highlight
@@ -2142,7 +2139,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-package evil-goggles
   :after (evil)
-  :config (evil-goggles-mode)
+  :hook (evil-mode . evil-goggles-mode)
   :custom (evil-goggles-duration 0.1))
 #+end_src
 
@@ -2382,7 +2379,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-feature savehist
   :defer 1
-  :config (savehist-mode t)
+  :config (savehist-mode)
   :custom
   (savehist-autosave-interval 60)
   (savehist-file (no-littering-expand-var-file-name "savehist"))
@@ -2659,7 +2656,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
 #+begin_src emacs-lisp
 (use-package beframe
   :bind ([remap list-buffers] . beframe-switch-buffer)
-  :init (beframe-mode)
+  :hook (elpaca-after-init . beframe-mode)
   :config
   (setq beframe-rename-function nil)
   <<beframe-consult-buffers>>)
@@ -2696,7 +2693,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 #+begin_src emacs-lisp
 (use-package activities
-  :init (activities-mode))
+  :hook (elpaca-after-init . activities-mode))
 #+end_src
 
 ***** Hydra: Activities Bindings
@@ -2793,7 +2790,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
-  :init (global-corfu-mode)
+  :hook (elpaca-after-init . global-corfu-mode)
   :config
   (with-eval-after-load 'evil-collection
     (setq corfu-preselect 'valid))
@@ -2842,9 +2839,8 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 #+begin_src emacs-lisp
 (use-package yasnippet
-  :commands (yas-minor-mode)
   :bind ("M-]" . yas-insert-snippet)
-  :hook ((prog-mode text-mode) . yas-minor-mode)
+  :hook (dashboard-mode . yas-global-mode)
   :config
   (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets"))
   (yas-reload-all))
@@ -2861,8 +2857,8 @@ Also, we want to be able to see the snippet completions inside Corfu.
 
 #+begin_src emacs-lisp
 (use-package yasnippet-capf
-  :after (yasnippet)
-  :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
+  :after (cape yasnippet)
+  :config (add-to-list 'completion-at-point-functions #'yasnippet-capf)
   :custom (yasnippet-capf-lookup-by 'name))
 #+end_src
 
@@ -3071,7 +3067,7 @@ There is another things that we could utilize to increase the responsiveness of 
   :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after (eglot)
   :if (executable-find "emacs-lsp-booster")
-  :config (eglot-booster-mode))
+  :hook (elpaca-after-init . eglot-booster-mode))
 #+end_src
 
 *** C/C++: Embracing the Challenges of Low-Level Programming

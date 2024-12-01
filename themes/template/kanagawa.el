@@ -606,7 +606,7 @@
      ;; https://github.com/ema2159/centaur-tabs
      (centaur-tabs-default                          (:background sumiInk-0 :foreground sumiInk-4))
      (centaur-tabs-active-bar-face                  (:background springBlue :foreground fujiWhite))
-     (centaur-tabs-selected                         (:background sumiInk-1b :foreground fujiWhite :bold t))
+     (centaur-tabs-selected                         (:background sumiInk-1b :foreground fujiWhite :underline (:color carpYellow)))
      (centaur-tabs-selected-modified                (:background sumiInk-1b :foreground fujiWhite))
      (centaur-tabs-modified-marker-selected         (:background sumiInk-1b :foreground autumnYellow))
      (centaur-tabs-close-selected                   (:inherit 'centaur-tabs-selected))
