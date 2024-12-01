@@ -743,6 +743,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
 
 #+begin_src emacs-lisp
 (use-package nerd-icons
+  :demand t
   :custom
   (nerd-icons-font-family
    (when (featurep 'fontaine)
@@ -954,7 +955,7 @@ We should also be able to complete the icons as we do on other platforms.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :init (doom-modeline-mode t)
+  :init (doom-modeline-mode)
   :custom
   (doom-modeline-bar-width 4)
   (doom-modeline-buffer-file-name 'relative-to-project)
@@ -1048,7 +1049,7 @@ We should also be able to complete the icons as we do on other platforms.
   (tabspaces-use-filtered-buffers-as-default t))
 #+end_src
 
-We also want consult to be able to track our separated buffers properly and not mix them togheter.
+****** Consult: A Menu For TAB Separated Buffer(s)
 
 #+NAME: tabspaces-consult-buffers
 #+begin_src emacs-lisp :tangle no
@@ -1396,15 +1397,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 
   ;; Consult -> select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  :custom
-  (consult-narrow-key "<") ;; "C-+"
-  (consult-customize consult-theme :preview-key '(:debounce 0.2 any)
-                     consult-ripgrep consult-git-grep consult-grep
-                     consult-bookmark consult-recent-file consult-xref
-                     consult--source-bookmark consult--source-file-register
-                     consult--source-recent-file consult--source-project-recent-file
-                     :preview-key '(:debounce 0.4 any)))
+        xref-show-definitions-function #'consult-xref))
 #+end_src
 
 Allowing consult to interact with my ever-growing projects is something I consider to be useful.
@@ -2262,7 +2255,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature hl-line
-  :hook ((prog-mode text-mode) . hl-line-mode))
+  :config (global-hl-line-mode))
 #+end_src
 
 ***** Window Frames
