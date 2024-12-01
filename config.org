@@ -2654,13 +2654,49 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
       ("u" git-gutter:revert-hunk           "Revert hunk")))))
 #+end_src
 
-**** Activities: Bookmarking Workspaces
+**** Beframe: Isolate Emacs Frames
+
+#+begin_src emacs-lisp
+(use-package beframe
+  :bind ([remap list-buffers] . beframe-switch-buffer)
+  :init (beframe-mode)
+  :config
+  (setq beframe-rename-function nil)
+  <<beframe-consult-buffers>>)
+#+end_src
+
+***** Consult: A Menu For Beframe Buffer(s)
+
+#+NAME: beframe-consult-buffers
+#+begin_src emacs-lisp :tangle no
+(with-eval-after-load 'consult
+  (defface beframe-buffer
+    '((t :inherit font-lock-string-face))
+    "Face for `consult' framed buffers.")
+
+  (defun my-beframe-buffer-names-sorted (&optional frame)
+    "Return the list of buffers from `beframe-buffer-names' sorted by visibility.
+With optional argument FRAME, return the list of buffers of FRAME."
+    (beframe-buffer-names frame :sort #'beframe-buffer-sort-visibility))
+
+  (defvar beframe-consult-source
+    `( :name     "Frame-specific buffers (current frame)"
+       :narrow   ?F
+       :category buffer
+       :face     beframe-buffer
+       :history  beframe-history
+       :items    ,#'my-beframe-buffer-names-sorted
+       :action   ,#'switch-to-buffer
+       :state    ,#'consult--buffer-state))
+
+  (add-to-list 'consult-buffer-sources 'beframe-consult-source))
+#+end_src
+
+**** Activities: Emacs Session Management
 
 #+begin_src emacs-lisp
 (use-package activities
-  :defer 1
-  :config (activities-mode t)
-  :custom (activities-name-prefix "Emacs-NSP| ")) ;; XMonad Scratchpad
+  :init (activities-mode))
 #+end_src
 
 ***** Hydra: Activities Bindings
