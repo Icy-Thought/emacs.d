@@ -460,10 +460,10 @@
      (lsp-ui-sideline-symbol                            (:foreground muted))
 
      ;; https://github.com/emacs-dashboard/emacs-dashboard
-     (dashboard-banner-logo-title                       (:foreground muted :weight 'thin :height 200 :italic t))
+     (dashboard-banner-logo-title                       (:foreground muted :weight 'regular :height 200 :italic t))
      (dashboard-navigator                               (:foreground iris  :weight 'semi-bold :italic nil))
      (dashboard-items-face                              (:weight 'semi-bold))
-     (dashboard-heading                                 (:foreground subtle :weight 'thin :height 150))
+     (dashboard-heading                                 (:foreground subtle :weight 'regular :height 150))
      (dashboard-footer                                  (:foreground muted  :weight 'thin :height 135 :italic t))
      (dashboard-no-items-face                           (:foreground muted))
 

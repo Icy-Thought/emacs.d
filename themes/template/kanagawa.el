@@ -469,11 +469,11 @@
      (lsp-ui-sideline-symbol                        (:foreground dragonBlue))
 
      ;; https://github.com/emacs-dashboard/emacs-dashboard
-     (dashboard-banner-logo-title                   (:foreground boatYellow2 :height 200 :weight 'thin :italic t))
-     (dashboard-navigator                           (:foreground waveAqua1 :weight 'semi-bold :italic nil))
-     (dashboard-items-face                          (:weight 'semi-bold))
-     (dashboard-heading                             (:foreground springViolet2 :height 150 :weight 'thin))
+     (dashboard-banner-logo-title                   (:foreground boatYellow2 :height 200 :weight 'regular :italic t))
      (dashboard-footer-face                         (:foreground dragonBlue :height 135 :weight 'bold :italic t))
+     (dashboard-heading                             (:foreground springViolet2 :height 150 :weight 'regular))
+     (dashboard-items-face                          (:weight 'semi-bold))
+     (dashboard-navigator                           (:foreground waveAqua1 :weight 'semi-bold :italic nil))
      (dashboard-no-items-face                       (:foreground sumiInk-4))
 
      ;; https://github.com/domtronn/all-the-icons.el

@@ -1071,16 +1071,14 @@ We also want consult to be able to track our separated buffers properly and not 
 
 *** Dashboard: A Welcoming Buffer For New Frames
 
+1.XX+s startup time is caused by Emacs dashboard. Emacs startup time without it is < 0.8Xs.
+
 #+begin_src emacs-lisp
 (use-package dashboard
   :after (nerd-icons)
-  :commands (dashboard-refresh-buffer)
-  :hook (dashboard-mode . hl-line-mode)
-  :custom-face
-  (dashboard-heading           ((t (:weight regular))))
-  (dashboard-banner-logo-title ((t (:weight regular))))
+  :hook (elpaca-after-init . dashboard-refresh-buffer)
   :custom
-  (initial-buffer-choice (lambda () (dashboard-refresh-buffer) (get-buffer dashboard-buffer-name)))
+  (initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
   (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")

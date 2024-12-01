@@ -505,11 +505,11 @@
      (lsp-ui-sideline-symbol                            (:foreground overlay1))
 
      ;; https://github.com/emacs-dashboard/emacs-dashboard
-     (dashboard-banner-logo-title                       (:foreground pink :height 200 :weight 'thin :italic t))
-     (dashboard-navigator                               (:foreground flamingo :weight 'semi-bold :italic nil))
-     (dashboard-items-face                              (:foreground lavender :bold nil))
-     (dashboard-heading                                 (:foreground mauve :height 150 :bold t))
+     (dashboard-banner-logo-title                       (:foreground pink :height 200 :weight 'regular :italic t))
      (dashboard-footer-face                             (:foreground flamingo :height 135 :bold t :italic t))
+     (dashboard-heading                                 (:foreground mauve :height 150 :weight 'regular :bold t))
+     (dashboard-items-face                              (:foreground lavender :bold nil))
+     (dashboard-navigator                               (:foreground flamingo :weight 'semi-bold :italic nil))
      (dashboard-no-items-face                           (:foreground overlay1))
 
      ;; https://github.com/domtronn/all-the-icons.el
