@@ -558,17 +558,15 @@
      (tab-bar-tab-inactive                              (:background base    :foreground text))
 
      ;; https://github.com/ema2159/centaur-tabs
-     (centaur-tabs-active-bar-face                      (:background base :foreground text))
+     (centaur-tabs-active-bar-face                      (:background rose :foreground text))
      (centaur-tabs-selected                             (:background base :foreground text :bold t))
      (centaur-tabs-selected-modified                    (:background base :foreground text))
      (centaur-tabs-modified-marker-selected             (:background base :foreground text))
      (centaur-tabs-close-selected                       (:inherit 'centaur-tabs-selected))
-
      (centaur-tabs-unselected                           (:background base :foreground muted))
      (centaur-tabs-unselected-modified                  (:background base :foreground iris))
      (centaur-tabs-modified-marker-unselected           (:background base :foreground muted))
      (centaur-tabs-close-unselected                     (:background base :foreground muted))
-
      (centaur-tabs-close-mouse-face                     (:foreground love))
      (centaur-tabs-default                              (:background base))
      (centaur-tabs-name-mouse-face                      (:foreground foam :bold t))

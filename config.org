@@ -998,15 +998,15 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :hook (dashboard-mode . centaur-tabs-mode)
   :config
-  (setq x-underline-at-descent-line t
-        centaur-tabs-height 32
+  (setq centaur-tabs-height 32
         centaur-tabs-set-icons t
-        centaur-tabs-set-bar 'under
+        centaur-tabs-set-bar 'left
         centaur-tabs-set-modified-marker t
         centaur-tabs-cycle-scope 'tabs
         centaur-tabs-show-navigation-buttons nil
         centaur-tabs-excluded-prefixes
-        `(,@centaur-tabs-excluded-prefixes "*" " *" "consult-partial-preview" "Ement" "magit")))
+        `(,@centaur-tabs-excluded-prefixes
+          "*" " *" "consult-partial-preview" "Ement" "magit")))
 #+end_src
 
 **** Built-in: Tab-Bar & Tab-Line
@@ -2259,7 +2259,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature frame
-  :hook ((prog-mode text-mode) . window-divider-mode)
+  :hook (before-make-frame . window-divider-mode)
   :custom
   (window-divider-default-places t)
   (window-divider-default-right-width 2)
@@ -2336,7 +2336,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 *** Useful Utilities For Editing Environments
 
-**** Project
+**** Project: Management of Random Ideas
 
 #+begin_src emacs-lisp
 (use-feature project
