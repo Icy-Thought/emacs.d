@@ -998,15 +998,15 @@ We should also be able to complete the icons as we do on other platforms.
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
   :hook (dashboard-mode . centaur-tabs-mode)
   :config
-  (setq centaur-tabs-height 32
-        centaur-tabs-set-icons t
-        centaur-tabs-set-bar 'left
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-show-navigation-buttons nil
-        centaur-tabs-excluded-prefixes
+  (setq centaur-tabs-excluded-prefixes
         `(,@centaur-tabs-excluded-prefixes
-          "*" " *" "consult-partial-preview" "Ement" "magit")))
+          "*" " *" "consult-partial-preview" "Ement" "magit"))
+  :custom
+  (centaur-tabs-height 35)
+  (centaur-tabs-set-icons t)
+  ;; (centaur-tabs-set-bar 'left)
+  (centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-set-modified-marker t))
 #+end_src
 
 **** Built-in: Tab-Bar & Tab-Line
@@ -1541,17 +1541,6 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
   (setq enable-recursive-minibuffers t
         minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt)))
-#+end_src
-
-As of now, I am not planning on having my =Vertico= buffers float. But I might change myself later, hence why I choose to retain the code block below.
-
-#+begin_src emacs-lisp :tangle no
-(use-package vertico-posframe
-  :after (vertico)
-  :hook (vertico-mode . vertico-posframe-mode)
-  :custom
-  (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
-  (vertico-posframe-fallback-mode vertico-buffer-mode))
 #+end_src
 
 **** Marginalia: Annotate The Mini-Buffer
@@ -2193,6 +2182,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (find-file-suppress-same-file-warnings t)
   (remote-file-name-inhibit-locks t)
   (x-stretch-cursor t)
+  (x-underline-at-descent-line t)
   (text-mode-ispell-word-completion nil))
 #+end_src
 
@@ -3067,7 +3057,7 @@ There is another things that we could utilize to increase the responsiveness of 
   :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after (eglot)
   :if (executable-find "emacs-lsp-booster")
-  :hook (elpaca-after-init . eglot-booster-mode))
+  :config (eglot-booster-mode))
 #+end_src
 
 *** C/C++: Embracing the Challenges of Low-Level Programming
