@@ -2648,8 +2648,11 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :bind ([remap list-buffers] . beframe-switch-buffer)
   :hook (elpaca-after-init . beframe-mode)
   :config
-  (setq beframe-rename-function nil)
-  <<beframe-consult-buffers>>)
+  (with-eval-after-load 'marginalia
+    (add-to-list 'marginalia-command-categories '(kill-buffer . buffer))
+    (add-to-list 'marginalia-command-categories '(beframe-switch-buffer . buffer)))
+  <<beframe-consult-buffers>>
+  :custom (beframe-rename-function nil))
 #+end_src
 
 ***** Consult: A Menu For Beframe Buffer(s)
