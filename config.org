@@ -36,7 +36,7 @@
     - [[#autothemer-macros-to-ease-the-theming-process][Autothemer: Macros To Ease The Theming Process]]
     - [[#prettified-symbols][Prettified Symbols]]
     - [[#typefaces--saner-fonts][Typeface's & Saner Fonts]]
-    - [[#adding-a-sprinkle-of-icons][Adding A Sprinkle of Icons]]
+    - [[#nerd-icons-adding-a-sprinkle-of-beautiful-icons][Nerd-Icons: Adding A Sprinkle of Beautiful Icons]]
     - [[#svg-tag-decorating-buffers-with-svg][SVG-Tag: Decorating Buffers With SVG]]
     - [[#modelines---status-bars-for-emacs][Modeline(s) -> Status-Bar(s) For Emacs]]
     - [[#containers-for-displaying-tabs--buffers][Containers For Displaying Tab(s) & Buffer(s)]]
@@ -188,12 +188,12 @@
 *** Collect The Ever-Growing Garbage...
 
 #+begin_src emacs-lisp
-(setq gc-cons-percentage 0.5
+(setq gc-cons-percentage 0.6
       gc-cons-threshold most-positive-fixnum)
 
 ;; :NOTE| Reduce GC threshold for propper garbage collection
 (add-hook 'after-init-hook
-          (lambda () (setq gc-cons-threshold (* 2 1024 1024))))
+          (lambda () (setq gc-cons-threshold (* 5 1024 1024))))
 #+end_src
 
 ** Part 3: Setting Our Ever-Growing Options
@@ -740,7 +740,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   :custom (font-lock-maximum-decoration t))
 #+end_src
 
-*** Adding A Sprinkle of Icons
+*** Nerd-Icons: Adding A Sprinkle of Beautiful Icons
 
 #+begin_src emacs-lisp
 (use-package nerd-icons :demand t
@@ -751,7 +751,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   (nerd-icons-scale-factor 1.05))
 #+end_src
 
-We should also be able to complete the icons as we do on other platforms.
+**** Presence Of Icons Within Completion
 
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
@@ -1300,8 +1300,6 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 
 **** Dired: Built-in Emacs File Manager
 
-Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall add that minor feature to Irkalla.
-
 #+begin_src emacs-lisp
 (use-feature dired
   :custom
@@ -1309,10 +1307,35 @@ Being able to drag from/to Emacs is always a pleasurable feeling. Thus I shall a
   (dired-mouse-drag-files t)
   (dired-kill-when-opening-new-dired-buffer t)
   (mouse-drag-and-drop-region-cross-program t)
-  (mouse-1-click-follows-link nil))
+  (mouse-1-click-follows-link nil)
+  (dired-listing-switches "-al --group-directories-first"))
 #+end_src
 
-I also would like =Dired= to be able to launch certain file-extensions with certain external programs.
+***** Dirvish: Polished Batteries For Dired
+
+#+begin_src emacs-lisp
+(use-package dirvish
+  :ensure (:host github :repo "hlissner/dirvish")
+  :after (dired)
+  :bind ([remap dired] . dirvish-side)
+  :config
+  (dirvish-override-dired-mode t)
+  (dirvish-peek-mode t)
+  (dirvish-side-follow-mode t)
+  :custom
+  (dirvish-side-width 30)
+  (dirvish-use-header-line t)
+  (dirvish-use-mode-line nil)
+  (dirvish-fd-default-dir "~/")
+  (dirvish-quick-access-entries
+   '(("h" "~/"                          "Home")
+     ("d" "~/Downloads/"                "Downloads")
+     ("m" "/mnt/"                       "Drives")
+     ("l" "~/Library/unexplored"        "Library")
+     ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
+  (dirvish-attributes '(nerd-icons file-size collapse subtree-state vc-state))
+  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
+#+end_src
 
 ***** Dired-x: Controlling Various File Extension(s)
 
@@ -1342,31 +1365,6 @@ Lastly, I want the different type of directories to have some form of syntax hig
   :after (dired)
   :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
   :custom-face (diredfl-dir-name ((t :bold t))))
-#+end_src
-
-***** Dirvish: Polished Batteries For Dired
-
-#+begin_src emacs-lisp
-(use-package dirvish
-  :after (dired)
-  :bind ([remap dired] . dirvish-side)
-  :config
-  (dirvish-override-dired-mode t)
-  (dirvish-peek-mode t)
-  (dirvish-side-follow-mode t)
-  :custom
-  (dirvish-side-width 30)
-  (dirvish-use-header-line t)
-  (dirvish-use-mode-line nil)
-  (dirvish-fd-default-dir "~/")
-  (dirvish-quick-access-entries
-   '(("h" "~/"                          "Home")
-     ("d" "~/Downloads/"                "Downloads")
-     ("m" "/mnt/"                       "Drives")
-     ("l" "~/Library/unexplored"        "Library")
-     ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
-  (dirvish-attributes '(nerd-icons file-size collapse subtree-state vc-state))
-  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
 #+end_src
 
 **** Which Key Was It Again???
@@ -2171,19 +2169,18 @@ I also would like for web-pages to properly render code blocks, and that is by d
 #+begin_src emacs-lisp
 (use-feature emacs
   :custom
-  (cursor-in-non-selected-windows nil)
-  (confirm-nonexistent-file-or-buffer nil)
-  (indent-tabs-mode nil)
   (backward-delete-char-untabify-method 'hungry)
+  (confirm-nonexistent-file-or-buffer nil)
+  (cursor-in-non-selected-windows nil)
   (electric-indent-inhibit t)
   (fill-column 120)
+  (indent-tabs-mode nil)
+  (remote-file-name-inhibit-locks t)
+  (text-mode-ispell-word-completion nil)
   (truncate-lines t)
   (truncate-string-ellipsis "↴")
-  (find-file-suppress-same-file-warnings t)
-  (remote-file-name-inhibit-locks t)
   (x-stretch-cursor t)
-  (x-underline-at-descent-line t)
-  (text-mode-ispell-word-completion nil))
+  (x-underline-at-descent-line t))
 #+end_src
 
 **** EditorConf: Respect Project Config
@@ -2538,7 +2535,8 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :commands (magit)
   :custom
   (magit-refs-show-commit-count 'all)
-  (magit-save-repository-buffers 'dontask))
+  (magit-save-repository-buffers 'dontask)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 #+end_src
 
 ***** File-Icons: Buffer Specific Icons
@@ -3060,7 +3058,8 @@ There is another things that we could utilize to increase the responsiveness of 
   :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after (eglot)
   :if (executable-find "emacs-lsp-booster")
-  :config (eglot-booster-mode))
+  :config (eglot-booster-mode)
+  :custom (eglot-booster-io-only t))
 #+end_src
 
 *** C/C++: Embracing the Challenges of Low-Level Programming
