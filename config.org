@@ -996,7 +996,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
-  :hook (dashboard-mode . centaur-tabs-mode)
+  :hook (elpaca-after-init . centaur-tabs-mode)
   :config
   (setq centaur-tabs-excluded-prefixes
         `(,@centaur-tabs-excluded-prefixes
@@ -1185,6 +1185,7 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
 
 #+begin_src emacs-lisp
 (use-feature recentf
+  :config (recentf-mode)
   :custom
   (recentf-save-file-modes #o600)
   (recentf-max-saved-items 1024)
@@ -1316,12 +1317,11 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 #+begin_src emacs-lisp
 (use-package dirvish
   :ensure (:host github :repo "hlissner/dirvish")
-  :after (dired)
-  :bind ([remap dired] . dirvish-side)
+  :bind ("C-x f" . dirvish-side)
   :config
-  (dirvish-override-dired-mode t)
-  (dirvish-peek-mode t)
-  (dirvish-side-follow-mode t)
+  (dirvish-override-dired-mode)
+  (dirvish-peek-mode)
+  (dirvish-side-follow-mode)
   :custom
   (dirvish-side-width 30)
   (dirvish-use-header-line t)
@@ -1862,6 +1862,9 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   (mu4e-change-filenames-when-moving t)
   (mu4e-completing-read-function 'completing-read)
   (mu4e-context-policy 'pick-first)
+  (mu4e-split-view 'single-window)
+  (mu4e-headers-date-format "%d-%m")
+  (mu4e-headers-time-format "%H:%M")
 
   ;; :NOTE| control how e-mails should be composed
   (sendmail-program "msmtp")
@@ -1894,6 +1897,24 @@ Syntax highlighting is a nice feature to have in our different chat clients.
                          (:subject      . nil))))
 #+end_src
 
+****** MU4E Dashboard: A Clean Interface For E-Mail's
+
+#+begin_src emacs-lisp
+(use-package mu4e-dashboard
+  :ensure (:host github :repo "rougier/mu4e-dashboard")
+  :after (mu4e)
+  :config
+  (setq mu4e-dashboard-file (expand-file-name "mu4e/sidebar.org" irkalla/underworld))
+  (setq-local visual-fill-column-mode nil)
+
+  ;; :NOTE| Don't display Mu4e-View after :q mu4e-dashboard
+  (advice-add 'mu4e--main-view :around
+              (lambda (orig &rest args)
+                (if (find-buffer-visiting mu4e-dashboard-file)
+                    (mu4e-dashboard)
+                  (apply orig args)))))
+#+end_src
+
 ****** Org-MSG: Compose Org Formatted Messages
 
 #+begin_src emacs-lisp
@@ -1920,17 +1941,6 @@ Kind Regards,
 #+begin_signature
 -- *Icy-Thought*
 #+end_signature"))
-#+end_src
-
-****** MU4E Dashboard: A Clean Interface For E-Mail's
-
-#+begin_src emacs-lisp
-(use-package mu4e-dashboard
-  :ensure (:host github :repo "rougier/mu4e-dashboard")
-  :after (mu4e)
-  :hook ((mu4e-main-rendered . mu4e-dashboard)
-         (mu4e-dashboard-mode . (lambda () (visual-fill-column-mode -1))))
-  :config (setq mu4e-dashboard-file (expand-file-name "mu4e/sidebar.org" irkalla/underworld)))
 #+end_src
 
 ***** Matrix: Secure & Interoperable Communication
@@ -2093,10 +2103,10 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :after (evil)
   :hook (evil-mode . evil-collection-init)
   :custom
-  (evil-collection-corfu-key-themes '(tab-n-go))
   (evil-collection-setup-minibuffer t)
+  (evil-collection-magit-use-y-for-yank t)
   (evil-collection-magit-want-horizontal-movement t)
-  (evil-collection-magit-use-y-for-yank t))
+  (evil-collection-corfu-key-themes '(tab-n-go)))
 #+end_src
 
 ***** EVIL-Snipe: 2-Char Word Word Search
@@ -2830,8 +2840,9 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 #+begin_src emacs-lisp
 (use-package yasnippet
+  :after (corfu)
   :bind ("M-]" . yas-insert-snippet)
-  :hook (dashboard-mode . yas-global-mode)
+  :hook (corfu-mode . yas-global-mode)
   :config
   (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets"))
   (yas-reload-all))
