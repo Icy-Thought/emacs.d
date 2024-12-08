@@ -1,21 +1,22 @@
 
 * Mailboxes                 *[[mu:flag:unread][Unread E-Mails]]*
 
-/[i]/ [[mu:m:/icy-thought/Inbox or m:/gmail/inbox or m:/univ/inbox][Inbox]] /.............../ /[[mu:m:/icy-thought/Inbox or m:/gmail/inbox or m:/univ/inbox|%2d][---]]/
-/[f]/ [[mu:flag:flagged][Important]] /........../ /[[mu:flag:flagged|%3d][---]]/
-/[d]/ [[mu:m:/icy-thought/Drafts or m:/gmail/drafts or m:/univ/drafts][Drafts]] /.............../ /[[mu:m:/icy-thought/Drafts or m:/gmail/drafts or m:/univ/drafts|%1d][---]]/
-/[s]/ [[mu:m:/icy-thought/Sent or m:/gmail/sent or m:/univ/sent][Sent]] /............../ /[[mu:m:/icy-thought/Sent or m:/gmail/sent or m:/univ/sent|%4d][---]]/
-/[a]/ [[mu:m:/icy-thought/Archive or m:/gmail/Archive or m:/univ/archive][Archive]] /........../ /[[mu:m:/icy-thought/Archive or m:/gmail/archive or m:/univ/archive|%5d][---]]/
+/[f]/ [[mu:flag:flagged][Important]] /........./ /[[mu:flag:flagged|%1d][---]]/
+/[i]/ [[mu:m:/icy-thought/Inbox or m:/gmail/inbox or m:/univ/inbox][Inbox]] /............./ /[[mu:m:/icy-thought/Inbox or m:/gmail/inbox or m:/univ/inbox|%1d][---]]/
+/[a]/ [[mu:m:/icy-thought/Archive or m:/gmail/Archive or m:/univ/archive][Archive]] /.........../ /[[mu:m:/icy-thought/Archive or m:/gmail/archive or m:/univ/archive|%1d][---]]/
+/[d]/ [[mu:m:/icy-thought/Drafts or m:/gmail/drafts or m:/univ/drafts][Drafts]] /............/ /[[mu:m:/icy-thought/Drafts or m:/gmail/drafts or m:/univ/drafts|%1d][---]]/
+/[s]/ [[mu:m:/icy-thought/Sent or m:/gmail/sent or m:/univ/sent][Sent]] /............../ /[[mu:m:/icy-thought/Sent or m:/gmail/sent or m:/univ/sent|%1d][---]]/
+/[t]/ [[mu:m:/icy-thought/Trash or m:/gmail/Trash or m:/univ/Trash][Trash]] /............./ /[[mu:m:/icy-thought/Trash or m:/gmail/trash or m:/univ/trash|%1d][---]]/
 
 * Smart mailboxes
 
-/[t]/ [[mu:date:today..now][Today]] /............../ /[[mu:date:today..now|%3d][---]]/
-/[y]/ [[mu:date:2d..today and not date:today..now][Yesterday]] /........../ /[[mu:date:2d..today and not date:today..now|%3d][---]]/
-/[w]/ [[mu:date:1w..now][Last week]] /......... /[[mu:date:7d..now|%4d][---]]/
-/[m]/ [[mu:date:4w..now][Last month]] /......../ /[[mu:date:4w..|%4d][---]]/
+/[t]/ [[mu:date:today..now][Today]] /............./ /[[mu:date:today..now|%1d][---]]/
+/[y]/ [[mu:date:2d..today and not date:today..now][Yesterday]] /........./ /[[mu:date:2d..today and not date:today..now|%1d][---]]/
+/[w]/ [[mu:date:1w..now][Last week]] /......... /[[mu:date:7d..now|%1d][---]]/
+/[m]/ [[mu:date:4w..now][Last month]] /......../ /[[mu:date:4w..|%1d][---]]/
 
-[[mu:flag:attach][Attachments]] /........../ /[[mu:flag:attach|%5d][---]]/
-[[mu:flag:encrypted][Encrypted]] /............./ /[[mu:flag:encrypted|%4d][---]]/
+[[mu:flag:attach][Attachments]] /.........../ /[[mu:flag:attach|%1d][---]]/
+[[mu:flag:encrypted][Encrypted]] /............./ /[[mu:flag:encrypted|%1d][---]]/
 
 ** Tags
 
@@ -24,19 +25,19 @@
 
 ** People
 
-[[mu:from:rms@gnu.org][Richard Stallman]]       /[[mu:from:rms@gnu.org|%3d][---]]/
+[[mu:from:rms@gnu.org][Richard Stallman]]       /[[mu:from:rms@gnu.org|%1d][---]]/
 
 ** Mailing lists
 
-[[mu:list:emacs-devel.gnu.org][Emacs development]] /.../ /[[mu:list:emacs-devel.gnu.org|%4d][---]]/
-[[mu:list:mu-discuss.googlegroups.com][Mu4e discussions]] /...../ /[[mu:list:mu-discuss.googlegroups.com|%3d][---]]/
-[[mu:list:numpy-discussion.python.org][Numpy discussion]] /..../ /[[mu:list:numpy-discussion.python.org|%4d][---]]/
+[[mu:list:emacs-devel.gnu.org][Emacs development]] /..../ /[[mu:list:emacs-devel.gnu.org|%1d][---]]/
+[[mu:list:mu-discuss.googlegroups.com][Mu4e discussions]] /...../ /[[mu:list:mu-discuss.googlegroups.com|%1d][---]]/
+[[mu:list:numpy-discussion.python.org][Numpy discussion]] /...../ /[[mu:list:numpy-discussion.python.org|%1d][---]]/
 
 ** Date
 
-[[mu:flag:attach][Year 2024]] /........../ /[[mu:date:20240101..20241231|%5d][---]]/
-[[mu:date:20230101..20231231][Year 2023]] /........../ /[[mu:date:20230101..20231231|%5d][---]]/
-[[mu:date:20220101..20221231][Year 2022]] /.........../ /[[mu:date:20220101..20221231|%4d][---]]/
+[[mu:flag:attach][Year 2024]] /.........../ /[[mu:date:20240101..20241231|%1d][---]]/
+[[mu:date:20230101..20231231][Year 2023]] /.........../ /[[mu:date:20230101..20231231|%1d][---]]/
+[[mu:date:20220101..20221231][Year 2022]] /.........../ /[[mu:date:20220101..20221231|%1d][---]]/
 
 * /Configuration/
 :PROPERTIES:
@@ -53,8 +54,10 @@ mu find --sortfield=date --reverse --fields "f s" $query  | head -$count
 
 #+KEYMAP: u        | mu4e-headers-search "flag:unread"
 #+KEYMAP: i        | mu4e-headers-search "mu:m:/icy-thought/Inbox or mu:m:/gmail/inbox or mu:m:/univ/inbox"
+#+KEYMAP: a        | mu4e-headers-search "mu:m:/icy-thought/Archive or mu:m:/gmail/archive or mu:m:/univ/archive"
 #+KEYMAP: d        | mu4e-headers-search "mu:m:/icy-thought/Drafts or mu:m:/gmail/drafts or mu:m:/univ/drafts"
 #+KEYMAP: s        | mu4e-headers-search "mu:m:/icy-thought/Sent or mu:m:/gmail/sent or mu:m:/univ/sent"
+#+KEYMAP: t        | mu4e-headers-search "mu:m:/icy-thought/Trash or mu:m:/gmail/trash or mu:m:/univ/trash"
 #+KEYMAP: f        | mu4e-headers-search "flag:flagged"
 
 #+KEYMAP: t        | mu4e-headers-search "date:today..now"
@@ -65,7 +68,7 @@ mu find --sortfield=date --reverse --fields "f s" $query  | head -$count
 #+KEYMAP: C        | mu4e-compose-new
 #+KEYMAP: U        | mu4e-dashboard-update
 #+KEYMAP: ;        | mu4e-context-switch
-#+KEYMAP: q        | mu4e-dashboard-quit
+#+KEYMAP: q        | mu4e-quit
 #+KEYMAP: W        | mu4e-headers-toggle-include-related
 #+KEYMAP: O        | mu4e-headers-change-sorting
 #+KEYMAP: x        | mu4e-mark-execute-all t
