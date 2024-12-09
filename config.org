@@ -1253,7 +1253,8 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      ("*eldoc*"                            :align right)
      ("*Messages*"                         :align below)
      ("*Async-native-compile-log*"         :align right)
-     ("*mu4e-headers*"                     :align right :select t :size 0.78)
+     ("*mu4e-headers*"                     :align right :select t :size 0.75)
+     ;; also launch without invoking J -> inbox manual select -> head into inbox by defeault
      (,(rx "*" (* any) "REPL" (* any) "*") :align right :regexp t)
      (,(rx bos "*" (* any)
            (| "eat" "eshell" "shell" "term" "vterm")
@@ -1834,35 +1835,19 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 ***** :NIXPKGS: MU4E: Mu Mail User Agent
 
 #+begin_src emacs-lisp
-(use-feature mu4e
-  :commands (mu4e mu4e-update-mail-and-index)
+(use-feature mu4e :defer 2
   :if (executable-find "mu")
   :init (add-to-list 'elpaca-ignored-dependencies 'mu4e)
-  :config
-  (setq mu4e-contexts
-        (list (make-mu4e-context
-               :name "Disroot"
-               :enter-func (lambda () (mu4e-message "Entering context disroot"))
-               :leave-func (lambda () (mu4e-message "Exiting context disroot"))
-               :match-func
-               (lambda (msg) (when msg
-                          (string-match-p "/icy-thought" (mu4e-message-field msg :maildir))))
-               :vars '((user-full-name     . "Icy-Thought")
-                       (user-mail-address  . "IcyThought@disroot.org")
-                       (mu4e-drafts-folder . "/icy-thought/Drafts")
-                       (mu4e-sent-folder   . "/icy-thought/Sent")
-                       (mu4e-refile-folder . "/icy-thought/Archive")
-                       (mu4e-trash-folder  . "/icy-thought/Trash")))))
   :custom
   (mu4e-attachment-dir "~/Downloads")
   (mu4e-get-mail-command "mbsync -a")
   (mu4e-update-interval (* 10 60))
   (mu4e-confirm-quit nil)
+  (mu4e-use-fancy-chars t)
   (mu4e-notification-support t)
   (mu4e-change-filenames-when-moving t)
   (mu4e-completing-read-function 'completing-read)
   (mu4e-context-policy 'pick-first)
-  (mu4e-split-view 'single-window)
   (mu4e-headers-date-format "%d-%m")
   (mu4e-headers-time-format "%H:%M")
 
@@ -1873,6 +1858,21 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   (message-kill-buffer-on-exit t))
 #+end_src
 
+To reduce the burden of setting up multiple accounts, let's borrow the superpowers of ~mu4easy~.
+
+#+begin_src emacs-lisp
+(use-package mu4easy
+  :after (mu4e)
+  :config (mu4easy-mode)
+  :custom
+  (mu4easy-contexts '((mu4easy-context
+                       :c-name  "Disroot"
+                       :maildir "icy-thought"
+                       :mail    "IcyThought@disroot.org"
+                       :smtp    "disroot.org"
+                       :sent-action delete))))
+#+end_src
+
 ****** MU4E Fold: Fold Threaded Conversations
 
 #+begin_src emacs-lisp
@@ -1881,8 +1881,11 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   :after (mu4e)
   :hook (mu4e-headers-mode . mu4e-thread-folding-mode)
   :bind (:map mu4e-headers-mode-map
-              ("<tab>"   . mu4e-headers-toggle-at-point)
-              ("<S-tab>" . mu4e-headers-unfold-all))
+              ("<tab>"     . mu4e-headers-toggle-at-point)
+              ("<left>"    . mu4e-headers-fold-at-point)
+              ("<S-left>"  . mu4e-headers-fold-all)
+              ("<right>"   . mu4e-headers-unfold-at-point)
+              ("<S-right>" . mu4e-headers-unfold-all))
   :config
   (add-to-list 'mu4e-header-info-custom
                '(:empty . (:name "Empty"
@@ -1897,33 +1900,14 @@ Syntax highlighting is a nice feature to have in our different chat clients.
                          (:subject      . nil))))
 #+end_src
 
-****** MU4E Dashboard: A Clean Interface For E-Mail's
-
-#+begin_src emacs-lisp
-(use-package mu4e-dashboard
-  :ensure (:host github :repo "rougier/mu4e-dashboard")
-  :after (mu4e)
-  :config
-  (setq mu4e-dashboard-file (expand-file-name "mu4e/sidebar.org" irkalla/underworld))
-  (setq-local visual-fill-column-mode nil)
-
-  ;; :NOTE| Don't display Mu4e-View after :q mu4e-dashboard
-  (advice-add 'mu4e--main-view :around
-              (lambda (orig &rest args)
-                (if (find-buffer-visiting mu4e-dashboard-file)
-                    (mu4e-dashboard)
-                  (apply orig args)))))
-#+end_src
-
 ****** Org-MSG: Compose Org Formatted Messages
 
 #+begin_src emacs-lisp
 (use-package org-msg
-  :after (mu4e)
+  :after (mu4e org)
   :config
-  (with-eval-after-load 'mu4e
-    (org-msg-mode-mu4e)
-    (setq mail-user-agent 'mu4e-user-agent))
+  (setq mail-user-agent 'mu4e-user-agent)
+  (org-msg-mode-mu4e)
   (org-msg-mode)
   :custom
   (org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil title:nil email:nil tex:imagemagick")
@@ -1938,9 +1922,9 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   (org-msg-signature "
 Kind Regards,
 
-#+begin_signature
+,#+begin_signature
 -- *Icy-Thought*
-#+end_signature"))
+,#+end_signature"))
 #+end_src
 
 ***** Matrix: Secure & Interoperable Communication
