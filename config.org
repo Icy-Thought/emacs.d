@@ -1835,7 +1835,8 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 ***** :NIXPKGS: MU4E: Mu Mail User Agent
 
 #+begin_src emacs-lisp
-(use-feature mu4e :defer 2
+(use-feature mu4e
+  :commands (mu4e mu4e-update-mail-and-index)
   :if (executable-find "mu")
   :init (add-to-list 'elpaca-ignored-dependencies 'mu4e)
   :custom
