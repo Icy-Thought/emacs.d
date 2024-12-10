@@ -2055,12 +2055,11 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package shr-tag-pre-highlight
-  :after (shr)
+  :after (shrface)
   :config
   (add-to-list 'shr-external-rendering-functions '(pre . shr-tag-pre-highlight))
-  (with-eval-after-load 'eww
-    (advice-add 'eww-display-html :around
-                'eww-display-html--override-shr-external-rendering-functions)))
+  (advice-add 'eww-display-html :around
+              'eww-display-html--override-shr-external-rendering-functions))
 #+end_src
 
 ** Part 4: Editing Environment
