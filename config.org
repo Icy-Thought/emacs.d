@@ -2811,9 +2811,8 @@ With optional argument FRAME, return the list of buffers of FRAME."
 *** Cape: Controlling Suggestion Output
 
 #+begin_src emacs-lisp
-(use-package cape
-  :after (corfu)
-  :config
+(use-package cape :defer 1
+  :init
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-keyword)
   (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
@@ -2824,12 +2823,9 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 #+begin_src emacs-lisp
 (use-package yasnippet
-  :after (corfu)
   :bind ("M-]" . yas-insert-snippet)
-  :hook (corfu-mode . yas-global-mode)
-  :config
-  (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets"))
-  (yas-reload-all))
+  :hook (elpaca-after-init . yas-global-mode)
+  :init (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets")))
 #+end_src
 
 Instead of defining all of our snippets manually, we could use the help of an external package to help us add the basics and then expand on those bindings with our defined bindings.
@@ -2843,8 +2839,8 @@ Also, we want to be able to see the snippet completions inside Corfu.
 
 #+begin_src emacs-lisp
 (use-package yasnippet-capf
-  :after (cape yasnippet)
-  :config (add-to-list 'completion-at-point-functions #'yasnippet-capf)
+  :after (cape)
+  :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
   :custom (yasnippet-capf-lookup-by 'name))
 #+end_src
 
