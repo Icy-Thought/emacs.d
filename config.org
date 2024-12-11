@@ -168,7 +168,7 @@
 #+begin_src emacs-lisp
 (when (boundp 'read-process-output-max)
   (setq process-adaptive-read-buffering nil
-        read-process-output-max (* 24 1024 1024)))
+        read-process-output-max (* 1024 1024)))
 #+end_src
 
 *** Native-Comp -> Quicker Emacs (Byte-Compile)
