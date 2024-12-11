@@ -68,7 +68,7 @@
     - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
     - [[#haskell-purely-functional][Haskell: Purely Functional]]
-    - [[#kotlin-language-of-dem-android][Kotlin: Language of Dem Android]]
+    - [[#kotlin-language-of-android][Kotlin: Language of Android]]
     - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
     - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
     - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
@@ -1836,8 +1836,8 @@ Syntax highlighting is a nice feature to have in our different chat clients.
 
 #+begin_src emacs-lisp
 (use-feature mu4e
-  :commands (mu4e mu4e-update-mail-and-index)
   :if (executable-find "mu")
+  :commands (mu4e mu4e-update-mail-and-index)
   :init (add-to-list 'elpaca-ignored-dependencies 'mu4e)
   :custom
   (mu4e-attachment-dir "~/Downloads")
@@ -2015,7 +2015,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
       :nick "Icy-Thought"
       :sasl-username "icy-thought"
       ;; :sasl-password (irkalla/read-secret-file "IRC")
-      :channels ("#guix")))))
+      :channels ("#emacs")))))
 #+end_src
 
 **** Browsing The Web
@@ -3047,8 +3047,8 @@ There is another things that we could utilize to increase the responsiveness of 
 #+begin_src emacs-lisp
 (use-package eglot-booster
   :ensure (:host github :repo "jdtsmith/eglot-booster")
-  :after (eglot)
   :if (executable-find "emacs-lsp-booster")
+  :after (eglot)
   :config (eglot-booster-mode)
   :custom (eglot-booster-io-only t))
 #+end_src
@@ -3426,6 +3426,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package haskell-ts-mode
+  :if (executable-find "ghc")
   :mode ("\\.hs\\(c\\|-boot\\)?\\'" . haskell-ts-mode)
   :hook (haskell-ts-mode . eglot-ensure)
   :config (with-eval-after-load 'eglot (haskell-ts-setup-eglot))
@@ -3467,13 +3468,11 @@ Also, allow =Embark= to interact with those citations.
              (message "You are not in a Haskell buffer.")) "Haskell")))))
 #+end_src
 
-*** Kotlin: Language of Dem Android
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
+*** Kotlin: Language of Android
 
 #+begin_src emacs-lisp
 (use-package kotlin-ts-mode
+  :if (executable-find "kotlin")
   :mode ("\\.kts?\\'" . kotlin-ts-mode)
   :hook (kotlin-ts-mode . eglot-ensure))
 #+end_src
@@ -3483,13 +3482,14 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (when (executable-find "ktlint")
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'kotlin-ts-mode apheleia-mode-alist) '(ktlin))))
+    (setf (alist-get 'kotlin-ts-mode apheleia-mode-alist) '(ktlint))))
 #+end_src
 
 *** Lua: Embedded Scripting Language
 
 #+begin_src emacs-lisp
 (use-package lua-mode
+  :if (executable-find "lua")
   :mode ("\\.lua\\'" . lua-ts-mode)
   :hook (lua-ts-mode . eglot-ensure))
 #+end_src
@@ -3540,6 +3540,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package nix-ts-mode
+  :if (executable-find "nix")
   :mode ("\\.nix\\'" . nix-ts-mode)
   :hook (nix-ts-mode . (lambda ()
                          (unless (string-match-p "nixpkgs" default-directory)
@@ -3558,6 +3559,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package python-mode
+  :if (executable-find "python")
   :hook (python-ts-mode . eglot-ensure)
   :custom
   (python-shell-interpreter "ipython")
@@ -3576,10 +3578,12 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-package rust-mode
+  :if (executable-find "rustc")
   :commands (rust-run)
   :hook (rust-ts-mode . eglot-ensure))
 
 (use-package cargo
+  :if (executable-find "cargo")
   :after (rust-mode)
   :hook (rust-ts-mode . cargo-minor-mode))
 #+end_src
@@ -3637,6 +3641,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+begin_src emacs-lisp
 (use-package typst-ts-mode
   :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
+  :if (executable-find "typst")
   :mode ("\\.typ\\'" . typst-ts-mode)
   :hook (typst-ts-mode . eglot-ensure)
   :config
@@ -3681,23 +3686,24 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+end_src
 
 *** Web Development: Bloating The Web With Funky Code
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
 
 **** HTML: The Markup Language of the Web
 
 #+begin_src emacs-lisp
 (use-feature html-ts-mode
+  :mode ("\\.html\\'" . html-ts-mode)
   :custom (html-ts-mode-indent-offset tab-width))
 #+end_src
 
 **** Typescript: Typed JavaScript
 
-:TODO| add biome as a second LSP server when eglot supports multiple LSP's.
+:TODO| add biome as a second LSP server when Eglot supports multiple LSPs.
 
 #+begin_src emacs-lisp
 (use-feature typescript-ts-mode
+  :if (executable-find "tsc")
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode))
   :hook (typescript-ts-mode . eglot-ensure)
   :custom (typescript-ts-mode-indent-offset tab-width))
 #+end_src
@@ -3713,12 +3719,10 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+end_src
 
 *** Zig: Imperative & Statically Compiled
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
 
 #+begin_src emacs-lisp
 (use-package zig-mode
+  :if (executable-find "zig")
   :mode ("\\.zig\\'" . zig-ts-mode)
   :hook (zig-ts-mode . eglot-ensure)
   :init (derived-mode-add-parents 'zig-ts-mode '(zig-mode)))
