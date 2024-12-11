@@ -276,7 +276,7 @@
      (ement-room-list-space                             (:foreground mauve))
      (ement-room-list-name                              (:inherit 'ement-room-name :italic t))
      (ement-room-list-very-recent                       (:foreground red :bold t))
-     (ement-room-reactions                              (:foreground base :background pink))
+     (ement-room-reactions                              (:background base :foreground pink))
 
      ;; https://orgmode.org/org.html
      (org-block                                         (:inherit 'fixed-pitch :background mantle))

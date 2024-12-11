@@ -250,7 +250,7 @@
      (ement-room-self                               (:foreground autumnGreen))
      (ement-room-self-message                       (:foreground fujiWhite))
      (ement-room-quote                              (:foreground oniViolet))
-     (ement-room-reactions                          (:foreground sumiInk-1b :background autumnYellow))
+     (ement-room-reactions                          (:background sumiInk-1b :foreground autumnYellow))
 
      ;; https://orgmode.org/org.html
      (org-block                                     (:inherit 'fixed-pitch :background sumiInk-0))
