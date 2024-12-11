@@ -1313,31 +1313,6 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (dired-listing-switches "-al --group-directories-first"))
 #+end_src
 
-***** Dirvish: Polished Batteries For Dired
-
-#+begin_src emacs-lisp
-(use-package dirvish
-  :ensure (:host github :repo "hlissner/dirvish")
-  :bind ("C-x f" . dirvish-side)
-  :config
-  (dirvish-override-dired-mode)
-  (dirvish-peek-mode)
-  (dirvish-side-follow-mode)
-  :custom
-  (dirvish-side-width 30)
-  (dirvish-use-header-line t)
-  (dirvish-use-mode-line nil)
-  (dirvish-fd-default-dir "~/")
-  (dirvish-quick-access-entries
-   '(("h" "~/"                          "Home")
-     ("d" "~/Downloads/"                "Downloads")
-     ("m" "/mnt/"                       "Drives")
-     ("l" "~/Library/unexplored"        "Library")
-     ("t" "~/.local/share/Trash/files/" "Rubbish Bin")))
-  (dirvish-attributes '(nerd-icons file-size collapse subtree-state vc-state))
-  (dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"))
-#+end_src
-
 ***** Dired-x: Controlling Various File Extension(s)
 
 #+begin_src emacs-lisp
@@ -1364,7 +1339,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
 #+begin_src emacs-lisp
 (use-package diredfl
   :after (dired)
-  :hook ((dired-mode dirvish-directory-view-mode) . diredfl-mode)
+  :hook (dired-mode . diredfl-mode)
   :custom-face (diredfl-dir-name ((t :bold t))))
 #+end_src
 
