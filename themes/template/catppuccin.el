@@ -270,13 +270,13 @@
      (ement-room-self                                   (:foreground pink))
      (ement-room-self-message                           (:foreground text))
      (ement-room-quote                                  (:foreground lavender :italic t))
-
      (ement-room-list-direct                            (:foreground peach :italic t))
      (ement-room-list-favourite                         (:foreground flamingo))
      (ement-room-list-recent                            (:foreground yellow :bold t))
      (ement-room-list-space                             (:foreground mauve))
      (ement-room-list-name                              (:inherit 'ement-room-name :italic t))
      (ement-room-list-very-recent                       (:foreground red :bold t))
+     (ement-room-reactions                              (:foreground base :background pink))
 
      ;; https://orgmode.org/org.html
      (org-block                                         (:inherit 'fixed-pitch :background mantle))
