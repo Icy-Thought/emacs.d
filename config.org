@@ -2061,11 +2061,15 @@ I also would like for web-pages to properly render code blocks, and that is by d
 (use-package evil-collection
   :after (evil)
   :hook (evil-mode . evil-collection-init)
+  :config
+  (with-eval-after-load 'corfu
+    (setq evil-collection-corfu-key-themes '(tab-n-go))
+    (advice-add 'corfu--setup :after
+                (lambda (&rest _) (setq corfu-preselect 'valid))))
   :custom
   (evil-collection-setup-minibuffer t)
   (evil-collection-magit-use-y-for-yank t)
-  (evil-collection-magit-want-horizontal-movement t)
-  (evil-collection-corfu-key-themes '(tab-n-go)))
+  (evil-collection-magit-want-horizontal-movement t))
 #+end_src
 
 ***** EVIL-Snipe: 2-Char Word Word Search
@@ -2751,9 +2755,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (use-package corfu
   :ensure (:files (:defaults "extensions/*.el"))
   :hook (elpaca-after-init . global-corfu-mode)
-  :config
-  (with-eval-after-load 'evil-collection
-    (setq corfu-preselect 'valid))
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.05)
