@@ -49,7 +49,10 @@
     - [[#alternative-editing-bindings][Alternative Editing Bindings]]
     - [[#switching-up-the-editing-experience][Switching Up The Editing Experience]]
     - [[#useful-utilities-for-editing-environments][Useful Utilities For Editing Environments]]
-  - [[#part-5-completion--debugging][Part 5: Completion & Debugging]]
+  - [[#part-5-documentation-languages][Part 5: Documentation Languages]]
+    - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
+    - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
+  - [[#part-6-completion--debugging][Part 6: Completion & Debugging]]
     - [[#orderless-completion-candidate-matching][Orderless: Completion Candidate Matching]]
     - [[#breadcrumb-location-indicator-for-larger-projects][Breadcrumb: Location Indicator For Larger Projects]]
     - [[#apheleia-code-formatter][Apheleia: Code Formatter]]
@@ -62,22 +65,18 @@
     - [[#dape-debug-adapter-protocol][Dape: Debug Adapter Protocol]]
     - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
     - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost of Freedom]]
-  - [[#part-6-language-server-protocols][Part 6: Language Server Protocols]]
-    - [[#cc-embracing-the-challenges-of-low-level-programming][C/C++: Embracing the Challenges of Low-Level Programming]]
+  - [[#part-7-language-server-protocols][Part 7: Language Server Protocols]]
+    - [[#c-embracing-the-challenges-of-low-level-code][C: Embracing the Challenges of Low-Level Code]]
     - [[#emacs-lisp-the-mother-tongue-of-emacs][Emacs Lisp: The Mother-tongue of Emacs]]
-    - [[#guile-yet-another-lisp-variant][Guile: Yet Another Lisp Variant]]
-    - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
     - [[#haskell-purely-functional][Haskell: Purely Functional]]
-    - [[#kotlin-language-of-android][Kotlin: Language of Android]]
     - [[#lua-embedded-scripting-language][Lua: Embedded Scripting Language]]
-    - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
     - [[#nix-purely-functional-dsl][Nix: Purely Functional DSL]]
     - [[#python-high-level-language][Python: High Level Language]]
     - [[#rust-statically--strongly-typed][Rust: Statically & Strongly Typed]]
     - [[#typst-a-less-bloated-latex-alt][Typst: A Less Bloated LaTeX Alt.]]
     - [[#web-development-bloating-the-web-with-funky-code][Web Development: Bloating The Web With Funky Code]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
-  - [[#part-6-concluding-our-endless-package-hunt][Part 6: Concluding Our Endless Package Hunt!]]
+  - [[#part-8-concluding-our-endless-package-hunt][Part 8: Concluding Our Endless Package Hunt!]]
 
 * Early Initialization of Irkalla
 :PROPERTIES:
@@ -130,14 +129,14 @@
 *** Setting our UI Changes Early
 
 #+begin_src emacs-lisp
-(setq default-frame-alist
-      (append '((alpha-background     . 85)
-                (fullscreen           . nil)
-                (menu-bar-lines       . 0)
-                (tool-bar-lines       . 0)
-                (vertical-scroll-bars . nil)))
-      initial-frame-alist (copy-alist default-frame-alist)
-      user-emacs-directory "~/.config/emacs")
+(setq-default default-frame-alist
+              (append '((alpha-background     . 85)
+                        (fullscreen           . nil)
+                        (menu-bar-lines       . 0)
+                        (tool-bar-lines       . 0)
+                        (vertical-scroll-bars . nil)))
+              initial-frame-alist (copy-alist default-frame-alist)
+              user-emacs-directory "~/.config/emacs")
 #+end_src
 
 *** Maintaining Harmony Within Irkalla's Directories
@@ -147,7 +146,7 @@
 **** Move =custom.el= To The =./etc= Directory
 
 #+begin_src emacs-lisp
-(setq custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
+(setq-default custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
 
 (if (file-exists-p custom-file)
     (load custom-file 'noerror 'nomessage)
@@ -167,8 +166,8 @@
 
 #+begin_src emacs-lisp
 (when (boundp 'read-process-output-max)
-  (setq process-adaptive-read-buffering nil
-        read-process-output-max (* 1024 1024)))
+  (setq-default process-adaptive-read-buffering nil
+                read-process-output-max (* 1024 1024)))
 #+end_src
 
 *** Native-Comp -> Quicker Emacs (Byte-Compile)
@@ -177,23 +176,23 @@
 (when (featurep 'native-compile)
   ;; :NOTE| Retain native compilation cache files in ~/.cache/emacs directory
   (let ((path (expand-file-name "var/eln-cache/" user-emacs-directory)))
-    (setq native-comp-eln-load-path (list path)
-          native-compile-target-directory path))
+    (setq-default native-comp-eln-load-path (list path)
+                  native-compile-target-directory path))
 
   ;; :NOTE| Prevent unwanted runtime builds + reduce noise
-  (setq native-comp-deferred-compilation nil
-        native-comp-async-report-warnings-errors nil))
+  (setq-default native-comp-deferred-compilation nil
+                native-comp-async-report-warnings-errors nil))
 #+end_src
 
 *** Collect The Ever-Growing Garbage...
 
 #+begin_src emacs-lisp
-(setq gc-cons-percentage 0.6
-      gc-cons-threshold most-positive-fixnum)
+(setq-default gc-cons-percentage 0.6
+              gc-cons-threshold most-positive-fixnum)
 
 ;; :NOTE| Reduce GC threshold for propper garbage collection
 (add-hook 'after-init-hook
-          (lambda () (setq gc-cons-threshold (* 5 1024 1024))))
+          (lambda () (setopt gc-cons-threshold (* 5 1024 1024))))
 #+end_src
 
 ** Part 3: Setting Our Ever-Growing Options
@@ -201,59 +200,59 @@
 *** Debugging & Error Handling
 
 #+begin_src emacs-lisp
-(setq ad-redefinition-action 'accept
-      debug-on-error init-file-debug
-      jka-compr-verbose init-file-debug)
+(setq-default ad-redefinition-action 'accept
+              debug-on-error init-file-debug
+              jka-compr-verbose init-file-debug)
 #+end_src
 
 *** User Interface & Startup
 
 #+begin_src emacs-lisp
-(setq auto-mode-case-fold nil
-      blink-cursor-mode nil
-      echo-keystrokes 0.02
-      fast-but-imprecise-scrolling t
-      inhibit-splash-screen t
-      inhibit-startup-buffer-menu t
-      inhibit-startup-echo-area-message user-login-name
-      inhibit-startup-message t
-      inhibit-startup-screen t
-      mode-line-format nil
-      use-dialog-box nil
-      use-file-dialog nil)
+(setq-default auto-mode-case-fold nil
+              blink-cursor-mode nil
+              echo-keystrokes 0.02
+              fast-but-imprecise-scrolling t
+              inhibit-splash-screen t
+              inhibit-startup-buffer-menu t
+              inhibit-startup-echo-area-message user-login-name
+              inhibit-startup-message t
+              inhibit-startup-screen t
+              mode-line-format nil
+              use-dialog-box nil
+              use-file-dialog nil)
 #+end_src
 
 *** Display & Fonts
 
 #+begin_src emacs-lisp
-(setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t
-      idle-update-delay 1.0
-      inhibit-compacting-font-caches t
-      redisplay-skip-fontification-on-input t)
+(setq-default frame-inhibit-implied-resize t
+              frame-resize-pixelwise t
+              idle-update-delay 1.0
+              inhibit-compacting-font-caches t
+              redisplay-skip-fontification-on-input t)
 #+end_src
 
 *** File Handling & Version Control
 
 #+begin_src emacs-lisp
-(setq auto-save-list-file-prefix nil
-      create-lockfiles nil
-      package-enable-at-startup nil
-      use-short-answers t
-      vc-follow-symlinks t)
+(setq-default auto-save-list-file-prefix nil
+              create-lockfiles nil
+              package-enable-at-startup nil
+              use-short-answers t
+              vc-follow-symlinks t)
 #+end_src
 
 *** Miscellaneous
 
 #+begin_src emacs-lisp
-(setq initial-major-mode 'fundamental-mode
-      initial-scratch-message nil
-      select-enable-clipboard nil
-      command-line-x-option-alist nil
-      default-input-method nil
-      ring-bell-function 'ignore
-      select-active-regions 'only
-      load-prefer-newer noninteractive)
+(setq-default initial-major-mode 'fundamental-mode
+              initial-scratch-message nil
+              select-enable-clipboard nil
+              command-line-x-option-alist nil
+              default-input-method nil
+              ring-bell-function 'ignore
+              select-active-regions 'only
+              load-prefer-newer noninteractive)
 #+end_src
 
 We might as well set our default Emacs environment to ~UTF-8~.
@@ -562,7 +561,8 @@ Time to add a couple of keybindings to call the newly created Hydras!
     :group 'irkalla
     :global nil
     (irkalla/opacify-frame))
-  :custom (window-combination-resize t))
+
+  (setopt window-combination-resize t))
 #+end_src
 
 **** Easier Split Windows Navigation
@@ -607,7 +607,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 #+begin_src emacs-lisp
 (use-feature emacs
   :hook (elpaca-after-init . pixel-scroll-precision-mode)
-  :custom (scroll-preserve-screen-position t))
+  :config (setopt scroll-preserve-screen-position t))
 #+end_src
 
 *** 24-Hour Time Format >> Other Formats
@@ -646,7 +646,7 @@ What remains of us is to load the theme of our choice.
 #+begin_src emacs-lisp
 (use-feature emacs
   :hook (emacs-lisp-mode . prettify-symbols-mode)
-  :custom (prettify-symbols-unprettify-at-point 'right-edge))
+  :config (setopt prettify-symbols-unprettify-at-point 'right-edge))
 #+end_src
 
 *** Typeface's & Saner Fonts
@@ -1512,9 +1512,9 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
           (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
   :config
-  (setq enable-recursive-minibuffers t
-        minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt)))
+  (setopt enable-recursive-minibuffers t
+          minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt)))
 #+end_src
 
 **** Marginalia: Annotate The Mini-Buffer
@@ -2141,19 +2141,20 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :custom
-  (backward-delete-char-untabify-method 'hungry)
-  (confirm-nonexistent-file-or-buffer nil)
-  (cursor-in-non-selected-windows nil)
-  (electric-indent-inhibit t)
-  (fill-column 120)
-  (indent-tabs-mode nil)
-  (remote-file-name-inhibit-locks t)
-  (text-mode-ispell-word-completion nil)
-  (truncate-lines t)
-  (truncate-string-ellipsis "↴")
-  (x-stretch-cursor t)
-  (x-underline-at-descent-line t))
+  :config
+  (setopt backward-delete-char-untabify-method 'hungry
+          confirm-nonexistent-file-or-buffer nil
+          cursor-in-non-selected-windows nil
+          electric-indent-inhibit t
+          indent-tabs-mode nil
+                  tab-width 4
+          fill-column 120
+          remote-file-name-inhibit-locks t
+          text-mode-ispell-word-completion nil
+          truncate-lines t
+          truncate-string-ellipsis "↴"
+          x-stretch-cursor t
+          x-underline-at-descent-line t))
 #+end_src
 
 **** EditorConf: Respect Project Config
@@ -2321,17 +2322,17 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature emacs
-  :custom
-  (auto-save-interval 200)
-  (auto-save-timeout 30)
-  (backup-by-copying t)
-  (delete-by-moving-to-trash t)
-  (delete-old-versions t)
-  (history-delete-duplicates t)
-  (history-length 1000)
-  (kept-new-versions 7)
-  (kept-old-versions 3)
-  (make-backup-files t))
+  :config
+  (setopt auto-save-interval 200
+          auto-save-timeout 30
+          history-length 1000
+          kept-new-versions 7
+          kept-old-versions 3
+          backup-by-copying t
+          delete-by-moving-to-trash t
+          delete-old-versions t
+          history-delete-duplicates t
+          make-backup-files t))
 #+end_src
 
 ***** Archive File History
@@ -2695,405 +2696,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   :bind ([remap ispell-word] . jinx-correct))
 #+end_src
 
-** Part 5: Completion & Debugging
-
-#+begin_src emacs-lisp
-(use-feature emacs
-  :custom
-  (tab-always-indent 'complete)
-  (compilation-always-kill t)
-  (compilation-ask-about-save nil)
-  (compilation-scroll-output t)
-  (compilation-scroll-output t)
-  (read-buffer-completion-ignore-case t)
-  (read-file-name-completion-ignore-case t)
-  (read-extended-command-predicate #'command-completion-default-include-p))
-#+end_src
-
-*** Orderless: Completion Candidate Matching
-
-#+begin_src emacs-lisp
-(use-package orderless
-  :after (corfu)
-  :custom
-  (completion-ignore-case t)
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-#+end_src
-
-*** Breadcrumb: Location Indicator For Larger Projects
-
-#+begin_src emacs-lisp
-(use-package breadcrumb
-  :hook (prog-mode . breadcrumb-local-mode)
-  :config (fset 'breadcrumb--project-crumbs-1 #'ignore)
-  :custom (breadcrumb-project-max-length -1))
-#+end_src
-
-*** Apheleia: Code Formatter
-
-#+begin_src emacs-lisp
-(use-package apheleia
-  :defer t
-  :commands (apheleia-format-buffer))
-#+end_src
-
-**** Hydra: Apheleia Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("Programming"
-     (("!" apheleia-mode "Fmt On Save" :toggle t))
-     "Action"
-     (("=" apheleia-format-buffer "Buf. Format")))))
-#+end_src
-
-*** Corfu: Elegant Completion UI
-
-#+begin_src emacs-lisp
-(use-package corfu
-  :ensure (:files (:defaults "extensions/*.el"))
-  :hook (elpaca-after-init . global-corfu-mode)
-  :custom
-  (corfu-auto t)
-  (corfu-auto-delay 0.05)
-  (corfu-auto-prefix 1)
-  (corfu-on-exact-match nil))
-#+end_src
-
-**** Popup $SYMB Information
-
-#+begin_src emacs-lisp
-(use-feature corfu-popupinfo
-  :after (corfu)
-  :bind (:map corfu-popupinfo-map
-              ("M-TAB" . corfu-popupinfo-toggle)
-              ("M-k" . corfu-popupinfo-scroll-down)
-              ("M-j" . corfu-popupinfo-scroll-up))
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom (corfu-popupinfo-delay nil))
-#+end_src
-
-**** Icons For Completion Menu Item(s)
-
-#+begin_src emacs-lisp
-(use-package kind-icon
-  :after (corfu)
-  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
-  :custom (kind-icon-default-face 'corfu-default))
-#+end_src
-
-*** Cape: Controlling Suggestion Output
-
-#+begin_src emacs-lisp
-(use-package cape :defer 1
-  :init
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-keyword)
-  (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
-  (add-hook 'completion-at-point-functions #'cape-tex))
-#+end_src
-
-*** Yasnippet: Completion Through Abbreviations
-
-#+begin_src emacs-lisp
-(use-package yasnippet
-  :bind ("M-]" . yas-insert-snippet)
-  :hook (elpaca-after-init . yas-global-mode)
-  :init (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets")))
-#+end_src
-
-Instead of defining all of our snippets manually, we could use the help of an external package to help us add the basics and then expand on those bindings with our defined bindings.
-
-#+begin_src emacs-lisp
-(use-package yasnippet-snippets
-  :after (yasnippet))
-#+end_src
-
-Also, we want to be able to see the snippet completions inside Corfu.
-
-#+begin_src emacs-lisp
-(use-package yasnippet-capf
-  :after (cape)
-  :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
-  :custom (yasnippet-capf-lookup-by 'name))
-#+end_src
-
-*** Eldoc: Documentation of SYMB
-
-#+begin_src emacs-lisp
-(use-feature eldoc
-  :custom
-  (eldoc-idle-delay 1.0)
-  (eldoc-echo-area-display-truncation-message nil)
-  (eldoc-echo-area-use-multiline-p nil)
-  (eldoc-echo-area-prefer-doc-buffer t)
-  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
-#+end_src
-
-Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing becomes pleasant.
-
-#+begin_src emacs-lisp
-(use-package eldoc-box
-  :commands (eldoc-box-help-at-point)
-  :bind ("M-TAB" . eldoc-box-help-at-point)
-  :config
-  (when (eglot-managed-p)
-    (local-set-key (kbd "M-j") (lambda () (interactive) (eldoc-box-scroll-up 3)))
-    (local-set-key (kbd "M-k") (lambda () (interactive) (eldoc-box-scroll-down 3)))))
-#+end_src
-
-*** Tree-Sitter: Parser Generator Tool
-
-#+begin_src emacs-lisp
-(use-package treesit-auto
-  :custom (treesit-auto-install nil)
-  :config
-  (advice-add 'org-src-get-lang-mode
-              :filter-return (lambda (mode)
-                               (pcase (assoc mode major-mode-remap-alist)
-                                 (`(,mode . ,ts-mode) ts-mode) (_ mode))))
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-#+end_src
-
-**** Tree-Sitter Folding of Code-Blocks
-
-#+begin_src emacs-lisp
-(use-package treesit-fold
-  :ensure (:host github :repo "emacs-tree-sitter/treesit-fold")
-  :hook (prog-mode . (lambda ()
-                       (when (and (treesit-available-p)
-                                  (treesit-parser-list))
-                         (treesit-fold-mode t)))))
-#+end_src
-
-**** Combobulate: Structured Editing & Navigation
-
-#+begin_src emacs-lisp
-(use-package combobulate
-  :ensure (:host github :repo "mickeynp/combobulate")
-  :commands (combobulate)
-  :hook (tree-sitter-after-on . combobulate-mode))
-#+end_src
-
-***** Hydra: Combobulate Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("Control"
-     (("c" combobulate "Combobulate")))))
-#+end_src
-
-*** Flymake: Built-in Buffer Diagnostics
-
-#+begin_src emacs-lisp
-(use-feature flymake
-  :commands (flymake-mode)
-  :custom
-  (flymake-indicator-type 'margins)
-  (flymake-margin-indicator-position 'right-margin)
-  (flymake-autoresize-margins t)
-  (flymake-margin-indicators-string
-   '((error   " " compilation-error)
-     (warning " " compilation-warning)
-     (note    " " compilation-info))))
-#+end_src
-
-*** Dape: Debug Adapter Protocol
-
-#+begin_src emacs-lisp
-(use-package dape
-  :commands (dape)
-  :custom
-  (dape-key-prefix "\C-x\C-a")
-  (dape-buffer-window-arrangement 'right)
-  (dape-cwd-fn 'project-vc-extra-root-markers))
-#+end_src
-
-**** Hydra: Dape Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define dape-hydra
-    (:title (pretty-hydra-title "──｢ Coding: Debugger ｣──" 'codicon "nf-cod-debug")
-            :color teal :quit-key "q")
-    ("Main"
-     (("d" dape "Dape")
-      ("k" dape-kill "Kill")
-      ("D" dape-disconnect-quit "Disconnect")
-      ("Q" dape-quit "Quit" :exit t))
-     "Stepping"
-     (("n" dape-next "Next")
-      ("s" dape-step-in "Step In")
-      ("o" dape-step-out "Step Out")
-      ("c" dape-continue "Continue")
-      ("p" dape-pause "Pause")
-      ("r" dape-restart "Restart"))
-     "Breakpoint"
-     (("b" dape-breakpoint-toggle "Toggle" :toggle t)
-      ("l" dape-breakpoint-log "Log")
-      ("e" dape-breakpoint-expression "Expression")
-      ("B" dape-breakpoint-remove-all "Clear"))
-     "Informative"
-     (("m" dape-read-memory "Read Memory")
-      ("w" dape-watch-dwim "Watch DWIM")
-      ("t" dape-select-thread "Select Thread")
-      ("S" dape-select-stack "Select Stack")
-      ("i" dape-info "Info")
-      ("R" dape-repl "REPL"))))
-
-  (pretty-hydra-define+ editor-hydra ()
-    ("Control"
-     (("d" dape-hydra/body "Dape")))))
-#+end_src
-
-*** Leetcode: Dashboard For Code Challenges
-
-#+begin_src emacs-lisp
-(use-package leetcode
-  :commands (leetcode)
-  :custom
-  (leetcode-save-solutions t)
-  (leetcode-prefer-language "python3")
-  (leetcode-directory (no-littering-expand-var-file-name "leetcode/")))
-#+end_src
-
-*** ChatGPT: Code Prediction At The Cost of Freedom
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package chatgpt-shell
-  :commands (chatgpt-shell dall-e-shell)
-  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "ClosedAI"))))
-#+end_src
-
-**** Hydra: ChatGPT Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("ChatGPT"
-     (("c" chatgpt-shell "Shell")
-      ("d" dall-e-shell  "Dall-E")))))
-#+end_src
-
-** Part 6: Language Server Protocols
-
-#+begin_src emacs-lisp
-(use-feature eglot
-  :pretty-hydra
-  ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
-           :color teal :quit-key "q")
-   ("Actions"
-    (("a" eglot-code-actions    "Perform code-actions")
-     ("r" eglot-rename          "Rename $SYMB"))
-    "Look-up"
-    (("?" xref-find-references  "Find -> references")
-     ("f" xref-find-definitions "Find -> definition")
-     ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
-  :config
-  ;; :PERF| Noticeable LSP Buff. diff!
-  (with-eval-after-load 'jsonrpc
-    (setq jsonrpc-inhibit-debug-on-error t)
-    (setq jsonrpc-event-hook nil)
-    (fset #'jsonrpc--log-event #'ignore))
-  (with-eval-after-load 'nerd-icons (setq eglot-menu-string " "))
-  :custom
-  (eglot-events-buffer-config '(:size 0))
-  (eglot-autoshutdown t)
-  (eglot-extend-to-xref t)
-  (eglot-confirm-server-initiated-edits nil)
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
-
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("Control"
-     (("l" (if (eglot-managed-p)
-               (eglot-hydra/body)
-             (message "You are not in an Eglot buffer.")) "Eglot (LSP)")))))
-#+end_src
-
-There is another things that we could utilize to increase the responsiveness of our LSP completions, and that is to add [[https://github.com/jdtsmith/eglot-booster][eglot-booster]] to the stack!
-
-#+begin_src emacs-lisp
-(use-package eglot-booster
-  :ensure (:host github :repo "jdtsmith/eglot-booster")
-  :if (executable-find "emacs-lsp-booster")
-  :after (eglot)
-  :config (eglot-booster-mode)
-  :custom (eglot-booster-io-only t))
-#+end_src
-
-*** C/C++: Embracing the Challenges of Low-Level Programming
-
-#+begin_src emacs-lisp
-(use-feature c-ts-mode
-  :hook (c-ts-mode . eglot-ensure)
-  :custom (c-ts-mode-indent-offset tab-width))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-feature c++-ts-mode
-  :hook (c++-ts-mode . eglot-ensure))
-#+end_src
-
-We also want to make sure that both languages run the proper LSP program when ~eglot-ensure~ has been called.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '((c-ts-mode c++-ts-mode) "ccls")))
-#+end_src
-
-**** Apheleia: C/C++ Formatter
-
-#+begin_src emacs-lisp
-(when (executable-find "clang-format")
-  (with-eval-after-load 'apheleia
-    (setf (alist-get 'clang-format apheleia-formatters)
-          `("clang-format"
-            "-assume-filename"
-            (or (apheleia-formatters-local-buffer-file-name)
-                (apheleia-formatters-mode-extension)
-                ".c")
-            (when apheleia-formatters-respect-indent-level
-              (unless (locate-dominating-file default-directory ".clang-format")
-                (format "--style={IndentWidth: %d}" c-ts-mode-indent-offset)))))
-    (setf (alist-get 'c-ts-mode apheleia-mode-alist) '(clang-format))
-    (setf (alist-get 'c++-ts-mode apheleia-mode-alist) '(clang-format))))
-#+end_src
-
-*** Emacs Lisp: The Mother-tongue of Emacs
-
-**** Hydra: Emacs-Lisp Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define emacs-lisp-hydra
-    (:title (pretty-hydra-title "──｢ Langspec: Emacs Lisp ｣──" 'sucicon "nf-custom-emacs")
-            :color teal :quit-key "q")
-    ("Actions"
-     (("a" apropos "Show $SYMB == pattern"))))
-
-  (pretty-hydra-define+ editor-hydra ()
-    ("Programming"
-     (("x" emacs-lisp-hydra/body "Emacs Lisp")))))
-#+end_src
-
-*** Guile: Yet Another Lisp Variant
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package geiser-guile
-  :defer t
-  :mode ("\\.scm\\'" . geiser-mode))
-#+end_src
+** Part 5: Documentation Languages
 
 *** Org-Mode: The Superior Documentation Format
 
@@ -3398,6 +3001,416 @@ Also, allow =Embark= to interact with those citations.
   :config (setq citar-at-point-function 'embark-act))
 #+end_src
 
+*** Markdown: Minimal Markup Language
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode)
+  :custom-face
+  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
+  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
+  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
+  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
+  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
+  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
+  :custom (markdown-command "multimarkdown"))
+#+end_src
+
+**** Hydra: Markdown Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define markdown-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
+            :color teal :quit-key "q")
+    ("Interactive"
+     (("d" markdown-do "Perform -> action"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Markup"
+     (("m" (if (eq major-mode 'markdown-mode)
+               (markdown-hydra/body)
+             (message "You are not in a markdown buffer.")) "Markdown")))))
+#+end_src
+
+** Part 6: Completion & Debugging
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :config
+  (setopt tab-always-indent 'complete
+          compilation-always-kill t
+          compilation-ask-about-save nil
+          compilation-scroll-output t
+          compilation-scroll-output t
+          read-buffer-completion-ignore-case t
+          read-file-name-completion-ignore-case t
+          read-extended-command-predicate #'command-completion-default-include-p))
+#+end_src
+
+*** Orderless: Completion Candidate Matching
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :after (corfu)
+  :custom
+  (completion-ignore-case t)
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+#+end_src
+
+*** Breadcrumb: Location Indicator For Larger Projects
+
+#+begin_src emacs-lisp
+(use-package breadcrumb
+  :hook (prog-mode . breadcrumb-local-mode)
+  :config (fset 'breadcrumb--project-crumbs-1 #'ignore)
+  :custom (breadcrumb-project-max-length -1))
+#+end_src
+
+*** Apheleia: Code Formatter
+
+#+begin_src emacs-lisp
+(use-package apheleia
+  :defer t
+  :commands (apheleia-format-buffer))
+#+end_src
+
+**** Hydra: Apheleia Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Programming"
+     (("!" apheleia-mode "Fmt On Save" :toggle t))
+     "Action"
+     (("=" apheleia-format-buffer "Buf. Format")))))
+#+end_src
+
+*** Corfu: Elegant Completion UI
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :ensure (:files (:defaults "extensions/*.el"))
+  :hook (elpaca-after-init . global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.05)
+  (corfu-auto-prefix 1)
+  (corfu-on-exact-match nil))
+#+end_src
+
+**** Popup $SYMB Information
+
+#+begin_src emacs-lisp
+(use-feature corfu-popupinfo
+  :after (corfu)
+  :bind (:map corfu-popupinfo-map
+              ("M-TAB" . corfu-popupinfo-toggle)
+              ("M-k" . corfu-popupinfo-scroll-down)
+              ("M-j" . corfu-popupinfo-scroll-up))
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom (corfu-popupinfo-delay nil))
+#+end_src
+
+**** Icons For Completion Menu Item(s)
+
+#+begin_src emacs-lisp
+(use-package kind-icon
+  :after (corfu)
+  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  :custom (kind-icon-default-face 'corfu-default))
+#+end_src
+
+*** Cape: Controlling Suggestion Output
+
+#+begin_src emacs-lisp
+(use-package cape :defer 1
+  :init
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
+  (add-hook 'completion-at-point-functions #'cape-tex))
+#+end_src
+
+*** Yasnippet: Completion Through Abbreviations
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :bind ("M-]" . yas-insert-snippet)
+  :hook (elpaca-after-init . yas-global-mode)
+  :init (add-to-list 'yas-snippet-dirs (concat irkalla/underworld "/snippets")))
+#+end_src
+
+Instead of defining all of our snippets manually, we could use the help of an external package to help us add the basics and then expand on those bindings with our defined bindings.
+
+#+begin_src emacs-lisp
+(use-package yasnippet-snippets
+  :after (yasnippet))
+#+end_src
+
+Also, we want to be able to see the snippet completions inside Corfu.
+
+#+begin_src emacs-lisp
+(use-package yasnippet-capf
+  :after (cape)
+  :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
+  :custom (yasnippet-capf-lookup-by 'name))
+#+end_src
+
+*** Eldoc: Documentation of SYMB
+
+#+begin_src emacs-lisp
+(use-feature eldoc
+  :custom
+  (eldoc-idle-delay 1.0)
+  (eldoc-echo-area-display-truncation-message nil)
+  (eldoc-echo-area-use-multiline-p nil)
+  (eldoc-echo-area-prefer-doc-buffer t)
+  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+#+end_src
+
+Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing becomes pleasant.
+
+#+begin_src emacs-lisp
+(use-package eldoc-box
+  :commands (eldoc-box-help-at-point)
+  :bind ("M-TAB" . eldoc-box-help-at-point)
+  :config
+  (when (eglot-managed-p)
+    (local-set-key (kbd "M-j") (lambda () (interactive) (eldoc-box-scroll-up 3)))
+    (local-set-key (kbd "M-k") (lambda () (interactive) (eldoc-box-scroll-down 3)))))
+#+end_src
+
+*** Tree-Sitter: Parser Generator Tool
+
+#+begin_src emacs-lisp
+(use-package treesit-auto
+  :custom (treesit-auto-install nil)
+  :config
+  (advice-add 'org-src-get-lang-mode
+              :filter-return (lambda (mode)
+                               (pcase (assoc mode major-mode-remap-alist)
+                                 (`(,mode . ,ts-mode) ts-mode) (_ mode))))
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+#+end_src
+
+**** Tree-Sitter Folding of Code-Blocks
+
+#+begin_src emacs-lisp
+(use-package treesit-fold
+  :ensure (:host github :repo "emacs-tree-sitter/treesit-fold")
+  :hook (prog-mode . (lambda ()
+                       (when (and (treesit-available-p)
+                                  (treesit-parser-list))
+                         (treesit-fold-mode t)))))
+#+end_src
+
+**** Combobulate: Structured Editing & Navigation
+
+#+begin_src emacs-lisp
+(use-package combobulate
+  :ensure (:host github :repo "mickeynp/combobulate")
+  :commands (combobulate)
+  :hook (tree-sitter-after-on . combobulate-mode))
+#+end_src
+
+***** Hydra: Combobulate Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("c" combobulate "Combobulate")))))
+#+end_src
+
+*** Flymake: Built-in Buffer Diagnostics
+
+#+begin_src emacs-lisp
+(use-feature flymake
+  :commands (flymake-mode)
+  :custom
+  (flymake-indicator-type 'margins)
+  (flymake-margin-indicator-position 'right-margin)
+  (flymake-autoresize-margins t)
+  (flymake-margin-indicators-string
+   '((error   " " compilation-error)
+     (warning " " compilation-warning)
+     (note    " " compilation-info))))
+#+end_src
+
+*** Dape: Debug Adapter Protocol
+
+#+begin_src emacs-lisp
+(use-package dape
+  :commands (dape)
+  :custom
+  (dape-key-prefix "\C-x\C-a")
+  (dape-buffer-window-arrangement 'right)
+  (dape-cwd-fn 'project-vc-extra-root-markers))
+#+end_src
+
+**** Hydra: Dape Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define dape-hydra
+    (:title (pretty-hydra-title "──｢ Coding: Debugger ｣──" 'codicon "nf-cod-debug")
+            :color teal :quit-key "q")
+    ("Main"
+     (("d" dape "Dape")
+      ("k" dape-kill "Kill")
+      ("D" dape-disconnect-quit "Disconnect")
+      ("Q" dape-quit "Quit" :exit t))
+     "Stepping"
+     (("n" dape-next "Next")
+      ("s" dape-step-in "Step In")
+      ("o" dape-step-out "Step Out")
+      ("c" dape-continue "Continue")
+      ("p" dape-pause "Pause")
+      ("r" dape-restart "Restart"))
+     "Breakpoint"
+     (("b" dape-breakpoint-toggle "Toggle" :toggle t)
+      ("l" dape-breakpoint-log "Log")
+      ("e" dape-breakpoint-expression "Expression")
+      ("B" dape-breakpoint-remove-all "Clear"))
+     "Informative"
+     (("m" dape-read-memory "Read Memory")
+      ("w" dape-watch-dwim "Watch DWIM")
+      ("t" dape-select-thread "Select Thread")
+      ("S" dape-select-stack "Select Stack")
+      ("i" dape-info "Info")
+      ("R" dape-repl "REPL"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("d" dape-hydra/body "Dape")))))
+#+end_src
+
+*** Leetcode: Dashboard For Code Challenges
+
+#+begin_src emacs-lisp
+(use-package leetcode
+  :commands (leetcode)
+  :custom
+  (leetcode-save-solutions t)
+  (leetcode-prefer-language "python3")
+  (leetcode-directory (no-littering-expand-var-file-name "leetcode/")))
+#+end_src
+
+*** ChatGPT: Code Prediction At The Cost of Freedom
+:PROPERTIES:
+:HEADER-ARGS+: :tangle no
+:END:
+
+#+begin_src emacs-lisp
+(use-package chatgpt-shell
+  :commands (chatgpt-shell dall-e-shell)
+  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "ClosedAI"))))
+#+end_src
+
+**** Hydra: ChatGPT Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("ChatGPT"
+     (("c" chatgpt-shell "Shell")
+      ("d" dall-e-shell  "Dall-E")))))
+#+end_src
+
+** Part 7: Language Server Protocols
+
+#+begin_src emacs-lisp
+(use-feature eglot
+  :pretty-hydra
+  ((:title (pretty-hydra-title "──｢ Coding: Eglot ｣──" 'faicon "nf-fa-code")
+           :color teal :quit-key "q")
+   ("Actions"
+    (("a" eglot-code-actions    "Perform code-actions")
+     ("r" eglot-rename          "Rename $SYMB"))
+    "Look-up"
+    (("?" xref-find-references  "Find -> references")
+     ("f" xref-find-definitions "Find -> definition")
+     ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
+  :config
+  ;; :PERF| Noticeable LSP Buff. diff!
+  (with-eval-after-load 'jsonrpc
+    (setq jsonrpc-inhibit-debug-on-error t)
+    (setq jsonrpc-event-hook nil)
+    (fset #'jsonrpc--log-event #'ignore))
+  (with-eval-after-load 'nerd-icons (setq eglot-menu-string " "))
+  :custom
+  (eglot-events-buffer-config '(:size 0))
+  (eglot-autoshutdown t)
+  (eglot-extend-to-xref t)
+  (eglot-confirm-server-initiated-edits nil)
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
+
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ editor-hydra ()
+    ("Control"
+     (("l" (if (eglot-managed-p)
+               (eglot-hydra/body)
+             (message "You are not in an Eglot buffer.")) "Eglot (LSP)")))))
+#+end_src
+
+There is another things that we could utilize to increase the responsiveness of our LSP completions, and that is to add [[https://github.com/jdtsmith/eglot-booster][eglot-booster]] to the stack!
+
+#+begin_src emacs-lisp
+(use-package eglot-booster
+  :ensure (:host github :repo "jdtsmith/eglot-booster")
+  :if (executable-find "emacs-lsp-booster")
+  :after (eglot)
+  :config (eglot-booster-mode)
+  :custom (eglot-booster-io-only t))
+#+end_src
+
+*** C: Embracing the Challenges of Low-Level Code
+
+#+begin_src emacs-lisp
+(use-feature c-ts-mode
+  :mode (("\\.c\\'" . c-ts-mode)
+         ("\\.h\\'" . c-ts-mode))
+  :hook (c-ts-mode . eglot-ensure)
+  :custom (c-ts-mode-indent-offset tab-width))
+#+end_src
+
+**** Apheleia: C Formatter
+
+#+begin_src emacs-lisp
+(when (executable-find "clang-format")
+  (with-eval-after-load 'apheleia
+    (setf (alist-get 'clang-format apheleia-formatters)
+          `("clang-format"
+            "-assume-filename"
+            (or (apheleia-formatters-local-buffer-file-name)
+                (apheleia-formatters-mode-extension)
+                ".c")
+            (when apheleia-formatters-respect-indent-level
+              (unless (locate-dominating-file default-directory ".clang-format")
+                (format "--style={IndentWidth: %d}" c-ts-mode-indent-offset)))))
+    (setf (alist-get 'c-ts-mode apheleia-mode-alist) '(clang-format))))
+#+end_src
+
+*** Emacs Lisp: The Mother-tongue of Emacs
+
+**** Hydra: Emacs-Lisp Bindings
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define emacs-lisp-hydra
+    (:title (pretty-hydra-title "──｢ Langspec: Emacs Lisp ｣──" 'sucicon "nf-custom-emacs")
+            :color teal :quit-key "q")
+    ("Actions"
+     (("a" apropos "Show $SYMB == pattern"))))
+
+  (pretty-hydra-define+ editor-hydra ()
+    ("Programming"
+     (("x" emacs-lisp-hydra/body "Emacs Lisp")))))
+#+end_src
+
 *** Haskell: Purely Functional
 
 #+begin_src emacs-lisp
@@ -3444,23 +3457,6 @@ Also, allow =Embark= to interact with those citations.
              (message "You are not in a Haskell buffer.")) "Haskell")))))
 #+end_src
 
-*** Kotlin: Language of Android
-
-#+begin_src emacs-lisp
-(use-package kotlin-ts-mode
-  :if (executable-find "kotlin")
-  :mode ("\\.kts?\\'" . kotlin-ts-mode)
-  :hook (kotlin-ts-mode . eglot-ensure))
-#+end_src
-
-**** Apheleia: Kotlin Formatter
-
-#+begin_src emacs-lisp
-(when (executable-find "ktlint")
-  (with-eval-after-load 'apheleia
-    (setf (alist-get 'kotlin-ts-mode apheleia-mode-alist) '(ktlint))))
-#+end_src
-
 *** Lua: Embedded Scripting Language
 
 #+begin_src emacs-lisp
@@ -3475,41 +3471,7 @@ Also, allow =Embark= to interact with those citations.
 #+begin_src emacs-lisp
 (when (executable-find "stylua")
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'stylua apheleia-formatters)
-          '("stylua" "--config-path" (expand-file-name "~/.config/stylua/stylua.toml") "-"))
     (setf (alist-get 'lua-ts-mode apheleia-mode-alist) '(stylua))))
-#+end_src
-
-*** Markdown: Minimal Markup Language
-
-#+begin_src emacs-lisp
-(use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode)
-  :custom-face
-  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.25 :weight extra-bold))))
-  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.15 :weight bold))))
-  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.08 :weight bold))))
-  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.00 :weight bold))))
-  (markdown-header-face-5 ((t (:inherit markdown-header-face :height 0.90 :weight bold))))
-  (markdown-header-face-6 ((t (:inherit markdown-header-face :height 0.75 :weight extra-bold))))
-  :custom (markdown-command "multimarkdown"))
-#+end_src
-
-**** Hydra: Markdown Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define markdown-hydra
-    (:title (pretty-hydra-title "──｢ Langspec: Markdown ｣──" 'devicon "nf-dev-markdown")
-            :color teal :quit-key "q")
-    ("Interactive"
-     (("d" markdown-do "Perform -> action"))))
-
-  (pretty-hydra-define+ editor-hydra ()
-    ("Markup"
-     (("m" (if (eq major-mode 'markdown-mode)
-               (markdown-hydra/body)
-             (message "You are not in a markdown buffer.")) "Markdown")))))
 #+end_src
 
 *** Nix: Purely Functional DSL
@@ -3712,7 +3674,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
     (setf (alist-get 'zig-ts-mode apheleia-mode-alist) '(zig-fmt))))
 #+end_src
 
-** Part 6: Concluding Our Endless Package Hunt!
+** Part 8: Concluding Our Endless Package Hunt!
 
 #+begin_src emacs-lisp
 ;;; init.el ends here
