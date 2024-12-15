@@ -1093,27 +1093,11 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   (dashboard-set-init-info t)
   (dashboard-week-agenda t)
   (dashboard-set-navigator t)
-  (dashboard-navigator-buttons
-   `(((,(nerd-icons-octicon "nf-oct-mark_github" :height 1.2 :v-adjust 0.0)
-       "Homepage"
-       "Browse my personal GitHub profile home."
-       (lambda (&rest _) (browse-url "https://github.com/Icy-Thought")))
-
-      (,(nerd-icons-mdicon "nf-md-download" :height 1.2 :v-adjust 0.0)
-       "Elpaca Manager"
-       "Manage Irkalla Emacs packages."
-       (lambda (&rest _) (elpaca-manager)))
-
-      (,(nerd-icons-mdicon "nf-md-refresh" :height 1.2 :v-adjust 0.0)
-       "Restart Emacs.."
-       "Restart Irkalla Emacs instance."
-       (lambda (&rest _) (restart-emacs))))))
-
-  (dashboard-items '((recents   . 5) (bookmarks . 5)))
-
-  (dashboard-item-names '(("Recent Files:" . "Recently opened files:")
-                          ("Agenda for today:" . "Today's agenda:")
-                          ("Agenda for the coming week:" . "Agenda:"))))
+  (dashboard-items '((recents   . 5)
+                     (bookmarks . 5)))
+  (dashboard-item-names
+   '(("Recent Files:" . " Recently opened files:")
+     ("Bookmarks:"    . " Pinned Items:"))))
 #+end_src
 
 **** Hydra: Dashboard Launch Option
