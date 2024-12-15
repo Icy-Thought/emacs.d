@@ -478,7 +478,7 @@ Then we have another essential Hydra that we will tie our editing related comman
           :color teal :quit-key "q")
   ("Programming"
    (("RET" (if (derived-mode-p 'prog-mode)
-               (call-interactively #'compile)
+               (call-interactively #'project-compile)
              (message "Buffer /= PROG buffer...")) "Compile"))
    "Action"
    (("b" eval-buffer "Eval Buf."))))
@@ -2304,7 +2304,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
 (use-feature project
   :custom
   (project-vc-extra-root-markers
-   '(".dir-locals.el" "Cargo.toml"
+   '(".dir-locals.el" "Makefile" "CMakeLists.txt" "Cargo.toml" "Dockerfile"
      "package.json" "requirements.txt")))
 #+end_src
 
