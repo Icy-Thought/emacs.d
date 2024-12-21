@@ -1676,7 +1676,7 @@ Instead of maintaining a bookmark for each PDF file I read, I decided to add a p
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
   :config
-  (with-eval-after-load 'visual-fill-column
+  (when (fboundp 'visual-fill-column-mode)
     (add-hook 'nov-mode-hook #'visual-fill-column-mode))
   :custom (nov-text-width t))
 #+end_src
@@ -1717,7 +1717,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
               ("o" . newsticker-treeview-browse-url)
               ("q" . irkalla/newsticker-quit-newTab))
   :config
-  (with-eval-after-load 'visual-fill-column
+  (when (fboundp 'visual-fill-column-mode)
     (add-hook 'newsticker-treeview-item-mode-hook #'visual-fill-column-mode))
   :custom
   (newsticker-automatically-mark-items-as-old nil)
@@ -1871,7 +1871,7 @@ Kind Regards,
               ([remap pixel-scroll-interpolate-up]   . ement-room-scroll-down-command)
               ([remap pixel-scroll-interpolate-down] . ement-room-scroll-up-mark-read))
   :config
-  (with-eval-after-load 'visual-fill-column
+  (when (fboundp 'visual-fill-column-mode)
     (add-hook 'ement-room-mode-hook #'visual-fill-column-mode))
 
   (with-eval-after-load 'cape
@@ -1922,7 +1922,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   (advice-add 'telega-chatbuf-recenter-1
               :around (lambda (orig-fun &rest args) (recenter -2)))
 
-  (with-eval-after-load 'visual-fill-column
+  (when (fboundp 'visual-fill-column-mode)
     (add-hook 'telega-chat-mode-hook #'visual-fill-column-mode))
 
   ;; :NOTE| Enable dictionary + emoji suggestions in compose area
