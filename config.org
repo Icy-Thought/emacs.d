@@ -109,6 +109,7 @@
     - [[#web-development-bloating-the-web-with-funky-code][Web Development: Bloating The Web With Funky Code]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
   - [[#part-8-miscellaneous-bits][Part 8: Miscellaneous Bits]]
+    - [[#devdocs-documentations-for-various-languages][DevDocs: Documentations For Various Languages]]
     - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
   - [[#part-9-concluding-our-endless-package-hunt][Part 9: Concluding Our Endless Package Hunt!]]
 
@@ -3592,6 +3593,22 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+end_src
 
 ** Part 8: Miscellaneous Bits
+
+*** DevDocs: Documentations For Various Languages
+
+#+begin_src emacs-lisp
+(use-package devdocs
+  :commands (devdocs-install devdocs-lookup))
+#+end_src
+
+**** Hydra: Summon The Documentations
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'pretty-hydra
+  (pretty-hydra-define+ helpful-hydra ()
+    ("Action"
+     (("d" devdocs-lookup "Lookup DevDocs")))))
+#+end_src
 
 *** Leetcode: Dashboard For Code Challenges
 
