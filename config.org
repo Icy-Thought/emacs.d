@@ -7,7 +7,7 @@
 [[.github/assets/themes/kanagawa.png]]
 
 * Table of Contents :TOC:
-- [[#early-initialization-of-irkalla][Early Initialization of Irkalla]]
+- [[#core-configurations][Core Configurations]]
   - [[#part-1-defining-the-boundaries-of-irkalla][Part 1: Defining The Boundaries of Irkalla]]
     - [[#laying-the-foundations-of-irkalla][Laying The Foundations of Irkalla]]
     - [[#setting-our-ui-changes-early][Setting our UI Changes Early]]
@@ -16,6 +16,7 @@
     - [[#increase-the-cpu-processing-restrictions][Increase the CPU processing restrictions]]
     - [[#native-comp---quicker-emacs-byte-compile][Native-Comp -> Quicker Emacs (Byte-Compile)]]
     - [[#collect-the-ever-growing-garbage][Collect The Ever-Growing Garbage...]]
+    - [[#pushing-filename-handlers-into-a-later-stage][Pushing Filename Handlers Into A Later Stage]]
   - [[#part-3-setting-our-ever-growing-options][Part 3: Setting Our Ever-Growing Options]]
     - [[#debugging--error-handling][Debugging & Error Handling]]
     - [[#user-interface--startup][User Interface & Startup]]
@@ -23,32 +24,65 @@
     - [[#file-handling--version-control][File Handling & Version Control]]
     - [[#miscellaneous][Miscellaneous]]
   - [[#part-4-bidding-our-early-initel-farewell][Part 4: Bidding our =early-init.el= Farewell]]
-- [[#core-configurations][Core Configuration(s)]]
+- [[#user-configurations][User Configurations]]
   - [[#part-1-beginning-of-a-journey][Part 1: Beginning of A Journey]]
-    - [[#elpaca-package-manager][Elpaca: Package Manager]]
+    - [[#elpaca-elegant-package-manager][Elpaca: Elegant Package Manager]]
     - [[#functions--macros-to-ameliorate-irkalla][Functions & Macros To Ameliorate Irkalla]]
     - [[#controlling-littering-habits][Controlling Littering Habits]]
     - [[#hydra-windows-that-contain-our-keybindings][Hydra: Windows That Contain Our Keybindings]]
-    - [[#managing-the-ever-growing-frames][Managing The Ever-growing Frame(s)]]
+    - [[#managing-our-ever-growing-frames][Managing Our Ever-growing Frames]]
     - [[#maintaining-a-sane-scroll-pattern][Maintaining A Sane Scroll Pattern]]
     - [[#24-hour-time-format--other-formats][24-Hour Time Format >> Other Formats]]
   - [[#part-2-decorating-irkalla][Part 2: Decorating Irkalla]]
     - [[#autothemer-macros-to-ease-the-theming-process][Autothemer: Macros To Ease The Theming Process]]
-    - [[#prettified-symbols][Prettified Symbols]]
-    - [[#typefaces--saner-fonts][Typeface's & Saner Fonts]]
-    - [[#nerd-icons-adding-a-sprinkle-of-beautiful-icons][Nerd-Icons: Adding A Sprinkle of Beautiful Icons]]
-    - [[#svg-tag-decorating-buffers-with-svg][SVG-Tag: Decorating Buffers With SVG]]
-    - [[#modelines---status-bars-for-emacs][Modeline(s) -> Status-Bar(s) For Emacs]]
-    - [[#containers-for-displaying-tabs--buffers][Containers For Displaying Tab(s) & Buffer(s)]]
+    - [[#typefaces--fonts][Typefaces & Fonts]]
+    - [[#stylish-symbols--tags][Stylish Symbols & Tags]]
+    - [[#doom-a-rather-doomed-modeline][Doom: A Rather Doomed Modeline]]
+    - [[#centaur-tab-efficient-tab--buffer-bar][Centaur-Tab: Efficient Tab & Buffer Bar]]
     - [[#dashboard-a-welcoming-buffer-for-new-frames][Dashboard: A Welcoming Buffer For New Frames]]
-  - [[#part-3-expanding-the-utility-box][Part 3: Expanding The Utility Box]]
-    - [[#introducing-the-basics][Introducing The Basics]]
-    - [[#new--extension-of-built-in-features][New & Extension of Built-in Features]]
-    - [[#trivial-changes-to-extend-workflow][Trivial Changes To Extend Workflow]]
+  - [[#part-3-expanding-our-utility-box][Part 3: Expanding Our Utility Box]]
+    - [[#emacs-everywhere-call-forth-emacs-frame][Emacs Everywhere: Call Forth Emacs Frame]]
+    - [[#esup-trace-performance-hiccups][ESUP: Trace Performance Hiccups]]
+    - [[#helpful-c-h-on-steroids][Helpful: ~C-h~ On Steroids]]
+    - [[#recentf-controlling-recent-files][Recentf: Controlling Recent Files]]
+    - [[#pyim-chinese-japanese--korean][Pyim: Chinese, Japanese & Korean]]
+    - [[#shackle-hardcode-placement-of-popup-buffers][Shackle: Hardcode Placement of Popup Buffers]]
+    - [[#popper-pop-up-related-buffers-on-demand][Popper: Pop-up Related Buffers On Demand]]
+    - [[#dired-built-in-emacs-file-manager][Dired: Built-in Emacs File Manager]]
+    - [[#which-key-was-it-again][Which Key Was It Again???]]
+    - [[#consult-search--navigation-commands][Consult: Search & Navigation Commands]]
+    - [[#embark-mini-buffer-actions][Embark: Mini-Buffer Actions]]
+    - [[#vertico-mini-buffer-on-steroids][Vertico: Mini-Buffer On Steroids]]
+    - [[#marginalia-annotate-the-mini-buffer][Marginalia: Annotate The Mini-Buffer]]
+    - [[#terminal-work--emulation-within-emacs][Terminal Work & Emulation Within Emacs]]
+    - [[#readers-life-without-reading-sucks][Readers: Life Without Reading Sucks]]
+    - [[#communication-with-the-outside-world][Communication With The Outside World]]
+    - [[#browsing-the-web][Browsing The Web]]
   - [[#part-4-editing-environment][Part 4: Editing Environment]]
-    - [[#alternative-editing-bindings][Alternative Editing Bindings]]
-    - [[#switching-up-the-editing-experience][Switching Up The Editing Experience]]
-    - [[#useful-utilities-for-editing-environments][Useful Utilities For Editing Environments]]
+    - [[#evil-vim-layer-for-emacs][EVIL: VIM Layer For Emacs]]
+    - [[#editorconf-respect-project-config][EditorConf: Respect Project Config]]
+    - [[#direnv-loads-pre-defined-directory-environment][Direnv: Loads Pre-Defined Directory Environment]]
+    - [[#turn-into-executable-file-on-save][Turn Into Executable File On Save]]
+    - [[#display-number-line][Display Number Line]]
+    - [[#highlight-matching-parentheses][Highlight Matching Parentheses]]
+    - [[#colorful-indentations-levels][Colorful Indentations Levels]]
+    - [[#colorful-hexrgb-colors][Colorful Hex/RGB Colors]]
+    - [[#highlight-current-line][Highlight Current Line]]
+    - [[#window-frame-dividers][Window Frame Dividers]]
+    - [[#whitespaces-management-of-invisible-chars][Whitespaces: Management of Invisible Chars]]
+    - [[#ligatures-alternative-way-to-display-symb][Ligatures: Alternative Way To Display SYMB]]
+    - [[#soft-wrap--center-displayed-content][Soft-Wrap & Center Displayed Content]]
+    - [[#elec-pair-insert-matching-symb][Elec-Pair: Insert Matching SYMB]]
+    - [[#autorevert-watch-files---update-on-change][Autorevert: Watch Files -> Update On Change]]
+    - [[#maintaining-a-cleaner-history][Maintaining A Cleaner History]]
+    - [[#separate-emacs-clipboard-from-system][Separate Emacs Clipboard From System]]
+    - [[#ediff-display-file-differences][Ediff: Display File Difference(s)]]
+    - [[#regional-specific-manipulations][Regional Specific Manipulations]]
+    - [[#magit-git-porcelain-inside-emacs][Magit: Git Porcelain Inside Emacs]]
+    - [[#beframe-isolate-emacs-frames][Beframe: Isolate Emacs Frames]]
+    - [[#desktop-emacs-session-management][Desktop: Emacs Session Management]]
+    - [[#project-management-of-random-ideas][Project: Management of Random Ideas]]
+    - [[#nixpkgs-jinx-elegant-spell-checker][:NIXPKGS: Jinx: Elegant Spell Checker]]
   - [[#part-5-documentation-languages][Part 5: Documentation Languages]]
     - [[#org-mode-the-superior-documentation-format][Org-Mode: The Superior Documentation Format]]
     - [[#markdown-minimal-markup-language][Markdown: Minimal Markup Language]]
@@ -63,8 +97,6 @@
     - [[#tree-sitter-parser-generator-tool][Tree-Sitter: Parser Generator Tool]]
     - [[#flymake-built-in-buffer-diagnostics][Flymake: Built-in Buffer Diagnostics]]
     - [[#dape-debug-adapter-protocol][Dape: Debug Adapter Protocol]]
-    - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
-    - [[#chatgpt-code-prediction-at-the-cost-of-freedom][ChatGPT: Code Prediction At The Cost of Freedom]]
   - [[#part-7-language-server-protocols][Part 7: Language Server Protocols]]
     - [[#c-embracing-the-challenges-of-low-level-code][C: Embracing the Challenges of Low-Level Code]]
     - [[#emacs-lisp-the-mother-tongue-of-emacs][Emacs Lisp: The Mother-tongue of Emacs]]
@@ -76,9 +108,11 @@
     - [[#typst-a-less-bloated-latex-alt][Typst: A Less Bloated LaTeX Alt.]]
     - [[#web-development-bloating-the-web-with-funky-code][Web Development: Bloating The Web With Funky Code]]
     - [[#zig-imperative--statically-compiled][Zig: Imperative & Statically Compiled]]
-  - [[#part-8-concluding-our-endless-package-hunt][Part 8: Concluding Our Endless Package Hunt!]]
+  - [[#part-8-miscellaneous-bits][Part 8: Miscellaneous Bits]]
+    - [[#leetcode-dashboard-for-code-challenges][Leetcode: Dashboard For Code Challenges]]
+  - [[#part-9-concluding-our-endless-package-hunt][Part 9: Concluding Our Endless Package Hunt!]]
 
-* Early Initialization of Irkalla
+* Core Configurations
 :PROPERTIES:
 :HEADER-ARGS+: :tangle ~/.config/emacs/early-init.el :noweb yes
 :END:
@@ -167,7 +201,11 @@
 #+begin_src emacs-lisp
 (when (boundp 'read-process-output-max)
   (setq-default process-adaptive-read-buffering nil
-                read-process-output-max (* 1024 1024)))
+                read-process-output-max
+                (or (ignore-errors (with-temp-buffer
+                                     (insert-file-contents "/proc/sys/fs/pipe-max-size")
+                                     (string-to-number (buffer-string))))
+                    (* 1024 1024))))
 #+end_src
 
 *** Native-Comp -> Quicker Emacs (Byte-Compile)
@@ -195,6 +233,24 @@
           (lambda () (setopt gc-cons-threshold (* 5 1024 1024))))
 #+end_src
 
+*** Pushing Filename Handlers Into A Later Stage
+
+Source: https://reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start
+
+#+begin_src emacs-lisp
+(put 'file-name-handler-alist 'original-value
+     (default-toplevel-value 'file-name-handler-alist))
+(set-default-toplevel-value 'file-name-handler-alist nil)
+
+;; Restore `file-name-handler-alist' after startup while conserving the potential new elements
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setopt file-name-handler-alist
+                    (delete-dups
+                     (append file-name-handler-alist
+                             (get 'file-name-handler-alist 'original-value))))) 99)
+#+end_src
+
 ** Part 3: Setting Our Ever-Growing Options
 
 *** Debugging & Error Handling
@@ -212,14 +268,20 @@
               blink-cursor-mode nil
               echo-keystrokes 0.02
               fast-but-imprecise-scrolling t
-              inhibit-splash-screen t
-              inhibit-startup-buffer-menu t
-              inhibit-startup-echo-area-message user-login-name
-              inhibit-startup-message t
               inhibit-startup-screen t
+              menu-bar-mode nil
               mode-line-format nil
+              scroll-bar-mode nil
+              tool-bar-mode nil
               use-dialog-box nil
               use-file-dialog nil)
+#+end_src
+
+Reduce startup blabber aggressively instead of partial reduction through the variables.
+
+#+begin_src emacs-lisp
+(fset 'display-startup-echo-area-message #'ignore)
+(fset 'display-startup-screen #'ignore)
 #+end_src
 
 *** Display & Fonts
@@ -258,7 +320,11 @@
 We might as well set our default Emacs environment to ~UTF-8~.
 
 #+begin_src emacs-lisp
+(prefer-coding-system 'utf-8)
+(set-charset-priority 'unicode)
 (set-default-coding-systems 'utf-8)
+(set-language-environment "UTF-8")
+(set-locale-environment "en_US.UTF-8")
 #+end_src
 
 ** Part 4: Bidding our =early-init.el= Farewell
@@ -267,7 +333,7 @@ We might as well set our default Emacs environment to ~UTF-8~.
 ;;; early-init.el ends here
 #+end_src
 
-* Core Configuration(s)
+* User Configurations
 :PROPERTIES:
 :HEADER-ARGS+: :tangle ~/.config/emacs/init.el :noweb yes
 :END:
@@ -289,7 +355,8 @@ We might as well set our default Emacs environment to ~UTF-8~.
 
 
 ** Part 1: Beginning of A Journey
-*** Elpaca: Package Manager
+
+*** Elpaca: Elegant Package Manager
 
 **** Informing Elpaca About Irkalla's Build Time
 
@@ -355,8 +422,8 @@ Tell =Evil= to refrain from taking over the keybindings when inside ~elpaca-ui-m
 #+begin_src emacs-lisp
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
-  (setq use-package-always-ensure t
-        use-package-compute-statistics t))
+  (setopt use-package-always-ensure t
+          use-package-compute-statistics t))
 #+end_src
 
 Another neat thing that I could do with the help of macros, is to add a ~use-feature~ macro that helps reduce the burden of writing ~use-package~ + ~:ensure nil~ and instead compress it into ~(use-feature)~!
@@ -375,8 +442,8 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 
 #+begin_src emacs-lisp
 ;; :NOTE| Magit complains a lot about Transient...
-(setq elpaca-ignored-dependencies
-      (delq 'transient elpaca-ignored-dependencies))
+(setopt elpaca-ignored-dependencies
+        (delq 'transient elpaca-ignored-dependencies))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -397,8 +464,6 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
 
 *** Controlling Littering Habits
 
-**** Careful Placement Of Litter Files
-
 #+begin_src emacs-lisp
 (use-package no-littering :demand t
   :config
@@ -410,10 +475,10 @@ Another neat thing that I could do with the help of macros, is to add a ~use-fea
     (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-etc-directory)))
 
   (with-eval-after-load 'files
-    (setq auto-save-file-name-transforms
-          `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
-          backup-directory-alist
-          `((".*" . ,(no-littering-expand-var-file-name "backups/"))))))
+    (setopt auto-save-file-name-transforms
+            `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
+            backup-directory-alist
+            `((".*" . ,(no-littering-expand-var-file-name "backups/"))))))
 #+end_src
 
 *** Hydra: Windows That Contain Our Keybindings
@@ -542,7 +607,7 @@ Time to add a couple of keybindings to call the newly created Hydras!
       ("a" elpaca-merge-all "All packages")))))
 #+end_src
 
-*** Managing The Ever-growing Frame(s)
+*** Managing Our Ever-growing Frames
 
 **** Opaque Frames On Demand
 
@@ -565,7 +630,7 @@ Time to add a couple of keybindings to call the newly created Hydras!
   (setopt window-combination-resize t))
 #+end_src
 
-**** Easier Split Windows Navigation
+**** Easier Navigation of Split Windows
 
 #+begin_src emacs-lisp
 (use-feature windmove
@@ -642,15 +707,7 @@ What remains of us is to load the theme of our choice.
   :init (load-theme 'kanagawa-wave t))
 #+end_src
 
-*** Prettified Symbols
-
-#+begin_src emacs-lisp
-(use-feature emacs
-  :hook (emacs-lisp-mode . prettify-symbols-mode)
-  :config (setopt prettify-symbols-unprettify-at-point 'right-edge))
-#+end_src
-
-*** Typeface's & Saner Fonts
+*** Typefaces & Fonts
 
 **** Fontaine: Macros To Easen The Fontification Process
 
@@ -741,7 +798,15 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   :custom (font-lock-maximum-decoration t))
 #+end_src
 
-*** Nerd-Icons: Adding A Sprinkle of Beautiful Icons
+*** Stylish Symbols & Tags
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :hook (emacs-lisp-mode . prettify-symbols-mode)
+  :config (setopt prettify-symbols-unprettify-at-point 'right-edge))
+#+end_src
+
+**** Nerd-Icons: Adding A Sprinkle of Beautiful Icons
 
 #+begin_src emacs-lisp
 (use-package nerd-icons :demand t
@@ -752,7 +817,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   (nerd-icons-scale-factor 1.05))
 #+end_src
 
-**** Presence Of Icons Within Completion
+***** Presence Of Icons Within Completion
 
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
@@ -763,7 +828,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
     (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)))
 #+end_src
 
-*** SVG-Tag: Decorating Buffers With SVG
+**** SVG-Tag: Decorating Buffers With SVG
 
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
@@ -773,7 +838,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   <<svg-tag-patterns>>)
 #+end_src
 
-**** Defining Constants
+***** Defining Constants
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
 :END:
@@ -786,7 +851,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
 (defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
 #+end_src
 
-**** Specifying Tagging Patterns
+***** Specifying Tagging Patterns
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
 :END:
@@ -803,53 +868,53 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
             (svg-tag-mode)))
 #+end_src
 
-***** SVG-Tag: Common Tags
+****** SVG-Tag: Common Tags
 
 #+NAME: svg-tag-common
 #+begin_src emacs-lisp
-(setq svg-tag-tags
-      ;; :TODO| Reduce to a more general solution
-      `((,(rx (group ":" (| "todo" "TODO") "|" (1+ any)))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
+(setopt svg-tag-tags
+        ;; :TODO| Reduce to a more general solution
+        `((,(rx (group ":" (| "todo" "TODO") "|" (1+ any)))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
 
-        (,(rx (group ":" (| "todo" "TODO") "|"))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+          (,(rx (group ":" (| "todo" "TODO") "|"))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-        ;; :WARN| Heads-up for whatever insane thing found below.
-        (,(rx (group ":" (| "warn" "WARN") "|" (1+ any)))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-warning :inverse t :crop-left t :beg 7))))
+          ;; :WARN| Heads-up for whatever insane thing found below.
+          (,(rx (group ":" (| "warn" "WARN") "|" (1+ any)))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-warning :inverse t :crop-left t :beg 7))))
 
-        (,(rx (group ":" (| "warn" "WARN") "|"))
-         . ((lambda (tag)
-              (svg-tag-make tag :face 'org-warning :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+          (,(rx (group ":" (| "warn" "WARN") "|"))
+           . ((lambda (tag)
+                (svg-tag-make tag :face 'org-warning :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-        ;; :FIXME| Fixing this madness cannot wait, get to it!
-        (,(rx (group ":" (| "fixme" "FIXME") "|" (1+ any)))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
+          ;; :FIXME| Fixing this madness cannot wait, get to it!
+          (,(rx (group ":" (| "fixme" "FIXME") "|" (1+ any)))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
 
-        (,(rx (group ":" (| "fixme" "FIXME") "|"))
-         . ((lambda (tag)
-              (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+          (,(rx (group ":" (| "fixme" "FIXME") "|"))
+           . ((lambda (tag)
+                (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-        ;; :HACK| Fix this regexp
-        ;; :PERF| Fix this regexp
-        ;; :MARK| Mark this regexp
-        (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|" (1+ any)))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
+          ;; :HACK| Fix this regexp
+          ;; :PERF| Fix this regexp
+          ;; :MARK| Mark this regexp
+          (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|" (1+ any)))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
 
-        (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|"))
-         . ((lambda (tag)
-              (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+          (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|"))
+           . ((lambda (tag)
+                (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
-        ;; :NOTE| Reduce to a more general solution
-        (,(rx (group ":" (| "note" "NOTE") "|" (1+ any)))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
+          ;; :NOTE| Reduce to a more general solution
+          (,(rx (group ":" (| "note" "NOTE") "|" (1+ any)))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
 
-        (,(rx (group ":" (| "note" "NOTE") "|"))
-         . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))))
+          (,(rx (group ":" (| "note" "NOTE") "|"))
+           . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))))
 #+end_src
 
-***** SVG-Tag: Progress Bar
+****** SVG-Tag: Progress Bar
 
 #+NAME: svg-tag-progress
 #+begin_src emacs-lisp
@@ -879,7 +944,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
       svg-tag-tags)
 #+end_src
 
-***** SVG Tag: Org-Mode Tags
+****** SVG Tag: Org-Mode Tags
 
 #+NAME: svg-tag-org
 #+begin_src emacs-lisp
@@ -951,9 +1016,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
                ((lambda (tag) (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0 :face 'org-date))))))
 #+end_src
 
-*** Modeline(s) -> Status-Bar(s) For Emacs
-
-**** Doom: A Rather Doomed Modeline
+*** Doom: A Rather Doomed Modeline
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
@@ -967,26 +1030,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   (when (display-graphic-p) (doom-modeline-hud t)))
 #+end_src
 
-**** Modifying The Built-in Modeline
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package minions
-  :hook (elpaca-after-init . minions-mode))
-
-(use-package moody
-  :after (minions)
-  :config
-  (moody-replace-mode-line-front-space)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
-#+end_src
-
-*** Containers For Displaying Tab(s) & Buffer(s)
-
-**** Centaur-Tab: Efficient Tab & Buffer Bar
+*** Centaur-Tab: Efficient Tab & Buffer Bar
 
 #+begin_src emacs-lisp
 (use-package centaur-tabs
@@ -1010,66 +1054,6 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   (centaur-tabs-set-modified-marker t))
 #+end_src
 
-**** Built-in: Tab-Bar & Tab-Line
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-feature tab-bar
-  :bind (("C-<next>" . tab-next)
-         ("C-<prior>" . tab-previous))
-  :custom
-  (tab-bar-show 1)
-  (tab-bar-tab-hints t)
-  (tab-bar-close-button " 󰅖 ")
-  (tab-bar-new-tab-choice "*dashboard*"))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-feature tab-line
-  :config (setq tab-line-close-button " 󰅖 "))
-#+end_src
-
-***** Tabspaces: Saner Defaults For Tab-Bar!
-
-#+begin_src emacs-lisp
-(use-package tabspaces
-  :hook (elpaca-after-init . tabspaces-mode)
-  :config
-  <<tabspaces-consult-buffers>>
-  :custom
-  (tabspaces-session t)
-  (tabspaces-keymap-prefix "C-c p")
-  (tabspaces-default-tab "Default")
-  (tabspaces-remove-to-default t)
-  (tabspaces-include-buffers '("*scratch*"))
-  (tabspaces-initialize-project-with-todo t)
-  (tabspaces-todo-file-name "project-todo.org")
-  (tabspaces-use-filtered-buffers-as-default t))
-#+end_src
-
-****** Consult: A Menu For TAB Separated Buffer(s)
-
-#+NAME: tabspaces-consult-buffers
-#+begin_src emacs-lisp :tangle no
-(with-eval-after-load 'consult
-  (consult-customize consult--source-buffer :hidden t :default nil)
-  (defvar consult--source-workspace
-    (list :name     "Workspace Buffers"
-          :narrow   ?w
-          :history  'buffer-name-history
-          :category 'buffer
-          :state    #'consult--buffer-state
-          :default  t
-          :items    (lambda ()
-                      (consult--buffer-query
-                       :predicate #'tabspaces--local-buffer-p
-                       :sort 'visibility
-                       :as #'buffer-name))))
-  (add-to-list 'consult-buffer-sources 'consult--source-workspace))
-#+end_src
-
 *** Dashboard: A Welcoming Buffer For New Frames
 
 1.XX+s startup time is caused by Emacs dashboard. Emacs startup time without it is < 0.3Xs.
@@ -1079,7 +1063,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   :after (nerd-icons)
   :hook (elpaca-after-init . dashboard-refresh-buffer)
   :config
-  (setq initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
+  (setopt initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
   :custom
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
@@ -1109,11 +1093,9 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
      (("RET" dashboard-refresh-buffer "Dashboard")))))
 #+end_src
 
-** Part 3: Expanding The Utility Box
+** Part 3: Expanding Our Utility Box
 
-*** Introducing The Basics
-
-**** Spawn Emacs Everywhere
+*** Emacs Everywhere: Call Forth Emacs Frame
 
 #+begin_src emacs-lisp
 (use-package emacs-everywhere
@@ -1121,7 +1103,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   :custom (emacs-everywhere-copy-command '("sh" "-c" "cat %f | cb copy")))
 #+end_src
 
-**** Trace Performance Hiccups
+*** ESUP: Trace Performance Hiccups
 
 #+begin_src emacs-lisp
 (use-package esup
@@ -1129,7 +1111,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
   :custom (esup-depth 0))
 #+end_src
 
-**** Helpful: ~C-h~ On Steroids
+*** Helpful: ~C-h~ On Steroids
 
 #+begin_src emacs-lisp
 (use-package helpful
@@ -1150,7 +1132,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
      ("c" helpful-command  "Command(s)"))
     "Action"
     (("p" helpful-at-point "SYMB at point"))))
-  :init (setq help-window-select t))
+  :init (setopt help-window-select t))
 #+end_src
 
 Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our new hydra to our main Hydra.
@@ -1162,15 +1144,14 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
      (("h" helpful-hydra/body "Helpful")))))
 #+end_src
 
-**** Controlling Recent Files
+*** Recentf: Controlling Recent Files
 
 #+begin_src emacs-lisp
 (use-feature recentf
-  :config (recentf-mode)
+  :hook (elpaca-after-init . recentf-mode)
   :custom
-  (recentf-save-file-modes #o600)
-  (recentf-max-saved-items 1024)
-  (recentf-auto-cleanup 600)
+  (recentf-case-fold-search t)
+  (recentf-max-saved-items 450)
   (recentf-exclude
    `(,(rx bos "/tmp/")
      ,(rx bos "/nix/store")
@@ -1188,7 +1169,7 @@ Since we created our Hydra with ~:pretty-hydra~ keyword, we can just append our 
      ,(rx bos "/ssh:"))))
 #+end_src
 
-**** Chinese, Japanese & Korean
+*** Pyim: Chinese, Japanese & Korean
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
 :END:
@@ -1216,9 +1197,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   :bind (("C-c y" youdao-dictionary-search-at-point-posframe)))
 #+end_src
 
-*** New & Extension of Built-in Features
-
-**** Shackle: Hardcode Placement of Popup Buffers
+*** Shackle: Hardcode Placement of Popup Buffers
 
 #+begin_src emacs-lisp
 (use-package shackle
@@ -1243,7 +1222,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
       :align below :select t :regexp t :size 0.45))))
 #+end_src
 
-**** Popper: Pop-up Related Buffers On Demand
+*** Popper: Pop-up Related Buffers On Demand
 
 #+begin_src emacs-lisp
 (use-package popper
@@ -1264,7 +1243,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
 #+end_src
 
-***** Hydra: Adding Popper Bindings
+**** Hydra: Adding Popper Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1281,7 +1260,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      (("p" popper-hydra/body "Popper")))))
 #+end_src
 
-**** Dired: Built-in Emacs File Manager
+*** Dired: Built-in Emacs File Manager
 
 #+begin_src emacs-lisp
 (use-feature dired
@@ -1291,10 +1270,11 @@ Also, I want several dictionaries to learn & recall the definitions of several w
   (dired-kill-when-opening-new-dired-buffer t)
   (mouse-drag-and-drop-region-cross-program t)
   (mouse-1-click-follows-link nil)
-  (dired-listing-switches "-al --group-directories-first"))
+  (dired-movement-style 'cycle)
+  (dired-listing-switches "-alFh --group-directories-first"))
 #+end_src
 
-***** Dired-x: Controlling Various File Extension(s)
+**** Dired-x: Controlling Various File Extension(s)
 
 #+begin_src emacs-lisp
 (use-feature dired-x
@@ -1324,7 +1304,7 @@ Lastly, I want the different type of directories to have some form of syntax hig
   :custom-face (diredfl-dir-name ((t :bold t))))
 #+end_src
 
-**** Which Key Was It Again???
+*** Which Key Was It Again???
 
 #+begin_src emacs-lisp
 (use-feature which-key
@@ -1338,19 +1318,19 @@ Lastly, I want the different type of directories to have some form of syntax hig
   (which-key-sort-order 'which-key-prefix-then-key-order))
 #+end_src
 
-**** Consult: Search & Navigation Commands
+*** Consult: Search & Navigation Commands
 
 #+begin_src emacs-lisp
 (use-package consult
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :config
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
+  (setq register-preview-function #'consult-register-format)
   (advice-add #'register-preview :override #'consult-register-window)
 
-  ;; Consult -> select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref))
+  (setopt register-preview-delay 0.5
+          ;; Consult -> select xref locations with preview
+          xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref))
 #+end_src
 
 Allowing consult to interact with my ever-growing projects is something I consider to be useful.
@@ -1360,7 +1340,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
   :after (consult project))
 #+end_src
 
-***** Hydra: Consult Bindings
+**** Hydra: Consult Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1408,7 +1388,7 @@ Allowing consult to interact with my ever-growing projects is something I consid
       ("i" consult-info                      "Consult MANUAL")))))
 #+end_src
 
-**** Embark: Mini-Buffer Actions
+*** Embark: Mini-Buffer Actions
 
 #+begin_src emacs-lisp
 (use-package embark
@@ -1434,7 +1414,7 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-***** Hydra: Embark Bindings
+**** Hydra: Embark Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1452,7 +1432,7 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
      (("e" embark-hydra/body "Embark")))))
 #+end_src
 
-**** Vertico: Mini-Buffer On Steroids
+*** Vertico: Mini-Buffer On Steroids
 
 #+begin_src emacs-lisp
 (use-package vertico
@@ -1498,7 +1478,7 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
           '(read-only t cursor-intangible t face minibuffer-prompt)))
 #+end_src
 
-**** Marginalia: Annotate The Mini-Buffer
+*** Marginalia: Annotate The Mini-Buffer
 
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -1509,13 +1489,13 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
   (marginalia-align 'right))
 #+end_src
 
-**** Terminal Work & Emulation Within Emacs
+*** Terminal Work & Emulation Within Emacs
 
 #+begin_src emacs-lisp
 (use-feature tramp
   :defer t
   :config
-  (setq remote-file-name-inhibit-cache nil)
+  (setopt remote-file-name-inhibit-cache nil)
   (add-to-list 'tramp-connection-properties
                (list (regexp-quote "/ssh:YOUR_HOSTNAME:")
                      "direct-async-process" t))
@@ -1525,7 +1505,7 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
   (tramp-use-ssh-controlmaster-options nil))
 #+end_src
 
-***** Eshell: Emacs-Lisp Shell
+**** Eshell: Emacs-Lisp Shell
 
 =Eshell= is a bit special, it acts as a seperate shell from your system shell and therefore you won't access your system shell environment by default. And it also comes with unpolished aesthetics IMO, therefore I thought I should clean it up a bit.
 
@@ -1547,7 +1527,7 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
   (eshell-prompt-regexp "^.*└─➤ 𝝺 "))
 #+end_src
 
-****** Shorten Directory Path Length
+***** Shorten Directory Path Length
 
 #+NAME: eshell-shorten-directory-path
 #+begin_src emacs-lisp :tangle no
@@ -1565,7 +1545,7 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
     (concat str (cl-reduce (lambda (a b) (concat a "/" b)) components))))
 #+end_src
 
-****** A Different Prompt Aesthetic
+***** A Different Prompt Aesthetic
 
 Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][starship-rs]] with =Eshell=, I am forced to take things into hand.
 
@@ -1584,7 +1564,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
      (propertize "\n └─➤ 𝝺 " 'face 'font-lock-type-face)))
 #+end_src
 
-****** Hydra: Eshell Bindings
+***** Hydra: Eshell Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1594,7 +1574,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
       ("n" nix-shell      "Eshell -> Nix")))))
 #+end_src
 
-***** EAT: Terminal Emulator In Lisp
+**** EAT: Terminal Emulator In Lisp
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
 :END:
@@ -1615,7 +1595,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   (eat-enable-auto-line-mode t))
 #+end_src
 
-****** Hydra: EAT Bindings
+***** Hydra: EAT Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1625,7 +1605,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
       ("p" eat-project "EAT -> Project")))))
 #+end_src
 
-***** :NIXPKGS: VTerm: Fully-Fledged Terminal
+**** :NIXPKGS: VTerm: Fully-Fledged Terminal
 
 #+begin_src emacs-lisp
 (use-feature vterm
@@ -1640,7 +1620,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
   (vterm-clear-scrollback-when-clearing t))
 #+end_src
 
-****** Hydra: VTerm Bindings
+***** Hydra: VTerm Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1649,11 +1629,9 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
      (("e" vterm "VTerm")))))
 #+end_src
 
-*** Trivial Changes To Extend Workflow
+*** Readers: Life Without Reading Sucks
 
-**** Life Without Reading Sucks
-
-***** :NIXPKGS: PDF Reader
+**** :NIXPKGS: PDF Reader
 
 #+begin_src emacs-lisp
 (use-feature pdf-tools
@@ -1692,7 +1670,7 @@ Instead of maintaining a bookmark for each PDF file I read, I decided to add a p
   :custom (pdf-view-restore-filename (no-littering-expand-var-file-name "pdf-view-restore")))
 #+end_src
 
-***** EPUB Reader
+**** EPUB Reader
 
 #+begin_src emacs-lisp
 (use-package nov
@@ -1713,7 +1691,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
   :bind (:map nov-mode-map ("o" . #'nov-xwdiget-view)))
 #+end_src
 
-***** RSS Reader
+**** RSS Reader
 
 #+begin_src emacs-lisp
 (use-feature newsticker
@@ -1770,7 +1748,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
   (newsticker-wget-arguments '("--silent" "--location" "--connect-timeout" "8")))
 #+end_src
 
-****** Hydra: Newsticker Commands
+***** Hydra: Newsticker Commands
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -1779,7 +1757,7 @@ Being able to render the EPUB files in a cleaner fashion could sometimes be nice
      (("n" irkalla/newsticker-start-newTab "Newsticker (RSS)")))))
 #+end_src
 
-**** Communication With The Outside World
+*** Communication With The Outside World
 
 Syntax highlighting is a nice feature to have in our different chat clients.
 
@@ -1788,7 +1766,7 @@ Syntax highlighting is a nice feature to have in our different chat clients.
   :defer t)
 #+end_src
 
-***** :NIXPKGS: MU4E: Mu Mail User Agent
+**** :NIXPKGS: MU4E: Mu Mail User Agent
 
 #+begin_src emacs-lisp
 (use-feature mu4e
@@ -1830,7 +1808,7 @@ To reduce the burden of setting up multiple accounts, let's borrow the superpowe
                        :sent-action delete))))
 #+end_src
 
-****** MU4E Fold: Fold Threaded Conversations
+***** MU4E Fold: Fold Threaded Conversations
 
 #+begin_src emacs-lisp
 (use-package mu4e-thread-folding
@@ -1857,13 +1835,13 @@ To reduce the burden of setting up multiple accounts, let's borrow the superpowe
                          (:subject      . nil))))
 #+end_src
 
-****** Org-MSG: Compose Org Formatted Messages
+***** Org-MSG: Compose Org Formatted Messages
 
 #+begin_src emacs-lisp
 (use-package org-msg
   :after (mu4e org)
   :config
-  (setq mail-user-agent 'mu4e-user-agent)
+  (setopt mail-user-agent 'mu4e-user-agent)
   (org-msg-mode-mu4e)
   (org-msg-mode)
   :custom
@@ -1884,7 +1862,7 @@ Kind Regards,
 ,#+end_signature"))
 #+end_src
 
-***** Matrix: Secure & Interoperable Communication
+**** Matrix: Secure & Interoperable Communication
 
 #+begin_src emacs-lisp
 (use-package ement
@@ -1935,7 +1913,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
        :uri-prefix "http://localhost:8009")))))
 #+end_src
 
-***** :NIXPKGS: Telega: Emacs Telegram Client
+**** :NIXPKGS: Telega: Emacs Telegram Client
 
 #+begin_src emacs-lisp
 (use-feature telega
@@ -1958,7 +1936,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   (telega-emoji-use-images nil)) ;; libsvg issue -> odd symbols
 #+end_src
 
-***** Circle: IRC Client
+**** Circle: IRC Client
 
 #+begin_src emacs-lisp
 (use-package circe
@@ -1974,9 +1952,9 @@ I also want to write a function that could later be used to spawn an Emacs (matr
       :channels ("#emacs")))))
 #+end_src
 
-**** Browsing The Web
+*** Browsing The Web
 
-***** GNU Emacs Web Browser (EWW)
+**** GNU Emacs Web Browser (EWW)
 
 #+begin_src emacs-lisp
 (use-feature eww
@@ -1989,7 +1967,7 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   :hook (eww-after-render . auto-readable-wikipedia))
 #+end_src
 
-***** Shrface: Org Like Rendering For The Web
+**** Shrface: Org Like Rendering For The Web
 
 #+begin_src emacs-lisp
 (use-package shrface
@@ -2003,8 +1981,8 @@ I also want to write a function that could later be used to spawn an Emacs (matr
   (shrface-default-keybindings)
 
   (with-eval-after-load 'org-modern
-    (setq shrface-bullets-bullet-list
-          (string-glyph-split org-modern-replace-stars))))
+    (setopt shrface-bullets-bullet-list
+            (string-glyph-split org-modern-replace-stars))))
 #+end_src
 
 I also would like for web-pages to properly render code blocks, and that is by displaying them with the appropriate syntax highlighting.
@@ -2020,9 +1998,26 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 ** Part 4: Editing Environment
 
-*** Alternative Editing Bindings
+#+begin_src emacs-lisp
+(use-feature emacs
+  :config
+  (setopt backward-delete-char-untabify-method 'hungry
+          confirm-nonexistent-file-or-buffer nil
+          cursor-in-non-selected-windows nil
+          electric-indent-inhibit t
+          indent-tabs-mode nil
+          tab-width 4
+          fill-column 120
+          remote-file-name-inhibit-locks t
+          shell-kill-buffer-on-exit t
+          text-mode-ispell-word-completion nil
+          truncate-lines t
+          truncate-string-ellipsis "↴"
+          x-stretch-cursor t
+          x-underline-at-descent-line t))
+#+end_src
 
-**** EVIL: VIM Layer For Emacs
+*** EVIL: VIM Layer For Emacs
 
 #+begin_src emacs-lisp
 (use-package evil
@@ -2036,7 +2031,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (evil-vsplit-window-right t))
 #+end_src
 
-***** Evil-Collection: A Collection of Many Evil Bindings
+**** Evil-Collection: A Collection of Many Evil Bindings
 
 #+begin_src emacs-lisp
 (use-package evil-collection
@@ -2044,16 +2039,16 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :hook (evil-mode . evil-collection-init)
   :config
   (with-eval-after-load 'corfu
-    (setq evil-collection-corfu-key-themes '(tab-n-go))
+    (setopt evil-collection-corfu-key-themes '(tab-n-go))
     (advice-add 'corfu--setup :after
-                (lambda (&rest _) (setq corfu-preselect 'valid))))
+                (lambda (&rest _) (setopt corfu-preselect 'valid))))
   :custom
   (evil-collection-setup-minibuffer t)
   (evil-collection-magit-use-y-for-yank t)
   (evil-collection-magit-want-horizontal-movement t))
 #+end_src
 
-***** EVIL-Snipe: 2-Char Word Word Search
+**** EVIL-Snipe: 2-Char Word Word Search
 
 #+begin_src emacs-lisp
 (use-package evil-snipe
@@ -2067,7 +2062,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :config (push '(?\[ "[[{(]") evil-snipe-aliases))
 #+end_src
 
-***** EVIL Surround Word With SYMB
+**** EVIL Surround Word With SYMB
 
 #+begin_src emacs-lisp
 (use-package evil-surround
@@ -2075,7 +2070,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :hook (evil-mode . global-evil-surround-mode))
 #+end_src
 
-***** EVIL Action Highlight
+**** EVIL Action Highlight
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
@@ -2084,7 +2079,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom (evil-goggles-duration 0.1))
 #+end_src
 
-***** EVIL (Line/Block) Commenting
+**** EVIL (Line/Block) Commenting
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
@@ -2105,7 +2100,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
      ("n" evilnc-quick-comment-or-uncomment-to-the-line "Comment -> Nth Line")))))
 #+end_src
 
-****** Hydra: Evil Nerd Commenter
+***** Hydra: Evil Nerd Commenter
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2118,34 +2113,14 @@ I also would like for web-pages to properly render code blocks, and that is by d
      ((";" evil-nerd-commenter-hydra/body "Comment")))))
 #+end_src
 
-*** Switching Up The Editing Experience
-
-#+begin_src emacs-lisp
-(use-feature emacs
-  :config
-  (setopt backward-delete-char-untabify-method 'hungry
-          confirm-nonexistent-file-or-buffer nil
-          cursor-in-non-selected-windows nil
-          electric-indent-inhibit t
-          indent-tabs-mode nil
-                  tab-width 4
-          fill-column 120
-          remote-file-name-inhibit-locks t
-          text-mode-ispell-word-completion nil
-          truncate-lines t
-          truncate-string-ellipsis "↴"
-          x-stretch-cursor t
-          x-underline-at-descent-line t))
-#+end_src
-
-**** EditorConf: Respect Project Config
+*** EditorConf: Respect Project Config
 
 #+begin_src emacs-lisp
 (use-package editorconfig
   :hook (prog-mode . editorconfig-mode))
 #+end_src
 
-**** Direnv: Loads Pre-Defined Directory Environment
+*** Direnv: Loads Pre-Defined Directory Environment
 
 #+begin_src emacs-lisp
 (use-package direnv
@@ -2154,9 +2129,14 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom (direnv-always-show-summary nil))
 #+end_src
 
-**** Cleaning Up The Aesthetics A Little
+*** Turn Into Executable File On Save
 
-***** Number Line
+#+begin_src emacs-lisp
+(use-feature executable
+  :hook (after-save . executable-make-buffer-file-executable-if-script-p))
+#+end_src
+
+*** Display Number Line
 
 #+begin_src emacs-lisp
 (use-feature display-line-numbers
@@ -2164,14 +2144,14 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom (display-line-numbers-type 'relative))
 #+end_src
 
-***** Matching Parentheses
+*** Highlight Matching Parentheses
 
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-***** Colorful Indentations Levels
+*** Colorful Indentations Levels
 
 #+begin_src emacs-lisp
 (use-package indent-bars
@@ -2183,21 +2163,21 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (indent-bars-treesit-ignore-blank-lines-types '("module")))
 #+end_src
 
-***** Painting Hex/RGB Colors
+*** Colorful Hex/RGB Colors
 
 #+begin_src emacs-lisp
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 #+end_src
 
-***** Highlight Current Line
+*** Highlight Current Line
 
 #+begin_src emacs-lisp
 (use-feature hl-line
   :config (global-hl-line-mode))
 #+end_src
 
-***** Window Frames
+*** Window Frame Dividers
 
 #+begin_src emacs-lisp
 (use-feature frame
@@ -2208,7 +2188,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (window-divider-default-bottom-width 2))
 #+end_src
 
-***** Noticeable Whitespaces
+*** Whitespaces: Management of Invisible Chars
 
 #+begin_src emacs-lisp
 (use-feature whitespace
@@ -2224,7 +2204,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
      (newline-mark ?\n [?¬ ?\n]))))
 #+end_src
 
-****** Hydra: Whitespace Bindings
+**** Hydra: Whitespace Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2233,7 +2213,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
      (("w" whitespace-mode "Whitespace Mode" :toggle t)))))
 #+end_src
 
-***** Ligatures: Alternative Way To Display SYMB
+*** Ligatures: Alternative Way To Display SYMB
 
 #+begin_src emacs-lisp
 (use-package ligature
@@ -2258,7 +2238,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
      "\\\\" "://")))
 #+end_src
 
-***** Soft-Wrap & Center Displayed Content
+*** Soft-Wrap & Center Displayed Content
 
 #+begin_src emacs-lisp
 (use-package visual-fill-column
@@ -2268,7 +2248,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom (visual-fill-column-center-text t))
 #+end_src
 
-**** Elec-Pair: Insert Matching SYMB
+*** Elec-Pair: Insert Matching SYMB
 
 #+begin_src emacs-lisp
 (use-feature elec-pair
@@ -2276,19 +2256,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 #+end_src
 
-*** Useful Utilities For Editing Environments
-
-**** Project: Management of Random Ideas
-
-#+begin_src emacs-lisp
-(use-feature project
-  :custom
-  (project-vc-extra-root-markers
-   '(".dir-locals.el" "Makefile" "CMakeLists.txt" "Cargo.toml" "Dockerfile"
-     "package.json" "requirements.txt")))
-#+end_src
-
-**** Watch Files; Update On Change
+*** Autorevert: Watch Files -> Update On Change
 
 #+begin_src emacs-lisp
 (use-feature autorevert
@@ -2299,7 +2267,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (auto-revert-verbose t))
 #+end_src
 
-**** Maintaining A Cleaner History
+*** Maintaining A Cleaner History
 
 #+begin_src emacs-lisp
 (use-feature emacs
@@ -2316,7 +2284,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
           make-backup-files t))
 #+end_src
 
-***** Archive File History
+**** Archive File History
 
 #+begin_src emacs-lisp
 (use-feature savehist
@@ -2329,7 +2297,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (savehist-ignored-variables '(ement-room-message-history)))
 #+end_src
 
-***** Memorize File Paths
+**** Memorize File Paths
 
 #+begin_src emacs-lisp
 (use-feature saveplace
@@ -2339,16 +2307,16 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (save-place-forget-unreadable-files t))
 #+end_src
 
-***** Undo-Fu: Wrapper For Built-in Undo System
+**** Undo-Fu: Wrapper For Built-in Undo System
 
 #+begin_src emacs-lisp
 (use-package undo-fu
   :if (>= emacs-major-version 29)
   :config
-  (setq undo-no-redo      t
-        undo-limit        (* 128 1024 1024)
-        undo-outer-limit  (* 128 1024 1024)
-        undo-strong-limit (* 256 1024 1024)))
+  (setopt undo-no-redo      t
+          undo-limit        (* 128 1024 1024)
+          undo-outer-limit  (* 128 1024 1024)
+          undo-strong-limit (* 256 1024 1024)))
 #+end_src
 
 Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
@@ -2363,7 +2331,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
 #+end_src
 
-***** Vundo: Visualize Undo History
+**** Vundo: Visualize Undo History
 
 #+begin_src emacs-lisp
 (use-package vundo
@@ -2374,35 +2342,35 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (vundo-glyph-alist vundo-unicode-symbols))
 #+end_src
 
-**** Separate Emacs Clipboard From System
+*** Separate Emacs Clipboard From System
 
-***** Copying To System Clipboard
+**** Copying To System Clipboard
 
 #+begin_src emacs-lisp
 (defun irkalla/copy-to-sysclip ()
   "Copy contents to the system clipboard."
   (interactive)
-  (setq select-enable-clipboard t)
+  (setopt select-enable-clipboard t)
   (if (featurep 'evil)
       (call-interactively #'evil-yank)
     (kill-ring-save (region-beginning) (region-end)))
-  (setq select-enable-clipboard nil))
+  (setopt select-enable-clipboard nil))
 #+end_src
 
-***** Pasting From System Clipboard
+**** Pasting From System Clipboard
 
 #+begin_src emacs-lisp
 (defun irkalla/paste-from-sysclip ()
   "Paste contents to the system clipboard."
   (interactive)
-  (setq select-enable-clipboard t)
+  (setopt select-enable-clipboard t)
   (if (featurep 'evil)
       (call-interactively #'evil-paste-after)
     (yank))
-  (setq select-enable-clipboard nil))
+  (setopt select-enable-clipboard nil))
 #+end_src
 
-***** Hydra: Clipboard Bindings
+**** Hydra: Clipboard Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2416,7 +2384,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
      (("y" irkalla/copy-to-sysclip "Yank -> Sys-Clip")))))
 #+end_src
 
-**** Ediff: Display File Difference(s)
+*** Ediff: Display File Difference(s)
 
 #+begin_src emacs-lisp
 (use-feature ediff
@@ -2428,16 +2396,16 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (ediff-merge-split-window-function 'split-window-horizontally))
 #+end_src
 
-**** Regional Specific Manipulations
+*** Regional Specific Manipulations
 
-***** Align Highlighted Region
+**** Align Highlighted Region
 
 #+begin_src emacs-lisp
 (use-package ialign
   :commands (ialign))
 #+end_src
 
-****** Hydra: Alignment Bindings
+***** Hydra: Alignment Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2446,14 +2414,14 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
      (("a" ialign "Align -> REGEXP")))))
 #+end_src
 
-***** Expand Region Selection
+**** Expand Region Selection
 
 #+begin_src emacs-lisp
 (use-package expand-region
   :commands (er/expand-region er/contract-region))
 #+end_src
 
-****** Hydra: Regional Expansion Bindings
+***** Hydra: Regional Expansion Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2463,7 +2431,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
       ("(" er/contract-region "Contract -> PREV size")))))
 #+end_src
 
-***** Highlight Matching Parentheses
+**** Highlight Matching Parentheses
 
 #+begin_src emacs-lisp
 (use-feature paren
@@ -2475,14 +2443,14 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (show-paren-when-point-inside-paren nil))
 #+end_src
 
-***** Sub-Word Navigation
+**** Sub-Word Navigation
 
 #+begin_src emacs-lisp
 (use-feature subword
   :hook ((prog-mode text-mode) . subword-mode))
 #+end_src
 
-**** Magit: Git Porcelain Inside Emacs
+*** Magit: Git Porcelain Inside Emacs
 
 #+begin_src emacs-lisp
 (use-package magit
@@ -2494,7 +2462,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 #+end_src
 
-***** File-Icons: Buffer Specific Icons
+**** File-Icons: Buffer Specific Icons
 
 #+begin_src emacs-lisp
 (use-package magit-file-icons
@@ -2506,7 +2474,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (magit-file-icons-enable-diffstat-icons t))
 #+end_src
 
-***** Hydra: Magit Bindings
+**** Hydra: Magit Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2524,7 +2492,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
      (("g" vc-hydra/body "Version Control")))))
 #+end_src
 
-***** Highlight Repository TODO's
+**** Highlight Repository TODO's
 
 #+begin_src emacs-lisp
 (use-package hl-todo
@@ -2541,7 +2509,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (magit-todos-scanner #'magit-todos--scan-with-rg))
 #+end_src
 
-***** Git Blame Buffer Line(s)
+**** Git Blame Buffer Line(s)
 
 #+begin_src emacs-lisp
 (use-package blamer
@@ -2560,7 +2528,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (blamer-commit-formatter "● \'%s\' ● "))
 #+end_src
 
-****** Hydra: Git Blamer Bindings
+***** Hydra: Git Blamer Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2569,7 +2537,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
      (("i" blamer-show-posframe-commit-info "Commit Info")))))
 #+end_src
 
-***** Highlight Git Buffer Changes
+**** Highlight Git Buffer Changes
 
 #+begin_src emacs-lisp
 (use-package git-gutter
@@ -2582,7 +2550,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   (git-gutter:unchanged-sign ""))
 #+end_src
 
-****** Hydra: Git Gutter Bindings
+***** Hydra: Git Gutter Bindings
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'pretty-hydra
@@ -2594,7 +2562,7 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
       ("u" git-gutter:revert-hunk           "Revert hunk")))))
 #+end_src
 
-**** Beframe: Isolate Emacs Frames
+*** Beframe: Isolate Emacs Frames
 
 #+begin_src emacs-lisp
 (use-package beframe
@@ -2608,13 +2576,12 @@ Also, =Undo-Fu= activity ought to be tracked and saved for future sessions.
   :custom (beframe-rename-function nil))
 #+end_src
 
-***** Consult: A Menu For Beframe Buffer(s)
+**** Consult: A Menu For Beframe Buffer(s)
 
 #+NAME: beframe-consult-buffers
 #+begin_src emacs-lisp :tangle no
 (with-eval-after-load 'consult
-  (defface beframe-buffer
-    '((t :inherit font-lock-string-face))
+  (defface beframe-buffer '((t :inherit font-lock-string-face))
     "Face for `consult' framed buffers.")
 
   (defun my-beframe-buffer-names-sorted (&optional frame)
@@ -2632,43 +2599,35 @@ With optional argument FRAME, return the list of buffers of FRAME."
        :action   ,#'switch-to-buffer
        :state    ,#'consult--buffer-state))
 
-  (add-to-list 'consult-buffer-sources 'beframe-consult-source))
+  (setopt consult-buffer-sources '(beframe-consult-source)))
 #+end_src
 
-**** Activities: Emacs Session Management
+*** Desktop: Emacs Session Management
 
 #+begin_src emacs-lisp
-(use-package activities
-  :hook (elpaca-after-init . activities-mode))
+(use-feature desktop
+  :hook (elpaca-after-init . desktop-save-mode)
+  :custom
+  (desktop-base-file-name "last-session")
+  (desktop-base-lock-name (concat desktop-base-file-name ".lock"))
+  (desktop-restore-eager 25)
+  (desktop-file-checksum t))
 #+end_src
 
-***** Hydra: Activities Bindings
+*** Project: Management of Random Ideas
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define activities-hydra
-    (:title (pretty-hydra-title "──｢ Utilities: Activities ｣──" 'mdicon "nf-md-file_tree")
-            :color teal :quit-key "q")
-    ("Workflow"
-     (("l"     activities-list     "List")
-      ("RET"   activities-switch   "Switch")
-      ("e"     activities-rename   "Rename")
-      ("w"     activities-save-all "Save All"))
-     "Task Operation"
-     (("n"     activities-new      "Create")
-      ("k"     activities-kill     "Kill")
-      ("u"     activities-revert   "Revert"))
-     "Pause/Resume"
-     (("s"     activities-suspend  "Suspend")
-      ("r"     activities-resume   "Resume")
-      ("d"     activities-discard  "Discard"))))
-
-  (pretty-hydra-define+ editor-hydra ()
-    ("Control"
-     (("a" activities-hydra/body "Activities")))))
+(use-feature project
+  :custom
+  (project-vc-extra-root-markers
+   '(".projectile.el" ".project.el" ".project" ".dir-locals.el" ".repo"
+     "Makefile" "CMakeLists.txt"
+     "Cargo.toml"
+     "Dockerfile" "autogen.sh"
+     "package.json" "requirements.txt")))
 #+end_src
 
-**** :NIXPKGS: Jinx: Elegant Spell Checker
+*** :NIXPKGS: Jinx: Elegant Spell Checker
 
 #+begin_src emacs-lisp
 (use-feature jinx
@@ -2696,7 +2655,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
       (backward-char 2)))
   :hook (org-mode . org-display-inline-images)
   :config
-  (setq org-directory "~/Workspace/memorandum/org-mode")
+  (setopt org-directory "~/Workspace/memorandum/org-mode")
 
   (with-eval-after-load 'evil
     (evil-define-key 'insert org-mode-map (kbd "$") #'irkalla/org-electric-dollar))
@@ -2705,19 +2664,17 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (let ((latex-dir (no-littering-expand-var-file-name "latex-preview/")))
     (unless (file-directory-p latex-dir)
       (mkdir latex-dir t))
-    (setq org-preview-latex-image-directory latex-dir))
+    (setopt org-preview-latex-image-directory latex-dir))
 
   ;; :NOTE| Change the aesthetics of our LaTeX previews
-  (setq org-latex-preview-options
-        (progn (plist-put org-format-latex-options :background "Transparent")
-               (plist-put org-format-latex-options :scale 2.5)
-               (plist-put org-format-latex-options :zoom 1.15)))
+  (plist-put org-format-latex-options :background "Transparent")
+  (plist-put org-format-latex-options :scale 2.5)
+  (plist-put org-format-latex-options :zoom 1.15)
   :custom
   (org-agenda-files '("~/Workspace/memorandum/org-mode/agenda/init.org"))
   (org-catch-invisible-edits 'show-and-error)
   (org-cycle-include-plain-lists 'integrate)
   (org-cycle-separator-lines 2)
-  (org-edit-src-auto-save-idle-delay 5)
   (org-ellipsis "…")
   (org-export-coding-system 'utf-8)
   (org-export-preserve-breaks t)
@@ -2731,10 +2688,15 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (org-startup-with-inline-images t)
   (org-support-shift-select t)
   (org-tags-column 0)
+  (org-list-allow-alphabetical t)
+  (org-pretty-entities t)
+  (org-pretty-entities-include-sub-superscripts t)
 
   ;; Code blocks
   (org-confirm-babel-evaluate nil)
   (org-edit-src-content-indentation 0)
+  (org-edit-src-auto-save-idle-delay auto-save-timeout)
+  (org-edit-src-turn-on-auto-save t)
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
   (org-src-tab-acts-natively nil))
@@ -2979,7 +2941,7 @@ Also, allow =Embark= to interact with those citations.
 (use-package citar-embark
   :after (citar embark)
   :hook (org-mode . citar-embark-mode)
-  :config (setq citar-at-point-function 'embark-act))
+  :config (setopt citar-at-point-function 'embark-act))
 #+end_src
 
 *** Markdown: Minimal Markup Language
@@ -3020,10 +2982,9 @@ Also, allow =Embark= to interact with those citations.
 (use-feature emacs
   :config
   (setopt tab-always-indent 'complete
+          compilation-scroll-output t
+          compilation-skip-visited t
           compilation-always-kill t
-          compilation-ask-about-save nil
-          compilation-scroll-output t
-          compilation-scroll-output t
           read-buffer-completion-ignore-case t
           read-file-name-completion-ignore-case t
           read-extended-command-predicate #'command-completion-default-include-p))
@@ -3035,6 +2996,7 @@ Also, allow =Embark= to interact with those citations.
 (use-package orderless
   :after (corfu)
   :custom
+  (completions-detailed t)
   (completion-ignore-case t)
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
@@ -3270,38 +3232,6 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
      (("d" dape-hydra/body "Dape")))))
 #+end_src
 
-*** Leetcode: Dashboard For Code Challenges
-
-#+begin_src emacs-lisp
-(use-package leetcode
-  :commands (leetcode)
-  :custom
-  (leetcode-save-solutions t)
-  (leetcode-prefer-language "python3")
-  (leetcode-directory (no-littering-expand-var-file-name "leetcode/")))
-#+end_src
-
-*** ChatGPT: Code Prediction At The Cost of Freedom
-:PROPERTIES:
-:HEADER-ARGS+: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-(use-package chatgpt-shell
-  :commands (chatgpt-shell dall-e-shell)
-  :custom (chatgpt-shell-openai-key (lambda () (irkalla/read-secret-file "ClosedAI"))))
-#+end_src
-
-**** Hydra: ChatGPT Bindings
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'pretty-hydra
-  (pretty-hydra-define+ editor-hydra ()
-    ("ChatGPT"
-     (("c" chatgpt-shell "Shell")
-      ("d" dall-e-shell  "Dall-E")))))
-#+end_src
-
 ** Part 7: Language Server Protocols
 
 #+begin_src emacs-lisp
@@ -3322,13 +3252,16 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
     (setq jsonrpc-inhibit-debug-on-error t)
     (setq jsonrpc-event-hook nil)
     (fset #'jsonrpc--log-event #'ignore))
-  (with-eval-after-load 'nerd-icons (setq eglot-menu-string " "))
+  (with-eval-after-load 'nerd-icons
+    (setopt eglot-menu-string " "))
   :custom
-  (eglot-events-buffer-config '(:size 0))
   (eglot-autoshutdown t)
+  (eglot-sync-connect 0)
   (eglot-extend-to-xref t)
+  (eglot-report-progress nil)
   (eglot-confirm-server-initiated-edits nil)
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-events-buffer-config '(:size 0)))
 
 (with-eval-after-load 'pretty-hydra
   (pretty-hydra-define+ editor-hydra ()
@@ -3356,7 +3289,9 @@ There is another things that we could utilize to increase the responsiveness of 
   :mode (("\\.c\\'" . c-ts-mode)
          ("\\.h\\'" . c-ts-mode))
   :hook (c-ts-mode . eglot-ensure)
-  :custom (c-ts-mode-indent-offset tab-width))
+  :custom
+  (c-ts-mode-indent-style 'k&r)
+  (c-ts-mode-indent-offset tab-width))
 #+end_src
 
 **** Apheleia: C Formatter
@@ -3570,11 +3505,11 @@ Also, I would like to have the ability to interact with rust code-blocks defined
       (add-to-list 'eglot-server-programs '(typst-ts-mode "tinymist"))))
 
   (with-eval-after-load 'consult-imenu
-    (setq consult-imenu-config
-          (append consult-imenu-config
-                  '((typst-ts-mode
-                     :topLevel "Headings"
-                     :types ((?h "Headings" typst-ts-markup-header-face)))))))
+    (setopt consult-imenu-config
+            (append consult-imenu-config
+                    '((typst-ts-mode
+                       :topLevel "Headings"
+                       :types ((?h "Headings" typst-ts-markup-header-face)))))))
   :custom (typst-ts-mode-enable-raw-blocks-highlight t))
 #+end_src
 
@@ -3656,7 +3591,20 @@ Also, I would like to have the ability to interact with rust code-blocks defined
     (setf (alist-get 'zig-ts-mode apheleia-mode-alist) '(zig-fmt))))
 #+end_src
 
-** Part 8: Concluding Our Endless Package Hunt!
+** Part 8: Miscellaneous Bits
+
+*** Leetcode: Dashboard For Code Challenges
+
+#+begin_src emacs-lisp
+(use-package leetcode
+  :commands (leetcode)
+  :custom
+  (leetcode-save-solutions t)
+  (leetcode-prefer-language "python3")
+  (leetcode-directory (no-littering-expand-var-file-name "leetcode/")))
+#+end_src
+
+** Part 9: Concluding Our Endless Package Hunt!
 
 #+begin_src emacs-lisp
 ;;; init.el ends here
