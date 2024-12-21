@@ -1214,6 +1214,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      ("*eldoc*"                            :align right)
      ("*Messages*"                         :align below)
      ("*Async-native-compile-log*"         :align right)
+     ("*devdocs*"                          :align right :select t :size 0.45)
      ("*mu4e-headers*"                     :align right :select t :size 0.75)
      ;; also launch without invoking J -> inbox manual select -> head into inbox by defeault
      (,(rx "*" (* any) "REPL" (* any) "*") :align right :regexp t)
@@ -1228,7 +1229,6 @@ Also, I want several dictionaries to learn & recall the definitions of several w
 #+begin_src emacs-lisp
 (use-package popper
   :after (shackle)
-  :bind (:map popper-mode-map)
   :hook (shackle-mode . popper-mode)
   :custom
   (popper-echo-mode t)
@@ -1239,6 +1239,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
    `(help-mode helpful-mode
      ,(rx "*Messages*")
      ,(rx "Output*" eos)
+     ,(rx "*devdocs*")
      ,(rx "*" (* any) "REPL" (* any) "*")
      compilation-mode magit-process-mode
      eat-mode eshell-mode shell-mode term-mode vterm-mode)))
