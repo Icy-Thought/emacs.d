@@ -2050,7 +2050,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (evil-collection-magit-want-horizontal-movement t))
 #+end_src
 
-**** EVIL-Snipe: 2-Char Word Word Search
+**** Snipe: 2-Char Word Word Search
 
 #+begin_src emacs-lisp
 (use-package evil-snipe
@@ -2064,7 +2064,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :config (push '(?\[ "[[{(]") evil-snipe-aliases))
 #+end_src
 
-**** EVIL Surround Word With SYMB
+**** Surround: Encapsulate Word With SYMB
 
 #+begin_src emacs-lisp
 (use-package evil-surround
@@ -2072,7 +2072,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :hook (evil-mode . global-evil-surround-mode))
 #+end_src
 
-**** EVIL Action Highlight
+**** Goggles: Highlight Actions
 
 #+begin_src emacs-lisp
 (use-package evil-goggles
@@ -2081,7 +2081,7 @@ I also would like for web-pages to properly render code blocks, and that is by d
   :custom (evil-goggles-duration 0.1))
 #+end_src
 
-**** EVIL (Line/Block) Commenting
+**** Comment: Line/Block Based Commenting
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
@@ -2113,6 +2113,14 @@ I also would like for web-pages to properly render code blocks, and that is by d
   (pretty-hydra-define+ visual-editor-hydra ()
     ("Action"
      ((";" evil-nerd-commenter-hydra/body "Comment")))))
+#+end_src
+
+**** MultiEdit: Multiple Cursor Support
+
+#+begin_src emacs-lisp
+(use-package evil-multiedit
+  :after (evil)
+  :config (evil-multiedit-default-keybinds))
 #+end_src
 
 *** EditorConf: Respect Project Config
