@@ -2613,7 +2613,9 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (desktop-base-file-name "last-session")
   (desktop-base-lock-name (concat desktop-base-file-name ".lock"))
   (desktop-restore-eager 25)
-  (desktop-file-checksum t))
+  (desktop-file-checksum t)
+  (desktop-save-buffer t)
+  (desktop-save t))
 #+end_src
 
 *** Project: Management of Random Ideas
