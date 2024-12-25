@@ -71,7 +71,7 @@
     - [[#window-frame-dividers][Window Frame Dividers]]
     - [[#whitespaces-management-of-invisible-chars][Whitespaces: Management of Invisible Chars]]
     - [[#ligatures-alternative-way-to-display-symb][Ligatures: Alternative Way To Display SYMB]]
-    - [[#soft-wrap--center-displayed-content][Soft-Wrap & Center Displayed Content]]
+    - [[#soft-wrap--center-the-displayed-content][Soft-Wrap & Center The Displayed Content]]
     - [[#elec-pair-insert-matching-symb][Elec-Pair: Insert Matching SYMB]]
     - [[#autorevert-watch-files---update-on-change][Autorevert: Watch Files -> Update On Change]]
     - [[#maintaining-a-cleaner-history][Maintaining A Cleaner History]]
@@ -310,12 +310,10 @@ Reduce startup blabber aggressively instead of partial reduction through the var
 #+begin_src emacs-lisp
 (setq-default initial-major-mode 'fundamental-mode
               initial-scratch-message nil
-              select-enable-clipboard nil
-              command-line-x-option-alist nil
-              default-input-method nil
+              load-prefer-newer t
               ring-bell-function 'ignore
               select-active-regions 'only
-              load-prefer-newer noninteractive)
+              select-enable-clipboard nil)
 #+end_src
 
 We might as well set our default Emacs environment to ~UTF-8~.
@@ -823,10 +821,7 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
 #+begin_src emacs-lisp
 (use-package nerd-icons-completion
   :after (nerd-icons)
-  :config
-  (nerd-icons-completion-mode)
-  (with-eval-after-load 'marginalia
-    (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup)))
+  :config (nerd-icons-completion-mode))
 #+end_src
 
 **** SVG-Tag: Decorating Buffers With SVG
@@ -1446,20 +1441,7 @@ Well, since =Embark= and =Consult= can be linked... I do not see a reason for th
          (rfn-eshadow-update-overlay . vertico-directory-tidy))
   :custom
   (vertico-cycle t)
-  (vertico-mouse-mode t)
-  (vertico-multiform-categories
-   '((file grid reverse)
-     (consult-location buffer)
-     (consult-grep buffer)
-     (minor-mode reverse)
-     (imenu buffer)
-     (t unobtrusive)))
-
-  (vertico-multiform-commands
-   '((consult-dir reverse)
-     (execute-extended-command flat)
-     (embark-prefix-help-command reverse)
-     (completion-at-point reverse))))
+  (vertico-mouse-mode t))
 #+end_src
 
 Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
@@ -1486,6 +1468,9 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
 (use-package marginalia
   :after (vertico)
   :hook (vertico-mode . marginalia-mode)
+  :config
+  (with-eval-after-load 'nerd-icons-completion
+    (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right))
@@ -2009,12 +1994,9 @@ I also would like for web-pages to properly render code blocks, and that is by d
           electric-indent-inhibit t
           indent-tabs-mode nil
           tab-width 4
-          fill-column 120
           remote-file-name-inhibit-locks t
           shell-kill-buffer-on-exit t
           text-mode-ispell-word-completion nil
-          truncate-lines t
-          truncate-string-ellipsis "↴"
           x-stretch-cursor t
           x-underline-at-descent-line t))
 #+end_src
@@ -2023,7 +2005,13 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-package evil
-  :bind (:map evil-normal-state-map ("-" . evil-ex-nohighlight))
+  :preface
+  (defun irkalla/extended-escape ()
+    (interactive)
+    (if (evil-ex-hl-active-p 'evil-ex-search)
+        (evil-ex-nohighlight)
+      (evil-force-normal-state)))
+  :bind (:map evil-normal-state-map ("<escape>" . irkalla/extended-escape))
   :hook (elpaca-after-init . evil-mode)
   :config (evil-select-search-module 'evil-search-module 'evil-search)
   :custom
@@ -2248,7 +2236,24 @@ I also would like for web-pages to properly render code blocks, and that is by d
      "\\\\" "://")))
 #+end_src
 
-*** Soft-Wrap & Center Displayed Content
+*** Soft-Wrap & Center The Displayed Content
+
+#+begin_src emacs-lisp
+(use-feature emacs
+  :config
+  (setopt fill-column 120
+          truncate-lines nil))
+#+end_src
+
+For buffers that are solely intended to read code (+ some minor modes), we want to only wrap the code if long and then visually split it into multiple lines.
+
+#+begin_src emacs-lisp
+(use-feature visual-wrap
+  :hook (((prog-mode conf-mode) . visual-wrap-prefix-mode)
+         (visual-wrap-prefix-mode . visual-line-mode)))
+#+end_src
+
+Whilst for other scenarios (example, modes derived from ~text-modes)~, we want to center the text and clean up the UI a bit.
 
 #+begin_src emacs-lisp
 (use-package visual-fill-column
@@ -3609,7 +3614,8 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-package devdocs
-  :commands (devdocs-install devdocs-lookup))
+  :commands (devdocs-install devdocs-lookup)
+  :hook (devdocs-mode . visual-wrap-prefix-mode))
 #+end_src
 
 **** Hydra: Summon The Documentations
