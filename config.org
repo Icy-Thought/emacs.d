@@ -2997,6 +2997,7 @@ Also, allow =Embark= to interact with those citations.
 
 #+begin_src emacs-lisp
 (use-feature emacs
+  :hook (compilation-filter . ansi-color-compilation-filter)
   :config
   (setopt tab-always-indent 'complete
           compilation-scroll-output t
