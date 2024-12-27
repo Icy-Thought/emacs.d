@@ -3310,15 +3310,12 @@ There is another things that we could utilize to increase the responsiveness of 
 #+begin_src emacs-lisp
 (when (executable-find "clang-format")
   (with-eval-after-load 'apheleia
-    (setf (alist-get 'clang-format apheleia-formatters)
-          `("clang-format"
-            "-assume-filename"
-            (or (apheleia-formatters-local-buffer-file-name)
-                (apheleia-formatters-mode-extension)
-                ".c")
-            (when apheleia-formatters-respect-indent-level
-              (unless (locate-dominating-file default-directory ".clang-format")
-                (format "--style={IndentWidth: %d}" c-ts-mode-indent-offset)))))
+    (let ((clang (assq 'clang-format apheleia-formatters)))
+      (setcdr clang
+              (append (cdr clang)
+                      (unless (locate-dominating-file default-directory ".clang-format")
+                        (when apheleia-formatters-respect-indent-level
+                          (list (format "--style={IndentWidth: %d}" c-ts-mode-indent-offset)))))))
     (setf (alist-get 'c-ts-mode apheleia-mode-alist) '(clang-format))))
 #+end_src
 
