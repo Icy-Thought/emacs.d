@@ -3263,15 +3263,9 @@ Documentation of ~$SYMB~ should be displayed in an isolated box, where viewing b
     (("?" xref-find-references  "Find -> references")
      ("f" xref-find-definitions "Find -> definition")
      ("/" xref-find-apropos     "Find $SYMB <- pattern"))))
-  :config
-  ;; :PERF| Noticeable LSP Buff. diff!
-  (with-eval-after-load 'jsonrpc
-    (setq jsonrpc-inhibit-debug-on-error t)
-    (setq jsonrpc-event-hook nil)
-    (fset #'jsonrpc--log-event #'ignore))
-  (with-eval-after-load 'nerd-icons
-    (setopt eglot-menu-string " "))
+  :config (advice-add 'jsonrpc--log-event :override #'ignore)
   :custom
+  (eglot-menu-string "</>")
   (eglot-autoshutdown t)
   (eglot-sync-connect 0)
   (eglot-extend-to-xref t)
