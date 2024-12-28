@@ -165,8 +165,7 @@
 
 #+begin_src emacs-lisp
 (setq-default default-frame-alist
-              (append '((alpha-background     . 85)
-                        (fullscreen           . nil)
+              (append '((fullscreen           . nil)
                         (menu-bar-lines       . 0)
                         (tool-bar-lines       . 0)
                         (vertical-scroll-bars . nil)))
@@ -606,27 +605,6 @@ Time to add a couple of keybindings to call the newly created Hydras!
 
 *** Managing Our Ever-growing Frames
 
-**** Opaque Frames On Demand
-
-#+begin_src emacs-lisp
-(use-feature emacs
-  :config
-  (defun irkalla/opacify-frame ()
-    (let ((alpha-value
-           (if (equal (frame-parameter nil 'alpha-background) 100)
-               85 100)))
-      (set-frame-parameter nil 'alpha-background alpha-value)
-      (add-to-list 'default-frame-alist `(alpha-background . ,alpha-value))))
-
-  (define-minor-mode irkalla/opacify-frame-mode
-    "Toggle (on/off) Emacs frame transparency on demand!"
-    :group 'irkalla
-    :global nil
-    (irkalla/opacify-frame))
-
-  (setopt window-combination-resize t))
-#+end_src
-
 **** Easier Navigation of Split Windows
 
 #+begin_src emacs-lisp
@@ -652,9 +630,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
   (pretty-hydra-define window-hydra
     (:title (pretty-hydra-title "──｢ Base: Frame Management ｣──" 'mdicon "nf-md-dock_window")
             :color teal :quit-key "q")
-    ("Main"
-     (("o" irkalla/opacify-frame-mode "Opacify Frame" :toggle t))
-     "Windows"
+    ("Windows"
      (("f" delete-other-windows "Focus Window")
       ("u" winner-undo          "Restore Old Windows")
       ("r" winner-redo          "Redo Window Change"))))
