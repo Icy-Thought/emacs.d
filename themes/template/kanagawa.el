@@ -31,7 +31,7 @@
      (button                                        (:foreground waveAqua2))
      (child-frame                                   (:background sumiInk-0 :foreground sumiInk-0))
      (child-frame-border                            (:background sumiInk-0 :foreground sumiInk-0))
-     (cursor                                        (:background lightBlue :foreground sumiInk-0 :bold t))
+     (cursor                                        (:background autumnGreen :foreground sumiInk-0 :bold t))
      (custom-link                                   (:foreground crystalBlue))
      (error                                         (:foreground samuraiRed))
      (fringe                                        (:foreground sumiInk-3))
@@ -39,7 +39,7 @@
      (glyphless-char                                (:foreground sumiInk-4))
      (header-line                                   (:background sumiInk-0))
      (highlight                                     (:background comet :foreground springViolet1))
-     (hl-line                                       (:background sumiInk-2))
+     (hl-line                                       (:background sumiInk-1 :foreground carpYellow))
      (homoglyph                                     (:foreground lightBlue))
      (internal-border                               (:background sumiInk-1b))
      (line-number                                   (:foreground sumiInk-4))
@@ -627,6 +627,8 @@
 
      ;; https://github.com/magit/magit
      (magit-section-heading                         (:foreground waveAqua2))
+     (magit-section-highlight                       (:background sumiInk-1))
+     (magit-diff-context-highlight                  (:inherit 'magit-diff-context-highlight))
 
      ;; https://github.com/emacsorphanage/git-gutter
      (git-gutter:added                              (:foreground autumnGreen))
