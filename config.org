@@ -176,8 +176,6 @@
 
 *** Maintaining Harmony Within Irkalla's Directories
 
-**** Appending Directories To Load-Path
-
 **** Move =custom.el= To The =./etc= Directory
 
 #+begin_src emacs-lisp
@@ -1464,6 +1462,8 @@ Mini-buffers should be tweaked a little to accommodate our =Vertico= buffers.
 
 *** Marginalia: Annotate The Mini-Buffer
 
+:TODO: add icons to M-x and other buffers akin to =nerd-icons-ivy-rich=!
+
 #+begin_src emacs-lisp
 (use-package marginalia
   :after (vertico)
@@ -2172,7 +2172,11 @@ I also would like for web-pages to properly render code blocks, and that is by d
 
 #+begin_src emacs-lisp
 (use-feature hl-line
-  :config (global-hl-line-mode))
+  :hook (elpaca-after-init . global-hl-line-mode)
+  :config
+  (setopt hl-line-sticky-flag nil
+          hl-line-range-function
+          (lambda () (cons (line-beginning-position) (line-end-position)))))
 #+end_src
 
 *** Window Frame Dividers
@@ -3315,7 +3319,7 @@ There is another things that we could utilize to increase the responsiveness of 
       (setcdr clang
               (append (cdr clang)
                       (unless (locate-dominating-file default-directory ".clang-format")
-                        (when apheleia-formatters-respect-indent-level
+                        (when (and (boundp 'c-ts-mode-indent-offset) apheleia-formatters-respect-indent-level)
                           (list (format "--style={IndentWidth: %d}" c-ts-mode-indent-offset)))))))
     (setf (alist-get 'c-ts-mode apheleia-mode-alist) '(clang-format))))
 #+end_src
