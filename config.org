@@ -154,18 +154,19 @@
 **** Check: Nix OR Guix Distribution?
 
 #+begin_src emacs-lisp
-(defconst IS-REPRO
+(defconst IS-DECLERATIVE?
   (and (eq system-type 'gnu/linux)
        (with-temp-buffer
          (insert-file-contents "/etc/os-release")
-         (re-search-forward (rx bos "ID=" (| "nixos" "guix") eos) nil t))))
+         (re-search-forward (rx bol "ID=" (group (| "nixos" "guix")) eol) nil t))))
 #+end_src
 
 *** Setting our UI Changes Early
 
 #+begin_src emacs-lisp
 (setq-default default-frame-alist
-              (append '((fullscreen           . nil)
+              (append '((alpha-background     . 85)
+                        (fullscreen           . nil)
                         (menu-bar-lines       . 0)
                         (tool-bar-lines       . 0)
                         (vertical-scroll-bars . nil)))
@@ -1598,7 +1599,6 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
 
 #+begin_src emacs-lisp
 (use-feature pdf-tools
-  :magic ("%PDF" . pdf-view-mode)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
   :bind (:map pdf-view-mode-map ([tab] . pdf-outline))
@@ -1612,7 +1612,7 @@ Because I cannot integrate [[https://github.com/starship/starshipstarship-rs][st
                               (list nil)))))
 
   ;; :NOTE| Load PDF-Tools utilities when installed from Nix || Guix.
-  (if IS-REPRO (let ((inhibit-message t))
+  (if IS-DECLERATIVE? (let ((inhibit-message t))
                  (load-library "pdf-tools-autoloads")))
 
   ;; :NOTE|Auto center PDF page on zoom-in/out.

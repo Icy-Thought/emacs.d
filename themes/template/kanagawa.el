@@ -39,7 +39,7 @@
      (glyphless-char                                (:foreground sumiInk-4))
      (header-line                                   (:background sumiInk-0))
      (highlight                                     (:background comet :foreground springViolet1))
-     (hl-line                                       (:background sumiInk-1 :foreground carpYellow))
+     (hl-line                                       (:background sumiInk-1))
      (homoglyph                                     (:foreground lightBlue))
      (internal-border                               (:background sumiInk-1b))
      (line-number                                   (:foreground sumiInk-4))
@@ -503,10 +503,10 @@
      (diff-changed                                  (:background autumnYellow :foreground sumiInk-1))
 
      ;; (related) https://github.com/emacs-evil/evil
-     (evil-ex-lazy-highlight                        (:foreground winterGreen :background autumnGreen :bold t))
-     (evil-ex-substitute-matches                    (:foreground winterRed :background autumnRed :bold t))
-     (evil-ex-substitute-replacement                (:foreground surimiOrange :strike-through nil :inherit 'evil-ex-substitute-matches))
-     (evil-search-highlight-persist-highlight-face  (:background carpYellow))
+     (evil-ex-search                                (:foreground winterBlue :background dragonBlue :bold t))
+     (evil-ex-lazy-highlight                        (:inherit 'evil-ex-search))
+     (evil-ex-substitute-matches                    (:foreground winterRed  :background autumnRed :bold t))
+     (evil-ex-substitute-replacement                (:foreground winterGreen :background autumnGreen))
 
      ;; https://github.com/blorbx/evil-quickscope
      (evil-quickscope-first-face                    (:foreground autumnYellow :underline t))
