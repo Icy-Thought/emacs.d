@@ -183,7 +183,7 @@
      (doom-modeline-evil-replace-state                  (:foreground yellow))
      (doom-modeline-evil-visual-state                   (:foreground lavender))
 
-     (doom-modeline-bar                                 (:background lavender :bold t))
+     (doom-modeline-bar                                 (:background base))
      (doom-modeline-buffer-file                         (:foreground pink :bold t))
      (doom-modeline-buffer-major-mode                   (:foreground peach :italic t))
      (doom-modeline-buffer-modified                     (:foreground yellow :italic t :bold t))

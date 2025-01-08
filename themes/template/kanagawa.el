@@ -179,7 +179,7 @@
      (doom-modeline-evil-replace-state              (:foreground roninYellow))
      (doom-modeline-evil-visual-state               (:foreground springGreen))
 
-     (doom-modeline-bar                             (:bold t :background springViolet1))
+     (doom-modeline-bar                             (:background sumiInk-1b))
      (doom-modeline-buffer-file                     (:inherit 'bold :foreground oniViolet))
      (doom-modeline-buffer-major-mode               (:foreground waveAqua2 :bold t))
      (doom-modeline-buffer-modified                 (:inherit 'bold :foreground carpYellow))

@@ -993,12 +993,11 @@ Displaying all languages with the same font is cursed and lucky enough Emacs pro
 (use-package doom-modeline
   :hook (elpaca-after-init . doom-modeline-mode)
   :custom
-  (doom-modeline-bar-width 4)
+  (doom-modeline-bar-width 0)
   (doom-modeline-buffer-file-name 'relative-to-project)
   (doom-modeline-github t)
   (doom-modeline-github-interval (* 30 60))
-  (doom-modeline-height 35)
-  (when (display-graphic-p) (doom-modeline-hud t)))
+  (doom-modeline-height 35))
 #+end_src
 
 *** Centaur-Tab: Efficient Tab & Buffer Bar
