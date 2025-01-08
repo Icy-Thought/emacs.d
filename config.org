@@ -3323,10 +3323,9 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package haskell-ts-mode
-  :if (executable-find "ghc")
   :mode ("\\.hs\\(c\\|-boot\\)?\\'" . haskell-ts-mode)
   :hook (haskell-ts-mode . eglot-ensure)
-  :config (with-eval-after-load 'eglot (haskell-ts-setup-eglot))
+  :init (derived-mode-add-parents 'haskell-ts-mode '(haskell-mode))
   :custom (haskell-ts-highlight-signature t))
 #+end_src
 
@@ -3369,7 +3368,6 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package lua-mode
-  :if (executable-find "lua")
   :mode ("\\.lua\\'" . lua-ts-mode)
   :hook (lua-ts-mode . eglot-ensure))
 #+end_src
@@ -3386,7 +3384,6 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package nix-ts-mode
-  :if (executable-find "nix")
   :mode ("\\.nix\\'" . nix-ts-mode)
   :hook (nix-ts-mode . (lambda ()
                          (unless (string-match-p "nixpkgs" default-directory)
@@ -3405,7 +3402,7 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package python-mode
-  :if (executable-find "python")
+  :mode ("\\.py\\'" . python-ts-mode)
   :hook (python-ts-mode . eglot-ensure)
   :custom
   (python-shell-interpreter "ipython")
@@ -3424,21 +3421,17 @@ There is another things that we could utilize to increase the responsiveness of 
 
 #+begin_src emacs-lisp
 (use-package rust-mode
-  :if (executable-find "rustc")
-  :commands (rust-run)
+  :mode ("\\.rs\\'" . rust-ts-mode)
   :hook (rust-ts-mode . eglot-ensure))
 
 (use-package cargo
-  :if (executable-find "cargo")
-  :after (rust-mode)
   :hook (rust-ts-mode . cargo-minor-mode))
 #+end_src
 
 Also, I would like to have the ability to interact with rust code-blocks defined within org-mode files.
 
 #+begin_src emacs-lisp
-(use-package ob-rust
-  :after (ob))
+(use-package ob-rust :after (ob))
 #+end_src
 
 **** Apheleia: Rust Formatter
@@ -3487,7 +3480,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 #+begin_src emacs-lisp
 (use-package typst-ts-mode
   :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
-  :if (executable-find "typst")
   :mode ("\\.typ\\'" . typst-ts-mode)
   :hook (typst-ts-mode . eglot-ensure)
   :config
@@ -3547,7 +3539,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-feature typescript-ts-mode
-  :if (executable-find "tsc")
   :mode (("\\.ts\\'" . typescript-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
   :hook (typescript-ts-mode . eglot-ensure)
@@ -3568,7 +3559,6 @@ Also, I would like to have the ability to interact with rust code-blocks defined
 
 #+begin_src emacs-lisp
 (use-package zig-mode
-  :if (executable-find "zig")
   :mode ("\\.zig\\'" . zig-ts-mode)
   :hook (zig-ts-mode . eglot-ensure)
   :init (derived-mode-add-parents 'zig-ts-mode '(zig-mode)))
