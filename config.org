@@ -1191,7 +1191,7 @@ Also, I want several dictionaries to learn & recall the definitions of several w
      (,(rx bos "*" (* any)
            (| "eat" "eshell" "shell" "term" "vterm")
            (* any) "*" eos)
-      :align below :select t :regexp t :size 0.45))))
+      :align right :select t :regexp t :size 0.75))))
 #+end_src
 
 *** Popper: Pop-up Related Buffers On Demand
@@ -2229,6 +2229,7 @@ For buffers that are solely intended to read code (+ some minor modes), we want 
 
 #+begin_src emacs-lisp
 (use-feature visual-wrap
+  :if (>= emacs-major-version 30)
   :hook (((prog-mode conf-mode) . visual-wrap-prefix-mode)
          (visual-wrap-prefix-mode . visual-line-mode)))
 #+end_src
