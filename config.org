@@ -1843,6 +1843,7 @@ Kind Regards,
                 (setq-local completion-at-point-functions nil) ;; too much spam (members/rooms)
                 (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
+  (ement-notify-sound t)
   (ement-notify-notification-predicates
    '(ement-notify--event-mentions-session-user-p
      ement-notify--event-mentions-room-p))
