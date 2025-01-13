@@ -646,7 +646,7 @@ Enabling ~winner-mode~ is necessary if you want to create a "zoom" feature for y
 #+begin_src emacs-lisp
 (use-feature emacs
   :hook (elpaca-after-init . pixel-scroll-precision-mode)
-  :config (setopt scroll-preserve-screen-position t))
+  :custom (scroll-preserve-screen-position t))
 #+end_src
 
 *** 24-Hour Time Format >> Other Formats
@@ -686,33 +686,32 @@ What remains of us is to load the theme of our choice.
 **** Fontaine: Macros To Easen The Fontification Process
 
 #+begin_src emacs-lisp
-(use-package fontaine
-  :preface (defvar irkalla/default-font-family "VictorMono Nerd Font")
-  :hook (enable-theme-functions . fontaine-apply-current-preset)
-  :init (fontaine-set-preset 'default)
-  :custom
-  (fontaine-presets
-   `((default)
-     (reading
-      :variable-pitch-family "Cardo"
-      :variable-pitch-height 185
-      :variable-pitch-slant normal
-      :variable-pitch-weight regular)
-     (presentation
-      :default-height 175
-      :default-weight semibold)
-     (t
-      :default-family ,irkalla/default-font-family
-      :default-height 145
-      :default-weight semibold
+(use-package fontaine :demand t
+  :config
+  (let ((default-font-family "VictorMono Nerd Font"))
+    (setopt fontaine-presets
+            `((regular)
+              (reading
+               :variable-pitch-family "Cardo"
+               :variable-pitch-height 185
+               :variable-pitch-slant normal
+               :variable-pitch-weight regular)
+              (presentation
+               :default-height 175
+               :default-weight medium)
+              (t
+               :default-family ,default-font-family
+               :default-height 145
+               :default-weight semibold
 
-      :fixed-pitch-family ,irkalla/default-font-family
-      :fixed-pitch-height 145
-      :fixed-pitch-slant normal
+               :fixed-pitch-family ,default-font-family
+               :fixed-pitch-height 145
+               :fixed-pitch-slant normal
 
-      :variable-pitch-family ,irkalla/default-font-family
-      :variable-pitch-height 1.00
-      :variable-pitch-slant italic))))
+               :variable-pitch-family ,default-font-family
+               :variable-pitch-height 1.00
+               :variable-pitch-slant italic))))
+  (fontaine-set-preset 'regular))
 #+end_src
 
 We also want to create a mode for the ~reading~ preset to activate/deactivate from a Hydra.
@@ -2621,8 +2620,8 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (use-feature project
   :custom
   (project-vc-extra-root-markers
-   '(".projectile.el" ".project.el" ".project" ".dir-locals.el" ".repo"
-     "Makefile" "CMakeLists.txt"
+   '(".repo" ".dir-locals.el" ".project" ".project.el" ".projectile.el"
+     "Makefile" "CMakeLists.txt" "xmake.lua"
      "Cargo.toml"
      "Dockerfile" "autogen.sh"
      "package.json" "requirements.txt")))
