@@ -3423,7 +3423,13 @@ There is another things that we could utilize to increase the responsiveness of 
 #+begin_src emacs-lisp
 (use-package rust-mode
   :mode ("\\.rs\\'" . rust-ts-mode)
-  :hook (rust-ts-mode . eglot-ensure))
+  :hook (rust-ts-mode . eglot-ensure)
+  :init
+  ;; :HACK| oddly enough, libraries are not being loaded...
+  (require 'rust-cargo)
+  (require 'rust-compile)
+  (require 'rust-playpen)
+  (require 'rust-rustfmt))
 
 (use-package cargo
   :hook (rust-ts-mode . cargo-minor-mode))
