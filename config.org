@@ -3457,7 +3457,7 @@ Also, I would like to have the ability to interact with rust code-blocks defined
     (:title (pretty-hydra-title "──｢ Langspec: Rust ｣──" 'devicon "nf-dev-rust")
             :color teal :quit-key "q")
     ("Actions"
-     (("d" rust-promote-module-into-dir "Module -> Dir")
+     ((">" rust-promote-module-into-dir "Module -> Dir/mod.rs")
       ("p" rust-playpen-region          "Region -> Playground")
       ("P" rust-playpen-buffer          "Buf -> Playground"))
      "Build"
