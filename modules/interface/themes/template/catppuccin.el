@@ -382,6 +382,12 @@
 
      ;; https://jblevins.org/projects/markdown-mode/
      (markdown-hr-face                                  (:background nil :foreground surface0))
+     (markdown-header-face-1                            (:inherit 'markdown-header-face :height 1.25 :weight 'extra-bold))
+     (markdown-header-face-2                            (:inherit 'markdown-header-face :height 1.15 :weight 'bold))
+     (markdown-header-face-3                            (:inherit 'markdown-header-face :height 1.08 :weight 'bold))
+     (markdown-header-face-4                            (:inherit 'markdown-header-face :height 1.00 :weight 'bold))
+     (markdown-header-face-5                            (:inherit 'markdown-header-face :height 0.90 :weight 'bold))
+     (markdown-header-face-6                            (:inherit 'markdown-header-face :height 0.75 :weight 'extra-bold))
 
      ;; https://www.emacswiki.org/emacs/FlyMake
      (flymake-errline                                   (:foreground red))
