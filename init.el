@@ -8,15 +8,15 @@
 
 ;; :NOTE| Bootstrap Elpaca, the package manager
 
-(require 'irkalla/elpaca)
+(require 'my-elpaca)
 
 ;; :NOTE| Require the remaining modules
 
-(require 'irkalla/lib)
-(require 'irkalla/core)
-(require 'irkalla/interface)
-(require 'irkalla/editor)
-(require 'irkalla/lanuages)
-(require 'irkalla/utilities)
+(require 'my-lib)
+(require 'my-core)
+(require 'my-interface)
+(require 'my-editor)
+(require 'my-languages)
+(require 'my-utilities)
 
 (provide 'init)

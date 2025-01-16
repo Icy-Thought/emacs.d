@@ -11,7 +11,7 @@
   :link '(url-link "https://github.com/Icy-Thought/emacs.d")
   :group 'emacs)
 
-(defcustom irkalla/underworld (file-truename "~/Workspace/public/emacs.d")
+(defcustom irkalla/underworld "~/Workspace/public/emacs.d"
   "Underworld, the land where Irkalla resides within."
   :type 'string
   :group 'irkalla)
