@@ -25,6 +25,7 @@
 (require 'my-elpaca-hydra)
 (require 'my-buffers-hydra)
 (require 'my-helpul-hydra)
+(require 'my-launcher-hydra)
 (require 'my-evil-hydra)
 (require 'my-consult-hydra)
 (require 'my-embark-hydra)

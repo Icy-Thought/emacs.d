@@ -33,7 +33,6 @@
           minibuffer-prompt-properties
           '(read-only t cursor-intangible t face minibuffer-prompt)))
 
-
 ;; :NOTE| Anontations for Vertico buffers
 ;; :TODO| add icons to M-x and other buffers akin to =nerd-icons-ivy-rich=!
 

@@ -13,11 +13,13 @@
     ("Programming"
      (("RET" (if (derived-mode-p 'prog-mode)
                  (call-interactively #'project-compile)
-               (message "Buffer /= PROG buffer...")) "Compile"))
+               (message "Buffer /= PROG buffer...")) "Compile")
+      ("!" apheleia-mode "Fmt On Save" :toggle t))
      "Action"
-     (("b" eval-buffer                    "Eval Buf.")
+     (("=" apheleia-format-buffer "Buf. Format")
       ("c" combobulate                    "Combobulate")
       (";" evil-nerd-commenter-hydra/body "Comment")
+      ("b" eval-buffer                    "Eval Buf.")
       ("y" irkalla/copy-to-sysclip        "Yank -> Sys-Clip")
       ("p" irkalla/paste-from-sysclip     "Paste <- Sys-Clip"))
      "Control"

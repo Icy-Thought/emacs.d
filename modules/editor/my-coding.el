@@ -65,9 +65,10 @@
   :commands (eldoc-box-help-at-point)
   :bind ("M-TAB" . eldoc-box-help-at-point)
   :config
-  (when (eglot-managed-p)
-    (local-set-key (kbd "M-j") (lambda () (interactive) (eldoc-box-scroll-up 3)))
-    (local-set-key (kbd "M-k") (lambda () (interactive) (eldoc-box-scroll-down 3)))))
+  (with-eval-after-load 'eglot
+    (when (eglot-managed-p)
+      (local-set-key (kbd "M-j") (lambda () (interactive) (eldoc-box-scroll-up 3)))
+      (local-set-key (kbd "M-k") (lambda () (interactive) (eldoc-box-scroll-down 3))))))
 
 ;; :NOTE| Controlling suggestion outputs
 
@@ -146,7 +147,6 @@
 ;; :NOTE| A formatter for our messy code
 
 (use-package apheleia
-  :defer t
   :commands (apheleia-format-buffer))
 
 ;; :NOTE| Language based documentations
