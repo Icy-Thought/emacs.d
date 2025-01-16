@@ -13,46 +13,48 @@
   (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
   (defconst day-re "[A-Za-z]\\{3\\}")
   (defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
+
   (setopt svg-tag-tags
           ;; :TODO| Reduce to a more general solution
           `((,(rx (group ":" (| "todo" "TODO") "|" (1+ any)))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t :crop-left t :beg 6))))
+             . ((lambda (tag) (svg-tag-make tag :face 'ansi-color-yellow :inverse t :crop-left t :beg 6))))
 
             (,(rx (group ":" (| "todo" "TODO") "|"))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+             . ((lambda (tag) (svg-tag-make tag :face 'ansi-color-yellow :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
             ;; :WARN| Heads-up for whatever insane thing found below.
             (,(rx (group ":" (| "warn" "WARN") "|" (1+ any)))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-warning :inverse t :crop-left t :beg 7))))
+             . ((lambda (tag) (svg-tag-make tag :face 'warning :inverse t :crop-left t :beg 7))))
 
             (,(rx (group ":" (| "warn" "WARN") "|"))
              . ((lambda (tag)
-                  (svg-tag-make tag :face 'org-warning :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+                  (svg-tag-make tag :face 'warning :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
             ;; :FIXME| Fixing this madness cannot wait, get to it!
             (,(rx (group ":" (| "fixme" "FIXME") "|" (1+ any)))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-upcoming-deadline :inverse t :crop-left t :beg 7))))
+             . ((lambda (tag) (svg-tag-make tag :face 'ansi-color-red :inverse t :crop-left t :beg 7))))
 
             (,(rx (group ":" (| "fixme" "FIXME") "|"))
              . ((lambda (tag)
-                  (svg-tag-make tag :face 'org-upcoming-deadline :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+                  (svg-tag-make tag :face 'ansi-color-red :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
             ;; :HACK| Fix this regexp
             ;; :PERF| Fix this regexp
             ;; :MARK| Mark this regexp
             (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|" (1+ any)))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-priority :inverse t :crop-left t :beg 6))))
+             . ((lambda (tag) (svg-tag-make tag :face 'font-lock-keyword-face :inverse t :crop-left t :beg 6))))
 
             (,(rx (group ":" (| "hack" "HACK" "PERF" "MARK") "|"))
              . ((lambda (tag)
-                  (svg-tag-make tag :face 'org-priority :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
+                  (svg-tag-make tag :face 'font-lock-keyword-face :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))
 
             ;; :NOTE| Reduce to a more general solution
             (,(rx (group ":" (| "note" "NOTE") "|" (1+ any)))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse t :crop-right t :beg 6))))
+             . ((lambda (tag) (svg-tag-make tag :face 'ansi-color-green :inverse t :crop-right t :beg 6))))
 
             (,(rx (group ":" (| "note" "NOTE") "|"))
-             . ((lambda (tag) (svg-tag-make tag :face 'org-quote :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))))
+             . ((lambda (tag) (svg-tag-make tag :face 'ansi-color-green :inverse nil :margin 0 :crop-right t :beg 1 :end -1))))))
+
   (defun svg-progress-percent (value)
     (svg-image (svg-lib-concat
                 (svg-lib-progress-bar (/ (string-to-number value) 100.0)
