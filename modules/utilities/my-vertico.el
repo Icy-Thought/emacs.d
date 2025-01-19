@@ -17,6 +17,15 @@
   (vertico-cycle t)
   (vertico-mouse-mode t))
 
+;; :NOTE| Floating menu support for Vertico buffers
+
+(use-package vertico-posframe
+  :after (vertico)
+  :hook (vertico-mode . vertico-posframe-mode)
+  :custom
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
+  (vertico-posframe-fallback-mode vertico-buffer-mode))
+
 ;; :NOTE| Modify mini-buffer to accomodate Vertico buffers!
 
 (use-feature emacs
