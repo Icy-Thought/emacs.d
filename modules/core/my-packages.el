@@ -22,8 +22,8 @@
 ;; :NOTE| Configuring use-package to function as intended
 
 (setopt use-package-vc-prefer-newest t
-        use-package-verbose t
         use-package-always-ensure t
+        use-package-verbose t
         use-package-compute-statistics t)
 
 (provide 'my-packages)

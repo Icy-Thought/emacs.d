@@ -23,7 +23,7 @@
 ;; :NOTE| Time to require the modules
 
 (require 'my-typefaces)
-(require 'my-nova)
+;; (require 'my-nova)
 (require 'my-icons)
 (require 'my-dashboard)
 (require 'my-tabline)

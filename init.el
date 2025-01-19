@@ -6,8 +6,6 @@
 ;; Keywords: internal
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
-;; :NOTE| Require the remaining modules
-
 (require 'my-packages)
 (require 'my-lib)
 (require 'my-core)

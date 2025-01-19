@@ -21,7 +21,7 @@
 
 (use-package vertico-posframe
   :after (vertico)
-  :hook (vertico-mode . vertico-posframe-mode)
+  ;; :hook (vertico-mode . vertico-posframe-mode)
   :custom
   (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
   (vertico-posframe-fallback-mode vertico-buffer-mode))
