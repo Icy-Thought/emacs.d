@@ -7,7 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-feature recentf
-  :hook (elpaca-after-init . recentf-mode)
+  :hook (after-init . recentf-mode)
   :custom
   (recentf-case-fold-search t)
   (recentf-max-saved-items 450)

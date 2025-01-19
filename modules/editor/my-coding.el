@@ -35,7 +35,7 @@
 ;; :NOTE| Boosting Eglot's ego to make it faster
 
 (use-package eglot-booster
-  :ensure (:host github :repo "jdtsmith/eglot-booster")
+  :vc (:url "https://github.com/jdtsmith/eglot-booster")
   :if (executable-find "emacs-lsp-booster")
   :after (eglot)
   :config (eglot-booster-mode)
@@ -96,8 +96,7 @@
 ;; :NOTE| Elegant completion UI
 
 (use-package corfu
-  :ensure (:files (:defaults "extensions/*.el"))
-  :hook (elpaca-after-init . global-corfu-mode)
+  :hook (after-init . global-corfu-mode)
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.05)
@@ -117,7 +116,7 @@
 
 (use-package yasnippet
   :bind ("M-]" . yas-insert-snippet)
-  :hook (elpaca-after-init . yas-global-mode)
+  :hook (after-init . yas-global-mode)
   :init (add-to-list 'yas-snippet-dirs
                      (expand-file-name "snippets" irkalla/underworld)))
 

@@ -11,7 +11,7 @@
               ("RET"   . vertico-directory-enter)
               ("DEL"   . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
-  :hook ((elpaca-after-init . vertico-mode)
+  :hook ((after-init . vertico-mode)
          (rfn-eshadow-update-overlay . vertico-directory-tidy))
   :custom
   (vertico-cycle t)

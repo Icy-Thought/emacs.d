@@ -6,12 +6,9 @@
 ;; Keywords: internal
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
-;; :NOTE| Bootstrap Elpaca, the package manager
-
-(require 'my-elpaca)
-
 ;; :NOTE| Require the remaining modules
 
+(require 'my-packages)
 (require 'my-lib)
 (require 'my-core)
 (require 'my-interface)

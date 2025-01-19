@@ -14,7 +14,7 @@
         (evil-ex-nohighlight)
       (evil-force-normal-state)))
   :bind (:map evil-normal-state-map ("<escape>" . irkalla/extended-escape))
-  :hook (elpaca-after-init . evil-mode)
+  :hook (after-init . evil-mode)
   :config (evil-select-search-module 'evil-search-module 'evil-search)
   :custom
   (evil-want-keybinding nil)

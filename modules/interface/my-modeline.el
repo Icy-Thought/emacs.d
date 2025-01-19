@@ -7,7 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-package doom-modeline
-  :hook (elpaca-after-init . doom-modeline-mode)
+  :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-bar-width 0)
   (doom-modeline-buffer-file-name 'relative-to-project)

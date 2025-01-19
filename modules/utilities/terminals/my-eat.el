@@ -7,12 +7,12 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-package eat
-  :ensure (:host codeberg :repo "akib/emacs-eat"
-                 :files ("*.el" ("term" "term/*.el") "*.texi"
-                         "*.ti" ("terminfo/e" "terminfo/e/*")
-                         ("terminfo/65" "terminfo/65/*")
-                         ("integration" "integration/*")
-                         (:exclude ".dir-locals.el" "*-tests.el")))
+  :vc (:url "https://github.com/akib/emacs-eat"
+       :files ("*.el" ("term" "term/*.el") "*.texi"
+               "*.ti" ("terminfo/e" "terminfo/e/*")
+               ("terminfo/65" "terminfo/65/*")
+               ("integration" "integration/*")
+               (:exclude ".dir-locals.el" "*-tests.el")))
   :hook ((eshell-mode . (lambda ()
                           (eat-eshell-mode)
                           (eat-eshell-visual-command-mode))))

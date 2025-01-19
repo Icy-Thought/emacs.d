@@ -21,14 +21,10 @@
                      "  "))))
        (propertize title 'face face)))))
 
-;; :WARN| Excluding elpaca-wait -> ~:pretty-hydra~ complaints
-
-(elpaca-wait)
-
 (use-package hydra-posframe
-  :ensure (:host github :repo "Ladicle/hydra-posframe")
+  :vc (:url "https://github.com/Ladicle/hydra-posframe")
   :after (pretty-hydra)
-  :config (hydra-posframe-mode)
+  :config (hydra-posframe-enable)
   :custom
   (hydra-posframe-border-width 2)
   (hydra-posframe-parameters '((left-fringe . 25) (right-fringe . 25))))

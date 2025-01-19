@@ -10,7 +10,7 @@
 
 (use-package beframe
   :bind ([remap list-buffers] . beframe-switch-buffer)
-  :hook (elpaca-after-init . beframe-mode)
+  :hook (after-init . beframe-mode)
   :config
   (with-eval-after-load 'marginalia
     (add-to-list 'marginalia-command-categories '(kill-buffer . buffer))
@@ -42,7 +42,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 ;; :NOTE| Emacs session management
 
 (use-feature desktop
-  :hook (elpaca-after-init . desktop-save-mode)
+  :hook (after-init . desktop-save-mode)
   :custom
   (desktop-base-file-name "last-session")
   (desktop-base-lock-name (concat desktop-base-file-name ".lock"))

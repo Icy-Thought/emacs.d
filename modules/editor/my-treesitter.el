@@ -19,7 +19,7 @@
 ;; :NOTE| Folding of code-blocks
 
 (use-package treesit-fold
-  :ensure (:host github :repo "emacs-tree-sitter/treesit-fold")
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-fold")
   :hook (prog-mode . (lambda ()
                        (when (and (treesit-available-p)
                                   (treesit-parser-list))
@@ -28,7 +28,7 @@
 ;; :NOTE| Structural editing & navigation
 
 (use-package combobulate
-  :ensure (:host github :repo "mickeynp/combobulate")
+  :vc (:url "https://github.com/mickeynp/combobulate")
   :commands (combobulate)
   :hook (tree-sitter-after-on . combobulate-mode))
 

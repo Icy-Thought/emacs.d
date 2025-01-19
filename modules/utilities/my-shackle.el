@@ -7,7 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-package shackle
-  :hook (elpaca-after-init . shackle-mode)
+  :hook (after-init . shackle-mode)
   :custom
   (shackle-default-size 0.33)
   (shackle-rules

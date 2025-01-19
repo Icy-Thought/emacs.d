@@ -16,7 +16,7 @@
   :init (setopt help-window-select t))
 
 (use-feature which-key
-  :hook (elpaca-after-init . which-key-mode)
+  :hook (after-init . which-key-mode)
   :config (which-key-setup-minibuffer)
   :custom
   (which-key-allow-evil-operators t)

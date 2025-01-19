@@ -9,10 +9,6 @@
 (use-package magit
   :if (executable-find "git")
   :commands (magit)
-  :init
-  ;; :HACK| Magit complains a lot about Transient...
-  (setopt elpaca-ignored-dependencies
-          (delq 'transient elpaca-ignored-dependencies))
   :custom
   (magit-refs-show-commit-count 'all)
   (magit-save-repository-buffers 'dontask)
@@ -28,8 +24,7 @@
 
 ;; :NOTE| Provide a summary of repository TODO's in Magit buffer
 
-(use-package hl-todo
-  :ensure (hl-todo :version (lambda (_) "3.6.0"))) ;; elpaca
+(use-package hl-todo)
 
 (use-package magit-todos
   :after (magit)

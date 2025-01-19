@@ -35,7 +35,7 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package indent-bars
-  :ensure (:host github :repo "jdtsmith/indent-bars")
+  :vc (:url "https://github.com/jdtsmith/indent-bars")
   :hook (prog-mode . indent-bars-mode)
   :custom
   (indent-bars-zigzag nil)
@@ -45,7 +45,7 @@
 ;; :NOTE| Highlight active line
 
 (use-feature hl-line
-  :hook (elpaca-after-init . global-hl-line-mode)
+  :hook (after-init . global-hl-line-mode)
   :config
   (setopt hl-line-sticky-flag nil
           hl-line-range-function

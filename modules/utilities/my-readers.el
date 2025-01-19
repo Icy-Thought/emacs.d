@@ -10,8 +10,6 @@
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
   :bind (:map pdf-view-mode-map ([tab] . pdf-outline))
-  ;; :HACK| Resolves elpaca's failure to detect ~epdfinfo~
-  :init (add-to-list 'elpaca-ignored-dependencies 'pdf-tools)
   :config
   ;; :NOTE| Set the PDF free from the unnecessary borders.
   (when (featurep 'evil)
@@ -50,7 +48,7 @@
 ;; :NOTE| Render .epub files in xwidgets -> cleaner!
 
 (use-package nov-xwidget
-  :ensure (:host github :repo "chenyanming/nov-xwidget")
+  :vc (:url "https://github.com/chenyanming/nov-xwidget")
   :if (featurep 'xiwdget-internal)
   :hook (nov-mode . nov-xwidget-inject-all-files)
   :bind (:map nov-mode-map ("o" . #'nov-xwdiget-view)))

@@ -14,7 +14,7 @@
               ("M-<next>"    . #'centaur-tabs-forward)
               ("M-S-<prior>" . #'centaur-tabs-move-current-tab-to-left)
               ("M-S-<next>"  . #'centaur-tabs-move-current-tab-to-right))
-  :hook (elpaca-after-init . centaur-tabs-mode)
+  :hook (after-init . centaur-tabs-mode)
   :config
   (setopt centaur-tabs-excluded-prefixes
           `(,@centaur-tabs-excluded-prefixes

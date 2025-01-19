@@ -9,7 +9,6 @@
 (use-feature mu4e
   :if (executable-find "mu")
   :commands (mu4e mu4e-update-mail-and-index)
-  :init (add-to-list 'elpaca-ignored-dependencies 'mu4e)
   :custom
   (mu4e-attachment-dir "~/Downloads")
   (mu4e-get-mail-command "mbsync -a")
@@ -45,7 +44,7 @@
 ;; :NOTE| Threaded conversations
 
 (use-package mu4e-thread-folding
-  :ensure (:host github :repo "rougier/mu4e-thread-folding")
+  :vc (:url "https://github.com/rougier/mu4e-thread-folding")
   :after (mu4e)
   :hook (mu4e-headers-mode . mu4e-thread-folding-mode)
   :bind (:map mu4e-headers-mode-map

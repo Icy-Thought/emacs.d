@@ -10,7 +10,7 @@
 
 (use-package dashboard
   :after (nerd-icons)
-  :hook (elpaca-after-init . dashboard-refresh-buffer)
+  :hook (after-init . dashboard-refresh-buffer)
   :config
   (setopt initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
   :custom

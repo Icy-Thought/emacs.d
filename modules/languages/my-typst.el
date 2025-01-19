@@ -7,7 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-package typst-ts-mode
-  :ensure (:host sourcehut :repo "meow_king/typst-ts-mode")
+  :vc (:url "https://codeberg.org/meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
   :hook (typst-ts-mode . eglot-ensure)
   :config

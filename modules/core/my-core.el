@@ -7,7 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-feature emacs
-  :hook (elpaca-after-init . pixel-scroll-precision-mode)
+  :hook (after-init . pixel-scroll-precision-mode)
   :custom (scroll-preserve-screen-position t))
 
 (use-feature time

@@ -16,7 +16,7 @@
 ;; :NOTE| Toggle focus/unfocus of certain buffers on demand
 
 (use-feature winner
-  :hook (elpaca-after-init . winner-mode))
+  :hook (after-init . winner-mode))
 
 ;; :NOTE| Clear dividers for split buffers
 
