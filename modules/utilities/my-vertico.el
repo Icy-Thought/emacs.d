@@ -23,7 +23,7 @@
   :after (vertico)
   :hook (vertico-mode . vertico-posframe-mode)
   :custom
-  (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-center)
   (vertico-posframe-fallback-mode vertico-buffer-mode))
 
 ;; :NOTE| Modify mini-buffer to accomodate Vertico buffers!

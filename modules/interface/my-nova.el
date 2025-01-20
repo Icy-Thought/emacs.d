@@ -7,6 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-package nova
+  :disabled t ;; :WARN| BROKEN!!!
   :ensure (:host github :repo "thisisran/nova")
   :hook ((corfu-mode . nova-corfu-mode)
          (corfu-popupinfo-mode . nova-corfu-popupinfo-mode)
