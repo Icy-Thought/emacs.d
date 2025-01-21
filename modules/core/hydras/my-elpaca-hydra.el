@@ -7,7 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (with-eval-after-load 'elpaca
-  (with-eval-after-load 'pretty-hyra
+  (with-eval-after-load 'pretty-hydra
     (pretty-hydra-define elpaca-hydra
       (:title (pretty-hydra-title "──｢ Main: Elpaca ｣──" 'pomicon "nf-pom-clean_code")
               :color teal :quit-key "q")
