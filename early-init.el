@@ -63,7 +63,7 @@
 ;; :NOTE| Reduce GC threshold for propper garbage collection
 
 (add-hook 'after-init-hook
-          (lambda () (setopt gc-cons-threshold (* 5 1024 1024))))
+          (lambda () (setopt gc-cons-threshold (* 10 1024 1024))))
 
 ;; :NOTE| Push file handlers to a later stage -> faster upstart
 
