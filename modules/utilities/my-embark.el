@@ -7,6 +7,7 @@
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
 (use-package embark
+  :commands (embark-act embark-dwim embark-bindings)
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
   ;; :NOTE| Hide the mode line of the Embark live/completions buffers
