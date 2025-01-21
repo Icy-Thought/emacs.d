@@ -22,6 +22,10 @@
   :custom
   (telega-server-libs-prefix (getenv "TDLIB_PREFIX"))
   (telega-directory (no-littering-expand-var-file-name "telega/"))
+  (telega-use-images t)
+  (telega-chat-show-avatars t)
+  (telega-root-show-avatars t)
+  (telega-user-show-avatars t)
   (telega-emoji-use-images nil) ;; :WARN| libsvg issue -> odd symbols
   (telega-chat-bidi-display-reordering t)
   (telega-notifications-mode t))
