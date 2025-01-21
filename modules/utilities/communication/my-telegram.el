@@ -6,7 +6,7 @@
 ;; Keywords: internal
 ;; URL: https://github.com/Icy-Thought/emacs.d/
 
-(use-feature telega
+(use-package telega
   :commands (telega)
   :config
   (advice-add 'telega-chatbuf-recenter-1
@@ -20,8 +20,9 @@
     (add-hook 'telega-chat-mode-hook
               (lambda () (add-hook 'completion-at-point-functions #'cape-emoji nil t))))
   :custom
-  (telega-emoji-use-images nil) ;; :WARN| libsvg issue -> odd symbols
+  (telega-server-libs-prefix (getenv "TDLIB_PREFIX"))
   (telega-directory (no-littering-expand-var-file-name "telega/"))
+  (telega-emoji-use-images nil) ;; :WARN| libsvg issue -> odd symbols
   (telega-chat-bidi-display-reordering t)
   (telega-notifications-mode t))
 

@@ -73,10 +73,12 @@
 (use-package cape
   :defer 1
   :init
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-keyword)
-  (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
-  (add-hook 'completion-at-point-functions #'cape-tex))
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (add-hook 'completion-at-point-functions #'cape-file nil t)
+              (add-hook 'completion-at-point-functions #'cape-keyword nil t)
+              (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)
+              (add-hook 'completion-at-point-functions #'cape-tex nil t))))
 
 ;; :NOTE| Built-in buffer diagnostics
 
@@ -123,7 +125,8 @@
 
 (use-package yasnippet-capf
   :after (cape)
-  :config (add-hook 'completion-at-point-functions #'yasnippet-capf)
+  :config (add-hook 'prog-mode-hook
+                    (lambda () (add-hook 'completion-at-point-functions #'yasnippet-capf nil t)))
   :custom (yasnippet-capf-lookup-by 'name))
 
 ;; :NOTE| Icons for our completion menu
