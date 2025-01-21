@@ -23,8 +23,7 @@
 ;; :NOTE| Display line number
 
 (use-feature display-line-numbers
-  :hook (prog-mode . display-line-numbers-mode)
-  :custom (display-line-numbers-type 'relative))
+  :hook (prog-mode . display-line-numbers-mode))
 
 ;; :NOTE| Color #HEX & parantheses & indentation levels
 
