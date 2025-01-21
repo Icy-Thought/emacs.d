@@ -11,6 +11,10 @@
   :custom
   (doom-modeline-height 35)
   (doom-modeline-bar-width 0)
+  (doom-modeline-percent-position nil)
+  (doom-modeline-position-line-format nil)
+  (doom-modeline-position-column-format nil)
+  (doom-modeline-position-column-line-format nil)
   (doom-modeline-buffer-file-name 'relative-to-project))
 
 (provide 'my-modeline)
