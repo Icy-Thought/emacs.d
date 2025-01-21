@@ -27,7 +27,6 @@
   (eglot-autoshutdown t)
   (eglot-sync-connect 0)
   (eglot-extend-to-xref t)
-  (eglot-report-progress nil)
   (eglot-confirm-server-initiated-edits nil)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-events-buffer-config '(:size 0)))
