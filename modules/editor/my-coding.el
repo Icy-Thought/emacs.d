@@ -62,7 +62,7 @@
 
 (use-package eldoc-box
   :commands (eldoc-box-help-at-point)
-  :bind ([remap completion-at-point] . eldoc-box-help-at-point)
+  :bind (:map prog-mode-map ([M-tab] . eldoc-box-help-at-point))
   :config
   (local-set-key (kbd "M-j") (lambda () (interactive) (eldoc-box-scroll-up 3)))
   (local-set-key (kbd "M-k") (lambda () (interactive) (eldoc-box-scroll-down 3))))
