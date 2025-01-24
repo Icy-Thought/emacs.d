@@ -26,6 +26,9 @@
   (telega-chat-show-avatars t)
   (telega-root-show-avatars t)
   (telega-user-show-avatars t)
+  (telega-emoji-font-family
+   (when (featurep 'fontaine)
+     (plist-get (fontaine--get-preset-properties 'default) :default-family)))
   (telega-emoji-use-images nil) ;; :WARN| libsvg issue -> odd symbols
   (telega-chat-bidi-display-reordering t)
   (telega-notifications-mode t))
