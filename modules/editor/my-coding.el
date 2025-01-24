@@ -62,15 +62,14 @@
 
 (use-package eldoc-box
   :commands (eldoc-box-help-at-point)
-  :bind (:map prog-mode-map ([M-tab] . eldoc-box-help-at-point))
-  :config
-  (local-set-key (kbd "M-j") (lambda () (interactive) (eldoc-box-scroll-up 3)))
-  (local-set-key (kbd "M-k") (lambda () (interactive) (eldoc-box-scroll-down 3))))
+  :bind (:map prog-mode-map
+              ([M-tab] . #'eldoc-box-help-at-point)
+              ("M-j" . eldoc-box-scroll-up)
+              ("M-k" . eldoc-box-scroll-down)))
 
 ;; :NOTE| Controlling suggestion outputs
 
 (use-package cape
-  :defer 1
   :init
   (add-hook 'prog-mode-hook
             (lambda ()

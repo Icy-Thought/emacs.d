@@ -16,7 +16,7 @@
   :custom
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
-  (dashboard-banner-logo-title "Welcome To The Underworld, Human. - Irkalla")
+  (dashboard-banner-logo-title "Welcome to the underworld, human.")
   (dashboard-center-content t)
   (dashboard-modify-heading-icons '((recents . "file-text") (bookmarks . "book")))
   (dashboard-startup-banner (expand-file-name "logos/png/lotus.png" irkalla/underworld))

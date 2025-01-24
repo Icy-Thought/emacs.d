@@ -83,7 +83,6 @@
 ;; :NOTE| Elegant spell-checker
 
 (use-feature jinx
-  :commands (jinx-correct)
   :hook (text-mode . jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 
