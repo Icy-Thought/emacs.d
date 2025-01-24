@@ -8,6 +8,6 @@
 
 (use-feature emacs
   :hook (emacs-lisp-mode . prettify-symbols-mode)
-  :config (setopt prettify-symbols-unprettify-at-point 'right-edge))
+  :custom (prettify-symbols-unprettify-at-point 'right-edge))
 
 (provide 'my-elisp)
