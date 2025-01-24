@@ -14,6 +14,7 @@
 (require 'my-lua)
 (require 'my-nix)
 (require 'my-orgmode)
+(require 'my-markdown)
 (require 'my-python)
 (require 'my-rust)
 (require 'my-typst)
