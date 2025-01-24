@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: LaTeX Equation
-# key: <eq
-# --
-\begin{equation}
-$0
-\end{equation}
